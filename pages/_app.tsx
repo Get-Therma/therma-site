@@ -82,23 +82,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               throw new Error('Bad response');
             }
 
-            // Show thank you section
-            const heroSection = document.getElementById('hero');
-            const thankYouSection = document.getElementById('thankYouSection');
+            // Store email in localStorage for the thank you page
+            localStorage.setItem('therma_submitted_email', email);
             
-            if (heroSection && thankYouSection) {
-              heroSection.style.display = 'none';
-              thankYouSection.style.display = 'block';
-              
-              // Scroll to top smoothly
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-              // Fallback to status message
-              statusMessage.textContent = 'Thank you! You\'re now on the waitlist.';
-              statusMessage.className = 'status-message success';
-            }
-            
-            form.reset();
+            // Redirect to thank you page
+            window.location.href = '/thank-you';
           } catch (err) {
             console.error('Form submission error:', err);
             statusMessage.textContent = 'Something went wrong. Please try again.';

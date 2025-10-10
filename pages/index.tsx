@@ -219,29 +219,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* Thank You Section */}
-        <section className="container center" id="thankYouSection" style={{display: 'none'}}>
-          <div className="stack">
-            <div className="confirmation-icon">✅</div>
-            <h1>You're In.</h1>
-            <div className="sp-8"></div>
-            <p className="muted thank-you-text">Thanks for joining the Therma waitlist.<br/>We'll be in touch soon with your invite to experience a smarter way to control your climate.</p>
-            <div className="sp-16"></div>
-            <p className="muted thank-you-text">In the meantime, follow us for sneak peeks and launch updates:</p>
-            <div className="sp-8"></div>
-            <div className="social-links">
-              <a href="#" className="social-link">
-                <span className="social-icon">📷</span>
-                Follow on Instagram
-              </a>
-              <a href="#" className="social-link">
-                <span className="social-icon">🐦</span>
-                Join us on X
-              </a>
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer>
