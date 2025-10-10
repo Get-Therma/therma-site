@@ -598,6 +598,133 @@ footer{
   }
 }
 
+/* iPhone 16 Pro specific optimizations */
+@media (max-width: 402px) and (min-height: 874px) {
+  :root {
+    --h1: 36px;
+    --h2: 20px;
+  }
+
+  .why-section-title {
+    font-size: 26px;
+  }
+
+  .why-section-subtitle {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .why-tile {
+    padding: 18px 14px;
+  }
+
+  .why-icon span {
+    font-size: 32px;
+  }
+
+  .why-tile h3 {
+    font-size: 15px;
+  }
+
+  .why-tile p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .social-link {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .pillInput {
+    width: 95vw;
+    max-width: 320px;
+  }
+
+  .btn {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+}
+
+/* iPhone 16 specific optimizations */
+@media (max-width: 428px) and (min-height: 926px) {
+  :root {
+    --h1: 38px;
+    --h2: 22px;
+  }
+
+  .why-section-title {
+    font-size: 28px;
+  }
+
+  .why-section-subtitle {
+    font-size: 15px;
+    margin-bottom: 22px;
+  }
+
+  .why-tile {
+    padding: 20px 16px;
+  }
+
+  .why-icon span {
+    font-size: 34px;
+  }
+
+  .why-tile h3 {
+    font-size: 16px;
+  }
+
+  .why-tile p {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .social-link {
+    padding: 9px 15px;
+    font-size: 13px;
+  }
+
+  .pillInput {
+    width: 95vw;
+    max-width: 340px;
+  }
+
+  .btn {
+    padding: 13px 22px;
+    font-size: 15px;
+  }
+}
+
+/* iPhone 16 Pro Max and larger phones */
+@media (max-width: 430px) and (min-height: 932px) {
+  .why-section-title {
+    font-size: 30px;
+  }
+
+  .why-section-subtitle {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+
+  .why-tile {
+    padding: 22px 18px;
+  }
+
+  .why-icon span {
+    font-size: 36px;
+  }
+
+  .why-tile h3 {
+    font-size: 17px;
+  }
+
+  .why-tile p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
 @media (max-width:480px){
   :root{
     --h1:40px;
