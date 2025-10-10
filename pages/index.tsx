@@ -17,11 +17,6 @@ export default function Home() {
       <div className="heroBg" aria-hidden="true"></div>
 
       <header>
-        <div className="mobile-menu-btn" id="mobileMenuBtn">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
         <div className="brand">Therma</div>
       </header>
 
@@ -37,7 +32,7 @@ export default function Home() {
                 <input type="email" id="emailInput" placeholder="Enter your email" required />
               </div>
                       <p className="social-proof">Be among the first 1,000 to try Therma.</p>
-              <div className="sp-8"></div>
+            <div className="sp-8"></div>
               <div>
                 <button className="btn" type="submit" id="submitBtn">Join Waitlist</button>
               </div>

@@ -6,15 +6,6 @@ import '../styles/globals.css'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    // Mobile menu functionality
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    
-    if (mobileMenuBtn) {
-      mobileMenuBtn.addEventListener('click', function() {
-        // For now, just show an alert - you can expand this later
-        alert('Mobile menu clicked! This can be expanded to show navigation options.');
-      });
-    }
 
     // Add interactive feedback for input
     const emailInput = document.querySelector('.pillInput input') as HTMLInputElement;
