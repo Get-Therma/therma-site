@@ -34,6 +34,42 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       console.log('Waitlist submission saved:', result[0]);
 
+      // Send email notification to support@gettherma.ai
+      try {
+        const emailResponse = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: 'Therma Waitlist <noreply@gettherma.ai>',
+            to: ['support@gettherma.ai'],
+            subject: `New Waitlist Signup: ${email}`,
+            html: `
+              <h2>New Waitlist Signup</h2>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>UTM Campaign:</strong> ${utm_campaign || 'None'}</p>
+              <p><strong>UTM Medium:</strong> ${utm_medium || 'None'}</p>
+              <p><strong>UTM Source:</strong> ${utm_source || 'None'}</p>
+              <p><strong>Referrer:</strong> ${referrer || 'None'}</p>
+              <hr>
+              <p><small>Signed up at: ${new Date().toISOString()}</small></p>
+              <p><small>Waitlist ID: ${result[0].id}</small></p>
+            `,
+          }),
+        });
+
+        if (!emailResponse.ok) {
+          console.error('Failed to send waitlist email:', await emailResponse.text());
+        } else {
+          console.log('Waitlist email sent successfully to support@gettherma.ai');
+        }
+      } catch (emailError) {
+        console.error('Waitlist email sending error:', emailError);
+        // Don't fail the request if email fails
+      }
+
       res.status(200).json({ message: 'Successfully joined waitlist!' });
     } catch (error) {
       console.error('Waitlist submission error:', error);
