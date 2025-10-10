@@ -1,9 +1,68 @@
-# Therma Landing (Next.js – Cursor ready)
+# Therma Landing Page
 
-## Quick start
-1. `cp .env.example .env.local` and set `NEXT_PUBLIC_WAITLIST_ENDPOINT` to your n8n/Beehiiv/Prefinery webhook.
-2. `npm install`
-3. `npm run dev`
-4. Open http://localhost:3000
+A Next.js landing page with Drizzle ORM, email notifications, and Slack integration.
 
-Fonts are preloaded from `/public/fonts` (Pangaia for headings). Inter loads from Google Fonts in `_app.tsx`.
+## Environment Variables
+
+### Required for Database
+```bash
+POSTGRES_URL="your_vercel_postgres_connection_string"
+```
+
+### Required for Email Notifications (Resend)
+```bash
+RESEND_API_KEY="your_resend_api_key"
+WAITLIST_FROM="Therma Waitlist <noreply@gettherma.ai>"
+CONTACT_FROM="Therma Contact Form <noreply@gettherma.ai>"
+CONTACT_TO="support@gettherma.ai"
+```
+
+### Optional for Slack Notifications
+```bash
+SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK"
+```
+
+## Features
+
+- ✅ **Waitlist signup** with UTM tracking
+- ✅ **Contact form** with multiple subjects
+- ✅ **Database storage** with Drizzle ORM
+- ✅ **Email notifications** via Resend
+- ✅ **Slack notifications** via webhook
+- ✅ **Honeypot protection** against bots
+- ✅ **Mobile responsive** (iPhone 16/16 Pro optimized)
+- ✅ **Thank you pages** with social links
+
+## Database Schema
+
+### Waitlist Table
+- `id` - Primary key
+- `email` - User email (unique)
+- `attribution` - UTM tracking data (JSON)
+- `referer` - Referrer URL
+- `created_at` - Timestamp
+
+### Contacts Table
+- `id` - Primary key
+- `type` - Contact type (general, support, etc.)
+- `name` - User name
+- `email` - User email
+- `subject` - Contact subject
+- `message` - Contact message
+- `created_at` - Timestamp
+
+## Deployment
+
+1. Set environment variables in Vercel
+2. Run database migration: `npx drizzle-kit push`
+3. Deploy to Vercel
+
+## Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run db:generate  # Generate database migrations
+npm run db:push      # Push schema to database
+npm run db:studio    # Open Drizzle Studio
+```

@@ -221,9 +221,9 @@ export default function Home() {
           <h2 className="footerBrand">Therma</h2>
           <p className="caption">Therma helps you make space for yourself</p>
           <div className="sp-16"></div>
-          <p className="footerLinks caption">
-            <a href="/contact.html">Contact Us</a> · <a href="/faq.html">FAQ</a> · <a href="#">Privacy</a> · <a href="#">Terms of Use</a>
-          </p>
+                  <p className="footerLinks caption">
+                    <a href="/contact.html">Contact Us</a> · <a href="/faq.html">FAQ</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms of Use</a>
+                  </p>
           <div className="sp-16"></div>
           <p className="caption">2025. All rights reserved</p>
         </div>
