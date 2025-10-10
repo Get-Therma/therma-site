@@ -227,6 +227,231 @@ footer{
   text-align: center;
 }
 
+/* Breathing Divider */
+.breathing-divider {
+  position: relative;
+  isolation: isolate;
+  margin-top: -24px;
+  height: 64px;
+}
+
+@media (min-width: 768px) {
+  .breathing-divider {
+    height: 96px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .breathing-divider {
+    height: 112px;
+  }
+}
+
+.breathing-divider::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -40px;
+  margin: 0 auto;
+  height: 160px;
+  width: 90%;
+  background: radial-gradient(50% 120% at 50% 0%, rgba(255,255,255,0.10), transparent);
+  filter: blur(32px);
+  animation: breathingDivider 10s ease-in-out infinite;
+}
+
+@keyframes breathingDivider {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.03);
+  }
+}
+
+/* Section Styles */
+#why, #how-it-works, #who-its-for, #faq-preview {
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  #why, #how-it-works, #who-its-for, #faq-preview {
+    margin-top: 160px;
+  }
+}
+
+@media (min-width: 1024px) {
+  #why, #how-it-works, #who-its-for, #faq-preview {
+    margin-top: 200px;
+  }
+}
+
+.why-section-title {
+  font-family: Pangaia, serif;
+  font-size: 48px;
+  font-weight: 400;
+  color: #FFFFFF;
+  margin-bottom: 16px;
+}
+
+.why-section-subtitle {
+  font-size: 18px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 48px;
+  font-weight: 400;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .why-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+}
+
+.why-tile {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.why-tile:hover {
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.why-tile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(60% 60% at 50% 40%, rgba(255,255,255,0.08), transparent);
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.why-tile:hover::before {
+  opacity: 1;
+}
+
+.why-icon {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.why-icon span {
+  font-size: 48px;
+  display: block;
+}
+
+.why-tile h3 {
+  font-family: Pangaia, serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+}
+
+.why-tile p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.why-micro-story {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  font-style: italic;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.why-tile:hover .why-micro-story {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.why-micro-story span {
+  margin-right: 4px;
+  color: rgba(255,255,255,0.8);
+}
+
+/* Thank You Section */
+.thank-you-text {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.social-links {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.3);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.social-icon {
+  font-size: 16px;
+}
+
 /* Mobile Styles */
 @media (max-width:768px){
   :root{

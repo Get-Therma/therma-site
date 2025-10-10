@@ -40,7 +40,178 @@ export default function Home() {
         </section>
         
         <BreathingDivider />
-        <WhyTherma />
+        
+        {/* Why Therma Section */}
+        <section id="why" className="container center">
+          <div className="stack">
+            <h2 className="why-section-title">Why Therma?</h2>
+            <p className="why-section-subtitle">Your space to slow down, check in, and feel supported</p>
+            
+            <div className="why-grid">
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="A person in a calm seated pose">🧘</span>
+                </div>
+                <h3>Daily Reflections</h3>
+                <p>Gentle prompts that help you process your day—without judgment.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
+                </div>
+              </div>
+              
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="A friendly robot face">🤖</span>
+                </div>
+                <h3>AI Companion</h3>
+                <p>A kind companion that listens, asks thoughtful questions, and helps you notice patterns.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
+                </div>
+              </div>
+              
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="A small, soft cloud">☁️</span>
+                </div>
+                <h3>Mindful Space</h3>
+                <p>A quiet place to slow down, breathe, and actually hear yourself.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works Section */}
+        <section id="how-it-works" className="container center">
+          <div className="stack">
+            <h2 className="why-section-title">How It Works</h2>
+            <p className="why-section-subtitle">Simple steps to a more mindful you</p>
+            
+            <div className="why-grid">
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Step one">1️⃣</span>
+                </div>
+                <h3>Check In Daily</h3>
+                <p>Take a few minutes each day to pause and reflect on how you're feeling.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Start with just 2 minutes of mindful breathing.
+                </div>
+              </div>
+              
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Step two">2️⃣</span>
+                </div>
+                <h3>Share Your Thoughts</h3>
+                <p>Express what's on your mind through gentle prompts designed to help you process.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Answer one simple question: "How are you feeling right now?"
+                </div>
+              </div>
+              
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Step three">3️⃣</span>
+                </div>
+                <h3>Get Support</h3>
+                <p>Receive thoughtful responses and guidance from your AI companion.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Get personalized insights and gentle encouragement.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Who It's For Section */}
+        <section id="who-its-for" className="container center">
+          <div className="stack">
+            <h2 className="why-section-title">Who It's For</h2>
+            <p className="why-section-subtitle">Perfect for anyone seeking mindful reflection</p>
+            
+            <div className="why-grid">
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Busy professional">💼</span>
+                </div>
+                <h3>Busy Professionals</h3>
+                <p>Find moments of calm in your hectic schedule and process work stress mindfully.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Take a 5-minute break between meetings to check in with yourself.
+                </div>
+              </div>
+              
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Student learning">🎓</span>
+                </div>
+                <h3>Students & Learners</h3>
+                <p>Navigate academic pressure and personal growth with supportive daily check-ins.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Process exam stress and celebrate small wins along the way.
+                </div>
+              </div>
+              
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Personal growth">🌱</span>
+                </div>
+                <h3>Anyone Seeking Growth</h3>
+                <p>Build self-awareness and emotional intelligence through regular reflection.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Discover patterns in your thoughts and feelings over time.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Preview Section */}
+        <section id="faq-preview" className="container center">
+          <div className="stack">
+            <h2 className="why-section-title">Common Questions</h2>
+            <p className="why-section-subtitle">Everything you need to know about Therma</p>
+            
+            <div className="why-grid">
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Question mark">❓</span>
+                </div>
+                <h3>Is this therapy?</h3>
+                <p>No. Therma is a self-reflection tool and isn't medical advice.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Think of it as a mindful journal with AI support.
+                </div>
+              </div>
+              
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Free tier">🆓</span>
+                </div>
+                <h3>Will it be free?</h3>
+                <p>We'll offer a free tier; early waitlisters get first beta access and perks.</p>
+                <div className="why-micro-story">
+                  <span>→</span> Join the waitlist for exclusive early access benefits.
+                </div>
+              </div>
+              
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Mobile devices">📱</span>
+                </div>
+                <h3>iOS or Android?</h3>
+                <p>iOS first, Android next.</p>
+                <div className="why-micro-story">
+                  <span>→</span> iPhone users get first access, Android coming soon.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <footer>
@@ -49,7 +220,7 @@ export default function Home() {
           <p className="caption">Therma helps you make space for yourself</p>
           <div className="sp-16"></div>
           <p className="footerLinks caption">
-            <a href="#">Privacy</a> · <a href="#">Terms of Use</a>
+            <a href="/contact.html">Contact Us</a> · <a href="#">Privacy</a> · <a href="#">Terms of Use</a>
           </p>
           <div className="sp-16"></div>
           <p className="caption">2025. All rights reserved</p>
