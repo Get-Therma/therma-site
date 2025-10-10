@@ -39,11 +39,11 @@ export default function ThankYou() {
             <p className="muted thank-you-text">In the meantime, follow us for sneak peeks and launch updates:</p>
             <div className="sp-8"></div>
             <div className="social-links">
-              <a href="https://instagram.com/therma" target="_blank" rel="noopener noreferrer" className="social-link">
+              <a href="https://www.instagram.com/gettherma/" target="_blank" rel="noopener noreferrer" className="social-link">
                 <span className="social-icon">📷</span>
                 Follow on Instagram
               </a>
-              <a href="https://x.com/therma" target="_blank" rel="noopener noreferrer" className="social-link">
+              <a href="https://x.com/gettherma" target="_blank" rel="noopener noreferrer" className="social-link">
                 <span className="social-icon">🐦</span>
                 Join us on X
               </a>
