@@ -14,6 +14,7 @@ export default function Home() {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      
       <div className="heroBg" aria-hidden="true"></div>
 
       <header>
@@ -26,7 +27,7 @@ export default function Home() {
       </header>
 
       <main>
-        <section id="hero" className="container center pb-24 md:pb-32 lg:pb-40">
+        <section id="hero" className="container center">
           <div className="stack">
             <h1>Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
             <div className="sp-8"></div>
