@@ -36,7 +36,7 @@ export default function Home() {
               <div className="pillInput">
                 <input type="email" id="emailInput" placeholder="Enter your email" required />
               </div>
-              <p className="social-proof">Join the first 1,000 beta invites</p>
+                      <p className="social-proof">Be among the first 1,000 to try Therma.</p>
               <div className="sp-8"></div>
               <div>
                 <button className="btn" type="submit" id="submitBtn">Join Waitlist</button>
