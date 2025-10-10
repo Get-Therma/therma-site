@@ -1,0 +1,55 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "pages/api/**/*.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "pages/**/*.tsx",
+      "use": "@vercel/next"
+    },
+    {
+      "src": "therma-landing.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "contact.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "contact-general.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "faq.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/therma-landing.html",
+      "dest": "/therma-landing.html"
+    },
+    {
+      "src": "/contact.html",
+      "dest": "/contact.html"
+    },
+    {
+      "src": "/contact-general.html",
+      "dest": "/contact-general.html"
+    },
+    {
+      "src": "/faq.html",
+      "dest": "/faq.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}

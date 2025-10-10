@@ -357,7 +357,7 @@
         const form = document.getElementById('generalContactForm');
         const submitBtn = form.querySelector('.submit-btn');
         
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(form);
@@ -374,12 +374,30 @@
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
             
-            setTimeout(() => {
-                alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-                form.reset();
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(contactData)
+                });
+                
+                if (response.ok) {
+                    alert('Thank you for your message! We\'ll get back to you within 24 hours.');
+                    form.reset();
+                } else {
+                    const error = await response.json();
+                    alert('Sorry, there was an error sending your message. Please try again.');
+                    console.error('Contact form error:', error);
+                }
+            } catch (error) {
+                alert('Sorry, there was an error sending your message. Please try again.');
+                console.error('Contact form error:', error);
+            } finally {
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
-            }, 1500);
+            }
         });
     </script>
 </body>

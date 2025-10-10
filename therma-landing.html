@@ -1464,36 +1464,27 @@
             statusMessage.className = 'status-message';
 
             try {
-                // For demo purposes, we'll simulate a successful submission
-                // In a real implementation, you would replace this with your actual endpoint
-                const endpoint = 'YOUR_WAITLIST_ENDPOINT_HERE'; // Replace with actual endpoint
+                // Submit to the API endpoint
+                const endpoint = '/api/waitlist';
                 
-                if (endpoint === 'YOUR_WAITLIST_ENDPOINT_HERE') {
-                    // Simulate API call for demo
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    
-                    // Show thank you page
-                    showThankYouPage();
-                } else {
-                    // Real API call
-                    const response = await fetch(endpoint, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            email,
-                            attribution: loadAttrib(),
-                            referer: document.referrer,
-                            ts: Date.now()
-                        })
-                    });
+                // Real API call
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email,
+                        attribution: loadAttrib(),
+                        referer: document.referrer,
+                        ts: Date.now()
+                    })
+                });
 
-                    if (!response.ok) {
-                        throw new Error('Bad response');
-                    }
-
-                    // Show thank you page
-                    showThankYouPage();
+                if (!response.ok) {
+                    throw new Error('Bad response');
                 }
+
+                // Show thank you page
+                showThankYouPage();
             } catch (err) {
                 statusMessage.textContent = 'Something went wrong. Please try again.';
                 statusMessage.className = 'status-message error';
