@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ · Therma</title>
+    <style>
+        @font-face{
+            font-family:Pangaia;
+            src:url('./public/fonts/PPPangaia-Medium-BF654c530cc86d5.woff') format('woff');
+            font-weight:400;
+            font-style:normal;
+        }
+        
+        *{margin:0;padding:0;box-sizing:border-box}
+        
+        :root{
+            --primary: #FFFFFF;
+            --secondary: rgba(255,255,255,0.7);
+            --muted: rgba(255,255,255,0.5);
+            --background: #0A0A0A;
+            --surface: rgba(255,255,255,0.05);
+            --border: rgba(255,255,255,0.1);
+            --success: #4CAF50;
+            --error: #F44336;
+            --h1: 64px; --h2: 32px; --h3: 24px; --h4: 21px; --h5: 18px; --h6: 16px;
+            --container: min(960px,92vw);
+        }
+        
+        body{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1,h2,h3,h4,h5,h6{margin:0;font-family:Pangaia,serif;font-weight:400;line-height:1.15;color:#FFFFFF}
+        h1{font-size:var(--h1)} h2{font-size:var(--h2)} h3{font-size:var(--h3)}
+        h4{font-size:var(--h4)} h5{font-size:var(--h5)} h6{font-size:var(--h6)}
+        
+        .heroBg{
+            position:fixed;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            background:radial-gradient(circle at 20% 50%, rgba(120,119,198,0.3) 0%, transparent 50%),
+                       radial-gradient(circle at 80% 20%, rgba(255,119,198,0.3) 0%, transparent 50%),
+                       radial-gradient(circle at 40% 80%, rgba(120,219,255,0.3) 0%, transparent 50%);
+            filter:saturate(1.2) brightness(1.1);
+            animation:breathe 8s ease-in-out infinite;
+            z-index:-1;
+        }
+        
+        .heroBg::before{
+            content:'';
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            background:radial-gradient(circle at 60% 30%, rgba(255,119,198,0.2) 0%, transparent 50%),
+                       radial-gradient(circle at 30% 70%, rgba(120,219,255,0.2) 0%, transparent 50%);
+            animation:breatheOverlay 12s ease-in-out infinite reverse;
+        }
+        
+        @keyframes breathe{
+            0%, 100%{transform:scale(1) rotate(0deg);filter:saturate(1.2) brightness(1.1)}
+            50%{transform:scale(1.05) rotate(1deg);filter:saturate(1.4) brightness(1.2)}
+        }
+        
+        @keyframes breatheOverlay{
+            0%, 100%{transform:scale(1) rotate(0deg);opacity:0.7}
+            50%{transform:scale(1.1) rotate(-1deg);opacity:0.9}
+        }
+        
+        header{position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:center;z-index:10}
+        .brand{font-family:Pangaia,serif;font-size:28px;letter-spacing:.4px;color:#FFFFFF;cursor:pointer;text-decoration:none}
+        .brand:hover{color:rgba(255,255,255,0.8)}
+        
+        main{min-height:100svh;display:grid;place-items:center;padding:96px 0 48px}
+        
+        .container{width:var(--container);margin:0 auto;padding:0 16px}
+        .center{text-align:center}
+        
+        .stack{display:flex;flex-direction:column;gap:16px}
+        .sp-8{height:8px} .sp-16{height:16px} .sp-24{height:24px}
+        
+        .back-link{
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover{
+            color: #FFFFFF;
+        }
+        
+        /* FAQ Section */
+        .faq-section{
+            padding: 80px 0;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(20px);
+        }
+
+        .faq-title{
+            font-family: Pangaia, serif;
+            font-size: 36px;
+            font-weight: 400;
+            color: #FFFFFF;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .faq-list{
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item{
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover{
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .faq-question{
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 24px 32px;
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover{
+            color: rgba(255,255,255,0.9);
+        }
+
+        .faq-icon{
+            font-size: 24px;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .faq-item.active .faq-icon{
+            transform: rotate(45deg);
+            color: #FFFFFF;
+        }
+
+        .faq-answer{
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .faq-item.active .faq-answer{
+            max-height: 200px;
+            padding: 0 32px 24px 32px;
+        }
+
+        .faq-answer p{
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0;
+            padding-top: 16px;
+        }
+        
+        footer{
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(20,20,20,0.9) 100%);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 80px;
+        }
+        
+        .footerWrap{width:var(--container);margin:0 auto;padding:56px 16px 32px;text-align:center}
+        .footerBrand{font-family:Pangaia,serif;font-size:24px;color:#FFFFFF;margin-bottom:8px}
+        .caption{color:rgba(255,255,255,0.6);font-size:14px;line-height:1.5}
+        .footerLinks{margin-bottom:16px}
+        .footerLinks a{color:rgba(255,255,255,0.7);text-decoration:none;transition:color 0.3s ease}
+        .footerLinks a:hover{color:#FFFFFF}
+        
+        /* Mobile Styles */
+        @media (max-width:768px){
+            :root{
+                --h1:48px;
+                --h2:28px;
+                --container: 95vw;
+            }
+            
+            header{
+                height:60px;
+                padding:0 20px;
+            }
+            
+            .brand{
+                font-size:24px;
+            }
+            
+            main{
+                padding:80px 0 40px;
+                min-height:100vh;
+            }
+            
+            .faq-section{
+                padding: 60px 0;
+            }
+
+            .faq-title{
+                font-size: 28px;
+                margin-bottom: 32px;
+            }
+
+            .faq-question{
+                padding: 20px 24px;
+                font-size: 16px;
+            }
+
+            .faq-item.active .faq-answer{
+                padding: 0 24px 20px 24px;
+            }
+
+            .faq-answer p{
+                font-size: 15px;
+            }
+            
+            footer{
+                margin-top:40px;
+            }
+            
+            .footerWrap{
+                padding:40px 20px 24px;
+            }
+            
+            .footerBrand{
+                font-size:20px;
+            }
+            
+            .caption{
+                font-size:12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heroBg" aria-hidden="true"></div>
+
+    <header>
+        <a href="therma-landing.html" class="brand">Therma</a>
+    </header>
+
+    <main>
+        <a href="therma-landing.html" class="back-link">Back to Home</a>
+        
+        <section class="container center">
+            <div class="stack">
+                <h1>Frequently Asked Questions</h1>
+                <div class="sp-8"></div>
+                <h2 class="muted">Everything you need to know about Therma</h2>
+                <div class="sp-24"></div>
+                
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Is this therapy?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>No. Therma is a self-reflection tool and isn't medical advice.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Will it be free?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We'll offer a free tier; early waitlisters get first beta access and perks.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>iOS or Android?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>iOS first, Android next.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>Privacy?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We don't sell data. Therma is built on a HIPAA compliant basis.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>How is Therma different from journaling apps?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Unlike traditional journaling apps, Therma combines daily reflections with an AI companion that listens and responds thoughtfully. It's designed to help you actually hear yourself through gentle prompts and meaningful conversations.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFAQ(this)">
+                            <span>When will Therma launch?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We're working hard to bring Therma to you soon! Join our waitlist to be among the first to experience it when we launch. We'll keep you updated on our progress.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footerWrap">
+            <div class="footerBrand">Therma</div>
+            <p class="caption">Therma helps you make space for yourself</p>
+            <div class="sp-16"></div>
+            <p class="footerLinks caption">
+                <a href="contact.html">Contact Us</a> · 
+                <a href="therma-landing.html">Home</a> · 
+                <a href="#">Privacy</a> · 
+                <a href="#">Terms of Use</a>
+            </p>
+            <div class="sp-16"></div>
+            <p class="caption">2025. All rights reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(button) {
+            const faqItem = button.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
