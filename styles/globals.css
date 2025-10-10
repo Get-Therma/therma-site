@@ -452,6 +452,30 @@ footer{
   font-size: 16px;
 }
 
+/* Tablet Styles (iPad) */
+@media (max-width:1024px) and (min-width:769px){
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+  }
+
+  .why-section-title {
+    font-size: 42px;
+  }
+
+  .why-section-subtitle {
+    font-size: 17px;
+  }
+
+  .why-tile {
+    padding: 28px 22px;
+  }
+
+  .social-links {
+    gap: 20px;
+  }
+}
+
 /* Mobile Styles */
 @media (max-width:768px){
   :root{
@@ -529,6 +553,49 @@ footer{
     font-size:40px;
     margin-bottom:20px;
   }
+
+  /* Mobile styles for new sections */
+  .why-section-title {
+    font-size: 36px;
+  }
+
+  .why-section-subtitle {
+    font-size: 16px;
+    margin-bottom: 32px;
+  }
+
+  .why-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .why-tile {
+    padding: 24px 20px;
+  }
+
+  .why-icon span {
+    font-size: 40px;
+  }
+
+  .why-tile h3 {
+    font-size: 18px;
+  }
+
+  .why-tile p {
+    font-size: 14px;
+  }
+
+  .social-links {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .social-link {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
 }
 
 @media (max-width:480px){
@@ -571,5 +638,36 @@ footer{
   
   .confirmation-icon{
     font-size:36px;
+  }
+
+  /* Small mobile styles for new sections */
+  .why-section-title {
+    font-size: 28px;
+  }
+
+  .why-section-subtitle {
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+
+  .why-tile {
+    padding: 20px 16px;
+  }
+
+  .why-icon span {
+    font-size: 36px;
+  }
+
+  .why-tile h3 {
+    font-size: 16px;
+  }
+
+  .why-tile p {
+    font-size: 13px;
+  }
+
+  .social-link {
+    padding: 10px 16px;
+    font-size: 13px;
   }
 }
