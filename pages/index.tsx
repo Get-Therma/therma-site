@@ -1,6 +1,5 @@
 
 import Head from 'next/head'
-import WaitlistForm from '../components/WaitlistForm'
 import WhyTherma from '../components/WhyTherma'
 import BreathingDivider from '../components/BreathingDivider'
 
@@ -33,9 +32,17 @@ export default function Home() {
             <div className="sp-8"></div>
             <h2 className="muted">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
             <div className="sp-16"></div>
-            <WaitlistForm />
-            <div className="sp-8"></div>
-            <p className="social-proof">Join the first 1,000 beta invites</p>
+            <form className="stack" style={{gap: '12px'}} id="waitlistForm">
+              <div className="pillInput">
+                <input type="email" id="emailInput" placeholder="Enter your email" required />
+              </div>
+              <p className="social-proof">Join the first 1,000 beta invites</p>
+              <div className="sp-8"></div>
+              <div>
+                <button className="btn" type="submit" id="submitBtn">Join Waitlist</button>
+              </div>
+              <div className="status-message" id="statusMessage" role="status"></div>
+            </form>
           </div>
         </section>
         
@@ -220,7 +227,7 @@ export default function Home() {
           <p className="caption">Therma helps you make space for yourself</p>
           <div className="sp-16"></div>
           <p className="footerLinks caption">
-            <a href="/contact.html">Contact Us</a> · <a href="#">Privacy</a> · <a href="#">Terms of Use</a>
+            <a href="/contact.html">Contact Us</a> · <a href="/faq.html">FAQ</a> · <a href="#">Privacy</a> · <a href="#">Terms of Use</a>
           </p>
           <div className="sp-16"></div>
           <p className="caption">2025. All rights reserved</p>

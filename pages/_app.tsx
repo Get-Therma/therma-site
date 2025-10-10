@@ -39,6 +39,55 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       });
     }
 
+    // Waitlist form functionality
+    const form = document.getElementById('waitlistForm') as HTMLFormElement;
+    const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+    const statusMessage = document.getElementById('statusMessage') as HTMLElement;
+    
+    if (form && submitBtn && statusMessage) {
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = emailInput.value.trim();
+        if (!email) return;
+
+        // Update UI
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting…';
+        statusMessage.textContent = '';
+        statusMessage.className = 'status-message';
+
+        try {
+          // Submit to the API endpoint
+          const response = await fetch('/api/waitlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email,
+              attribution: {},
+              referer: document.referrer,
+              ts: Date.now()
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error('Bad response');
+          }
+
+          // Show thank you message
+          statusMessage.textContent = 'Thank you! You\'re now on the waitlist.';
+          statusMessage.className = 'status-message success';
+          form.reset();
+        } catch (err) {
+          statusMessage.textContent = 'Something went wrong. Please try again.';
+          statusMessage.className = 'status-message error';
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Join Waitlist';
+        }
+      });
+    }
+
     // Mouse movement interactive background
     const heroBg = document.querySelector('.heroBg') as HTMLElement;
     let mouseX = 0;
