@@ -1,4 +1,3 @@
-
 # Therma Landing (Next.js – Cursor ready)
 
 ## Quick start
