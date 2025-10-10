@@ -13,44 +13,17 @@
     <style>
         @font-face{
             font-family:"Pangaia";
-            src:url("./public/fonts/PPPangaia-Medium-BF654c530cc86d5.woff") format("woff");
-            font-weight:500;font-style:normal;font-display:swap;
+            src:url("/fonts/PPPangaia-Medium-BF654c530cc86d5.woff") format("woff");
+            font-weight:400;font-style:normal;font-display:swap;
         }
         @font-face{
             font-family:"Pangaia";
-            src:url("./public/fonts/PPPangaia-MediumItalic-BF654c530bedffb.woff") format("woff");
-            font-weight:500;font-style:italic;font-display:swap;
+            src:url("/fonts/PPPangaia-MediumItalic-BF654c530bedffb.woff") format("woff");
+            font-weight:400;font-style:italic;font-display:swap;
         }
         
         :root{
             --container: min(960px,92vw);
-            
-            /* Brand Colors */
-            --primary: #343E1B;
-            --secondary: #050F1A;
-            --accent-01: linear-gradient(135deg, #FCB200, #BEBE72, #830698, #ACDF7F, #B7E0B0, #FD5930, #F43561, #7AA2FD, #7482FD);
-            --accent-02: linear-gradient(135deg, #E49050, #F93C55, #D5608E);
-            
-            /* Background Colors */
-            --bg-default-01: #EBF4FD;
-            --bg-default-02: #FBF7F5;
-            --bg-default-03: #FFFFFF;
-            --bg-elevate: #F5F5F5;
-            --bg-input: #EFEFED;
-            
-            /* Text Colors */
-            --text-primary: #000000;
-            --text-secondary-01: #5C5C5C;
-            --text-secondary-02: #79716A;
-            --text-disabled: #B2A09E;
-            
-            /* Feedback Colors */
-            --success: #3AA760;
-            --success-bg: #DAF0E5;
-            --error: #D44333;
-            --error-bg: #FADBD7;
-            --info: #165487;
-            --info-bg: #D4E2FC;
             
             /* Typography */
             --h1:64px; --h2:32px; --h3:24px; --h4:21px; --h5:18px; --h6:16px;
@@ -59,29 +32,65 @@
         *{box-sizing:border-box}
         html,body{padding:0;margin:0}
         body{font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; color:#FFFFFF; background:#000000}
-        h1,h2,h3,h4,h5,h6{margin:0;font-family:Pangaia,serif;font-weight:500;line-height:1.15;color:#FFFFFF}
+        h1,h2,h3,h4,h5,h6{margin:0;font-family:Pangaia,serif;font-weight:400;line-height:1.15;color:#FFFFFF}
         h1{font-size:var(--h1)} h2{font-size:var(--h2)} h3{font-size:var(--h3)}
         .muted{color:rgba(255,255,255,0.7)}
         .container{width:var(--container);margin:0 auto;padding:0 16px}
         .center{text-align:center}
         .stack{display:grid;gap:18px}
-        .sp-8{height:8px}.sp-16{height:16px}.sp-24{height:24px}
+        .sp-8{height:8px}.sp-16{height:16px}.sp-24{height:24px}.sp-32{height:32px}
+
         
         .heroBg{
             position:fixed;inset:0;z-index:-1;
             background:
-                radial-gradient(60% 80% at 20% 20%, rgba(255,89,48,.8), transparent 50%),
-                radial-gradient(50% 70% at 80% 30%, rgba(252,178,0,.7), transparent 50%),
-                radial-gradient(60% 90% at 30% 70%, rgba(131,6,152,.6), transparent 60%),
-                radial-gradient(50% 80% at 70% 80%, rgba(124,162,253,.7), transparent 60%),
-                radial-gradient(40% 60% at 50% 50%, rgba(172,223,127,.5), transparent 70%),
+                radial-gradient(60% 80% at 20% 20%, rgba(255,89,48,.3), transparent 50%),
+                radial-gradient(50% 70% at 80% 30%, rgba(252,178,0,.25), transparent 50%),
+                radial-gradient(60% 90% at 30% 70%, rgba(131,6,152,.2), transparent 60%),
+                radial-gradient(50% 80% at 70% 80%, rgba(124,162,253,.25), transparent 60%),
+                radial-gradient(40% 60% at 50% 50%, rgba(172,223,127,.15), transparent 70%),
                 linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
-            filter:saturate(1.2) brightness(1.1);
+            filter:saturate(0.8) brightness(1.05);
             animation: breathe 6s ease-in-out infinite;
             transform: translateZ(0);
             will-change: transform;
         }
         
+        /* Parallax Background Layers */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            z-index: -2;
+            pointer-events: none;
+        }
+        
+        .parallax-layer-1 {
+            background: radial-gradient(40% 60% at 10% 10%, rgba(255,89,48,.15), transparent 60%);
+            transform: translateY(0);
+            will-change: transform;
+        }
+        
+        .parallax-layer-2 {
+            background: radial-gradient(50% 70% at 90% 20%, rgba(252,178,0,.12), transparent 60%);
+            transform: translateY(0);
+            will-change: transform;
+        }
+        
+        .parallax-layer-3 {
+            background: radial-gradient(60% 80% at 20% 80%, rgba(131,6,152,.08), transparent 70%);
+            transform: translateY(0);
+            will-change: transform;
+        }
+        
+        .parallax-layer-4 {
+            background: radial-gradient(45% 65% at 80% 70%, rgba(124,162,253,.1), transparent 70%);
+            transform: translateY(0);
+            will-change: transform;
+        }
+
         .heroBg::before {
             content: '';
             position: absolute;
@@ -90,34 +99,33 @@
             right: 0;
             bottom: 0;
             background:
-                radial-gradient(70% 90% at 15% 15%, rgba(255,89,48,.3), transparent 60%),
-                radial-gradient(60% 80% at 85% 25%, rgba(252,178,0,.2), transparent 60%),
-                radial-gradient(80% 100% at 25% 75%, rgba(131,6,152,.2), transparent 70%),
-                radial-gradient(60% 90% at 75% 85%, rgba(124,162,253,.2), transparent 70%),
-                radial-gradient(50% 70% at 50% 50%, rgba(172,223,127,.1), transparent 80%);
+                radial-gradient(70% 90% at 15% 15%, rgba(255,89,48,.1), transparent 60%),
+                radial-gradient(60% 80% at 85% 25%, rgba(252,178,0,.08), transparent 60%),
+                radial-gradient(80% 100% at 25% 75%, rgba(131,6,152,.06), transparent 70%),
+                radial-gradient(60% 90% at 75% 85%, rgba(124,162,253,.08), transparent 70%),
+                radial-gradient(50% 70% at 50% 50%, rgba(172,223,127,.04), transparent 80%);
             animation: breatheOverlay 8s ease-in-out infinite reverse;
-            opacity: 0.6;
+            opacity: 0.4;
             transform: translateZ(0);
             will-change: transform;
         }
         
-        
         @keyframes breathe {
             0%, 100% {
-                filter: saturate(1.2) brightness(1.1);
+                filter: saturate(0.8) brightness(1.05);
                 transform: scale(1);
             }
             25% {
-                filter: saturate(1.6) brightness(1.3);
-                transform: scale(1.05);
+                filter: saturate(1.0) brightness(1.1);
+                transform: scale(1.02);
             }
             50% {
-                filter: saturate(1.8) brightness(1.4);
-                transform: scale(1.1);
+                filter: saturate(1.1) brightness(1.15);
+                transform: scale(1.05);
             }
             75% {
-                filter: saturate(1.7) brightness(1.35);
-                transform: scale(1.05);
+                filter: saturate(0.9) brightness(1.08);
+                transform: scale(1.02);
             }
         }
         
@@ -152,7 +160,12 @@
         }
         
         header{position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:center;z-index:10}
-        .brand{font-family:Pangaia,serif;font-size:22px;letter-spacing:.4px;color:#FFFFFF}
+        .brand{font-family:Pangaia,serif;font-size:28px;letter-spacing:.4px;color:#FFFFFF}
+        
+        /* Add space under header */
+        .header-spacer {
+            height: 150px;
+        }
         
         /* Mobile Menu Button */
         .mobile-menu-btn{
@@ -180,27 +193,335 @@
         .mobile-menu-btn:hover span{
             background-color:rgba(255,255,255,0.8);
         }
-        main{min-height:100svh;display:grid;place-items:center;padding:96px 0 48px}
+
+        main{
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            padding:80px 0 48px;
+        }
+        
+        /* Hero section with increased bottom padding */
+        #hero {
+            padding-bottom: 96px;
+        }
+        
+        @media (min-width: 768px) {
+            #hero {
+                padding-bottom: 128px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            #hero {
+                padding-bottom: 160px;
+            }
+        }
+        
+        /* Breathing Divider */
+        .breathing-divider {
+            position: relative;
+            isolation: isolate;
+            margin-top: -24px;
+            height: 64px;
+        }
+        
+        @media (min-width: 768px) {
+            .breathing-divider {
+                height: 96px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .breathing-divider {
+                height: 112px;
+            }
+        }
+        
+        .breathing-divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: -40px;
+            margin: 0 auto;
+            height: 160px;
+            width: 90%;
+            background: radial-gradient(50% 120% at 50% 0%, rgba(255,255,255,0.10), transparent);
+            filter: blur(32px);
+            animation: breathingDivider 10s ease-in-out infinite;
+        }
+        
+        @keyframes breathingDivider {
+            0%, 100% {
+                opacity: 0.45;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.75;
+                transform: scale(1.03);
+            }
+        }
+        
+        /* Why Therma Section with top margin */
+        #why {
+            margin-top: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            #why {
+                margin-top: 160px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            #why {
+                margin-top: 200px;
+            }
+        }
+        
+        /* How It Works Section with top margin */
+        #how-it-works {
+            margin-top: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            #how-it-works {
+                margin-top: 160px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            #how-it-works {
+                margin-top: 200px;
+            }
+        }
+        
+        /* Who It's For Section with top margin */
+        #who-its-for {
+            margin-top: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            #who-its-for {
+                margin-top: 160px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            #who-its-for {
+                margin-top: 200px;
+            }
+        }
+        
+        /* FAQ Preview Section with top margin */
+        #faq-preview {
+            margin-top: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            #faq-preview {
+                margin-top: 160px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            #faq-preview {
+                margin-top: 200px;
+            }
+        }
+        
+        /* Enhanced Why Therma Tiles */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-items: center;
+            align-items: center;
+        }
+        
+        @media (min-width: 768px) {
+            .why-grid {
+                gap: 40px;
+            }
+        }
+        
+        .why-tile {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 40px -20px rgba(0,0,0,0.6);
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .why-tile:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+        }
+        
+        /* Focus glow on hover */
+        .why-tile::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            background: radial-gradient(60% 80% at 50% 20%, rgba(255,255,255,0.10), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .why-tile:hover::before {
+            opacity: 1;
+        }
+        
+        .why-icon {
+            position: relative;
+            display: inline-flex;
+            margin-bottom: 24px;
+        }
+        
+        .why-icon span {
+            font-size: 64px;
+        }
+        
+        .why-icon::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(255,255,255,0.15);
+            z-index: -1;
+        }
+        
+        .why-tile h3 {
+            font-family: Pangaia, serif;
+            font-weight: 500;
+            font-style: italic;
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: #FFFFFF;
+        }
+        
+        @media (min-width: 768px) {
+            .why-tile h3 {
+                font-size: 32px;
+            }
+        }
+        
+        .why-tile p {
+            font-family: Pangaia, serif;
+            font-style: italic;
+            color: rgba(255,255,255,0.8);
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        @media (min-width: 768px) {
+            .why-tile p {
+                font-size: 20px;
+            }
+        }
+        
+        /* Micro-story on hover */
+        .why-micro-story {
+            margin-top: 12px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.65);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .why-tile:hover .why-micro-story {
+            opacity: 1;
+        }
+        
+        /* Why Therma Section Title */
+        .why-section-title {
+            font-family: Pangaia, serif;
+            font-weight: 500;
+            font-style: italic;
+            font-size: 48px;
+            color: #FFFFFF;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        
+        @media (min-width: 768px) {
+            .why-section-title {
+                font-size: 56px;
+            }
+        }
+        
+        /* Why Therma Section Subtitle */
+        .why-section-subtitle {
+            font-family: Pangaia, serif;
+            font-style: italic;
+            font-size: 20px;
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        @media (min-width: 768px) {
+            .why-section-subtitle {
+                font-size: 24px;
+            }
+        }
         
         .pillInput{
-            display:flex;align-items:center;gap:10px;padding:6px;border-radius:999px;
+            display:flex;align-items:center;gap:10px;padding:8px;border-radius:999px;
             border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);backdrop-filter:blur(20px);
             width:min(420px,90vw);margin:0 auto;
             box-shadow:0 8px 32px rgba(0,0,0,.3);
             animation: subtleBreathe 6s ease-in-out infinite;
         }
         .pillInput input{
-            flex:1;padding:12px 16px;border:none;outline:none;background:transparent;color:#FFFFFF;font-size:14px
+            flex:1;padding:16px 20px;border:none;outline:none;background:transparent;color:#FFFFFF;font-size:16px
         }
         .pillInput input::placeholder{color:rgba(255,255,255,0.6)}
         
         .btn{
-            border:0;cursor:pointer;font-weight:600;padding:12px 18px;border-radius:999px;
+            border:0;cursor:pointer;font-weight:600;padding:16px 24px;border-radius:999px;
             background:rgba(255,255,255,.9);color:#000000;
             box-shadow:0 8px 32px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.5);
             backdrop-filter:blur(20px);
             transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
             animation: subtleBreathe 7s ease-in-out infinite;
+            font-size:16px;
         }
         .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.95);box-shadow:0 12px 40px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.5)} 
         .btn:active{transform:translateY(0)}
@@ -251,6 +572,264 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        .social-proof{
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+            font-weight: 400;
+            margin: 0;
+            text-align: center;
+        }
+
+        .social-links{
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-link{
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .social-link:hover{
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.3);
+            color: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .social-icon{
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .thank-you-text{
+            font-family: Pangaia, serif;
+            font-weight: 400;
+        }
+
+        /* Below-the-fold Sections */
+        .value-section{
+            padding: 80px 0;
+            background: rgba(0,0,0,0.1);
+            backdrop-filter: blur(20px);
+            margin-top: 40px;
+        }
+
+        .section-title{
+            font-family: Pangaia, serif;
+            font-size: 36px;
+            font-weight: 400;
+            color: #FFFFFF;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle{
+            font-size: 18px;
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Value Section */
+        .value-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .value-card{
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .value-card:hover{
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .value-icon{
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .value-card h3{
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: #FFFFFF;
+        }
+
+        .value-card p{
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* How It Works Section */
+        .steps-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .step-card{
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover{
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .step-number{
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin: 0 auto 20px;
+        }
+
+        .step-card h3{
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #FFFFFF;
+        }
+
+        .step-card p{
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Who It's For Section */
+        .audience-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .audience-card{
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .audience-card:hover{
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .audience-card h3{
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #FFFFFF;
+        }
+
+        .audience-card p{
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* FAQ Preview Section */
+        .faq-preview-grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-preview-item{
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .faq-preview-item:hover{
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .faq-preview-item h3{
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #FFFFFF;
+        }
+
+        .faq-preview-item p{
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .btn-secondary{
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 999px;
+            padding: 12px 24px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover{
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.3);
+            color: #FFFFFF;
+            transform: translateY(-2px);
+        }
         
         /* Mobile Styles */
         @media (max-width:768px){
@@ -260,6 +839,7 @@
                 --container: 95vw;
             }
             
+            
             /* Mobile Header */
             header{
                 height:60px;
@@ -267,7 +847,7 @@
             }
             
             .brand{
-                font-size:20px;
+                font-size:24px;
             }
             
             .mobile-menu-btn{
@@ -278,6 +858,15 @@
             main{
                 padding:80px 0 40px;
                 min-height:100vh;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+            }
+            
+            /* Mobile Header Spacer */
+            .header-spacer {
+                height: 120px;
             }
             
             /* Mobile Typography */
@@ -313,6 +902,7 @@
             .sp-8{height:12px}
             .sp-16{height:20px}
             .sp-24{height:28px}
+            .sp-32{height:36px}
             
             /* Mobile Footer */
             footer{
@@ -336,6 +926,96 @@
                 font-size:40px;
                 margin-bottom:20px;
             }
+
+            /* Mobile Social Links */
+            .social-links{
+                gap: 16px;
+            }
+
+            .social-link{
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+
+            /* Mobile Below-the-fold Sections */
+            .value-section{
+                padding: 60px 0;
+            }
+
+            .section-title{
+                font-size: 28px;
+            }
+
+            .section-subtitle{
+                font-size: 16px;
+            }
+
+            .value-grid, .steps-grid, .audience-grid, 
+            .faq-preview-grid{
+                grid-template-columns: 1fr;
+                gap: 24px;
+                padding: 0 20px;
+            }
+
+            .value-card, .step-card, .audience-card, 
+            .faq-preview-item{
+                padding: 24px;
+            }
+
+            .value-icon{
+                font-size: 40px;
+            }
+
+            .step-number{
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            /* Mobile Why Therma Section */
+            #why {
+                margin-top: 80px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .why-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                padding: 0 20px;
+                justify-items: center;
+                align-items: center;
+            }
+            
+            .why-tile {
+                padding: 32px;
+                width: 100%;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            
+            .why-icon span {
+                font-size: 56px;
+            }
+            
+            .why-tile h3 {
+                font-size: 24px;
+            }
+            
+            .why-tile p {
+                font-size: 16px;
+            }
+            
+            .why-section-title {
+                font-size: 40px;
+            }
+            
+            .why-section-subtitle {
+                font-size: 18px;
+            }
         }
         
         /* Small Mobile Styles */
@@ -351,11 +1031,15 @@
             }
             
             .brand{
-                font-size:18px;
+                font-size:22px;
             }
             
             main{
-                padding:70px 0 30px;
+                padding:80px 0 30px;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
             }
             
             .pillInput{
@@ -385,6 +1069,12 @@
 </head>
 <body>
     <div class="heroBg" aria-hidden="true"></div>
+    
+    <!-- Parallax Background Layers -->
+    <div class="parallax-bg parallax-layer-1" aria-hidden="true"></div>
+    <div class="parallax-bg parallax-layer-2" aria-hidden="true"></div>
+    <div class="parallax-bg parallax-layer-3" aria-hidden="true"></div>
+    <div class="parallax-bg parallax-layer-4" aria-hidden="true"></div>
 
     <header>
         <div class="mobile-menu-btn" id="mobileMenuBtn">
@@ -392,16 +1082,19 @@
             <span></span>
             <span></span>
         </div>
-        <div class="brand">Therma</div>
+        <div class="brand" id="brandLogo" style="cursor: pointer;">Therma</div>
     </header>
+
+    <!-- Header Spacer -->
+    <div class="header-spacer"></div>
 
     <main>
         <!-- Coming Soon State -->
-        <section class="container center" id="comingSoonSection">
+        <section id="hero" class="container center">
             <div class="stack">
-                <h1>Therma<br/><span style="font-style: italic; font-weight: normal;">Coming&nbsp;Soon</span></h1>
+                <h1>Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
                 <div class="sp-8"></div>
-                <p class="muted">Join the waitlist to be among the first to try the app</p>
+                <h2 class="muted">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
                 <div class="sp-16"></div>
                 
                 <!-- Waitlist Form -->
@@ -409,21 +1102,216 @@
                     <div class="pillInput">
                         <input type="email" id="emailInput" placeholder="Enter your email" required />
                     </div>
+                    <p class="social-proof">Join the first 1,000 beta invites</p>
+                    <div class="sp-8"></div>
                     <div>
-                        <button class="btn" type="submit" id="submitBtn">Join the waitlist</button>
+                        <button class="btn" type="submit" id="submitBtn">Join Waitlist</button>
                     </div>
                     <div class="status-message" id="statusMessage" role="status"></div>
                 </form>
+            </div>
+        </section>
+        
+        <!-- Breathing Divider -->
+        <div class="breathing-divider" aria-hidden="true"></div>
+        
+        <!-- Why Therma Section -->
+        <section id="why" class="container center">
+            <div class="stack">
+                <h2 class="why-section-title">Why Therma?</h2>
+                <p class="why-section-subtitle">Your space to slow down, check in, and feel supported</p>
+                
+                <div class="why-grid">
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="A person in a calm seated pose">🧘</span>
+                        </div>
+                        <h3>Daily Reflections</h3>
+                        <p>Gentle prompts that help you process your day—without judgment.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
+                        </div>
+                    </div>
+                    
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="A friendly robot face">🤖</span>
+                        </div>
+                        <h3>AI Companion</h3>
+                        <p>A kind companion that listens, asks thoughtful questions, and helps you notice patterns.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
+                        </div>
+                    </div>
+                    
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="A small, soft cloud">☁️</span>
+                        </div>
+                        <h3>Mindful Space</h3>
+                        <p>A quiet place to slow down, breathe, and actually hear yourself.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Thank You State -->
         <section class="container center" id="thankYouSection" style="display: none;">
             <div class="stack">
-                <div class="confirmation-icon">😊</div>
-                <h1>Thank you</h1>
+                <div class="confirmation-icon">✅</div>
+                <h1>You're In.</h1>
                 <div class="sp-8"></div>
-                <p class="muted">Thanks for joining the waitlist - updates will come by email.</p>
+                <p class="muted thank-you-text">Thanks for joining the Therma waitlist.<br/>We'll be in touch soon with your invite to experience a smarter way to control your climate.</p>
+                <div class="sp-16"></div>
+                <p class="muted thank-you-text">In the meantime, follow us for sneak peeks and launch updates:</p>
+                <div class="sp-8"></div>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <span class="social-icon">📷</span>
+                        Follow on Instagram
+                    </a>
+                    <a href="#" class="social-link">
+                        <span class="social-icon">🐦</span>
+                        Join us on X
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="container center">
+            <div class="stack">
+                <h2 class="why-section-title">How It Works</h2>
+                <p class="why-section-subtitle">Simple steps to a more mindful you</p>
+                
+                <div class="why-grid">
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="Step one">1️⃣</span>
+                        </div>
+                        <h3>Check In Daily</h3>
+                        <p>Take a few minutes each day to pause and reflect on how you're feeling.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Start with just 2 minutes of mindful breathing.
+                        </div>
+                    </div>
+                    
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="Step two">2️⃣</span>
+                        </div>
+                        <h3>Share Your Thoughts</h3>
+                        <p>Express what's on your mind through gentle prompts designed to help you process.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Answer one simple question: "How are you feeling right now?"
+                        </div>
+                    </div>
+                    
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="Step three">3️⃣</span>
+                        </div>
+                        <h3>Get Support</h3>
+                        <p>Receive thoughtful responses and guidance from your AI companion.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Get personalized insights and gentle encouragement.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Who It's For Section -->
+        <section id="who-its-for" class="container center">
+            <div class="stack">
+                <h2 class="why-section-title">Who It's For</h2>
+                <p class="why-section-subtitle">Perfect for anyone seeking mindful reflection</p>
+                
+                <div class="why-grid">
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="Busy professional">💼</span>
+                        </div>
+                        <h3>Busy Professionals</h3>
+                        <p>Find moments of calm in your hectic schedule and process work stress mindfully.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Take a 5-minute break between meetings to check in with yourself.
+                        </div>
+                    </div>
+                    
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="Student learning">🎓</span>
+                        </div>
+                        <h3>Students & Learners</h3>
+                        <p>Navigate academic pressure and personal growth with supportive daily check-ins.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Process exam stress and celebrate small wins along the way.
+                        </div>
+                    </div>
+                    
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="Personal growth">🌱</span>
+                        </div>
+                        <h3>Anyone Seeking Growth</h3>
+                        <p>Build self-awareness and emotional intelligence through regular reflection.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Discover patterns in your thoughts and feelings over time.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Preview Section -->
+        <section id="faq-preview" class="container center">
+            <div class="stack">
+                <h2 class="why-section-title">Common Questions</h2>
+                <p class="why-section-subtitle">Everything you need to know about Therma</p>
+                
+                <div class="why-grid">
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="Question mark">❓</span>
+                        </div>
+                        <h3>Is this therapy?</h3>
+                        <p>No. Therma is a self-reflection tool and isn't medical advice.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Think of it as a mindful journal with AI support.
+                        </div>
+                    </div>
+                    
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="Free tier">🆓</span>
+                        </div>
+                        <h3>Will it be free?</h3>
+                        <p>We'll offer a free tier; early waitlisters get first beta access and perks.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> Join the waitlist for exclusive early access benefits.
+                        </div>
+                    </div>
+                    
+                    <div class="why-tile">
+                        <div class="why-icon">
+                            <span role="img" aria-label="Mobile devices">📱</span>
+                        </div>
+                        <h3>iOS or Android?</h3>
+                        <p>iOS first, Android next.</p>
+                        <div class="why-micro-story">
+                            <span>→</span> iPhone users get first access, Android coming soon.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sp-16"></div>
+                <div class="center">
+                    <a href="faq.html" class="btn-secondary">View All FAQs</a>
+                </div>
             </div>
         </section>
     </main>
@@ -434,7 +1322,10 @@
             <p class="caption">Therma helps you make space for yourself</p>
             <div class="sp-16"></div>
             <p class="footerLinks caption">
-                <a href="#">Privacy</a> · <a href="#">Terms of Use</a>
+                <a href="contact.html" id="contactUsLink">Contact Us</a> · 
+                <a href="faq.html">FAQ</a> · 
+                <a href="#">Privacy</a> · 
+                <a href="#">Terms of Use</a>
             </p>
             <div class="sp-16"></div>
             <p class="caption">2025. All rights reserved</p>
@@ -474,7 +1365,7 @@
         const emailInput = document.getElementById('emailInput');
         const submitBtn = document.getElementById('submitBtn');
         const statusMessage = document.getElementById('statusMessage');
-        const comingSoonSection = document.getElementById('comingSoonSection');
+        const comingSoonSection = document.getElementById('hero');
         const thankYouSection = document.getElementById('thankYouSection');
 
         // Initialize UTM tracking
@@ -485,22 +1376,78 @@
             }
         }
 
-        // Show thank you page with smooth transition
+        // Redirect to thank you page
         function showThankYouPage() {
-            // Add transition classes
-            comingSoonSection.classList.add('section-transition');
-            thankYouSection.classList.add('section-transition');
+            // Store email in localStorage for the thank you page
+            localStorage.setItem('therma_submitted_email', emailInput.value.trim());
             
-            // Hide coming soon section
-            setTimeout(() => {
-                comingSoonSection.style.display = 'none';
-                thankYouSection.style.display = 'block';
+            // Redirect to thank you page
+            window.location.href = 'thank-you.html';
+        }
+
+        // Parallax scrolling effect
+        function initParallax() {
+            const layers = document.querySelectorAll('.parallax-layer-1, .parallax-layer-2, .parallax-layer-3, .parallax-layer-4');
+            
+            function updateParallax() {
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * -0.5;
                 
-                // Show thank you section with animation
-                setTimeout(() => {
-                    thankYouSection.classList.add('show');
-                }, 50);
-            }, 300);
+                layers.forEach((layer, index) => {
+                    const speed = (index + 1) * 0.1;
+                    const yPos = -(scrolled * speed);
+                    layer.style.transform = `translateY(${yPos}px)`;
+                });
+            }
+            
+            // Throttle scroll events for performance
+            let ticking = false;
+            function requestTick() {
+                if (!ticking) {
+                    requestAnimationFrame(updateParallax);
+                    ticking = true;
+                    setTimeout(() => { ticking = false; }, 16);
+                }
+            }
+            
+            window.addEventListener('scroll', requestTick);
+        }
+        
+        // Mouse movement interactive background
+        const heroBg = document.querySelector('.heroBg');
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        let animationId;
+
+        function updateBackground() {
+            // Smooth interpolation for mouse movement
+            mouseX += (targetX - mouseX) * 0.05;
+            mouseY += (targetY - mouseY) * 0.05;
+
+            if (heroBg) {
+                // Convert mouse position to percentage (0-100)
+                const xPercent = (mouseX / window.innerWidth) * 100;
+                const yPercent = (mouseY / window.innerHeight) * 100;
+
+                // Update background gradients based on mouse position
+                heroBg.style.background = `
+                    radial-gradient(60% 80% at ${20 + xPercent * 0.3}% ${20 + yPercent * 0.2}%, rgba(255,89,48,.2), transparent 50%),
+                    radial-gradient(50% 70% at ${80 - xPercent * 0.2}% ${30 + yPercent * 0.3}%, rgba(252,178,0,.15), transparent 50%),
+                    radial-gradient(60% 90% at ${30 + xPercent * 0.4}% ${70 - yPercent * 0.2}%, rgba(131,6,152,.1), transparent 60%),
+                    radial-gradient(50% 80% at ${70 - xPercent * 0.3}% ${80 - yPercent * 0.3}%, rgba(124,162,253,.15), transparent 60%),
+                    radial-gradient(40% 60% at ${50 + xPercent * 0.2}% ${50 + yPercent * 0.2}%, rgba(172,223,127,.08), transparent 70%),
+                    linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)
+                `;
+            }
+
+            animationId = requestAnimationFrame(updateBackground);
+        }
+
+        function handleMouseMove(e) {
+            targetX = e.clientX;
+            targetY = e.clientY;
         }
 
         // Form submission
@@ -552,7 +1499,7 @@
                 statusMessage.className = 'status-message error';
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Join the waitlist';
+                submitBtn.textContent = 'Join Waitlist';
             }
         }
 
@@ -567,24 +1514,61 @@
             alert('Mobile menu clicked! This can be expanded to show navigation options.');
         });
 
+        // Brand logo reset functionality
+        const brandLogo = document.getElementById('brandLogo');
+        
+        brandLogo.addEventListener('click', function() {
+            // Reset form
+            emailInput.value = '';
+            statusMessage.textContent = '';
+            statusMessage.className = 'status-message';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Join Waitlist';
+            
+            // Show coming soon section and hide thank you section
+            comingSoonSection.style.display = 'block';
+            thankYouSection.style.display = 'none';
+            
+            // Remove transition classes
+            comingSoonSection.classList.remove('section-transition', 'show');
+            thankYouSection.classList.remove('section-transition', 'show');
+            
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             initUTMTracking();
+            initParallax();
+            
+            // Start the background animation loop
+            updateBackground();
+            
+            // Add mouse move listener
+            document.addEventListener('mousemove', handleMouseMove);
         });
 
-        // Add some interactive feedback
+        // Enhanced glassmorphism feedback
         emailInput.addEventListener('focus', function() {
-            this.parentElement.style.borderColor = 'rgba(255,255,255,.4)';
-            this.parentElement.style.boxShadow = '0 12px 40px rgba(0,0,0,.4)';
-            this.parentElement.style.background = 'rgba(255,255,255,.15)';
+            const parent = this.parentElement;
+            parent.style.borderColor = 'rgba(255,255,255,.6)';
+            parent.style.boxShadow = '0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.3), inset 0 1px 0 rgba(255,255,255,.2)';
+            parent.style.background = 'rgba(255,255,255,.2)';
+            parent.style.backdropFilter = 'blur(30px)';
+            parent.style.transform = 'scale(1.02)';
+            parent.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         });
 
         emailInput.addEventListener('blur', function() {
-            this.parentElement.style.borderColor = 'rgba(255,255,255,.2)';
-            this.parentElement.style.boxShadow = '0 8px 32px rgba(0,0,0,.3)';
-            this.parentElement.style.background = 'rgba(255,255,255,.1)';
+            const parent = this.parentElement;
+            parent.style.borderColor = 'rgba(255,255,255,.2)';
+            parent.style.boxShadow = '0 8px 32px rgba(0,0,0,.3)';
+            parent.style.background = 'rgba(255,255,255,.1)';
+            parent.style.backdropFilter = 'blur(20px)';
+            parent.style.transform = 'scale(1)';
         });
     </script>
 </body>
 </html>
-
