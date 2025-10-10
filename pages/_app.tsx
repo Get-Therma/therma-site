@@ -39,54 +39,79 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       });
     }
 
-    // Waitlist form functionality
-    const form = document.getElementById('waitlistForm') as HTMLFormElement;
-    const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
-    const statusMessage = document.getElementById('statusMessage') as HTMLElement;
-    
-    if (form && submitBtn && statusMessage) {
-      form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const email = emailInput.value.trim();
-        if (!email) return;
+    // Waitlist form functionality - with delay to ensure DOM is ready
+    setTimeout(() => {
+      const form = document.getElementById('waitlistForm') as HTMLFormElement;
+      const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+      const statusMessage = document.getElementById('statusMessage') as HTMLElement;
+      const emailInput = document.getElementById('emailInput') as HTMLInputElement;
+      
+      console.log('Form elements:', { form, submitBtn, statusMessage, emailInput });
+      
+      if (form && submitBtn && statusMessage && emailInput) {
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          const email = emailInput.value.trim();
+          console.log('Form submitted with email:', email);
+          
+          if (!email) return;
 
-        // Update UI
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Submitting…';
-        statusMessage.textContent = '';
-        statusMessage.className = 'status-message';
+          // Update UI
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Submitting…';
+          statusMessage.textContent = '';
+          statusMessage.className = 'status-message';
 
-        try {
-          // Submit to the API endpoint
-          const response = await fetch('/api/waitlist', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email,
-              attribution: {},
-              referer: document.referrer,
-              ts: Date.now()
-            })
-          });
+          try {
+            // Submit to the API endpoint
+            const response = await fetch('/api/waitlist', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email,
+                attribution: {},
+                referer: document.referrer,
+                ts: Date.now()
+              })
+            });
 
-          if (!response.ok) {
-            throw new Error('Bad response');
+            console.log('API response:', response);
+
+            if (!response.ok) {
+              throw new Error('Bad response');
+            }
+
+            // Show thank you section
+            const heroSection = document.getElementById('hero');
+            const thankYouSection = document.getElementById('thankYouSection');
+            
+            if (heroSection && thankYouSection) {
+              heroSection.style.display = 'none';
+              thankYouSection.style.display = 'block';
+              
+              // Scroll to top smoothly
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+              // Fallback to status message
+              statusMessage.textContent = 'Thank you! You\'re now on the waitlist.';
+              statusMessage.className = 'status-message success';
+            }
+            
+            form.reset();
+          } catch (err) {
+            console.error('Form submission error:', err);
+            statusMessage.textContent = 'Something went wrong. Please try again.';
+            statusMessage.className = 'status-message error';
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Join Waitlist';
           }
-
-          // Show thank you message
-          statusMessage.textContent = 'Thank you! You\'re now on the waitlist.';
-          statusMessage.className = 'status-message success';
-          form.reset();
-        } catch (err) {
-          statusMessage.textContent = 'Something went wrong. Please try again.';
-          statusMessage.className = 'status-message error';
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Join Waitlist';
-        }
-      });
-    }
+        });
+      } else {
+        console.error('Form elements not found:', { form, submitBtn, statusMessage, emailInput });
+      }
+    }, 100);
 
     // Mouse movement interactive background
     const heroBg = document.querySelector('.heroBg') as HTMLElement;
