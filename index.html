@@ -1098,7 +1098,7 @@
                 <div class="sp-16"></div>
                 
                 <!-- Waitlist Form -->
-                <form class="stack" style="gap: 12px;" id="waitlistForm">
+                <form class="stack" style="gap: 12px;" id="waitlistForm" onsubmit="return false;">
                     <div class="pillInput">
                         <input type="email" id="emailInput" placeholder="Enter your email" required />
                     </div>
@@ -1453,6 +1453,7 @@
         // Form submission
         async function handleSubmit(e) {
             e.preventDefault();
+            e.stopPropagation();
             
             const email = emailInput.value.trim();
             if (!email) return;
