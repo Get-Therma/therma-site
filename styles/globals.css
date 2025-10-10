@@ -1,5 +1,4 @@
-
-/* Tailwind CSS - simplified for compatibility */
+/* Complete Therma styling from HTML version */
 
 @font-face{
   font-family:"Pangaia";
@@ -13,72 +12,21 @@
 }
 
 :root{
-  --container: 1440px;
-  --desktop-width: 1440px;
-  --desktop-height: 960px;
-  --footer-height: 400px;
-  
-  /* Brand Colors */
-  --primary: #343E1B;
-  --secondary: #050F1A;
-  --accent-01: linear-gradient(135deg, #FCB200, #BEBE72, #830698, #ACDF7F, #B7E0B0, #FD5930, #F43561, #7CA2FD, #7482FD);
-  --accent-02: linear-gradient(135deg, #E49050, #F93C55, #D5608E);
-  
-  /* Background Colors */
-  --bg-default-01: #EBF4FD;
-  --bg-default-02: #FBF7F5;
-  --bg-default-03: #FFFFFF;
-  --bg-elevate: #F5F5F5;
-  --bg-input: #EFEFED;
-  
-  /* Text Colors */
-  --text-primary: #000000;
-  --text-secondary-01: #5C5C5C;
-  --text-secondary-02: #79716A;
-  --text-disabled: #B2A09E;
-  
-  /* Feedback Colors */
-  --success: #3AA760;
-  --success-bg: #DAF0E5;
-  --error: #D44333;
-  --error-bg: #FADBD7;
-  --info: #165487;
-  --info-bg: #D4E2FC;
-  
-  /* Typography */
+  --container: min(960px,92vw);
   --h1:64px; --h2:32px; --h3:24px; --h4:21px; --h5:18px; --h6:16px;
 }
 
 *{box-sizing:border-box}
 html,body{padding:0;margin:0}
-body{
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; 
-  color: #FFFFFF; 
-  background: #000000;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-}
+body{font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; color:#FFFFFF; background:#000000}
 h1,h2,h3,h4,h5,h6{margin:0;font-family:Pangaia,serif;font-weight:400;line-height:1.15;color:#FFFFFF}
 h1{font-size:var(--h1)} h2{font-size:var(--h2)} h3{font-size:var(--h3)}
 .muted{color:rgba(255,255,255,0.7)}
 .container{width:var(--container);margin:0 auto;padding:0 16px}
 .center{text-align:center}
 .stack{display:grid;gap:18px}
-.sp-8{height:8px}.sp-16{height:16px}.sp-24{height:24px}
+.sp-8{height:8px}.sp-16{height:16px}.sp-24{height:24px}.sp-32{height:32px}
 
-/* Desktop Layout */
-.desktop-layout{
-  width: var(--desktop-width);
-  height: var(--desktop-height);
-  background: var(--bg-default-03);
-  display: flex;
-  flex-direction: column;
-  flex: none;
-  order: 0;
-  align-self: stretch;
-  flex-grow: 0;
-}
 .heroBg{
   position:fixed;inset:0;z-index:-1;
   background:
@@ -150,10 +98,21 @@ h1{font-size:var(--h1)} h2{font-size:var(--h2)} h3{font-size:var(--h3)}
     transform: scale(1.1) rotate(-1deg);
   }
 }
-header{position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:center;z-index:10}
-.brand{font-family:Pangaia,serif;font-size:22px;letter-spacing:.4px;color:#FFFFFF}
 
-/* Mobile Menu Button */
+@keyframes subtleBreathe {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+}
+
+header{position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:center;z-index:10}
+.brand{font-family:Pangaia,serif;font-size:28px;letter-spacing:.4px;color:#FFFFFF}
+
 .mobile-menu-btn{
   position:absolute;
   left:20px;
@@ -181,11 +140,12 @@ header{position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:
 }
 
 main{
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 96px 0 48px;
-  background: #000000;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:80px 0 48px;
 }
 
 .pillInput{
@@ -214,17 +174,14 @@ main{
 .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
 
 footer{
-  width: var(--desktop-width);
-  height: var(--footer-height);
-  background: var(--secondary);
   margin-top:64px;color:rgba(255,255,255,0.7);
-  display: flex;
-  flex-direction: column;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
+  background:
+    radial-gradient(60% 80% at 70% 10%, rgba(131,6,152,.1), transparent 60%),
+    radial-gradient(60% 90% at 20% 30%, rgba(255,89,48,.08), transparent 70%),
+    linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+  border-top:1px solid rgba(255,255,255,.1)
 }
-.footerWrap{width:var(--container);margin:0 auto;padding:56px 16px 32px;text-align:center;flex: 1;display: flex;flex-direction: column;justify-content: center;}
+.footerWrap{width:var(--container);margin:0 auto;padding:56px 16px 32px;text-align:center}
 .footerBrand{font-family:Pangaia,serif;font-size:22px;color:#FFFFFF;margin-bottom:8px}
 .caption{font-size:13px;color:rgba(255,255,255,0.7)}
 .footerLinks a{color:rgba(255,255,255,0.7);text-decoration:none;margin:0 8px}
@@ -251,17 +208,6 @@ footer{
   }
 }
 
-@keyframes subtleBreathe {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(1.02);
-  }
-}
-
 .section-transition{
   opacity: 0;
   transform: translateY(20px);
@@ -280,6 +226,7 @@ footer{
   margin: 0;
   text-align: center;
 }
+
 /* Mobile Styles */
 @media (max-width:768px){
   :root{
@@ -288,33 +235,29 @@ footer{
     --container: 95vw;
   }
   
-  /* Mobile Header */
   header{
     height:60px;
     padding:0 20px;
   }
   
   .brand{
-    font-size:20px;
+    font-size:24px;
   }
   
   .mobile-menu-btn{
     display:flex;
   }
   
-  /* Mobile Main Content */
   main{
     padding:80px 0 40px;
     min-height:100vh;
   }
   
-  /* Mobile Typography */
   h1{
     font-size:var(--h1);
     line-height:1.1;
   }
   
-  /* Mobile Form */
   .pillInput{
     width:90vw;
     max-width:350px;
@@ -323,7 +266,7 @@ footer{
   
   .pillInput input{
     padding:14px 18px;
-    font-size:16px; /* Prevents zoom on iOS */
+    font-size:16px;
   }
   
   .btn{
@@ -333,7 +276,6 @@ footer{
     max-width:350px;
   }
   
-  /* Mobile Stack Spacing */
   .stack{
     gap:24px;
   }
@@ -342,7 +284,6 @@ footer{
   .sp-16{height:20px}
   .sp-24{height:28px}
   
-  /* Mobile Footer */
   footer{
     margin-top:40px;
   }
@@ -359,14 +300,12 @@ footer{
     font-size:12px;
   }
   
-  /* Mobile Confirmation Icon */
   .confirmation-icon{
     font-size:40px;
     margin-bottom:20px;
   }
 }
 
-/* Small Mobile Styles */
 @media (max-width:480px){
   :root{
     --h1:40px;
