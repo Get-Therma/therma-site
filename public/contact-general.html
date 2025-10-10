@@ -384,8 +384,15 @@
                 });
                 
                 if (response.ok) {
-                    alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-                    form.reset();
+                    // Store contact data for the thank you page
+                    localStorage.setItem('therma_contact_data', JSON.stringify({
+                        name: contactData.name,
+                        email: contactData.email,
+                        subject: contactData.subject
+                    }));
+                    
+                    // Redirect to thank you page
+                    window.location.href = '/contact-thank-you';
                 } else {
                     const error = await response.json();
                     alert('Sorry, there was an error sending your message. Please try again.');
