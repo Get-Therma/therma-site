@@ -6,14 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "echo \"(lint disabled in starter)\""
+    "lint": "echo \"(lint disabled in starter)\"",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.14",
+    "@vercel/postgres": "^0.10.0",
+    "drizzle-kit": "^0.31.5",
+    "drizzle-orm": "^0.44.6",
     "framer-motion": "^12.23.22",
     "next": "14.2.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "resend": "^6.1.2",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/node": "24.7.1",

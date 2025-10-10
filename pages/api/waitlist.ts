@@ -1,49 +1,51 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { db } from '../../lib/db';
+import { waitlist, waitlistSchema } from '../../lib/schema';
 
-type WaitlistData = {
-  email: string
-  attribution: Record<string, string>
-  referer: string | null
-  ts: number
-}
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'POST') {
+    try {
+      const { email, utm_campaign, utm_medium, utm_source, referrer, hp } = req.body;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
+      // Honeypot check
+      if (hp) {
+        return res.status(400).json({ message: 'Bot detected' });
+      }
 
-  try {
-    const { email, attribution, referer, ts }: WaitlistData = req.body
+      // Validate email
+      if (!email || typeof email !== 'string') {
+        return res.status(400).json({ message: 'Email is required' });
+      }
 
-    // Validate email
-    if (!email || !email.includes('@')) {
-      return res.status(400).json({ error: 'Valid email required' })
+      // Create attribution object
+      const attribution = {
+        utm_campaign: utm_campaign || null,
+        utm_medium: utm_medium || null,
+        utm_source: utm_source || null,
+        referrer: referrer || null,
+      };
+
+      // Insert into database
+      const result = await db.insert(waitlist).values({
+        email: email.toLowerCase().trim(),
+        attribution: JSON.stringify(attribution),
+        referer: referrer || null,
+      }).returning();
+
+      console.log('Waitlist submission saved:', result[0]);
+
+      res.status(200).json({ message: 'Successfully joined waitlist!' });
+    } catch (error) {
+      console.error('Waitlist submission error:', error);
+      
+      if (error instanceof Error && error.message.includes('duplicate key')) {
+        return res.status(409).json({ message: 'Email already exists in waitlist' });
+      }
+      
+      res.status(500).json({ message: 'Failed to join waitlist' });
     }
-
-    // Here you would typically:
-    // 1. Save to your database
-    // 2. Send to email service (Mailchimp, ConvertKit, etc.)
-    // 3. Send confirmation email
-    
-    console.log('Waitlist signup:', {
-      email,
-      attribution,
-      referer,
-      timestamp: new Date(ts).toISOString()
-    })
-
-    // For now, just return success
-    // TODO: Replace with actual database/email service integration
-    res.status(200).json({ 
-      success: true, 
-      message: 'Successfully added to waitlist' 
-    })
-
-  } catch (error) {
-    console.error('Waitlist error:', error)
-    res.status(500).json({ error: 'Internal server error' })
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

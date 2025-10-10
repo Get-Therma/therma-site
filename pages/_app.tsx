@@ -55,15 +55,20 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           statusMessage.className = 'status-message';
 
           try {
+            // Get UTM parameters from URL
+            const url = new URL(window.location.href);
+            
             // Submit to the API endpoint
             const response = await fetch('/api/waitlist', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 email,
-                attribution: {},
-                referer: document.referrer,
-                ts: Date.now()
+                utm_campaign: url.searchParams.get('utm_campaign') || undefined,
+                utm_medium: url.searchParams.get('utm_medium') || undefined,
+                utm_source: url.searchParams.get('utm_source') || undefined,
+                referrer: document.referrer || undefined,
+                hp: '' // honeypot
               })
             });
 
