@@ -477,8 +477,13 @@ footer{
   
   
   main{
-    padding:80px 0 40px;
+    padding-top: calc(50vh - 150px);
+    padding-bottom: 40px;
     min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
   }
   
   h1{
@@ -720,7 +725,13 @@ footer{
   }
   
   main{
-    padding:70px 0 30px;
+    padding-top: calc(50vh - 120px);
+    padding-bottom: 30px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
   }
   
   .pillInput{
