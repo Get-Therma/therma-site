@@ -152,9 +152,28 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     // Add mouse move listener
     document.addEventListener('mousemove', handleMouseMove);
 
+    // Scroll to top button functionality
+    const scrollToTopBtn = document.getElementById('scrollToTop') as HTMLElement;
+    if (scrollToTopBtn) {
+      function toggleScrollToTop() {
+        if (window.scrollY > 300) {
+          scrollToTopBtn.classList.add('visible');
+        } else {
+          scrollToTopBtn.classList.remove('visible');
+        }
+      }
+
+      // Show/hide button based on scroll position
+      window.addEventListener('scroll', toggleScrollToTop);
+      
+      // Initial check
+      toggleScrollToTop();
+    }
+
     // Cleanup function
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', toggleScrollToTop);
       if (animationId) {
         cancelAnimationFrame(animationId);
       }

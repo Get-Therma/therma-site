@@ -239,6 +239,16 @@ export default function Home() {
           <p className="caption">2025. All rights reserved</p>
         </div>
       </footer>
+
+      {/* Scroll to top button */}
+      <button 
+        className="scroll-to-top" 
+        id="scrollToTop"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Scroll to top"
+      >
+        <span className="scroll-to-top-icon">↑</span>
+      </button>
     </>
   )
 }
