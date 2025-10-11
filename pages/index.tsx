@@ -221,6 +221,17 @@ export default function Home() {
           <h2 className="footerBrand">Therma</h2>
           <p className="caption">Therma helps you make space for yourself</p>
           <div className="sp-16"></div>
+          <div className="social-links">
+            <a href="https://www.instagram.com/gettherma/" target="_blank" rel="noopener noreferrer" className="social-link">
+              <span className="social-icon">📷</span>
+              Follow on Instagram
+            </a>
+            <a href="https://x.com/gettherma" target="_blank" rel="noopener noreferrer" className="social-link">
+              <span className="social-icon">🐦</span>
+              Join us on X
+            </a>
+          </div>
+          <div className="sp-16"></div>
                   <p className="footerLinks caption">
                     <a href="/contact.html">Contact Us</a> · <a href="/faq.html">FAQ</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms of Use</a>
                   </p>
