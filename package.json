@@ -1,0 +1,13 @@
+{
+  "name": "therma-static",
+  "version": "1.0.0",
+  "description": "Therma landing page - static HTML",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'",
+    "start": "echo 'Static site - no start needed'"
+  },
+  "keywords": ["therma", "static", "html"],
+  "author": "Therma",
+  "license": "MIT"
+}
