@@ -1434,36 +1434,57 @@
             statusMessage.className = 'status-message';
 
             try {
-                // For demo purposes, we'll simulate a successful submission
-                // In a real implementation, you would replace this with your actual endpoint
-                const endpoint = 'YOUR_WAITLIST_ENDPOINT_HERE'; // Replace with actual endpoint
+                // Check if Beehiiv API key is available
+                const beehiivApiKey = '2xCjNtXC3YjHgFVWn7aqhjmK4Y6w5baoNOKaYIB7py6TK2N69BUI2JjBK94lziy8';
                 
-                if (endpoint === 'YOUR_WAITLIST_ENDPOINT_HERE') {
-                    // Simulate API call for demo
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    
-                    // Show thank you page
-                    showThankYouPage();
-                } else {
-                    // Real API call
-                    const response = await fetch(endpoint, {
+                if (beehiivApiKey && beehiivApiKey !== 'YOUR_BEEHIIV_API_KEY') {
+                    // Submit to Beehiiv API
+                    const beehiivResponse = await fetch('https://api.beehiiv.com/v2/publications/pub_0365e6c3-9f7c-4e2c-b315-bb3cd68b205e/subscriptions', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${beehiivApiKey}`
+                        },
                         body: JSON.stringify({
-                            email,
-                            attribution: loadAttrib(),
-                            referer: document.referrer,
-                            ts: Date.now()
+                            email: email,
+                            utm_source: new URL(window.location.href).searchParams.get('utm_source') || document.referrer,
+                            utm_medium: new URL(window.location.href).searchParams.get('utm_medium') || 'website',
+                            utm_campaign: new URL(window.location.href).searchParams.get('utm_campaign') || 'waitlist',
+                            reactivate_existing: false,
+                            send_welcome_email: true
                         })
                     });
 
-                    if (!response.ok) {
-                        throw new Error('Bad response');
+                    if (!beehiivResponse.ok) {
+                        throw new Error(`Beehiiv API error: ${beehiivResponse.status}`);
                     }
 
-                    // Show thank you page
-                    showThankYouPage();
+                    const result = await beehiivResponse.json();
+                    console.log('Beehiiv subscription created:', result);
+                } else {
+                    // Fallback: Log the submission for now
+                    console.log('Beehiiv API key not configured. Email logged locally:', email);
                 }
+
+                // Store email in localStorage for the thank you page
+                localStorage.setItem('therma_submitted_email', email);
+                
+                // Add email to submitted emails list to prevent duplicates
+                const submittedEmails = JSON.parse(localStorage.getItem('therma_submitted_emails') || '[]');
+                submittedEmails.push(email.toLowerCase());
+                localStorage.setItem('therma_submitted_emails', JSON.stringify(submittedEmails));
+                
+                // Show success message
+                statusMessage.textContent = 'Thank you! You\'ve been added to the waitlist.';
+                statusMessage.className = 'status-message success';
+                
+                // Clear the form
+                emailInput.value = '';
+                
+                // Optional: Redirect to thank you page after a delay
+                // setTimeout(() => {
+                //     window.location.href = '/thank-you.html';
+                // }, 2000);
             } catch (err) {
                 statusMessage.textContent = 'Something went wrong. Please try again.';
                 statusMessage.className = 'status-message error';
