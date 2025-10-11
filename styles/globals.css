@@ -120,7 +120,7 @@ main{
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  padding-top: calc(50vh - 200px);
+  padding-top: calc(50vh - 100px);
   padding-bottom: 48px;
 }
 
@@ -477,7 +477,7 @@ footer{
   
   
   main{
-    padding-top: calc(50vh - 150px);
+    padding-top: calc(50vh - 50px);
     padding-bottom: 40px;
     min-height:100vh;
     display:flex;
@@ -725,7 +725,7 @@ footer{
   }
   
   main{
-    padding-top: calc(50vh - 120px);
+    padding-top: calc(50vh - 20px);
     padding-bottom: 30px;
     min-height:100vh;
     display:flex;
