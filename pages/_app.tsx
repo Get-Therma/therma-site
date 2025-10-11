@@ -66,15 +66,43 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             // Get UTM parameters from URL
             const url = new URL(window.location.href);
             
-            // For now, just simulate a successful submission
-            // In production, you would submit to your actual API endpoint
-            console.log('Form submitted with email:', email);
-            console.log('UTM parameters:', {
-              utm_campaign: url.searchParams.get('utm_campaign'),
-              utm_medium: url.searchParams.get('utm_medium'),
-              utm_source: url.searchParams.get('utm_source'),
-              referrer: document.referrer
-            });
+            // Check if Beehiiv API key is available
+            const beehiivApiKey = process.env.NEXT_PUBLIC_BEEHIIV_API_KEY;
+            
+            if (beehiivApiKey && beehiivApiKey !== 'YOUR_BEEHIIV_API_KEY') {
+              // Submit to Beehiiv API
+              const beehiivResponse = await fetch('https://api.beehiiv.com/v2/publications/pub_0365e6c3-9f7c-4e2c-b315-bb3cd68b205e/subscriptions', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${beehiivApiKey}`
+                },
+                body: JSON.stringify({
+                  email: email,
+                  utm_source: url.searchParams.get('utm_source') || document.referrer,
+                  utm_medium: url.searchParams.get('utm_medium') || 'website',
+                  utm_campaign: url.searchParams.get('utm_campaign') || 'waitlist',
+                  reactivate_existing: false,
+                  send_welcome_email: true
+                })
+              });
+
+              if (!beehiivResponse.ok) {
+                throw new Error(`Beehiiv API error: ${beehiivResponse.status}`);
+              }
+
+              const result = await beehiivResponse.json();
+              console.log('Beehiiv subscription created:', result);
+            } else {
+              // Fallback: Log the submission for now
+              console.log('Beehiiv API key not configured. Email logged locally:', email);
+              console.log('UTM parameters:', {
+                utm_campaign: url.searchParams.get('utm_campaign'),
+                utm_medium: url.searchParams.get('utm_medium'),
+                utm_source: url.searchParams.get('utm_source'),
+                referrer: document.referrer
+              });
+            }
 
             // Store email in localStorage for the thank you page
             localStorage.setItem('therma_submitted_email', email);

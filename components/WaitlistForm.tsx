@@ -38,31 +38,40 @@ export default function WaitlistForm() {
       return;
     }
     
-    const endpoint = process.env.NEXT_PUBLIC_WAITLIST_ENDPOINT
-    if (!endpoint) {
-      // If no endpoint is configured, just show success message
-      setMsg('Thank you! You\'ve been added to the waitlist.')
-      setShowThankYou(true)
-      
-      // Add email to submitted emails list to prevent duplicates
-      const submittedEmails = JSON.parse(localStorage.getItem('therma_submitted_emails') || '[]');
-      submittedEmails.push(email.toLowerCase());
-      localStorage.setItem('therma_submitted_emails', JSON.stringify(submittedEmails));
-      return
-    }
     setMsg('Submitting…')
     try {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          attribution: loadAttrib(),
-          referer: typeof document !== 'undefined' ? document.referrer : null,
-          ts: Date.now()
-        })
-      })
-      if (!res.ok) throw new Error('Bad response')
+      // Check if Beehiiv API key is available
+      const beehiivApiKey = process.env.NEXT_PUBLIC_BEEHIIV_API_KEY;
+      
+      if (beehiivApiKey && beehiivApiKey !== 'YOUR_BEEHIIV_API_KEY') {
+        // Submit to Beehiiv API
+        const beehiivResponse = await fetch('https://api.beehiiv.com/v2/publications/pub_0365e6c3-9f7c-4e2c-b315-bb3cd68b205e/subscriptions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${beehiivApiKey}`
+          },
+          body: JSON.stringify({
+            email: email,
+            utm_source: loadAttrib().utm_source || (typeof document !== 'undefined' ? document.referrer : null),
+            utm_medium: loadAttrib().utm_medium || 'website',
+            utm_campaign: loadAttrib().utm_campaign || 'waitlist',
+            reactivate_existing: false,
+            send_welcome_email: true
+          })
+        });
+
+        if (!beehiivResponse.ok) {
+          throw new Error(`Beehiiv API error: ${beehiivResponse.status}`);
+        }
+
+        const result = await beehiivResponse.json();
+        console.log('Beehiiv subscription created:', result);
+      } else {
+        // Fallback: Log the submission for now
+        console.log('Beehiiv API key not configured. Email logged locally:', email);
+        console.log('Attribution data:', loadAttrib());
+      }
       
       // Add email to submitted emails list to prevent duplicates
       const submittedEmails = JSON.parse(localStorage.getItem('therma_submitted_emails') || '[]');
@@ -74,6 +83,7 @@ export default function WaitlistForm() {
         setShowThankYou(true)
       }, 1000)
     } catch (err) {
+      console.error('Form submission error:', err);
       setMsg('Something went wrong. Please try again.')
     }
   }
