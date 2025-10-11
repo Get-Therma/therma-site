@@ -48,6 +48,14 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           
           if (!email) return;
 
+          // Check if email has already been submitted
+          const submittedEmails = JSON.parse(localStorage.getItem('therma_submitted_emails') || '[]');
+          if (submittedEmails.includes(email.toLowerCase())) {
+            statusMessage.textContent = 'This email is already on our waitlist!';
+            statusMessage.className = 'status-message error';
+            return;
+          }
+
           // Update UI
           submitBtn.disabled = true;
           submitBtn.textContent = 'Submitting…';
@@ -70,6 +78,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
             // Store email in localStorage for the thank you page
             localStorage.setItem('therma_submitted_email', email);
+            
+            // Add email to submitted emails list to prevent duplicates
+            const submittedEmails = JSON.parse(localStorage.getItem('therma_submitted_emails') || '[]');
+            submittedEmails.push(email.toLowerCase());
+            localStorage.setItem('therma_submitted_emails', JSON.stringify(submittedEmails));
             
             // Show success message
             statusMessage.textContent = 'Thank you! You\'ve been added to the waitlist.';

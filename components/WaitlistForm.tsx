@@ -30,11 +30,24 @@ export default function WaitlistForm() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
+    
+    // Check if email has already been submitted
+    const submittedEmails = JSON.parse(localStorage.getItem('therma_submitted_emails') || '[]');
+    if (submittedEmails.includes(email.toLowerCase())) {
+      setMsg('This email is already on our waitlist!');
+      return;
+    }
+    
     const endpoint = process.env.NEXT_PUBLIC_WAITLIST_ENDPOINT
     if (!endpoint) {
       // If no endpoint is configured, just show success message
       setMsg('Thank you! You\'ve been added to the waitlist.')
       setShowThankYou(true)
+      
+      // Add email to submitted emails list to prevent duplicates
+      const submittedEmails = JSON.parse(localStorage.getItem('therma_submitted_emails') || '[]');
+      submittedEmails.push(email.toLowerCase());
+      localStorage.setItem('therma_submitted_emails', JSON.stringify(submittedEmails));
       return
     }
     setMsg('Submitting…')
@@ -50,6 +63,11 @@ export default function WaitlistForm() {
         })
       })
       if (!res.ok) throw new Error('Bad response')
+      
+      // Add email to submitted emails list to prevent duplicates
+      const submittedEmails = JSON.parse(localStorage.getItem('therma_submitted_emails') || '[]');
+      submittedEmails.push(email.toLowerCase());
+      localStorage.setItem('therma_submitted_emails', JSON.stringify(submittedEmails));
       
       // Show thank you page
       setTimeout(() => {
