@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "functions": {},
   "builds": [
     {
       "src": "index.html",
@@ -11,5 +12,8 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "env": {
+    "NEXT_PUBLIC_BEEHIIV_API_KEY": "2xCjNtXC3YjHgFVWn7aqhjmK4Y6w5baoNOKaYIB7py6TK2N69BUI2JjBK94lziy8"
+  }
 }
