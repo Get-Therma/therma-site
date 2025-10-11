@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Contact Us · Therma</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        @font-face{
+            font-family:"Pangaia";
+            src:url("/fonts/PPPangaia-Medium-BF654c530cc86d5.woff") format("woff");
+            font-weight:400;font-style:normal;font-display:swap;
+        }
+        @font-face{
+            font-family:"Pangaia";
+            src:url("/fonts/PPPangaia-MediumItalic-BF654c530bedffb.woff") format("woff");
+            font-weight:400;font-style:italic;font-display:swap;
+        }
+        
+        :root{
+            --container: min(960px,92vw);
+            --h1:64px; --h2:32px; --h3:24px; --h4:21px; --h5:18px; --h6:16px;
+        }
+        
+        *{box-sizing:border-box}
+        html,body{padding:0;margin:0}
+        body{font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; color:#FFFFFF; background:#000000}
+        h1,h2,h3,h4,h5,h6{margin:0;font-family:Pangaia,serif;font-weight:400;line-height:1.15;color:#FFFFFF}
+        h1{font-size:var(--h1)} h2{font-size:var(--h2)} h3{font-size:var(--h3)}
+        .muted{color:rgba(255,255,255,0.7)}
+        .container{width:var(--container);margin:0 auto;padding:0 16px}
+        .center{text-align:center}
+        .stack{display:grid;gap:18px}
+        .sp-8{height:8px}.sp-16{height:16px}.sp-24{height:24px}
+        
+        .heroBg{
+            position:fixed;inset:0;z-index:-1;
+            background:
+                radial-gradient(60% 80% at 20% 20%, rgba(255,89,48,.3), transparent 50%),
+                radial-gradient(50% 70% at 80% 30%, rgba(252,178,0,.25), transparent 50%),
+                radial-gradient(60% 90% at 30% 70%, rgba(131,6,152,.2), transparent 60%),
+                radial-gradient(50% 80% at 70% 80%, rgba(124,162,253,.25), transparent 60%),
+                radial-gradient(40% 60% at 50% 50%, rgba(172,223,127,.15), transparent 70%),
+                linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            filter:saturate(0.8) brightness(1.05);
+            animation: breathe 6s ease-in-out infinite;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        .heroBg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(70% 90% at 15% 15%, rgba(255,89,48,.1), transparent 60%),
+                radial-gradient(60% 80% at 85% 25%, rgba(252,178,0,.08), transparent 60%),
+                radial-gradient(80% 100% at 25% 75%, rgba(131,6,152,.06), transparent 70%),
+                radial-gradient(60% 90% at 75% 85%, rgba(124,162,253,.08), transparent 70%),
+                radial-gradient(50% 70% at 50% 50%, rgba(172,223,127,.04), transparent 80%);
+            animation: breatheOverlay 8s ease-in-out infinite reverse;
+            opacity: 0.4;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        
+        @keyframes breathe {
+            0%, 100% {
+                filter: saturate(0.8) brightness(1.05);
+                transform: scale(1);
+            }
+            25% {
+                filter: saturate(1.0) brightness(1.1);
+                transform: scale(1.02);
+            }
+            50% {
+                filter: saturate(1.1) brightness(1.15);
+                transform: scale(1.05);
+            }
+            75% {
+                filter: saturate(0.9) brightness(1.08);
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes breatheOverlay {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                opacity: 0.6;
+                transform: scale(1.1) rotate(1deg);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.2) rotate(0deg);
+            }
+            75% {
+                opacity: 0.5;
+                transform: scale(1.1) rotate(-1deg);
+            }
+        }
+        
+        header{position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:center;z-index:10}
+        .brand{font-family:Pangaia,serif;font-size:28px;letter-spacing:.4px;color:#FFFFFF;cursor:pointer;text-decoration:none}
+        .brand:hover{color:rgba(255,255,255,0.8)}
+        
+        main{min-height:100svh;display:grid;place-items:center;padding:96px 0 48px}
+        
+        .contact-options{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:32px;
+            max-width:800px;
+            width:100%;
+            margin:0 auto;
+            justify-items:center;
+        }
+        
+        .contact-card{
+            background:rgba(255,255,255,0.1);
+            backdrop-filter:blur(20px);
+            border:1px solid rgba(255,255,255,0.2);
+            border-radius:20px;
+            padding:32px;
+            text-align:center;
+            cursor:pointer;
+            transition:all 0.3s ease;
+            box-shadow:0 8px 32px rgba(0,0,0,0.3);
+        }
+        
+        .contact-card:hover{
+            transform:translateY(-4px);
+            box-shadow:0 16px 48px rgba(0,0,0,0.4);
+            border-color:rgba(255,255,255,0.3);
+            background:rgba(255,255,255,0.15);
+        }
+        
+        .contact-card h3{
+            font-size:24px;
+            margin-bottom:12px;
+            color:#FFFFFF;
+        }
+        
+        .contact-card p{
+            color:rgba(255,255,255,0.7);
+            font-size:16px;
+            line-height:1.5;
+            margin-bottom:20px;
+        }
+        
+        .contact-card .btn{
+            background:rgba(255,255,255,0.9);
+            color:#000000;
+            border:none;
+            padding:12px 24px;
+            border-radius:999px;
+            font-weight:600;
+            cursor:pointer;
+            transition:all 0.3s ease;
+            font-size:16px;
+        }
+        
+        .contact-card .btn:hover{
+            background:rgba(255,255,255,1);
+            transform:translateY(-2px);
+            box-shadow:0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .back-link{
+            position:absolute;
+            top:96px;
+            left:32px;
+            color:rgba(255,255,255,0.7);
+            text-decoration:none;
+            font-size:14px;
+            transition:color 0.3s ease;
+        }
+        
+        .back-link:hover{
+            color:#FFFFFF;
+        }
+        
+        .back-link::before{
+            content:"← ";
+            margin-right:4px;
+        }
+        
+        footer{
+            margin-top:64px;color:rgba(255,255,255,0.7);
+            background:
+                radial-gradient(60% 80% at 70% 10%, rgba(131,6,152,.1), transparent 60%),
+                radial-gradient(60% 90% at 20% 30%, rgba(255,89,48,.08), transparent 70%),
+                linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+            border-top:1px solid rgba(255,255,255,.1)
+        }
+        .footerWrap{width:var(--container);margin:0 auto;padding:56px 16px 32px;text-align:center}
+        .footerBrand{font-family:Pangaia,serif;font-size:22px;color:#FFFFFF;margin-bottom:8px}
+        .caption{font-size:13px;color:rgba(255,255,255,0.7)}
+        .footerLinks a{color:rgba(255,255,255,0.7);text-decoration:none;margin:0 8px}
+        .footerLinks a:hover{text-decoration:underline;color:#FFFFFF}
+        
+        /* Mobile Styles */
+        @media (max-width:768px){
+            :root{
+                --h1:48px;
+                --h2:28px;
+                --container: 95vw;
+            }
+            
+            header{
+                height:60px;
+                padding:0 20px;
+            }
+            
+            .brand{
+                font-size:24px;
+            }
+            
+            main{
+                padding:80px 0 40px;
+                min-height:100vh;
+            }
+            
+            .contact-options{
+                grid-template-columns:1fr;
+                gap:24px;
+                padding:0 20px;
+                max-width:400px;
+            }
+            
+            .contact-card{
+                padding:24px;
+            }
+            
+            .back-link{
+                top:80px;
+                left:20px;
+            }
+            
+            footer{
+                margin-top:40px;
+            }
+            
+            .footerWrap{
+                padding:40px 20px 24px;
+            }
+            
+            .footerBrand{
+                font-size:20px;
+            }
+            
+            .caption{
+                font-size:12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heroBg" aria-hidden="true"></div>
+
+    <header>
+        <a href="therma-landing.html" class="brand">Therma</a>
+    </header>
+
+    <main>
+        <a href="therma-landing.html" class="back-link">Back to Home</a>
+        
+        <section class="container center">
+            <div class="stack">
+                <h1>We're here to listen</h1>
+                <div class="sp-8"></div>
+                <h2 class="muted">Let's connect in a way that feels right for you</h2>
+                <div class="sp-24"></div>
+                
+                <div class="contact-options">
+                    <div class="contact-card" onclick="openContactForm('general')">
+                        <h3>General Contact</h3>
+                        <p>Have questions about Therma? We're here to support you and listen to your thoughts. Share your experience or ask anything that's on your mind.</p>
+                        <button class="btn">Contact Us</button>
+                    </div>
+                    
+                    <div class="contact-card" onclick="openContactForm('collaboration')">
+                        <h3>Collaborations & Business</h3>
+                        <p>Interested in partnerships or collaborations? We'd love to explore meaningful connections and see how we can support each other's growth.</p>
+                        <button class="btn">Start Partnership</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footerWrap">
+            <div class="footerBrand">Therma</div>
+            <p class="caption">Therma helps you make space for yourself</p>
+            <div class="sp-16"></div>
+            <p class="footerLinks caption">
+                <a href="therma-landing.html">Home</a> · <a href="#">Privacy</a> · <a href="#">Terms of Use</a>
+            </p>
+            <div class="sp-16"></div>
+            <p class="caption">2025. All rights reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        function openContactForm(type) {
+            if (type === 'general') {
+                window.location.href = 'contact-general.html';
+            } else if (type === 'collaboration') {
+                window.location.href = 'contact-collaboration.html';
+            }
+        }
+    </script>
+</body>
+</html>
