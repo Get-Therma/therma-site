@@ -118,9 +118,15 @@ main{
   min-height:100vh;
   display:flex;
   flex-direction:column;
-  justify-content:center;
   align-items:center;
-  padding:120px 0 48px;
+  padding-top: 200px;
+  padding-bottom: 48px;
+}
+
+/* Hero section specific spacing */
+#hero {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .pillInput{
