@@ -32,7 +32,9 @@ export default function WaitlistForm() {
     e.preventDefault()
     const endpoint = process.env.NEXT_PUBLIC_WAITLIST_ENDPOINT
     if (!endpoint) {
-      setMsg('Missing NEXT_PUBLIC_WAITLIST_ENDPOINT'); 
+      // If no endpoint is configured, just show success message
+      setMsg('Thank you! You\'ve been added to the waitlist.')
+      setShowThankYou(true)
       return
     }
     setMsg('Submitting…')

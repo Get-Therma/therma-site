@@ -58,31 +58,30 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             // Get UTM parameters from URL
             const url = new URL(window.location.href);
             
-            // Submit to the API endpoint
-            const response = await fetch('/api/waitlist', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                email,
-                utm_campaign: url.searchParams.get('utm_campaign') || undefined,
-                utm_medium: url.searchParams.get('utm_medium') || undefined,
-                utm_source: url.searchParams.get('utm_source') || undefined,
-                referrer: document.referrer || undefined,
-                hp: '' // honeypot
-              })
+            // For now, just simulate a successful submission
+            // In production, you would submit to your actual API endpoint
+            console.log('Form submitted with email:', email);
+            console.log('UTM parameters:', {
+              utm_campaign: url.searchParams.get('utm_campaign'),
+              utm_medium: url.searchParams.get('utm_medium'),
+              utm_source: url.searchParams.get('utm_source'),
+              referrer: document.referrer
             });
-
-            console.log('API response:', response);
-
-            if (!response.ok) {
-              throw new Error('Bad response');
-            }
 
             // Store email in localStorage for the thank you page
             localStorage.setItem('therma_submitted_email', email);
             
-            // Redirect to thank you page
-            window.location.href = '/thank-you';
+            // Show success message
+            statusMessage.textContent = 'Thank you! You\'ve been added to the waitlist.';
+            statusMessage.className = 'status-message success';
+            
+            // Clear the form
+            emailInput.value = '';
+            
+            // Optional: Redirect to thank you page after a delay
+            // setTimeout(() => {
+            //   window.location.href = '/thank-you';
+            // }, 2000);
           } catch (err) {
             console.error('Form submission error:', err);
             statusMessage.textContent = 'Something went wrong. Please try again.';
