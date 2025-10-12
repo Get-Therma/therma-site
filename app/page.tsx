@@ -255,12 +255,12 @@ export default function HomePage() {
 
       <div className="h-20"></div>
 
-      <main className="mx-auto max-w-screen-xl w-full px-4 safe-px safe-pt safe-pb min-h-screen">
+      <main className="mx-auto max-w-screen-xl w-full px-4 safe-px safe-pt safe-pb min-h-[100svh] md:min-h-[100dvh]">
         <section id="hero" className="container mx-auto px-4 py-20 text-center">
           <div className="space-y-6">
-            <h1 className="font-semibold leading-tight text-4xl text-white">Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
+            <h1 className="font-semibold leading-tight [font-size:clamp(28px,7vw,56px)] text-white">Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
             <div className="h-4"></div>
-            <h2 className="text-xl text-white/80 leading-relaxed">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
+            <h2 className="[font-size:clamp(22px,5.5vw,36px)] text-white/80 leading-relaxed">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
             <div className="h-8"></div>
             
             <form className="space-y-3 max-w-md mx-auto" onSubmit={handleSubmit}>
@@ -302,11 +302,11 @@ export default function HomePage() {
         {/* Why Therma Section */}
         <section id="why" className="container mx-auto px-4 py-20 text-center">
           <div className="space-y-6">
-            <h2 className="font-semibold leading-tight text-3xl text-white">Why Therma?</h2>
-            <p className="text-lg text-white/80 leading-relaxed max-w-2xl mx-auto">Your space to slow down, check in, and feel supported</p>
+            <h2 className="font-semibold leading-tight [font-size:clamp(28px,7vw,56px)] text-white">Why Therma?</h2>
+            <p className="[font-size:clamp(18px,4vw,24px)] text-white/80 leading-relaxed max-w-2xl mx-auto">Your space to slow down, check in, and feel supported</p>
             
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+            <div className="mt-10 grid grid-cols-1 gap-4 ios-max-15:grid-cols-2 ipad:grid-cols-3 max-w-6xl mx-auto">
+              <div className="rounded-2xl p-5 ios-13:p-6 ipad:p-8 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
                 <div className="text-4xl mb-4">
                   <span role="img" aria-label="A person in a calm seated pose">🧘</span>
                 </div>
@@ -317,7 +317,7 @@ export default function HomePage() {
                 </div>
               </div>
               
-              <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+              <div className="rounded-2xl p-5 ios-13:p-6 ipad:p-8 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
                 <div className="text-4xl mb-4">
                   <span role="img" aria-label="A friendly robot face">🤖</span>
                 </div>
@@ -328,7 +328,7 @@ export default function HomePage() {
                 </div>
               </div>
               
-              <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+              <div className="rounded-2xl p-5 ios-13:p-6 ipad:p-8 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
                 <div className="text-4xl mb-4">
                   <span role="img" aria-label="A small, soft cloud">☁️</span>
                 </div>
