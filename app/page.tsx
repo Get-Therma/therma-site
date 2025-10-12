@@ -9,9 +9,24 @@ export default function HomePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [time, setTime] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
 
-  // Mouse tracking and time-based animations (desktop-optimized)
+  // Mobile detection and event listeners
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsMobile(window.innerWidth <= 768);
+      
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+      
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+
+  // Mouse tracking and time-based animations (optimized for mobile)
   useEffect(() => {
     let animationFrame: number;
     
@@ -97,30 +112,30 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Ultra-Interactive Background Bubbles - Desktop Optimized */}
+      {/* Ultra-Interactive Background Bubbles - Mobile Optimized */}
       <div 
         className="parallax-bg parallax-layer-1" 
         style={{
           transform: `
-            translate(${mousePosition.x * 0.15 + Math.sin(time * 0.3) * 12}px, ${mousePosition.y * 0.12 + Math.cos(time * 0.2) * 10}px) 
-            scale(${1 + (mousePosition.x - 50) * 0.002 + Math.sin(time * 0.4) * 0.05})
-            rotate(${Math.sin(time * 0.2) * 3 + (mousePosition.x - 50) * 0.2}deg)
+            translate(${mousePosition.x * (isMobile ? 0.08 : 0.15) + Math.sin(time * 0.3) * (isMobile ? 8 : 12)}px, ${mousePosition.y * (isMobile ? 0.06 : 0.12) + Math.cos(time * 0.2) * (isMobile ? 6 : 10)}px) 
+            scale(${1 + (mousePosition.x - 50) * (isMobile ? 0.001 : 0.002) + Math.sin(time * 0.4) * (isMobile ? 0.03 : 0.05)})
+            rotate(${Math.sin(time * 0.2) * (isMobile ? 2 : 3) + (mousePosition.x - 50) * (isMobile ? 0.1 : 0.2)}deg)
           `,
           background: `
-            radial-gradient(${70 + Math.sin(time * 0.4) * 25 + mousePosition.x * 0.2}% ${90 + Math.cos(time * 0.3) * 20 + mousePosition.y * 0.15}% at 
-            ${10 + mousePosition.x * 0.25 + Math.sin(time * 0.3) * 12}% 
-            ${10 + mousePosition.y * 0.2 + Math.cos(time * 0.2) * 10}%, 
+            radial-gradient(${70 + Math.sin(time * 0.4) * (isMobile ? 20 : 25) + mousePosition.x * (isMobile ? 0.15 : 0.2)}% ${90 + Math.cos(time * 0.3) * (isMobile ? 15 : 20) + mousePosition.y * (isMobile ? 0.12 : 0.15)}% at 
+            ${10 + mousePosition.x * (isMobile ? 0.2 : 0.25) + Math.sin(time * 0.3) * (isMobile ? 8 : 12)}% 
+            ${10 + mousePosition.y * (isMobile ? 0.15 : 0.2) + Math.cos(time * 0.2) * (isMobile ? 6 : 10)}%, 
             rgba(255, 89, 48, ${0.25 + Math.sin(time * 0.3) * 0.08 + mousePosition.x * 0.001}), transparent 60%),
-            radial-gradient(${55 + Math.cos(time * 0.5) * 20 + mousePosition.x * 0.15}% ${75 + Math.sin(time * 0.4) * 15 + mousePosition.y * 0.12}% at 
-            ${75 + mousePosition.x * 0.18}% 
-            ${25 + mousePosition.y * 0.15}%, 
+            radial-gradient(${55 + Math.cos(time * 0.5) * (isMobile ? 15 : 20) + mousePosition.x * (isMobile ? 0.12 : 0.15)}% ${75 + Math.sin(time * 0.4) * (isMobile ? 12 : 15) + mousePosition.y * (isMobile ? 0.1 : 0.12)}% at 
+            ${75 + mousePosition.x * (isMobile ? 0.15 : 0.18)}% 
+            ${25 + mousePosition.y * (isMobile ? 0.12 : 0.15)}%, 
             rgba(255, 89, 48, ${0.15 + Math.cos(time * 0.4) * 0.05 + mousePosition.y * 0.0008}), transparent 70%),
-            radial-gradient(${40 + Math.sin(time * 0.6) * 15 + mousePosition.x * 0.1}% ${60 + Math.cos(time * 0.5) * 12 + mousePosition.y * 0.08}% at 
-            ${50 + mousePosition.x * 0.12}% 
-            ${60 + mousePosition.y * 0.1}%, 
+            radial-gradient(${40 + Math.sin(time * 0.6) * (isMobile ? 12 : 15) + mousePosition.x * (isMobile ? 0.08 : 0.1)}% ${60 + Math.cos(time * 0.5) * (isMobile ? 10 : 12) + mousePosition.y * (isMobile ? 0.06 : 0.08)}% at 
+            ${50 + mousePosition.x * (isMobile ? 0.1 : 0.12)}% 
+            ${60 + mousePosition.y * (isMobile ? 0.08 : 0.1)}%, 
             rgba(255, 89, 48, ${0.08 + Math.sin(time * 0.5) * 0.03 + (mousePosition.x + mousePosition.y) * 0.0003}), transparent 80%)
           `,
-          filter: `saturate(${1.3 + Math.sin(time * 0.2) * 0.2 + mousePosition.x * 0.002}) hue-rotate(${(mousePosition.x - 50) * 0.8}deg) brightness(${1.1 + mousePosition.y * 0.0005})`
+          filter: `saturate(${1.3 + Math.sin(time * 0.2) * 0.2 + mousePosition.x * 0.002}) hue-rotate(${(mousePosition.x - 50) * (isMobile ? 0.4 : 0.8)}deg) brightness(${1.1 + mousePosition.y * 0.0005})`
         }}
       ></div>
       
@@ -202,7 +217,7 @@ export default function HomePage() {
         }}
       ></div>
 
-      {/* Main Background - Ultra-Interactive with Mouse (Desktop) */}
+      {/* Main Background - Ultra-Interactive with Mouse */}
       <div 
         className="heroBg" 
         aria-hidden="true"
@@ -235,46 +250,43 @@ export default function HomePage() {
         }}
       ></div>
 
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/10 safe-pt">
-        <div className="max-w-screen-xl mx-auto px-4 py-4">
-          <div className="text-2xl font-semibold text-white">Therma</div>
-        </div>
+      <header>
+        <div className="brand">Therma</div>
       </header>
 
-      <div className="h-20"></div>
+      <div className="header-spacer"></div>
 
-      <main className="mx-auto max-w-screen-xl w-full px-4 safe-px safe-pt safe-pb min-h-screen">
-        <section id="hero" className="container mx-auto px-4 py-20 text-center">
-          <div className="space-y-6">
-            <h1 className="font-semibold leading-tight text-4xl text-white">Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
-            <div className="h-4"></div>
-            <h2 className="text-xl text-white/80 leading-relaxed">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
-            <div className="h-8"></div>
+      <main>
+        <section id="hero" className="container center">
+          <div className="stack">
+            <h1>Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
+            <div className="sp-8"></div>
+            <h2 className="muted">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
+            <div className="sp-16"></div>
             
-            <form className="space-y-3 max-w-md mx-auto" onSubmit={handleSubmit}>
-              <div className="relative">
+            <form className="stack" style={{ gap: '12px' }} onSubmit={handleSubmit}>
+              <div className="pillInput">
                 <input 
                   type="email" 
                   placeholder="Enter your email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required 
-                  className="w-full px-6 py-4 text-lg bg-white/10 backdrop-blur-xl border border-white/20 rounded-full text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
                 />
               </div>
-              <p className="text-white/60 text-sm">Join the first 1,000 beta invites</p>
-              <div className="h-4"></div>
+              <p className="social-proof">Join the first 1,000 beta invites</p>
+              <div className="sp-8"></div>
               <div>
                 <button 
+                  className="btn" 
                   type="submit" 
-                  className="w-full px-8 py-4 text-lg font-medium text-black bg-white hover:bg-white/90 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Submitting…' : 'Join Waitlist'}
                 </button>
               </div>
               <div 
-                className={`text-center text-sm ${status === 'success' ? 'text-green-400' : status === 'error' ? 'text-red-400' : 'text-transparent'}`}
+                className={`status-message ${status === 'success' ? 'success' : status === 'error' ? 'error' : ''}`}
                 role="status"
               >
                 {status === 'success' && 'Thank you! You\'ve been added to the waitlist.'}
@@ -288,41 +300,41 @@ export default function HomePage() {
         <div className="breathing-divider" aria-hidden="true"></div>
         
         {/* Why Therma Section */}
-        <section id="why" className="container mx-auto px-4 py-20 text-center">
-          <div className="space-y-6">
-            <h2 className="font-semibold leading-tight text-3xl text-white">Why Therma?</h2>
-            <p className="text-lg text-white/80 leading-relaxed max-w-2xl mx-auto">Your space to slow down, check in, and feel supported</p>
+        <section id="why" className="container center">
+          <div className="stack">
+            <h2 className="why-section-title">Why Therma?</h2>
+            <p className="why-section-subtitle">Your space to slow down, check in, and feel supported</p>
             
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
-                <div className="text-4xl mb-4">
+            <div className="why-grid">
+              <div className="why-tile">
+                <div className="why-icon">
                   <span role="img" aria-label="A person in a calm seated pose">🧘</span>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Daily Reflections</h3>
-                <p className="text-white/80 mb-4">Gentle prompts that help you process your day—without judgment.</p>
-                <div className="text-sm text-white/60">
+                <h3>Daily Reflections</h3>
+                <p>Gentle prompts that help you process your day—without judgment.</p>
+                <div className="why-micro-story">
                   <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
                 </div>
               </div>
               
-              <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
-                <div className="text-4xl mb-4">
+              <div className="why-tile">
+                <div className="why-icon">
                   <span role="img" aria-label="A friendly robot face">🤖</span>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">AI Companion</h3>
-                <p className="text-white/80 mb-4">A kind companion that listens, asks thoughtful questions, and helps you notice patterns.</p>
-                <div className="text-sm text-white/60">
+                <h3>AI Companion</h3>
+                <p>A kind companion that listens, asks thoughtful questions, and helps you notice patterns.</p>
+                <div className="why-micro-story">
                   <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
                 </div>
               </div>
               
-              <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
-                <div className="text-4xl mb-4">
+              <div className="why-tile">
+                <div className="why-icon">
                   <span role="img" aria-label="A small, soft cloud">☁️</span>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Mindful Space</h3>
-                <p className="text-white/80 mb-4">A quiet place to slow down, breathe, and actually hear yourself.</p>
-                <div className="text-sm text-white/60">
+                <h3>Mindful Space</h3>
+                <p>A quiet place to slow down, breathe, and actually hear yourself.</p>
+                <div className="why-micro-story">
                   <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
                 </div>
               </div>
@@ -465,22 +477,19 @@ export default function HomePage() {
         </section>
       </main>
 
-      <footer className="mt-20 py-12 px-4 safe-px">
-        <div className="max-w-screen-xl mx-auto text-center space-y-6">
-          <div className="text-2xl font-semibold text-white">Therma</div>
-          <p className="text-white/60 text-sm">Therma helps you make space for yourself</p>
-          <div className="h-8"></div>
-          <p className="text-white/60 text-sm space-x-2">
-            <a href="/contact" className="hover:text-white transition-colors">Contact Us</a>
-            <span>·</span>
-            <a href="/faq" className="hover:text-white transition-colors">FAQ</a>
-            <span>·</span>
-            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
-            <span>·</span>
-            <a href="/terms" className="hover:text-white transition-colors">Terms of Use</a>
-          </p>
-          <div className="h-8"></div>
-          <p className="text-white/40 text-xs">© 2025 Get Therma Inc. All rights reserved</p>
+      <footer>
+        <div className="footerWrap">
+          <div className="footerBrand">Therma</div>
+          <p className="caption">Therma helps you make space for yourself</p>
+          <div className="sp-16"></div>
+            <p className="footerLinks caption">
+              <a href="/contact">Contact Us</a> · 
+              <a href="/faq">FAQ</a> · 
+              <a href="/privacy">Privacy</a> · 
+              <a href="/terms">Terms of Use</a>
+            </p>
+          <div className="sp-16"></div>
+          <p className="caption">© 2025 Get Therma Inc. All rights reserved</p>
         </div>
       </footer>
     </>

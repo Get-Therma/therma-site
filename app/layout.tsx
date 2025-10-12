@@ -6,12 +6,6 @@ export const metadata: Metadata = {
   description: 'Your space to slow down, check in, and feel supported. Daily reflections, gentle prompts, and an AI companion that listens.',
 }
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  viewportFit: 'cover',
-}
-
 export default function RootLayout({
   children,
 }: {
