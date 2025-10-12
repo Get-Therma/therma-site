@@ -7,10 +7,27 @@ export default function FAQPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [time, setTime] = useState(0);
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
 
-  // Mouse tracking and time-based animations
+  // Mobile detection and event listeners
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsMobile(window.innerWidth <= 768);
+      
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+      
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+
+  // Mouse tracking and time-based animations (optimized for mobile)
+  useEffect(() => {
+    let animationFrame: number;
+    
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: (e.clientX / window.innerWidth) * 100,
@@ -18,16 +35,34 @@ export default function FAQPage() {
       });
     };
 
-    const updateTime = () => {
-      setTime(Date.now() * 0.001);
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        setMousePosition({
+          x: (touch.clientX / window.innerWidth) * 100,
+          y: (touch.clientY / window.innerHeight) * 100
+        });
+      }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    const timeInterval = setInterval(updateTime, 16); // 60fps
+    const updateTime = () => {
+      setTime(Date.now() * 0.001);
+      animationFrame = requestAnimationFrame(updateTime);
+    };
+
+    // Only add event listeners on client side
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      window.addEventListener('touchmove', handleTouchMove, { passive: true });
+      animationFrame = requestAnimationFrame(updateTime);
+    }
     
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      clearInterval(timeInterval);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('touchmove', handleTouchMove);
+        cancelAnimationFrame(animationFrame);
+      }
     };
   }, []);
 
@@ -64,26 +99,26 @@ export default function FAQPage() {
 
   return (
     <>
-      {/* Dynamic Interactive Background Layers */}
+      {/* Ultra-Interactive Background Bubbles - Mobile Optimized */}
       <div 
         className="parallax-bg parallax-layer-1" 
         style={{
           transform: `
-            translate(${mousePosition.x * 0.05 + Math.sin(time * 0.5) * 10}px, ${mousePosition.y * 0.03 + Math.cos(time * 0.3) * 8}px) 
-            rotate(${Math.sin(time * 0.2) * 2}deg) 
-            scale(${1 + Math.sin(time * 0.4) * 0.05})
+            translate(${mousePosition.x * (isMobile ? 0.05 : 0.08) + Math.sin(time * 0.3) * (isMobile ? 6 : 10)}px, ${mousePosition.y * (isMobile ? 0.03 : 0.06) + Math.cos(time * 0.2) * (isMobile ? 5 : 8)}px) 
+            rotate(${Math.sin(time * 0.2) * (isMobile ? 1.5 : 2)}deg) 
+            scale(${1 + Math.sin(time * 0.4) * (isMobile ? 0.03 : 0.05)})
           `,
           background: `
-            radial-gradient(${40 + Math.sin(time * 0.6) * 20}% ${60 + Math.cos(time * 0.4) * 15}% at 
-            ${10 + mousePosition.x * 0.15 + Math.sin(time * 0.3) * 5}% 
-            ${10 + mousePosition.y * 0.12 + Math.cos(time * 0.5) * 5}%, 
+            radial-gradient(${40 + Math.sin(time * 0.6) * (isMobile ? 15 : 20)}% ${60 + Math.cos(time * 0.4) * (isMobile ? 12 : 15)}% at 
+            ${10 + mousePosition.x * (isMobile ? 0.12 : 0.15) + Math.sin(time * 0.3) * (isMobile ? 4 : 5)}% 
+            ${10 + mousePosition.y * (isMobile ? 0.1 : 0.12) + Math.cos(time * 0.5) * (isMobile ? 4 : 5)}%, 
             rgba(255, 89, 48, ${0.15 + Math.sin(time * 0.7) * 0.05}), transparent 60%),
-            radial-gradient(${30 + Math.cos(time * 0.8) * 15}% ${50 + Math.sin(time * 0.6) * 10}% at 
-            ${70 + mousePosition.x * 0.1}% 
-            ${30 + mousePosition.y * 0.08}%, 
+            radial-gradient(${30 + Math.cos(time * 0.8) * (isMobile ? 12 : 15)}% ${50 + Math.sin(time * 0.6) * (isMobile ? 8 : 10)}% at 
+            ${70 + mousePosition.x * (isMobile ? 0.08 : 0.1)}% 
+            ${30 + mousePosition.y * (isMobile ? 0.06 : 0.08)}%, 
             rgba(255, 89, 48, ${0.08 + Math.cos(time * 0.9) * 0.03}), transparent 70%)
           `,
-          filter: `hue-rotate(${Math.sin(time * 0.1) * 10}deg) saturate(${1.2 + Math.sin(time * 0.3) * 0.3})`
+          filter: `hue-rotate(${Math.sin(time * 0.1) * (isMobile ? 5 : 10)}deg) saturate(${1.2 + Math.sin(time * 0.3) * (isMobile ? 0.2 : 0.3)})`
         }}
       ></div>
       

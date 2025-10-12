@@ -700,6 +700,44 @@ footer {
   font-family: PPPangaia, serif;
 }
 
+/* FAQ Performance Optimizations */
+.faq-section {
+  /* Optimize for scroll performance */
+  will-change: auto;
+  transform: translateZ(0);
+}
+
+.faq-item {
+  /* Optimize for smooth animations */
+  will-change: transform, background-color, border-color;
+  transform: translateZ(0);
+}
+
+.faq-item:hover {
+  transform: translateY(-2px) translateZ(0);
+}
+
+.faq-question {
+  /* Optimize for touch interactions */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.faq-icon {
+  /* Optimize icon animations */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(45deg) translateZ(0);
+}
+
+.faq-answer {
+  /* Optimize for smooth expansion */
+  will-change: max-height, padding;
+}
+
 /* Mobile FAQ Styles */
 @media (max-width: 768px) {
   .faq-section {
