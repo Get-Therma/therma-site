@@ -34,9 +34,15 @@ html, body {
   font-family: PPPangaia, system-ui, -apple-system, Segoe UI, Roboto, Arial;
   color: #FFFFFF;
   background: #000000;
+  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+/* Fallback background in case gradients don't load */
+body {
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
 }
 
 h1, h2, h3, h4, h5, h6 {
