@@ -251,8 +251,7 @@ export default function HomePage() {
           <div className="stack">
             <h1>See your patterns. Keep what works. Steady your days.</h1>
             <div className="sp-8"></div>
-            <h2 className="muted">Therma turns your journaling, habits, and daily check‑ins into <b>pattern maps</b>—spotting
-            <b> bright spots</b> to keep and <b>frictions</b> to tweak—so small changes add up to steadier weeks.</h2>
+            <h2 className="muted">Therma is a private, AI‑guided journaling app that turns your check‑ins, habits, and notes into pattern maps—highlighting bright spots to keep and frictions to tweak—so small changes add up to steadier weeks.</h2>
             <div className="sp-16"></div>
             
             <form className="stack" style={{ gap: '12px' }} onSubmit={handleSubmit}>
