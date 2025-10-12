@@ -303,7 +303,7 @@ export default function HomePage() {
         <section id="why" className="container center">
           <div className="stack">
             <h2 className="why-section-title">Why Therma?</h2>
-            <p className="why-section-subtitle">Your space to slow down, check in, and feel supported</p>
+            <p className="why-section-subtitle">Your private journal—now with a gentle, research-informed guide.</p>
             
             <div className="why-grid">
               <div className="why-tile">
@@ -311,9 +311,9 @@ export default function HomePage() {
                   <span role="img" aria-label="A person in a calm seated pose">🧘</span>
                 </div>
                 <h3>Daily Reflections</h3>
-                <p>Gentle prompts that help you process your day—without judgment.</p>
+                <p>Evidence-based prompts that lower mental load and make reflection easy to start—and keep.</p>
                 <div className="why-micro-story">
-                  <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
+                  <span>→</span> Box breathing: inhale 4 • hold 4 • exhale 4 • hold 4 (×3).
                 </div>
               </div>
               
@@ -322,10 +322,7 @@ export default function HomePage() {
                   <span role="img" aria-label="A friendly robot face">🤖</span>
                 </div>
                 <h3>AI Companion</h3>
-                <p>A kind companion that listens, asks thoughtful questions, and helps you notice patterns.</p>
-                <div className="why-micro-story">
-                  <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
-                </div>
+                <p>A pattern-aware guide that listens, asks thoughtful questions, and reflects trends—private by design; your entries stay yours.</p>
               </div>
               
               <div className="why-tile">
@@ -333,10 +330,7 @@ export default function HomePage() {
                   <span role="img" aria-label="A small, soft cloud">☁️</span>
                 </div>
                 <h3>Mindful Space</h3>
-                <p>A quiet place to slow down, breathe, and actually hear yourself.</p>
-                <div className="why-micro-story">
-                  <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
-                </div>
+                <p>Guided breaths and focus timers to help calm your nervous system.</p>
               </div>
             </div>
           </div>
