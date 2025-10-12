@@ -5,7 +5,7 @@ import { waitlist } from '../../../lib/schema';
 export async function GET(request: NextRequest) {
   try {
     // Try to get all waitlist entries from database
-    let entries = [];
+    let entries: any[] = [];
     try {
       entries = await db.select().from(waitlist);
     } catch (dbError) {
