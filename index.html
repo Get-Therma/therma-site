@@ -1434,37 +1434,27 @@
             statusMessage.className = 'status-message';
 
             try {
-                // Check if Beehiiv API key is available
-                const beehiivApiKey = '2xCjNtXC3YjHgFVWn7aqhjmK4Y6w5baoNOKaYIB7py6TK2N69BUI2JjBK94lziy8';
-                
-                if (beehiivApiKey && beehiivApiKey !== 'YOUR_BEEHIIV_API_KEY') {
-                    // Submit to Beehiiv API
-                    const beehiivResponse = await fetch('https://api.beehiiv.com/v2/publications/pub_0365e6c3-9f7c-4e2c-b315-bb3cd68b205e/subscriptions', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${beehiivApiKey}`
-                        },
-                        body: JSON.stringify({
-                            email: email,
-                            utm_source: new URL(window.location.href).searchParams.get('utm_source') || document.referrer,
-                            utm_medium: new URL(window.location.href).searchParams.get('utm_medium') || 'website',
-                            utm_campaign: new URL(window.location.href).searchParams.get('utm_campaign') || 'waitlist',
-                            reactivate_existing: false,
-                            send_welcome_email: true
-                        })
-                    });
+                // Submit to your backend API instead of directly to Beehiiv
+                // This avoids CORS issues and keeps the API key secure
+                const response = await fetch('/api/waitlist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        utm_source: new URL(window.location.href).searchParams.get('utm_source') || document.referrer,
+                        utm_medium: new URL(window.location.href).searchParams.get('utm_medium') || 'website',
+                        utm_campaign: new URL(window.location.href).searchParams.get('utm_campaign') || 'waitlist'
+                    })
+                });
 
-                    if (!beehiivResponse.ok) {
-                        throw new Error(`Beehiiv API error: ${beehiivResponse.status}`);
-                    }
-
-                    const result = await beehiivResponse.json();
-                    console.log('Beehiiv subscription created:', result);
-                } else {
-                    // Fallback: Log the submission for now
-                    console.log('Beehiiv API key not configured. Email logged locally:', email);
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
                 }
+
+                const result = await response.json();
+                console.log('Waitlist submission successful:', result);
 
                 // Store email in localStorage for the thank you page
                 localStorage.setItem('therma_submitted_email', email);
