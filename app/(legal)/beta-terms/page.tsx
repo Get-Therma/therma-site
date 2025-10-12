@@ -1,28 +1,19 @@
 export default function BetaTermsPage() {
   return (
     <main style={{ padding: '2rem 1.25rem', maxWidth: 800, margin: '0 auto' }}>
-      <h1>Terms of Use</h1>
+      <h1>Beta Program Terms</h1>
       
-      <p>Therma is a self‑reflection tool. It is <strong>not</strong> medical care and is <strong>not</strong> intended for emergencies.</p>
+      <p>Pre‑release software can change quickly and may contain bugs. By joining the beta, you agree:</p>
       
-      <p>By using Therma, you agree:</p>
       <ul>
-        <li>You are 16+ (or the age of digital consent in your region).</li>
-        <li>Don't misuse, reverse engineer, or attempt to break security.</li>
-        <li>We may update features; uptime is not guaranteed.</li>
+        <li><strong>Confidentiality:</strong> Don't publicly share screenshots or benchmarks without permission.</li>
+        <li><strong>Feedback license:</strong> You grant us the right to use feedback to improve Therma.</li>
+        <li><strong>No warranty:</strong> Beta may be interrupted or discontinued at any time.</li>
+        <li><strong>Data caution:</strong> Avoid entering highly sensitive information during early beta.</li>
       </ul>
       
-      <h2>No Medical Advice</h2>
-      <p>Content in the app and site is for general well‑being only. If you need urgent help, contact local emergency services.</p>
-      
-      <h2>User content</h2>
-      <p>You own your entries. You give us a limited license to store/process them to operate the service.</p>
-      
-      <h2>Governing law & disputes</h2>
-      <p>[Your jurisdiction].</p>
-      
       <h2>Contact</h2>
-      <p><a href="mailto:legal@therma.one">legal@therma.one</a></p>
+      <p><a href="mailto:support@gettherma.ai">support@gettherma.ai</a></p>
     </main>
   );
 }
