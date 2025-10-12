@@ -11,5 +11,6 @@ export default defineConfig({
     username: 'postgres',
     password: 'Theartistpass123!',
     ssl: true,
+    family: 4, // Force IPv4 connection
   },
 });
