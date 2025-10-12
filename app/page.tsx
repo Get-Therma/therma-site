@@ -60,14 +60,7 @@ export default function HomePage() {
           position: 'fixed',
           inset: 0,
           zIndex: -1,
-          background: `
-            radial-gradient(60% 80% at 20% 20%, rgba(255, 89, 48, 0.8), rgba(255, 89, 48, 0.3) 30%, transparent 60%),
-            radial-gradient(50% 70% at 80% 30%, rgba(252, 178, 0, 0.7), rgba(252, 178, 0, 0.2) 30%, transparent 60%),
-            radial-gradient(60% 90% at 30% 70%, rgba(131, 6, 152, 0.6), rgba(131, 6, 152, 0.2) 30%, transparent 60%),
-            radial-gradient(50% 80% at 70% 80%, rgba(124, 162, 253, 0.7), rgba(124, 162, 253, 0.2) 30%, transparent 60%),
-            radial-gradient(40% 60% at 50% 50%, rgba(172, 223, 127, 0.5), rgba(172, 223, 127, 0.1) 30%, transparent 60%),
-            linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)
-          `,
+          background: `red`,
           filter: 'saturate(2.0) brightness(1.3)',
           animation: 'breathe 6s ease-in-out infinite',
           transform: 'translateZ(0)',
