@@ -3,25 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function HomePage() {
+export default function MobilePage() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [time, setTime] = useState(0);
-  const [isMobile, setIsMobile] = useState(false); // Always false for desktop route
+  const [isMobile, setIsMobile] = useState(true); // Always true for mobile route
   const router = useRouter();
-
-  // Mobile detection and redirect
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const isMobileDevice = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      
-      if (isMobileDevice) {
-        router.push('/mobile');
-      }
-    }
-  }, [router]);
 
   // Mouse tracking and time-based animations (optimized for mobile)
   useEffect(() => {
@@ -114,25 +103,25 @@ export default function HomePage() {
         className="parallax-bg parallax-layer-1" 
         style={{
           transform: `
-            translate(${mousePosition.x * 0.15 + Math.sin(time * 0.3) * 12}px, ${mousePosition.y * 0.12 + Math.cos(time * 0.2) * 10}px) 
-            scale(${1 + (mousePosition.x - 50) * 0.002 + Math.sin(time * 0.4) * 0.05})
-            rotate(${Math.sin(time * 0.2) * 3 + (mousePosition.x - 50) * 0.2}deg)
+            translate(${mousePosition.x * 0.08 + Math.sin(time * 0.3) * 8}px, ${mousePosition.y * 0.06 + Math.cos(time * 0.2) * 6}px) 
+            scale(${1 + (mousePosition.x - 50) * 0.001 + Math.sin(time * 0.4) * 0.03})
+            rotate(${Math.sin(time * 0.2) * 2 + (mousePosition.x - 50) * 0.1}deg)
           `,
           background: `
-            radial-gradient(${70 + Math.sin(time * 0.4) * 25 + mousePosition.x * 0.2}% ${90 + Math.cos(time * 0.3) * 20 + mousePosition.y * 0.15}% at 
-            ${10 + mousePosition.x * 0.25 + Math.sin(time * 0.3) * 12}% 
-            ${10 + mousePosition.y * 0.2 + Math.cos(time * 0.2) * 10}%, 
+            radial-gradient(${70 + Math.sin(time * 0.4) * 20 + mousePosition.x * 0.15}% ${90 + Math.cos(time * 0.3) * 15 + mousePosition.y * 0.12}% at 
+            ${10 + mousePosition.x * 0.2 + Math.sin(time * 0.3) * 8}% 
+            ${10 + mousePosition.y * 0.15 + Math.cos(time * 0.2) * 6}%, 
             rgba(255, 89, 48, ${0.25 + Math.sin(time * 0.3) * 0.08 + mousePosition.x * 0.001}), transparent 60%),
-            radial-gradient(${55 + Math.cos(time * 0.5) * 20 + mousePosition.x * 0.15}% ${75 + Math.sin(time * 0.4) * 15 + mousePosition.y * 0.12}% at 
-            ${75 + mousePosition.x * 0.18}% 
-            ${25 + mousePosition.y * 0.15}%, 
+            radial-gradient(${55 + Math.cos(time * 0.5) * 15 + mousePosition.x * 0.12}% ${75 + Math.sin(time * 0.4) * 12 + mousePosition.y * 0.1}% at 
+            ${75 + mousePosition.x * 0.15}% 
+            ${25 + mousePosition.y * 0.12}%, 
             rgba(255, 89, 48, ${0.15 + Math.cos(time * 0.4) * 0.05 + mousePosition.y * 0.0008}), transparent 70%),
-            radial-gradient(${40 + Math.sin(time * 0.6) * 15 + mousePosition.x * 0.1}% ${60 + Math.cos(time * 0.5) * 12 + mousePosition.y * 0.08}% at 
-            ${50 + mousePosition.x * 0.12}% 
-            ${60 + mousePosition.y * 0.1}%, 
+            radial-gradient(${40 + Math.sin(time * 0.6) * 12 + mousePosition.x * 0.08}% ${60 + Math.cos(time * 0.5) * 10 + mousePosition.y * 0.06}% at 
+            ${50 + mousePosition.x * 0.1}% 
+            ${60 + mousePosition.y * 0.08}%, 
             rgba(255, 89, 48, ${0.08 + Math.sin(time * 0.5) * 0.03 + (mousePosition.x + mousePosition.y) * 0.0003}), transparent 80%)
           `,
-          filter: `saturate(${1.3 + Math.sin(time * 0.2) * 0.2 + mousePosition.x * 0.002}) hue-rotate(${(mousePosition.x - 50) * 0.8}deg) brightness(${1.1 + mousePosition.y * 0.0005})`
+          filter: `saturate(${1.3 + Math.sin(time * 0.2) * 0.2 + mousePosition.x * 0.002}) hue-rotate(${(mousePosition.x - 50) * 0.4}deg) brightness(${1.1 + mousePosition.y * 0.0005})`
         }}
       ></div>
       
@@ -249,21 +238,21 @@ export default function HomePage() {
 
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/10 safe-pt">
         <div className="max-w-screen-xl mx-auto px-4 py-4">
-          <div className="text-2xl font-semibold text-white">Therma</div>
+          <div className="text-xl font-semibold text-white">Therma</div>
         </div>
       </header>
 
-      <div className="h-20"></div>
+      <div className="h-16"></div>
 
       <main className="mx-auto max-w-screen-xl w-full px-4 safe-px safe-pt safe-pb min-h-screen">
-        <section id="hero" className="container mx-auto px-4 py-20 text-center">
-          <div className="space-y-6">
-            <h1 className="font-semibold leading-tight text-4xl text-white">Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
-            <div className="h-4"></div>
-            <h2 className="text-xl text-white/80 leading-relaxed">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
-            <div className="h-8"></div>
+        <section id="hero" className="container mx-auto px-4 py-16 text-center">
+          <div className="space-y-4">
+            <h1 className="font-semibold leading-tight text-2xl text-white">Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
+            <div className="h-3"></div>
+            <h2 className="text-lg text-white/80 leading-relaxed">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
+            <div className="h-6"></div>
             
-            <form className="space-y-3 max-w-md mx-auto" onSubmit={handleSubmit}>
+            <form className="space-y-3 max-w-sm mx-auto" onSubmit={handleSubmit}>
               <div className="relative">
                 <input 
                   type="email" 
@@ -271,22 +260,22 @@ export default function HomePage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required 
-                  className="w-full px-6 py-4 text-lg bg-white/10 backdrop-blur-xl border border-white/20 rounded-full text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
+                  className="w-full px-4 py-3 text-base bg-white/10 backdrop-blur-xl border border-white/20 rounded-full text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
                 />
               </div>
-              <p className="text-white/60 text-sm">Join the first 1,000 beta invites</p>
-              <div className="h-4"></div>
+              <p className="text-white/60 text-xs">Join the first 1,000 beta invites</p>
+              <div className="h-3"></div>
               <div>
                 <button 
                   type="submit" 
-                  className="w-full px-8 py-4 text-lg font-medium text-black bg-white hover:bg-white/90 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-6 py-3 text-base font-medium text-black bg-white hover:bg-white/90 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Submitting…' : 'Join Waitlist'}
                 </button>
               </div>
               <div 
-                className={`text-center text-sm ${status === 'success' ? 'text-green-400' : status === 'error' ? 'text-red-400' : 'text-transparent'}`}
+                className={`text-center text-xs ${status === 'success' ? 'text-green-400' : status === 'error' ? 'text-red-400' : 'text-transparent'}`}
                 role="status"
               >
                 {status === 'success' && 'Thank you! You\'ve been added to the waitlist.'}
@@ -300,189 +289,55 @@ export default function HomePage() {
         <div className="breathing-divider" aria-hidden="true"></div>
         
         {/* Why Therma Section */}
-        <section id="why" className="container mx-auto px-4 py-20 text-center">
-          <div className="space-y-6">
-            <h2 className="font-semibold leading-tight text-3xl text-white">Why Therma?</h2>
-            <p className="text-lg text-white/80 leading-relaxed max-w-2xl mx-auto">Your space to slow down, check in, and feel supported</p>
+        <section id="why" className="container mx-auto px-4 py-16 text-center">
+          <div className="space-y-4">
+            <h2 className="font-semibold leading-tight text-2xl text-white">Why Therma?</h2>
+            <p className="text-base text-white/80 leading-relaxed max-w-sm mx-auto">Your space to slow down, check in, and feel supported</p>
             
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
-                <div className="text-4xl mb-4">
+            <div className="mt-8 grid grid-cols-1 gap-4 max-w-sm mx-auto">
+              <div className="rounded-2xl p-4 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="text-3xl mb-3">
                   <span role="img" aria-label="A person in a calm seated pose">🧘</span>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Daily Reflections</h3>
-                <p className="text-white/80 mb-4">Gentle prompts that help you process your day—without judgment.</p>
-                <div className="text-sm text-white/60">
+                <h3 className="text-lg font-semibold text-white mb-2">Daily Reflections</h3>
+                <p className="text-white/80 mb-3 text-sm">Gentle prompts that help you process your day—without judgment.</p>
+                <div className="text-xs text-white/60">
                   <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
                 </div>
               </div>
               
-              <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
-                <div className="text-4xl mb-4">
+              <div className="rounded-2xl p-4 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="text-3xl mb-3">
                   <span role="img" aria-label="A friendly robot face">🤖</span>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">AI Companion</h3>
-                <p className="text-white/80 mb-4">A kind companion that listens, asks thoughtful questions, and helps you notice patterns.</p>
-                <div className="text-sm text-white/60">
+                <h3 className="text-lg font-semibold text-white mb-2">AI Companion</h3>
+                <p className="text-white/80 mb-3 text-sm">A kind companion that listens, asks thoughtful questions, and helps you notice patterns.</p>
+                <div className="text-xs text-white/60">
                   <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
                 </div>
               </div>
               
-              <div className="rounded-2xl p-6 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
-                <div className="text-4xl mb-4">
+              <div className="rounded-2xl p-4 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="text-3xl mb-3">
                   <span role="img" aria-label="A small, soft cloud">☁️</span>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">Mindful Space</h3>
-                <p className="text-white/80 mb-4">A quiet place to slow down, breathe, and actually hear yourself.</p>
-                <div className="text-sm text-white/60">
+                <h3 className="text-lg font-semibold text-white mb-2">Mindful Space</h3>
+                <p className="text-white/80 mb-3 text-sm">A quiet place to slow down, breathe, and actually hear yourself.</p>
+                <div className="text-xs text-white/60">
                   <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* How It Works Section */}
-        <section id="how-it-works" className="container center">
-          <div className="stack">
-            <h2 className="why-section-title">How It Works</h2>
-            <p className="why-section-subtitle">Simple steps to a more mindful you</p>
-            
-            <div className="why-grid">
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Step one">1️⃣</span>
-                </div>
-                <h3>Check In Daily</h3>
-                <p>Take a few minutes each day to pause and reflect on how you're feeling.</p>
-                <div className="why-micro-story">
-                  <span>→</span> Start with just 2 minutes of mindful breathing.
-                </div>
-              </div>
-              
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Step two">2️⃣</span>
-                </div>
-                <h3>Share Your Thoughts</h3>
-                <p>Express what's on your mind through gentle prompts designed to help you process.</p>
-                <div className="why-micro-story">
-                  <span>→</span> Answer one simple question: "How are you feeling right now?"
-                </div>
-              </div>
-              
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Step three">3️⃣</span>
-                </div>
-                <h3>Get Support</h3>
-                <p>Receive thoughtful responses and guidance from your AI companion.</p>
-                <div className="why-micro-story">
-                  <span>→</span> Get personalized insights and gentle encouragement.
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Who It's For Section */}
-        <section id="who-its-for" className="container center">
-          <div className="stack">
-            <h2 className="why-section-title">Who It's For</h2>
-            <p className="why-section-subtitle">Perfect for anyone seeking mindful reflection</p>
-            
-            <div className="why-grid">
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Busy professional">💼</span>
-                </div>
-                <h3>Busy Professionals</h3>
-                <p>Find moments of calm in your hectic schedule and process work stress mindfully.</p>
-                <div className="why-micro-story">
-                  <span>→</span> Take a 5-minute break between meetings to check in with yourself.
-                </div>
-              </div>
-              
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Student learning">🎓</span>
-                </div>
-                <h3>Students & Learners</h3>
-                <p>Navigate academic pressure and personal growth with supportive daily check-ins.</p>
-                <div className="why-micro-story">
-                  <span>→</span> Process exam stress and celebrate small wins along the way.
-                </div>
-              </div>
-              
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Personal growth">🌱</span>
-                </div>
-                <h3>Anyone Seeking Growth</h3>
-                <p>Build self-awareness and emotional intelligence through regular reflection.</p>
-                <div className="why-micro-story">
-                  <span>→</span> Discover patterns in your thoughts and feelings over time.
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FAQ Preview Section */}
-        <section id="faq-preview" className="container center">
-          <div className="stack">
-            <h2 className="why-section-title">Common Questions</h2>
-            <p className="why-section-subtitle">Everything you need to know about Therma</p>
-            
-            <div className="why-grid">
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Question mark">❓</span>
-                </div>
-                <h3>Is this therapy?</h3>
-                <p>No. Therma is a self-reflection tool and isn't medical advice.</p>
-                <div className="why-micro-story">
-                  <span>→</span> Think of it as a mindful journal with AI support.
-                </div>
-              </div>
-              
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Free tier">🆓</span>
-                </div>
-                <h3>Will it be free?</h3>
-                <p>We'll offer a free tier; early waitlisters get first beta access and perks.</p>
-                <div className="why-micro-story">
-                  <span>→</span> Join the waitlist for exclusive early access benefits.
-                </div>
-              </div>
-              
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Mobile devices">📱</span>
-                </div>
-                <h3>iOS or Android?</h3>
-                <p>iOS first, Android next.</p>
-                <div className="why-micro-story">
-                  <span>→</span> iPhone users get first access, Android coming soon.
-                </div>
-              </div>
-            </div>
-            
-            <div className="sp-16"></div>
-            <div className="center">
-              <a href="/faq" className="btn-secondary">View All FAQs</a>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="mt-20 py-12 px-4 safe-px">
-        <div className="max-w-screen-xl mx-auto text-center space-y-6">
-          <div className="text-2xl font-semibold text-white">Therma</div>
-          <p className="text-white/60 text-sm">Therma helps you make space for yourself</p>
-          <div className="h-8"></div>
-          <p className="text-white/60 text-sm space-x-2">
+      <footer className="mt-16 py-8 px-4 safe-px">
+        <div className="max-w-screen-xl mx-auto text-center space-y-4">
+          <div className="text-xl font-semibold text-white">Therma</div>
+          <p className="text-white/60 text-xs">Therma helps you make space for yourself</p>
+          <div className="h-4"></div>
+          <p className="text-white/60 text-xs space-x-2">
             <a href="/contact" className="hover:text-white transition-colors">Contact Us</a>
             <span>·</span>
             <a href="/faq" className="hover:text-white transition-colors">FAQ</a>
@@ -491,7 +346,7 @@ export default function HomePage() {
             <span>·</span>
             <a href="/terms" className="hover:text-white transition-colors">Terms of Use</a>
           </p>
-          <div className="h-8"></div>
+          <div className="h-4"></div>
           <p className="text-white/40 text-xs">© 2025 Get Therma Inc. All rights reserved</p>
         </div>
       </footer>
