@@ -36,8 +36,11 @@ export default function HomePage() {
       const result = await response.json();
       console.log('Waitlist submission successful:', result);
       
-      setStatus('success');
-      setEmail('');
+      // Store email for thank you page
+      localStorage.setItem('therma_submitted_email', email);
+      
+      // Redirect to thank you page
+      window.location.href = '/thank-you';
       
     } catch (err) {
       console.error('Form submission error:', err);
