@@ -60,13 +60,13 @@ export default function HomePage() {
           position: 'fixed',
           top: 0,
           left: 0,
-          right: 0,
-          bottom: 0,
+          width: '100vw',
+          height: '100vh',
           zIndex: -1,
           background: 'red',
           opacity: 1,
-          width: '100vw',
-          height: '100vh'
+          margin: 0,
+          padding: 0
         }}
       ></div>
 

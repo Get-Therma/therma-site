@@ -40,9 +40,9 @@ html, body {
   text-rendering: optimizeLegibility;
 }
 
-/* Fallback background in case gradients don't load */
+/* Remove body background to let heroBg show through */
 body {
-  background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+  background: transparent;
 }
 
 h1, h2, h3, h4, h5, h6 {
