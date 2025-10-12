@@ -913,7 +913,7 @@ header {
 .why-tile h3 {
   font-family: PPPangaia, serif;
   font-weight: 500;
-  font-style: italic;
+  font-style: normal;
   font-size: 28px;
   margin-bottom: 16px;
   color: #FFFFFF;
@@ -927,8 +927,9 @@ header {
 
 .why-tile p {
   font-family: PPPangaia, serif;
-  font-style: italic;
-  color: rgba(255,255,255,0.8);
+  font-style: normal;
+  font-weight: 400;
+  color: rgba(255,255,255,0.85);
   font-size: 18px;
   line-height: 1.6;
 }
@@ -955,8 +956,8 @@ header {
 /* Why Therma Section Title */
 .why-section-title {
   font-family: PPPangaia, serif;
-  font-weight: 400;
-  font-style: italic;
+  font-weight: 500;
+  font-style: normal;
   font-size: 48px;
   color: #FFFFFF;
   text-align: center;
@@ -974,11 +975,13 @@ header {
 /* Why Therma Section Subtitle */
 .why-section-subtitle {
   font-family: PPPangaia, serif;
-  font-style: italic;
+  font-style: normal;
+  font-weight: 400;
   font-size: 20px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.85);
   text-align: center;
   margin-bottom: 48px;
+  line-height: 1.5;
 }
 
 @media (min-width: 768px) {
