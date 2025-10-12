@@ -2,14 +2,19 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
 
-const connectionString = process.env.POSTGRES_URL!;
-
-// Configure postgres client to handle IPv6 issues
-const client = postgres(connectionString, {
+// Use individual connection parameters to avoid IPv6 issues
+const client = postgres({
+  host: 'db.ooaqigzgvrmyomfbdygz.supabase.co',
+  port: 5432,
+  database: 'postgres',
+  username: 'postgres',
+  password: 'Theartistpass123!',
   ssl: 'require',
-  connect_timeout: 10,
-  idle_timeout: 20,
-  max_lifetime: 60 * 30
+  connect_timeout: 15,
+  idle_timeout: 30,
+  max_lifetime: 60 * 30,
+  max: 1, // Limit connections for local development
+  prepare: false, // Disable prepared statements for better compatibility
 });
 
 export const db = drizzle(client, { schema });
