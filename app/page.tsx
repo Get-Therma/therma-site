@@ -9,24 +9,9 @@ export default function HomePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [time, setTime] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
 
-  // Mobile detection and event listeners
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setIsMobile(window.innerWidth <= 768);
-      
-      const handleResize = () => {
-        setIsMobile(window.innerWidth <= 768);
-      };
-      
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }
-  }, []);
-
-  // Mouse tracking and time-based animations (optimized for mobile)
+  // Mouse tracking and time-based animations (desktop-optimized)
   useEffect(() => {
     let animationFrame: number;
     
@@ -112,7 +97,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Ultra-Interactive Background Bubbles - Mobile Optimized */}
+      {/* Ultra-Interactive Background Bubbles - Desktop Optimized */}
       <div 
         className="parallax-bg parallax-layer-1" 
         style={{
@@ -217,7 +202,7 @@ export default function HomePage() {
         }}
       ></div>
 
-      {/* Main Background - Ultra-Interactive with Mouse */}
+      {/* Main Background - Ultra-Interactive with Mouse (Desktop) */}
       <div 
         className="heroBg" 
         aria-hidden="true"
