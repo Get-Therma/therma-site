@@ -9,12 +9,26 @@ export default function HomePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [time, setTime] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
+
+  // Mobile detection and event listeners
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsMobile(window.innerWidth <= 768);
+      
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+      
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
 
   // Mouse tracking and time-based animations (optimized for mobile)
   useEffect(() => {
     let animationFrame: number;
-    let isMobile = window.innerWidth <= 768;
     
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
@@ -38,15 +52,19 @@ export default function HomePage() {
       animationFrame = requestAnimationFrame(updateTime);
     };
 
-    // Add both mouse and touch event listeners
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    animationFrame = requestAnimationFrame(updateTime);
+    // Only add event listeners on client side
+    if (typeof window !== 'undefined') {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      window.addEventListener('touchmove', handleTouchMove, { passive: true });
+      animationFrame = requestAnimationFrame(updateTime);
+    }
     
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
-      cancelAnimationFrame(animationFrame);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('touchmove', handleTouchMove);
+        cancelAnimationFrame(animationFrame);
+      }
     };
   }, []);
 
@@ -99,25 +117,25 @@ export default function HomePage() {
         className="parallax-bg parallax-layer-1" 
         style={{
           transform: `
-            translate(${mousePosition.x * (window.innerWidth <= 768 ? 0.08 : 0.15) + Math.sin(time * 0.3) * (window.innerWidth <= 768 ? 8 : 12)}px, ${mousePosition.y * (window.innerWidth <= 768 ? 0.06 : 0.12) + Math.cos(time * 0.2) * (window.innerWidth <= 768 ? 6 : 10)}px) 
-            scale(${1 + (mousePosition.x - 50) * (window.innerWidth <= 768 ? 0.001 : 0.002) + Math.sin(time * 0.4) * (window.innerWidth <= 768 ? 0.03 : 0.05)})
-            rotate(${Math.sin(time * 0.2) * (window.innerWidth <= 768 ? 2 : 3) + (mousePosition.x - 50) * (window.innerWidth <= 768 ? 0.1 : 0.2)}deg)
+            translate(${mousePosition.x * (isMobile ? 0.08 : 0.15) + Math.sin(time * 0.3) * (isMobile ? 8 : 12)}px, ${mousePosition.y * (isMobile ? 0.06 : 0.12) + Math.cos(time * 0.2) * (isMobile ? 6 : 10)}px) 
+            scale(${1 + (mousePosition.x - 50) * (isMobile ? 0.001 : 0.002) + Math.sin(time * 0.4) * (isMobile ? 0.03 : 0.05)})
+            rotate(${Math.sin(time * 0.2) * (isMobile ? 2 : 3) + (mousePosition.x - 50) * (isMobile ? 0.1 : 0.2)}deg)
           `,
           background: `
-            radial-gradient(${70 + Math.sin(time * 0.4) * (window.innerWidth <= 768 ? 20 : 25) + mousePosition.x * (window.innerWidth <= 768 ? 0.15 : 0.2)}% ${90 + Math.cos(time * 0.3) * (window.innerWidth <= 768 ? 15 : 20) + mousePosition.y * (window.innerWidth <= 768 ? 0.12 : 0.15)}% at 
-            ${10 + mousePosition.x * (window.innerWidth <= 768 ? 0.2 : 0.25) + Math.sin(time * 0.3) * (window.innerWidth <= 768 ? 8 : 12)}% 
-            ${10 + mousePosition.y * (window.innerWidth <= 768 ? 0.15 : 0.2) + Math.cos(time * 0.2) * (window.innerWidth <= 768 ? 6 : 10)}%, 
+            radial-gradient(${70 + Math.sin(time * 0.4) * (isMobile ? 20 : 25) + mousePosition.x * (isMobile ? 0.15 : 0.2)}% ${90 + Math.cos(time * 0.3) * (isMobile ? 15 : 20) + mousePosition.y * (isMobile ? 0.12 : 0.15)}% at 
+            ${10 + mousePosition.x * (isMobile ? 0.2 : 0.25) + Math.sin(time * 0.3) * (isMobile ? 8 : 12)}% 
+            ${10 + mousePosition.y * (isMobile ? 0.15 : 0.2) + Math.cos(time * 0.2) * (isMobile ? 6 : 10)}%, 
             rgba(255, 89, 48, ${0.25 + Math.sin(time * 0.3) * 0.08 + mousePosition.x * 0.001}), transparent 60%),
-            radial-gradient(${55 + Math.cos(time * 0.5) * (window.innerWidth <= 768 ? 15 : 20) + mousePosition.x * (window.innerWidth <= 768 ? 0.12 : 0.15)}% ${75 + Math.sin(time * 0.4) * (window.innerWidth <= 768 ? 12 : 15) + mousePosition.y * (window.innerWidth <= 768 ? 0.1 : 0.12)}% at 
-            ${75 + mousePosition.x * (window.innerWidth <= 768 ? 0.15 : 0.18)}% 
-            ${25 + mousePosition.y * (window.innerWidth <= 768 ? 0.12 : 0.15)}%, 
+            radial-gradient(${55 + Math.cos(time * 0.5) * (isMobile ? 15 : 20) + mousePosition.x * (isMobile ? 0.12 : 0.15)}% ${75 + Math.sin(time * 0.4) * (isMobile ? 12 : 15) + mousePosition.y * (isMobile ? 0.1 : 0.12)}% at 
+            ${75 + mousePosition.x * (isMobile ? 0.15 : 0.18)}% 
+            ${25 + mousePosition.y * (isMobile ? 0.12 : 0.15)}%, 
             rgba(255, 89, 48, ${0.15 + Math.cos(time * 0.4) * 0.05 + mousePosition.y * 0.0008}), transparent 70%),
-            radial-gradient(${40 + Math.sin(time * 0.6) * (window.innerWidth <= 768 ? 12 : 15) + mousePosition.x * (window.innerWidth <= 768 ? 0.08 : 0.1)}% ${60 + Math.cos(time * 0.5) * (window.innerWidth <= 768 ? 10 : 12) + mousePosition.y * (window.innerWidth <= 768 ? 0.06 : 0.08)}% at 
-            ${50 + mousePosition.x * (window.innerWidth <= 768 ? 0.1 : 0.12)}% 
-            ${60 + mousePosition.y * (window.innerWidth <= 768 ? 0.08 : 0.1)}%, 
+            radial-gradient(${40 + Math.sin(time * 0.6) * (isMobile ? 12 : 15) + mousePosition.x * (isMobile ? 0.08 : 0.1)}% ${60 + Math.cos(time * 0.5) * (isMobile ? 10 : 12) + mousePosition.y * (isMobile ? 0.06 : 0.08)}% at 
+            ${50 + mousePosition.x * (isMobile ? 0.1 : 0.12)}% 
+            ${60 + mousePosition.y * (isMobile ? 0.08 : 0.1)}%, 
             rgba(255, 89, 48, ${0.08 + Math.sin(time * 0.5) * 0.03 + (mousePosition.x + mousePosition.y) * 0.0003}), transparent 80%)
           `,
-          filter: `saturate(${1.3 + Math.sin(time * 0.2) * 0.2 + mousePosition.x * 0.002}) hue-rotate(${(mousePosition.x - 50) * (window.innerWidth <= 768 ? 0.4 : 0.8)}deg) brightness(${1.1 + mousePosition.y * 0.0005})`
+          filter: `saturate(${1.3 + Math.sin(time * 0.2) * 0.2 + mousePosition.x * 0.002}) hue-rotate(${(mousePosition.x - 50) * (isMobile ? 0.4 : 0.8)}deg) brightness(${1.1 + mousePosition.y * 0.0005})`
         }}
       ></div>
       
