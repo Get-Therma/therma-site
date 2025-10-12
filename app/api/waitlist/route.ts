@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { ThankYouEmailTemplate } from '../../../lib/email-templates';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: Request) {
   try {
     const { email, source, utm_source, utm_medium, utm_campaign } = await req.json();
@@ -36,17 +34,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: data?.message || 'Subscription failed' }, { status: res.status });
     }
 
-    // Send thank you email
-    try {
-      await resend.emails.send({
-        from: 'Therma <hello@gettherma.ai>',
-        to: [email],
-        subject: 'Welcome to Therma! 🎉',
-        react: ThankYouEmailTemplate({ email }),
-      });
-    } catch (emailError) {
-      console.error('Failed to send thank you email:', emailError);
-      // Don't fail the entire request if email fails
+    // Send thank you email (only if Resend API key is available)
+    if (process.env.RESEND_API_KEY) {
+      try {
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        await resend.emails.send({
+          from: 'Therma <hello@gettherma.ai>',
+          to: [email],
+          subject: 'Welcome to Therma! 🎉',
+          react: ThankYouEmailTemplate({ email }),
+        });
+      } catch (emailError) {
+        console.error('Failed to send thank you email:', emailError);
+        // Don't fail the entire request if email fails
+      }
     }
 
     return NextResponse.json({ ok: true });
