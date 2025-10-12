@@ -18,14 +18,19 @@ export async function POST(request: NextRequest) {
       utm_source: utm_source || null,
     };
 
-    // Insert into database
-    const result = await db.insert(waitlist).values({
-      email: email.toLowerCase().trim(),
-      attribution: JSON.stringify(attribution),
-      referer: utm_source || null,
-    }).returning();
-
-    console.log('Waitlist submission saved:', result[0]);
+    // Try to insert into database (optional - will work without DB)
+    let result = null;
+    try {
+      result = await db.insert(waitlist).values({
+        email: email.toLowerCase().trim(),
+        attribution: JSON.stringify(attribution),
+        referer: utm_source || null,
+      }).returning();
+      console.log('Waitlist submission saved to database:', result[0]);
+    } catch (dbError) {
+      console.log('Database not available, continuing without DB storage:', dbError);
+      // Continue without database - Beehiiv integration will still work
+    }
 
     // Submit to Beehiiv API (server-side to avoid CORS)
     const beehiivApiKey = process.env.BEEHIIV_API_KEY;
@@ -101,7 +106,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       message: 'Successfully joined waitlist!',
-      id: result[0].id 
+      id: result?.[0]?.id || 'no-db-id'
     });
 
   } catch (error) {
