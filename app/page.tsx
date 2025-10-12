@@ -1,13 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const router = useRouter();
+
+  // Mouse tracking for interactive background
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +67,40 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Interactive Background Layers */}
+      <div 
+        className="parallax-bg parallax-layer-1" 
+        style={{
+          transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`,
+          background: `radial-gradient(40% 60% at ${10 + mousePosition.x * 0.1}% ${10 + mousePosition.y * 0.1}%, rgba(255, 89, 48, 0.15), transparent 60%)`
+        }}
+      ></div>
+      
+      <div 
+        className="parallax-bg parallax-layer-2" 
+        style={{
+          transform: `translate(${mousePosition.x * -0.03}px, ${mousePosition.y * 0.03}px)`,
+          background: `radial-gradient(50% 70% at ${90 - mousePosition.x * 0.1}% ${20 + mousePosition.y * 0.1}%, rgba(252, 178, 0, 0.12), transparent 60%)`
+        }}
+      ></div>
+      
+      <div 
+        className="parallax-bg parallax-layer-3" 
+        style={{
+          transform: `translate(${mousePosition.x * 0.025}px, ${mousePosition.y * -0.025}px)`,
+          background: `radial-gradient(60% 80% at ${20 + mousePosition.x * 0.1}% ${80 - mousePosition.y * 0.1}%, rgba(131, 6, 152, 0.08), transparent 70%)`
+        }}
+      ></div>
+      
+      <div 
+        className="parallax-bg parallax-layer-4" 
+        style={{
+          transform: `translate(${mousePosition.x * -0.02}px, ${mousePosition.y * -0.02}px)`,
+          background: `radial-gradient(45% 65% at ${80 - mousePosition.x * 0.1}% ${70 - mousePosition.y * 0.1}%, rgba(124, 162, 253, 0.1), transparent 70%)`
+        }}
+      ></div>
+
+      {/* Main Background */}
       <div 
         className="heroBg" 
         aria-hidden="true"

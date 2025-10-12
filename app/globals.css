@@ -84,6 +84,42 @@ h3 { font-size: var(--h3); }
 .sp-24 { height: 24px; }
 .sp-32 { height: 32px; }
 
+/* Parallax Background Layers */
+.parallax-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  z-index: -2;
+  pointer-events: none;
+  transition: transform 0.1s ease-out;
+}
+
+.parallax-layer-1 {
+  background: radial-gradient(40% 60% at 10% 10%, rgba(255, 89, 48, 0.15), transparent 60%);
+  transform: translateY(0);
+  will-change: transform;
+}
+
+.parallax-layer-2 {
+  background: radial-gradient(50% 70% at 90% 20%, rgba(252, 178, 0, 0.12), transparent 60%);
+  transform: translateY(0);
+  will-change: transform;
+}
+
+.parallax-layer-3 {
+  background: radial-gradient(60% 80% at 20% 80%, rgba(131, 6, 152, 0.08), transparent 70%);
+  transform: translateY(0);
+  will-change: transform;
+}
+
+.parallax-layer-4 {
+  background: radial-gradient(45% 65% at 80% 70%, rgba(124, 162, 253, 0.1), transparent 70%);
+  transform: translateY(0);
+  will-change: transform;
+}
+
 .heroBg {
   position: fixed;
   inset: 0;
