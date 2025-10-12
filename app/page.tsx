@@ -58,10 +58,7 @@ export default function HomePage() {
         aria-hidden="true"
         style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
+          inset: 0,
           zIndex: -1,
           background: `
             radial-gradient(80% 100% at 15% 15%, rgba(255, 89, 48, 1.0), rgba(255, 89, 48, 0.8) 25%, rgba(255, 89, 48, 0.4) 50%, rgba(255, 89, 48, 0.1) 75%, transparent 90%),
@@ -73,12 +70,11 @@ export default function HomePage() {
           `,
           filter: 'saturate(3.0) brightness(1.8)',
           animation: 'breathe 8s ease-in-out infinite',
-          opacity: 1,
-          margin: 0,
-          padding: 0,
+          animationPlayState: 'running',
           transform: 'translateZ(0)',
           willChange: 'transform, filter',
-          backfaceVisibility: 'hidden'
+          backfaceVisibility: 'hidden',
+          perspective: '1000px'
         }}
       ></div>
 
