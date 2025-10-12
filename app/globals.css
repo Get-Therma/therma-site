@@ -808,27 +808,49 @@ footer {
 .form-textarea {
   width: 100%;
   padding: 16px 20px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.08);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 12px;
   color: #FFFFFF;
   font-size: 16px;
   font-family: PPPangaia, serif;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .form-input::placeholder,
 .form-textarea::placeholder {
   color: rgba(255,255,255,0.5);
+  transition: color 0.3s ease;
+}
+
+.form-input:hover,
+.form-textarea:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
+  backdrop-filter: blur(25px);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.1);
 }
 
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: rgba(255,255,255,0.4);
-  background: rgba(255,255,255,0.15);
-  box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(30px);
+  box-shadow: 
+    0 0 0 3px rgba(255,255,255,0.15),
+    0 12px 40px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.form-input:focus::placeholder,
+.form-textarea:focus::placeholder {
+  color: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
 }
 
 .form-textarea {
