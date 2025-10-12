@@ -13,39 +13,48 @@ export async function POST(req: Request) {
     console.log('Beehiiv API Key exists:', !!process.env.BEEHIIV_API_KEY);
     console.log('Publication ID exists:', !!process.env.BEEHIIV_PUBLICATION_ID);
 
-    // Subscribe to Beehiiv
-    const res = await fetch('https://api.beehiiv.com/v2/subscriptions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-ApiKey': process.env.BEEHIIV_API_KEY ?? ''
-      },
-      body: JSON.stringify({
-        email,
-        publication_id: process.env.BEEHIIV_PUBLICATION_ID,
-        reactivate_existing: true,
-        double_opt_in: true,
-        source: source ?? 'Website',
-        utm_source,
-        utm_medium,
-        utm_campaign
-      }),
-      cache: 'no-store'
-    });
+    // Try to subscribe to Beehiiv (optional - don't fail if it doesn't work)
+    let beehiivSuccess = false;
+    if (process.env.BEEHIIV_API_KEY && process.env.BEEHIIV_PUBLICATION_ID) {
+      try {
+        const res = await fetch('https://api.beehiiv.com/v2/subscriptions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-ApiKey': process.env.BEEHIIV_API_KEY
+          },
+          body: JSON.stringify({
+            email,
+            publication_id: process.env.BEEHIIV_PUBLICATION_ID,
+            reactivate_existing: true,
+            double_opt_in: true,
+            source: source ?? 'Website',
+            utm_source,
+            utm_medium,
+            utm_campaign
+          }),
+          cache: 'no-store'
+        });
 
-    const data = await res.json();
-    console.log('Beehiiv response status:', res.status);
-    console.log('Beehiiv response data:', data);
-    
-    if (!res.ok) {
-      return NextResponse.json({ 
-        error: data?.message || 'Subscription failed',
-        details: data,
-        status: res.status 
-      }, { status: res.status });
+        console.log('Beehiiv response status:', res.status);
+        
+        if (res.ok) {
+          const data = await res.json();
+          console.log('Beehiiv success:', data);
+          beehiivSuccess = true;
+        } else {
+          const errorText = await res.text();
+          console.log('Beehiiv error response:', errorText);
+        }
+      } catch (beehiivError) {
+        console.error('Beehiiv API error:', beehiivError);
+        // Continue without failing the entire request
+      }
+    } else {
+      console.log('Beehiiv not configured, skipping');
     }
 
-    // Send thank you email (only if Resend API key is available)
+    // Send thank you email (this is the main functionality)
     if (process.env.RESEND_API_KEY) {
       try {
         console.log('Sending thank you email...');
@@ -59,13 +68,23 @@ export async function POST(req: Request) {
         console.log('Email sent successfully:', emailResult.data?.id);
       } catch (emailError) {
         console.error('Failed to send thank you email:', emailError);
-        // Don't fail the entire request if email fails
+        return NextResponse.json({ 
+          error: 'Failed to send welcome email',
+          details: emailError instanceof Error ? emailError.message : 'Unknown error'
+        }, { status: 500 });
       }
     } else {
-      console.log('No Resend API key found, skipping email');
+      console.log('No Resend API key found, cannot send email');
+      return NextResponse.json({ 
+        error: 'Email service not configured' 
+      }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ 
+      ok: true, 
+      beehiivSuccess,
+      message: 'Welcome email sent successfully!'
+    });
   } catch (error) {
     console.error('Subscribe API error:', error);
     return NextResponse.json({ 
