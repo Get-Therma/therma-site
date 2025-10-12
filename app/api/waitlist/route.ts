@@ -9,6 +9,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Email required' }, { status: 400 });
     }
 
+    console.log('Processing waitlist submission for:', email);
+    console.log('Beehiiv API Key exists:', !!process.env.BEEHIIV_API_KEY);
+    console.log('Publication ID exists:', !!process.env.BEEHIIV_PUBLICATION_ID);
+
     // Subscribe to Beehiiv
     const res = await fetch('https://api.beehiiv.com/v2/subscriptions', {
       method: 'POST',
@@ -30,28 +34,43 @@ export async function POST(req: Request) {
     });
 
     const data = await res.json();
+    console.log('Beehiiv response status:', res.status);
+    console.log('Beehiiv response data:', data);
+    
     if (!res.ok) {
-      return NextResponse.json({ error: data?.message || 'Subscription failed' }, { status: res.status });
+      return NextResponse.json({ 
+        error: data?.message || 'Subscription failed',
+        details: data,
+        status: res.status 
+      }, { status: res.status });
     }
 
     // Send thank you email (only if Resend API key is available)
     if (process.env.RESEND_API_KEY) {
       try {
+        console.log('Sending thank you email...');
         const resend = new Resend(process.env.RESEND_API_KEY);
-        await resend.emails.send({
+        const emailResult = await resend.emails.send({
           from: 'Therma <hello@gettherma.ai>',
           to: [email],
           subject: 'Welcome to Therma! 🎉',
           react: ThankYouEmailTemplate({ email }),
         });
+        console.log('Email sent successfully:', emailResult.data?.id);
       } catch (emailError) {
         console.error('Failed to send thank you email:', emailError);
         // Don't fail the entire request if email fails
       }
+    } else {
+      console.log('No Resend API key found, skipping email');
     }
 
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+  } catch (error) {
+    console.error('Waitlist API error:', error);
+    return NextResponse.json({ 
+      error: 'Invalid request',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 400 });
   }
 }
