@@ -297,13 +297,22 @@ main {
   padding: 16px 20px;
   border: none;
   outline: none;
-  background: transparent;
+  background: transparent !important;
+  background-color: transparent !important;
   color: #FFFFFF;
   font-size: 16px;
   font-family: PPPangaia, serif;
   transition: all 0.3s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent browser default styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Prevent autofill styling */
+  -webkit-autofill: transparent;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset;
+  box-shadow: 0 0 0 1000px transparent inset;
 }
 
 .pillInput input::placeholder {
@@ -314,6 +323,26 @@ main {
 .pillInput:focus-within input::placeholder {
   color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
+}
+
+/* Prevent autofill white background */
+.pillInput input:-webkit-autofill,
+.pillInput input:-webkit-autofill:hover,
+.pillInput input:-webkit-autofill:focus,
+.pillInput input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Ensure input stays transparent on all states */
+.pillInput input:focus,
+.pillInput input:active,
+.pillInput input:hover {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 .btn {
