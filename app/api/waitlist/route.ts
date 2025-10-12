@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '../../../lib/db';
+import { getDb } from '../../../lib/db';
 import { waitlist } from '../../../lib/schema';
 
 export async function POST(request: NextRequest) {
@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
     // Try to insert into database (optional - will work without DB)
     let result: any = null;
     try {
+      const db = await getDb();
       result = await db.insert(waitlist).values({
         email: email.toLowerCase().trim(),
         attribution: JSON.stringify(attribution),
