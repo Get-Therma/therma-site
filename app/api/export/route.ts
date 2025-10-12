@@ -4,8 +4,23 @@ import { waitlist } from '../../../lib/schema';
 
 export async function GET(request: NextRequest) {
   try {
-    // Get all waitlist entries
-    const entries = await db.select().from(waitlist);
+    // Try to get all waitlist entries from database
+    let entries = [];
+    try {
+      entries = await db.select().from(waitlist);
+    } catch (dbError) {
+      console.log('Database not available for export:', dbError);
+      // Return empty CSV if database is not available
+      const csvHeaders = ['ID', 'Email', 'UTM Source', 'UTM Medium', 'UTM Campaign', 'Referrer', 'Created At'];
+      const csvContent = csvHeaders.join(',') + '\n';
+      
+      return new NextResponse(csvContent, {
+        headers: {
+          'Content-Type': 'text/csv',
+          'Content-Disposition': 'attachment; filename="therma-waitlist-empty.csv"'
+        }
+      });
+    }
     
     // Convert to CSV format
     const csvHeaders = ['ID', 'Email', 'UTM Source', 'UTM Medium', 'UTM Campaign', 'Referrer', 'Created At'];
