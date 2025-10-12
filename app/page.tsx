@@ -58,20 +58,15 @@ export default function HomePage() {
         aria-hidden="true"
         style={{
           position: 'fixed',
-          inset: 0,
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
           zIndex: -1,
-          background: `
-            radial-gradient(80% 100% at 15% 15%, rgba(255, 89, 48, 1.0), rgba(255, 89, 48, 0.8) 25%, rgba(255, 89, 48, 0.4) 50%, rgba(255, 89, 48, 0.1) 75%, transparent 90%),
-            radial-gradient(70% 90% at 85% 20%, rgba(252, 178, 0, 1.0), rgba(252, 178, 0, 0.7) 30%, rgba(252, 178, 0, 0.3) 60%, rgba(252, 178, 0, 0.1) 80%, transparent 95%),
-            radial-gradient(90% 120% at 25% 65%, rgba(131, 6, 152, 0.9), rgba(131, 6, 152, 0.6) 25%, rgba(131, 6, 152, 0.3) 50%, rgba(131, 6, 152, 0.1) 75%, transparent 90%),
-            radial-gradient(80% 100% at 75% 70%, rgba(124, 162, 253, 0.9), rgba(124, 162, 253, 0.6) 30%, rgba(124, 162, 253, 0.3) 60%, rgba(124, 162, 253, 0.1) 80%, transparent 95%),
-            radial-gradient(60% 80% at 50% 25%, rgba(172, 223, 127, 0.8), rgba(172, 223, 127, 0.4) 30%, rgba(172, 223, 127, 0.2) 60%, rgba(172, 223, 127, 0.05) 80%, transparent 95%),
-            linear-gradient(135deg, #000000 0%, #0a0a0a 30%, #1a1a1a 70%, #000000 100%)
-          `,
-          filter: 'saturate(3.0) brightness(1.8)',
-          animation: 'breathe 8s ease-in-out infinite',
-          transform: 'translateZ(0)',
-          willChange: 'transform, filter'
+          background: 'red',
+          opacity: 1,
+          width: '100vw',
+          height: '100vh'
         }}
       ></div>
 
