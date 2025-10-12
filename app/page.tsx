@@ -137,7 +137,7 @@ export default function HomePage() {
         }}
       ></div>
 
-      {/* Main Background */}
+      {/* Main Background - Brighter with Enhanced Breathing */}
       <div 
         className="heroBg" 
         aria-hidden="true"
@@ -146,27 +146,27 @@ export default function HomePage() {
           inset: 0,
           zIndex: -1,
           background: `
-            radial-gradient(${60 + Math.sin(time * 0.2) * 15}% ${80 + Math.cos(time * 0.3) * 10}% at 
-            ${20 + Math.sin(time * 0.1) * 3}% ${20 + Math.cos(time * 0.15) * 2}%, 
-            rgba(255, 89, 48, ${0.3 + Math.sin(time * 0.4) * 0.05}), transparent 50%),
-            radial-gradient(${50 + Math.cos(time * 0.25) * 12}% ${70 + Math.sin(time * 0.2) * 8}% at 
-            ${80 + Math.cos(time * 0.12) * 2}% ${30 + Math.sin(time * 0.18) * 3}%, 
-            rgba(252, 178, 0, ${0.25 + Math.cos(time * 0.35) * 0.04}), transparent 50%),
-            radial-gradient(${60 + Math.sin(time * 0.3) * 18}% ${90 + Math.cos(time * 0.25) * 12}% at 
-            ${30 + Math.sin(time * 0.14) * 4}% ${70 + Math.cos(time * 0.16) * 3}%, 
-            rgba(131, 6, 152, ${0.2 + Math.sin(time * 0.45) * 0.03}), transparent 60%),
-            radial-gradient(${50 + Math.cos(time * 0.28) * 15}% ${80 + Math.sin(time * 0.22) * 10}% at 
-            ${70 + Math.cos(time * 0.13) * 3}% ${80 + Math.sin(time * 0.17) * 4}%, 
-            rgba(124, 162, 253, ${0.25 + Math.cos(time * 0.38) * 0.04}), transparent 60%),
-            radial-gradient(${40 + Math.sin(time * 0.32) * 10}% ${60 + Math.cos(time * 0.26) * 8}% at 
-            ${50 + Math.sin(time * 0.11) * 2}% ${50 + Math.cos(time * 0.19) * 2}%, 
-            rgba(172, 223, 127, ${0.15 + Math.sin(time * 0.42) * 0.03}), transparent 70%),
+            radial-gradient(${70 + Math.sin(time * 0.3) * 20}% ${90 + Math.cos(time * 0.4) * 15}% at 
+            ${20 + Math.sin(time * 0.2) * 5}% ${20 + Math.cos(time * 0.25) * 4}%, 
+            rgba(255, 89, 48, ${0.5 + Math.sin(time * 0.5) * 0.1}), transparent 50%),
+            radial-gradient(${60 + Math.cos(time * 0.35) * 18}% ${80 + Math.sin(time * 0.3) * 12}% at 
+            ${80 + Math.cos(time * 0.15) * 4}% ${30 + Math.sin(time * 0.2) * 5}%, 
+            rgba(252, 178, 0, ${0.4 + Math.cos(time * 0.45) * 0.08}), transparent 50%),
+            radial-gradient(${70 + Math.sin(time * 0.4) * 25}% ${100 + Math.cos(time * 0.35) * 18}% at 
+            ${30 + Math.sin(time * 0.18) * 6}% ${70 + Math.cos(time * 0.22) * 5}%, 
+            rgba(131, 6, 152, ${0.35 + Math.sin(time * 0.55) * 0.06}), transparent 60%),
+            radial-gradient(${60 + Math.cos(time * 0.38) * 20}% ${90 + Math.sin(time * 0.32) * 15}% at 
+            ${70 + Math.cos(time * 0.18) * 5}% ${80 + Math.sin(time * 0.25) * 6}%, 
+            rgba(124, 162, 253, ${0.4 + Math.cos(time * 0.48) * 0.08}), transparent 60%),
+            radial-gradient(${50 + Math.sin(time * 0.42) * 15}% ${70 + Math.cos(time * 0.36) * 12}% at 
+            ${50 + Math.sin(time * 0.15) * 4}% ${50 + Math.cos(time * 0.28) * 4}%, 
+            rgba(172, 223, 127, ${0.25 + Math.sin(time * 0.52) * 0.05}), transparent 70%),
             linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)
           `,
-          filter: `saturate(${0.8 + Math.sin(time * 0.3) * 0.1}) brightness(${1.05 + Math.cos(time * 0.2) * 0.05})`,
+          filter: `saturate(${1.2 + Math.sin(time * 0.4) * 0.2}) brightness(${1.3 + Math.cos(time * 0.3) * 0.15})`,
           animation: 'breathe 6s ease-in-out infinite',
           transform: 'translateZ(0)',
-          willChange: 'transform'
+          willChange: 'transform, filter'
         }}
       ></div>
 
