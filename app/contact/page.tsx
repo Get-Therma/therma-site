@@ -188,8 +188,8 @@ export default function ContactPage() {
 
         <div className="header-spacer"></div>
 
-        <main>
-          <section className="container center">
+        <main className="safe-py">
+          <section className="container center safe-px">
             <div className="stack">
               <button 
                 className="back-link" 
@@ -369,8 +369,8 @@ export default function ContactPage() {
 
       <div className="header-spacer"></div>
 
-      <main>
-        <section className="container center">
+      <main className="safe-py">
+        <section className="container center safe-px">
           <div className="stack">
             <h1>We're here to listen</h1>
             <div className="sp-8"></div>

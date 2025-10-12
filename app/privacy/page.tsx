@@ -131,8 +131,8 @@ export default function PrivacyPage() {
         <div className="brand" onClick={() => router.push('/')} style={{ cursor: 'pointer' }}>Therma</div>
       </header>
 
-      <main style={{ padding: '120px 0 80px', minHeight: '100vh' }}>
-        <div className="container" style={{ maxWidth: '800px', margin: '0 auto', padding: '0 20px' }}>
+      <main className="safe-py" style={{ minHeight: '100svh' }}>
+        <div className="container safe-px" style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ 
             background: 'rgba(255,255,255,0.05)', 
             backdropFilter: 'blur(20px)', 

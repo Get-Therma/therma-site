@@ -256,8 +256,8 @@ export default function HomePage() {
 
       <div className="header-spacer"></div>
 
-      <main>
-        <section id="hero" className="container center">
+      <main className="safe-py">
+        <section id="hero" className="container center safe-px">
           <div className="stack">
             <h1>Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
             <div className="sp-8"></div>
@@ -300,7 +300,7 @@ export default function HomePage() {
         <div className="breathing-divider" aria-hidden="true"></div>
         
         {/* Why Therma Section */}
-        <section id="why" className="container center">
+        <section id="why" className="container center safe-px">
           <div className="stack">
             <h2 className="why-section-title">Why Therma?</h2>
             <p className="why-section-subtitle">Your space to slow down, check in, and feel supported</p>
