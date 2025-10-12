@@ -80,60 +80,92 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Optimized Interactive Background Layers */}
+      {/* Enhanced Interactive Background Layers */}
       <div 
         className="parallax-bg parallax-layer-1" 
         style={{
-          transform: `translate(${mousePosition.x * 0.03 + Math.sin(time * 0.3) * 5}px, ${mousePosition.y * 0.02 + Math.cos(time * 0.2) * 4}px)`,
-          background: `
-            radial-gradient(50% 70% at ${15 + mousePosition.x * 0.1}% ${15 + mousePosition.y * 0.08}%, 
-            rgba(255, 89, 48, 0.15), transparent 60%),
-            radial-gradient(40% 60% at ${70 + mousePosition.x * 0.08}% ${30 + mousePosition.y * 0.06}%, 
-            rgba(255, 89, 48, 0.08), transparent 70%)
+          transform: `
+            translate(${mousePosition.x * 0.08 + Math.sin(time * 0.3) * 8}px, ${mousePosition.y * 0.06 + Math.cos(time * 0.2) * 6}px) 
+            scale(${1 + (mousePosition.x - 50) * 0.001})
+            rotate(${Math.sin(time * 0.2) * 2 + (mousePosition.x - 50) * 0.1}deg)
           `,
-          filter: `saturate(${1.1 + Math.sin(time * 0.2) * 0.1})`
+          background: `
+            radial-gradient(${60 + Math.sin(time * 0.4) * 20 + mousePosition.x * 0.1}% ${80 + Math.cos(time * 0.3) * 15 + mousePosition.y * 0.08}% at 
+            ${15 + mousePosition.x * 0.15 + Math.sin(time * 0.3) * 8}% 
+            ${15 + mousePosition.y * 0.12 + Math.cos(time * 0.2) * 6}%, 
+            rgba(255, 89, 48, ${0.2 + Math.sin(time * 0.3) * 0.05 + mousePosition.x * 0.0005}), transparent 60%),
+            radial-gradient(${45 + Math.cos(time * 0.5) * 15 + mousePosition.x * 0.08}% ${65 + Math.sin(time * 0.4) * 12 + mousePosition.y * 0.06}% at 
+            ${70 + mousePosition.x * 0.12}% 
+            ${30 + mousePosition.y * 0.1}%, 
+            rgba(255, 89, 48, ${0.12 + Math.cos(time * 0.4) * 0.03 + mousePosition.y * 0.0003}), transparent 70%)
+          `,
+          filter: `saturate(${1.2 + Math.sin(time * 0.2) * 0.15 + mousePosition.x * 0.001}) hue-rotate(${(mousePosition.x - 50) * 0.5}deg)`
         }}
       ></div>
       
       <div 
         className="parallax-bg parallax-layer-2" 
         style={{
-          transform: `translate(${mousePosition.x * -0.025 + Math.cos(time * 0.25) * 6}px, ${mousePosition.y * 0.025 + Math.sin(time * 0.3) * 5}px)`,
-          background: `
-            radial-gradient(60% 80% at ${85 - mousePosition.x * 0.08}% ${25 + mousePosition.y * 0.1}%, 
-            rgba(252, 178, 0, 0.12), transparent 60%),
-            radial-gradient(45% 65% at ${25 + mousePosition.x * 0.06}% ${75 - mousePosition.y * 0.08}%, 
-            rgba(252, 178, 0, 0.06), transparent 75%)
+          transform: `
+            translate(${mousePosition.x * -0.06 + Math.cos(time * 0.25) * 8}px, ${mousePosition.y * 0.05 + Math.sin(time * 0.3) * 7}px) 
+            scale(${1 + (mousePosition.y - 50) * 0.001})
+            rotate(${Math.cos(time * 0.3) * 3 + (mousePosition.y - 50) * 0.1}deg)
           `,
-          filter: `saturate(${1.05 + Math.cos(time * 0.25) * 0.1})`
+          background: `
+            radial-gradient(${70 + Math.sin(time * 0.5) * 25 + mousePosition.x * 0.12}% ${85 + Math.cos(time * 0.4) * 20 + mousePosition.y * 0.1}% at 
+            ${85 - mousePosition.x * 0.12 + Math.sin(time * 0.4) * 10}% 
+            ${25 + mousePosition.y * 0.15 + Math.cos(time * 0.3) * 8}%, 
+            rgba(252, 178, 0, ${0.15 + Math.sin(time * 0.4) * 0.04 + mousePosition.x * 0.0004}), transparent 60%),
+            radial-gradient(${50 + Math.cos(time * 0.6) * 20 + mousePosition.x * 0.08}% ${60 + Math.sin(time * 0.5) * 15 + mousePosition.y * 0.08}% at 
+            ${25 + mousePosition.x * 0.1}% 
+            ${75 - mousePosition.y * 0.12}%, 
+            rgba(252, 178, 0, ${0.08 + Math.cos(time * 0.5) * 0.02 + mousePosition.y * 0.0002}), transparent 75%)
+          `,
+          filter: `saturate(${1.15 + Math.cos(time * 0.25) * 0.12 + mousePosition.y * 0.001}) hue-rotate(${(mousePosition.y - 50) * 0.3}deg)`
         }}
       ></div>
       
       <div 
         className="parallax-bg parallax-layer-3" 
         style={{
-          transform: `translate(${mousePosition.x * 0.02 + Math.sin(time * 0.35) * 7}px, ${mousePosition.y * -0.02 + Math.cos(time * 0.25) * 6}px)`,
-          background: `
-            radial-gradient(70% 90% at ${25 + mousePosition.x * 0.12}% ${75 - mousePosition.y * 0.1}%, 
-            rgba(131, 6, 152, 0.08), transparent 70%),
-            radial-gradient(50% 70% at ${75 + mousePosition.x * 0.05}% ${45 - mousePosition.y * 0.06}%, 
-            rgba(131, 6, 152, 0.04), transparent 80%)
+          transform: `
+            translate(${mousePosition.x * 0.05 + Math.sin(time * 0.35) * 10}px, ${mousePosition.y * -0.04 + Math.cos(time * 0.25) * 8}px) 
+            scale(${1 + Math.sqrt((mousePosition.x - 50) ** 2 + (mousePosition.y - 50) ** 2) * 0.0005})
+            rotate(${Math.sin(time * 0.4) * 4 + (mousePosition.x + mousePosition.y - 100) * 0.05}deg)
           `,
-          filter: `saturate(${1.1 + Math.sin(time * 0.3) * 0.15})`
+          background: `
+            radial-gradient(${80 + Math.cos(time * 0.6) * 30 + mousePosition.x * 0.15}% ${100 + Math.sin(time * 0.5) * 25 + mousePosition.y * 0.12}% at 
+            ${25 + mousePosition.x * 0.18 + Math.cos(time * 0.4) * 10}% 
+            ${75 - mousePosition.y * 0.14 + Math.sin(time * 0.5) * 10}%, 
+            rgba(131, 6, 152, ${0.12 + Math.sin(time * 0.5) * 0.03 + mousePosition.x * 0.0003}), transparent 70%),
+            radial-gradient(${55 + Math.sin(time * 0.6) * 20 + mousePosition.x * 0.1}% ${75 + Math.cos(time * 0.4) * 18 + mousePosition.y * 0.1}% at 
+            ${75 + mousePosition.x * 0.08}% 
+            ${45 - mousePosition.y * 0.1}%, 
+            rgba(131, 6, 152, ${0.06 + Math.cos(time * 0.6) * 0.02 + mousePosition.y * 0.0002}), transparent 80%)
+          `,
+          filter: `saturate(${1.2 + Math.sin(time * 0.3) * 0.18 + mousePosition.x * 0.0008}) hue-rotate(${(mousePosition.x + mousePosition.y - 100) * 0.2}deg)`
         }}
       ></div>
       
       <div 
         className="parallax-bg parallax-layer-4" 
         style={{
-          transform: `translate(${mousePosition.x * -0.02 + Math.cos(time * 0.3) * 8}px, ${mousePosition.y * -0.02 + Math.sin(time * 0.4) * 7}px)`,
-          background: `
-            radial-gradient(55% 75% at ${75 - mousePosition.x * 0.1}% ${65 - mousePosition.y * 0.08}%, 
-            rgba(124, 162, 253, 0.1), transparent 70%),
-            radial-gradient(40% 60% at ${35 + mousePosition.x * 0.08}% ${25 + mousePosition.y * 0.07}%, 
-            rgba(124, 162, 253, 0.05), transparent 85%)
+          transform: `
+            translate(${mousePosition.x * -0.04 + Math.cos(time * 0.3) * 12}px, ${mousePosition.y * -0.04 + Math.sin(time * 0.4) * 10}px) 
+            scale(${1 + Math.abs(mousePosition.x - mousePosition.y) * 0.0003})
+            rotate(${Math.cos(time * 0.6) * 5 + (mousePosition.x - mousePosition.y) * 0.08}deg)
           `,
-          filter: `saturate(${1.08 + Math.cos(time * 0.35) * 0.12})`
+          background: `
+            radial-gradient(${65 + Math.sin(time * 0.7) * 25 + mousePosition.x * 0.14}% ${80 + Math.cos(time * 0.6) * 20 + mousePosition.y * 0.1}% at 
+            ${75 - mousePosition.x * 0.14 + Math.sin(time * 0.5) * 12}% 
+            ${65 - mousePosition.y * 0.12 + Math.cos(time * 0.6) * 9}%, 
+            rgba(124, 162, 253, ${0.15 + Math.sin(time * 0.5) * 0.04 + mousePosition.x * 0.0004}), transparent 70%),
+            radial-gradient(${45 + Math.cos(time * 0.7) * 18 + mousePosition.x * 0.1}% ${65 + Math.sin(time * 0.5) * 15 + mousePosition.y * 0.08}% at 
+            ${30 + mousePosition.x * 0.12}% 
+            ${25 + mousePosition.y * 0.1}%, 
+            rgba(124, 162, 253, ${0.08 + Math.cos(time * 0.6) * 0.02 + mousePosition.y * 0.0002}), transparent 85%)
+          `,
+          filter: `saturate(${1.18 + Math.cos(time * 0.35) * 0.15 + mousePosition.y * 0.0008}) hue-rotate(${(mousePosition.x - mousePosition.y) * 0.4}deg)`
         }}
       ></div>
 
@@ -163,7 +195,7 @@ export default function HomePage() {
             rgba(172, 223, 127, ${0.25 + Math.sin(time * 0.52) * 0.05}), transparent 70%),
             linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)
           `,
-          filter: `saturate(${1.1 + Math.sin(time * 0.4) * 0.15}) brightness(${1.15 + Math.cos(time * 0.3) * 0.1})`,
+          filter: `saturate(${1.1 + Math.sin(time * 0.4) * 0.15 + mousePosition.x * 0.0005}) brightness(${1.15 + Math.cos(time * 0.3) * 0.1 + mousePosition.y * 0.0003}) hue-rotate(${(mousePosition.x + mousePosition.y - 100) * 0.1}deg)`,
           animation: 'breathe 6s ease-in-out infinite',
           transform: 'translateZ(0)',
           willChange: 'transform, filter'
