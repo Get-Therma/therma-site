@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import './globals.css';
 
 export default function HomePage() {
   const [email, setEmail] = useState('');
