@@ -163,7 +163,7 @@ export default function HomePage() {
             rgba(172, 223, 127, ${0.25 + Math.sin(time * 0.52) * 0.05}), transparent 70%),
             linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)
           `,
-          filter: `saturate(${1.2 + Math.sin(time * 0.4) * 0.2}) brightness(${1.3 + Math.cos(time * 0.3) * 0.15})`,
+          filter: `saturate(${1.1 + Math.sin(time * 0.4) * 0.15}) brightness(${1.15 + Math.cos(time * 0.3) * 0.1})`,
           animation: 'breathe 6s ease-in-out infinite',
           transform: 'translateZ(0)',
           willChange: 'transform, filter'
