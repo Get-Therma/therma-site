@@ -9,6 +9,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    company: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -18,6 +19,7 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
+    if (formType === 'collaboration' && !formData.company) return;
 
     setIsSubmitting(true);
     setStatus('');
@@ -127,6 +129,20 @@ export default function ContactPage() {
                     className="form-input"
                   />
                 </div>
+                
+                {formType === 'collaboration' && (
+                  <div className="form-group">
+                    <input
+                      type="text"
+                      name="company"
+                      placeholder="Company Name"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      required
+                      className="form-input"
+                    />
+                  </div>
+                )}
                 
                 <div className="form-group">
                   <textarea
