@@ -233,28 +233,30 @@ export default function FAQPage() {
       <main>
         <a href="/" className="back-link">Back to Home</a>
         
-        <section className="container center">
-          <div className="stack">
-            <h1>Frequently Asked Questions</h1>
-            <div className="sp-8"></div>
-            <h2 className="muted">Everything you need to know about Therma</h2>
-            <div className="sp-24"></div>
-            
-            <div className="faq-list">
-              {faqs.map((faq, index) => (
-                <div key={index} className={`faq-item ${activeFAQ === index ? 'active' : ''}`}>
-                  <button 
-                    className="faq-question" 
-                    onClick={() => toggleFAQ(index)}
-                  >
-                    <span>{faq.question}</span>
-                    <span className="faq-icon">+</span>
-                  </button>
-                  <div className="faq-answer">
-                    <p>{faq.answer}</p>
+        <section className="faq-section">
+          <div className="container center">
+            <div className="stack">
+              <h1 className="faq-title">Frequently Asked Questions</h1>
+              <div className="sp-8"></div>
+              <h2 className="muted">Everything you need to know about Therma</h2>
+              <div className="sp-24"></div>
+              
+              <div className="faq-list">
+                {faqs.map((faq, index) => (
+                  <div key={index} className={`faq-item ${activeFAQ === index ? 'active' : ''}`}>
+                    <button 
+                      className="faq-question" 
+                      onClick={() => toggleFAQ(index)}
+                    >
+                      <span>{faq.question}</span>
+                      <span className="faq-icon">+</span>
+                    </button>
+                    <div className="faq-answer">
+                      <p>{faq.answer}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </section>
