@@ -91,30 +91,62 @@ h3 { font-size: var(--h3); }
     linear-gradient(135deg, #000000 0%, #0a0a0a 30%, #1a1a1a 70%, #000000 100%);
   filter: saturate(3.0) brightness(1.8);
   animation: breathe 8s ease-in-out infinite;
+  animation-play-state: running;
   transform: translateZ(0);
-  will-change: transform;
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 @keyframes breathe {
   0%, 100% {
     filter: saturate(3.0) brightness(1.8);
-    transform: scale(1);
+    transform: scale(1) translateZ(0);
   }
   20% {
     filter: saturate(3.5) brightness(2.0);
-    transform: scale(1.02);
+    transform: scale(1.02) translateZ(0);
   }
   40% {
     filter: saturate(4.0) brightness(2.2);
-    transform: scale(1.04);
+    transform: scale(1.04) translateZ(0);
   }
   60% {
     filter: saturate(3.8) brightness(2.1);
-    transform: scale(1.03);
+    transform: scale(1.03) translateZ(0);
   }
   80% {
     filter: saturate(3.2) brightness(1.9);
-    transform: scale(1.01);
+    transform: scale(1.01) translateZ(0);
+  }
+}
+
+/* Ensure animations work on all browsers */
+@media (prefers-reduced-motion: no-preference) {
+  .heroBg {
+    animation: breathe 8s ease-in-out infinite;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+  }
+}
+
+/* Test animation - more obvious for debugging */
+@keyframes testPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Fallback for browsers that don't support animations */
+@media (prefers-reduced-motion: reduce) {
+  .heroBg {
+    animation: none;
+    filter: saturate(3.5) brightness(2.0);
   }
 }
 
