@@ -15,7 +15,6 @@ const client = postgres({
   max_lifetime: 60 * 30,
   max: 1, // Limit connections for local development
   prepare: false, // Disable prepared statements for better compatibility
-  family: 4, // Force IPv4 connection
 });
 
 export const db = drizzle(client, { schema });
