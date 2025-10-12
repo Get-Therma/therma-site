@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     };
 
     // Try to insert into database (optional - will work without DB)
-    let result = null;
+    let result: any = null;
     try {
       result = await db.insert(waitlist).values({
         email: email.toLowerCase().trim(),
