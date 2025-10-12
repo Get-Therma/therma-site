@@ -68,41 +68,7 @@ export async function POST(request: NextRequest) {
       console.log('Beehiiv API key not configured. Email logged locally:', email);
     }
 
-    // Send email notification (optional)
-    if (process.env.RESEND_API_KEY && process.env.WAITLIST_FROM && process.env.CONTACT_TO) {
-      try {
-        const emailResponse = await fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            from: process.env.WAITLIST_FROM,
-            to: [process.env.CONTACT_TO],
-            subject: `New Waitlist Signup: ${email}`,
-            html: `
-              <h2>New Waitlist Signup</h2>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>UTM Campaign:</strong> ${utm_campaign || 'None'}</p>
-              <p><strong>UTM Medium:</strong> ${utm_medium || 'None'}</p>
-              <p><strong>UTM Source:</strong> ${utm_source || 'None'}</p>
-              <hr>
-              <p><small>Signed up at: ${new Date().toISOString()}</small></p>
-              <p><small>Waitlist ID: ${result[0].id}</small></p>
-            `,
-          }),
-        });
-
-        if (!emailResponse.ok) {
-          console.error('Failed to send waitlist email:', await emailResponse.text());
-        } else {
-          console.log('Waitlist email sent successfully');
-        }
-      } catch (emailError) {
-        console.error('Waitlist email sending error:', emailError);
-      }
-    }
+    // Optional: Add email notifications here if needed later
 
     return NextResponse.json({ 
       message: 'Successfully joined waitlist!',
