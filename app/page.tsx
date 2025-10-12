@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import './globals.css';
 
 export default function HomePage() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,8 +41,8 @@ export default function HomePage() {
       // Store email for thank you page
       localStorage.setItem('therma_submitted_email', email);
       
-      // Redirect to thank you page
-      window.location.href = '/thank-you';
+      // Redirect to thank you page using Next.js router
+      router.push('/thank-you');
       
     } catch (err) {
       console.error('Form submission error:', err);
