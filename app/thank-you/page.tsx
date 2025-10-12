@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import '../globals.css';
+import { useRouter } from 'next/navigation';
 
 export default function ThankYouPage() {
   const [email, setEmail] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     // Get email from localStorage or URL params
@@ -20,7 +22,7 @@ export default function ThankYouPage() {
       <div className="heroBg" aria-hidden="true"></div>
 
       <header>
-        <div className="brand">Therma</div>
+        <div className="brand" style={{ cursor: 'pointer' }} onClick={() => router.push('/')}>Therma</div>
       </header>
 
       <div className="header-spacer"></div>
@@ -52,9 +54,9 @@ export default function ThankYouPage() {
               </a>
             </div>
             <div className="sp-16"></div>
-            <a href="/" className="btn">
+            <button className="btn" onClick={() => router.push('/')}>
               Back to Home
-            </a>
+            </button>
           </div>
         </section>
       </main>
@@ -64,12 +66,12 @@ export default function ThankYouPage() {
           <div className="footerBrand">Therma</div>
           <p className="caption">Therma helps you make space for yourself</p>
           <div className="sp-16"></div>
-          <p className="footerLinks caption">
-            <a href="contact.html">Contact Us</a> · 
-            <a href="faq.html">FAQ</a> · 
-            <a href="#">Privacy</a> · 
-            <a href="#">Terms of Use</a>
-          </p>
+            <p className="footerLinks caption">
+              <a href="/contact">Contact Us</a> · 
+              <a href="/faq">FAQ</a> · 
+              <a href="#">Privacy</a> · 
+              <a href="#">Terms of Use</a>
+            </p>
           <div className="sp-16"></div>
           <p className="caption">2025. All rights reserved</p>
         </div>
