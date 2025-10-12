@@ -265,11 +265,11 @@ export default function FAQPage() {
         <div className="brand" onClick={() => router.push('/')}>Therma</div>
       </header>
 
-      <main className="safe-py">
+      <main className="mx-auto max-w-screen-xl w-full px-4 safe-px safe-pt safe-pb min-h-[100svh] md:min-h-[100dvh]">
         <a href="/" className="back-link">Back to Home</a>
         
         <section className="faq-section safe-px">
-          <div className="container center">
+          <div className="container mx-auto px-4 py-20 text-center">
             <div className="stack">
               <h1 className="faq-title">Frequently Asked Questions</h1>
               <div className="sp-8"></div>

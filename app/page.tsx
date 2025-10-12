@@ -250,43 +250,46 @@ export default function HomePage() {
         }}
       ></div>
 
-      <header>
-        <div className="brand">Therma</div>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/10 safe-pt">
+        <div className="max-w-screen-xl mx-auto px-4 py-4">
+          <div className="text-2xl font-semibold text-white">Therma</div>
+        </div>
       </header>
 
-      <div className="header-spacer"></div>
+      <div className="h-20"></div>
 
-      <main className="safe-py">
-        <section id="hero" className="container center safe-px">
-          <div className="stack">
-            <h1>Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
-            <div className="sp-8"></div>
-            <h2 className="muted">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
-            <div className="sp-16"></div>
+      <main className="mx-auto max-w-screen-xl w-full px-4 safe-px safe-pt safe-pb min-h-[100svh] md:min-h-[100dvh]">
+        <section id="hero" className="container mx-auto px-4 py-20 text-center">
+          <div className="space-y-6">
+            <h1 className="font-semibold leading-tight [font-size:clamp(28px,7vw,56px)] text-white">Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
+            <div className="h-4"></div>
+            <h2 className="[font-size:clamp(22px,5.5vw,36px)] text-white/80 leading-relaxed">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
+            <div className="h-8"></div>
             
-            <form className="stack" style={{ gap: '12px' }} onSubmit={handleSubmit}>
-              <div className="pillInput">
+            <form className="space-y-3 max-w-md mx-auto" onSubmit={handleSubmit}>
+              <div className="relative">
                 <input 
                   type="email" 
                   placeholder="Enter your email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required 
+                  className="w-full px-6 py-4 text-lg bg-white/10 backdrop-blur-xl border border-white/20 rounded-full text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/40 transition-all duration-300"
                 />
               </div>
-              <p className="social-proof">Join the first 1,000 beta invites</p>
-              <div className="sp-8"></div>
+              <p className="text-white/60 text-sm">Join the first 1,000 beta invites</p>
+              <div className="h-4"></div>
               <div>
                 <button 
-                  className="btn" 
                   type="submit" 
+                  className="w-full px-8 py-4 text-lg font-medium text-black bg-white hover:bg-white/90 rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Submitting…' : 'Join Waitlist'}
                 </button>
               </div>
               <div 
-                className={`status-message ${status === 'success' ? 'success' : status === 'error' ? 'error' : ''}`}
+                className={`text-center text-sm ${status === 'success' ? 'text-green-400' : status === 'error' ? 'text-red-400' : 'text-transparent'}`}
                 role="status"
               >
                 {status === 'success' && 'Thank you! You\'ve been added to the waitlist.'}
@@ -300,41 +303,41 @@ export default function HomePage() {
         <div className="breathing-divider" aria-hidden="true"></div>
         
         {/* Why Therma Section */}
-        <section id="why" className="container center safe-px">
-          <div className="stack">
-            <h2 className="why-section-title">Why Therma?</h2>
-            <p className="why-section-subtitle">Your space to slow down, check in, and feel supported</p>
+        <section id="why" className="container mx-auto px-4 py-20 text-center">
+          <div className="space-y-6">
+            <h2 className="font-semibold leading-tight [font-size:clamp(28px,7vw,56px)] text-white">Why Therma?</h2>
+            <p className="[font-size:clamp(18px,4vw,24px)] text-white/80 leading-relaxed max-w-2xl mx-auto">Your space to slow down, check in, and feel supported</p>
             
-            <div className="why-grid">
-              <div className="why-tile">
-                <div className="why-icon">
+            <div className="mt-10 grid grid-cols-1 gap-4 ios-max-15:grid-cols-2 ipad:grid-cols-3 max-w-6xl mx-auto">
+              <div className="rounded-2xl p-5 ios-13:p-6 ipad:p-8 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="text-4xl mb-4">
                   <span role="img" aria-label="A person in a calm seated pose">🧘</span>
                 </div>
-                <h3>Daily Reflections</h3>
-                <p>Gentle prompts that help you process your day—without judgment.</p>
-                <div className="why-micro-story">
+                <h3 className="text-xl font-semibold text-white mb-3">Daily Reflections</h3>
+                <p className="text-white/80 mb-4">Gentle prompts that help you process your day—without judgment.</p>
+                <div className="text-sm text-white/60">
                   <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
                 </div>
               </div>
               
-              <div className="why-tile">
-                <div className="why-icon">
+              <div className="rounded-2xl p-5 ios-13:p-6 ipad:p-8 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="text-4xl mb-4">
                   <span role="img" aria-label="A friendly robot face">🤖</span>
                 </div>
-                <h3>AI Companion</h3>
-                <p>A kind companion that listens, asks thoughtful questions, and helps you notice patterns.</p>
-                <div className="why-micro-story">
+                <h3 className="text-xl font-semibold text-white mb-3">AI Companion</h3>
+                <p className="text-white/80 mb-4">A kind companion that listens, asks thoughtful questions, and helps you notice patterns.</p>
+                <div className="text-sm text-white/60">
                   <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
                 </div>
               </div>
               
-              <div className="why-tile">
-                <div className="why-icon">
+              <div className="rounded-2xl p-5 ios-13:p-6 ipad:p-8 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="text-4xl mb-4">
                   <span role="img" aria-label="A small, soft cloud">☁️</span>
                 </div>
-                <h3>Mindful Space</h3>
-                <p>A quiet place to slow down, breathe, and actually hear yourself.</p>
-                <div className="why-micro-story">
+                <h3 className="text-xl font-semibold text-white mb-3">Mindful Space</h3>
+                <p className="text-white/80 mb-4">A quiet place to slow down, breathe, and actually hear yourself.</p>
+                <div className="text-sm text-white/60">
                   <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
                 </div>
               </div>
@@ -477,19 +480,22 @@ export default function HomePage() {
         </section>
       </main>
 
-      <footer>
-        <div className="footerWrap">
-          <div className="footerBrand">Therma</div>
-          <p className="caption">Therma helps you make space for yourself</p>
-          <div className="sp-16"></div>
-            <p className="footerLinks caption">
-              <a href="/contact">Contact Us</a> · 
-              <a href="/faq">FAQ</a> · 
-              <a href="/privacy">Privacy</a> · 
-              <a href="/terms">Terms of Use</a>
-            </p>
-          <div className="sp-16"></div>
-          <p className="caption">© 2025 Get Therma Inc. All rights reserved</p>
+      <footer className="mt-20 py-12 px-4 safe-px">
+        <div className="max-w-screen-xl mx-auto text-center space-y-6">
+          <div className="text-2xl font-semibold text-white">Therma</div>
+          <p className="text-white/60 text-sm">Therma helps you make space for yourself</p>
+          <div className="h-8"></div>
+          <p className="text-white/60 text-sm space-x-2">
+            <a href="/contact" className="hover:text-white transition-colors">Contact Us</a>
+            <span>·</span>
+            <a href="/faq" className="hover:text-white transition-colors">FAQ</a>
+            <span>·</span>
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <span>·</span>
+            <a href="/terms" className="hover:text-white transition-colors">Terms of Use</a>
+          </p>
+          <div className="h-8"></div>
+          <p className="text-white/40 text-xs">© 2025 Get Therma Inc. All rights reserved</p>
         </div>
       </footer>
     </>

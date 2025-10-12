@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: 'PPPangaia';
   src: url('/fonts/PPPangaia-Medium-BF654c530cc86d5.woff') format('woff');
@@ -43,6 +47,17 @@
 /* Prevent horizontal scroll */
 html, body {
   overflow-x: hidden;
+}
+
+/* Orientation utilities */
+@media (orientation: portrait) { 
+  .portrait\:block { display: block; } 
+  .portrait\:hidden { display: none; } 
+}
+
+@media (orientation: landscape) { 
+  .landscape\:block { display: block; } 
+  .landscape\:hidden { display: none; } 
 }
 
 html, body {

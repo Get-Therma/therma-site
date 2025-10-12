@@ -140,8 +140,8 @@ export default function ThankYouPage() {
 
       <div className="header-spacer"></div>
 
-      <main className="safe-py">
-        <section className="container center safe-px">
+      <main className="mx-auto max-w-screen-xl w-full px-4 safe-px safe-pt safe-pb min-h-[100svh] md:min-h-[100dvh]">
+        <section className="container mx-auto px-4 py-20 text-center">
           <div className="stack">
             <div className="confirmation-icon">✅</div>
             <h1>You're In.</h1>
