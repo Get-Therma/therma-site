@@ -2,7 +2,7 @@
   "name": "therma-landing",
   "version": "1.0.0",
   "description": "Therma landing page with Beehiiv integration",
-  "main": "index.html",
+  "main": "app/page.tsx",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
