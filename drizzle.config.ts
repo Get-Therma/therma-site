@@ -5,6 +5,11 @@ export default defineConfig({
   out: './drizzle',
   driver: 'pg',
   dbCredentials: {
-    connectionString: process.env.POSTGRES_URL!,
+    host: 'db.ooaqigzgvrmyomfbdygz.supabase.co',
+    port: 5432,
+    database: 'postgres',
+    username: 'postgres',
+    password: 'Theartistpass123!',
+    ssl: true,
   },
 });
