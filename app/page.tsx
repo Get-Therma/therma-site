@@ -286,7 +286,7 @@ export default function HomePage() {
                 />
               </div>
               <div className="social-proof">
-                <div className="social-proof-line">First 1,000 spots.</div>
+                <div className="social-proof-line">Get early access and start transforming your routine.</div>
                 <div className="social-proof-line">No spam. Unsubscribe anytime.</div>
               </div>
               <div className="sp-8"></div>
@@ -296,7 +296,7 @@ export default function HomePage() {
                   type="submit" 
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Submitting…' : 'Get Early Access'}
+                  {isSubmitting ? 'Submitting…' : 'Join The Waitlist'}
                 </button>
               </div>
               <div 

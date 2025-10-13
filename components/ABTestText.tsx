@@ -46,7 +46,7 @@ export default function ABTestText({
   // Default fallback text
   const fallbackText = testType === 'headline' 
     ? 'Discover Your Patterns. Optimize Your Routine.'
-    : 'Therma is a private, AI‑guided journaling app that turns your check‑ins, habits, and notes into pattern maps—highlighting bright spots to keep and frictions to tweak—so small changes add up to steadier weeks.';
+    : 'Therma finds the hidden patterns in your daily life and turns them into clear, actionable insights. Fine-tune your habits for peak energy, clarity, and confidence—making every week better than the last.';
 
   if (isLoading) {
     const Tag = tag as keyof JSX.IntrinsicElements;

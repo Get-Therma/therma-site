@@ -40,17 +40,17 @@ export const HEADLINE_VARIANTS: HeadlineVariant[] = [
     weight: 1
   },
   {
-    id: 'data-driven',
-    text: 'AI-guided journaling that reveals patterns in your habits and mood.',
+    id: 'results-focused',
+    text: 'Optimize Your Routine. Amplify Your Results.',
     weight: 1
-  }
+  },
 ];
 
 // Subheadline variants for testing
 export const SUBHEADLINE_VARIANTS: HeadlineVariant[] = [
   {
     id: 'original',
-    text: 'Therma is a private, AI‑guided journaling app that turns your check‑ins, habits, and notes into pattern maps—highlighting bright spots to keep and frictions to tweak—so small changes add up to steadier weeks.',
+    text: 'Therma finds the hidden patterns in your daily life and turns them into clear, actionable insights. Fine-tune your habits for peak energy, clarity, and confidence—making every week better than the last.',
     weight: 1
   },
   {
