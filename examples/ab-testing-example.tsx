@@ -49,7 +49,6 @@ export default function HomePageWithABTesting() {
           {/* Replace the static h1 with A/B tested headline */}
           <ABTestHeadline 
             className="hero-title"
-            onVariantChange={setCurrentVariant}
           />
           
           <div className="sp-8"></div>

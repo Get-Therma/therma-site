@@ -47,7 +47,6 @@ export default function HomePageWithFullABTesting() {
           {/* A/B Tested Headline */}
           <ABTestHeadline 
             className="hero-title"
-            onVariantChange={setCurrentHeadlineVariant}
           />
           
           <div className="sp-8"></div>
@@ -55,7 +54,6 @@ export default function HomePageWithFullABTesting() {
           {/* A/B Tested Subheadline */}
           <ABTestSubheadline 
             className="muted"
-            onVariantChange={setCurrentSubheadlineVariant}
           />
           
           <div className="sp-16"></div>
