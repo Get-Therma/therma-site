@@ -446,11 +446,15 @@ footer {
 }
 
 .social-proof {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 400;
   margin: 0;
   text-align: center;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .confirmation-icon {

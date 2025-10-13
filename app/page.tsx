@@ -264,7 +264,7 @@ export default function HomePage() {
                   required 
                 />
               </div>
-              <p className="social-proof">Early access — first 1,000 spots. No spam. Unsubscribe anytime.</p>
+              <p className="social-proof">Early access — first 1,000 spots.<br/>No spam. Unsubscribe anytime.</p>
               <div className="sp-8"></div>
               <div>
                 <button 
