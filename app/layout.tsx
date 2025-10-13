@@ -8,14 +8,14 @@ export const metadata: Metadata = {
     template: '%s · Therma'
   },
   description:
-    'Therma turns your journaling and habits into pattern maps—showing bright spots to keep and frictions to tweak—so small changes create steadier weeks.',
+    'Therma is a private AI journaling app that turns your check‑ins, habits, and notes into pattern maps—highlighting bright spots and frictions for steadier weeks.',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     url: 'https://www.therma.one/',
     title: 'Therma — AI‑Guided Journaling, Pattern Maps & Mood Insights',
     description:
-      'Therma turns your journaling and habits into pattern maps—showing bright spots to keep and frictions to tweak—so small changes create steadier weeks.',
+      'Therma is a private AI journaling app that turns your check‑ins, habits, and notes into pattern maps—highlighting bright spots and frictions for steadier weeks.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Therma pattern maps' }]
   },
   twitter: {

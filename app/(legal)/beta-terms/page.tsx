@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Beta Program Terms · Therma',
+  description: 'Terms for participating in the Therma beta: confidentiality, feedback license, no warranty, and data caution.',
+};
+
 export default function BetaTermsPage() {
   return (
     <main style={{ padding: '2rem 1.25rem', maxWidth: 800, margin: '0 auto' }}>
