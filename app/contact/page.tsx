@@ -99,8 +99,8 @@ export default function ContactPage() {
               <div className="sp-8"></div>
               <h2 className="muted">
                 {formType === 'general' 
-                  ? 'Have questions about Therma? We\'re here to support you and listen to your thoughts.'
-                  : 'Interested in partnerships or collaborations? We\'d love to explore meaningful connections.'
+                  ? 'Have questions about Therma? We\'re here to support you. Share your experience or ask anything on your mind.'
+                  : 'Interested in partnerships or collaborations? Let\'s explore how we can work together and support each other\'s growth.'
                 }
               </h2>
               <div className="sp-24"></div>
@@ -205,21 +205,21 @@ export default function ContactPage() {
       <main>
         <section className="container center">
           <div className="stack">
-            <h1>We're here to listen</h1>
+            <h1>We're here to listen.</h1>
             <div className="sp-8"></div>
-            <h2 className="muted">Let's connect in a way that feels right for you</h2>
+            <h2 className="muted">Connect in the way that feels right for you.</h2>
             <div className="sp-24"></div>
             
             <div className="contact-options">
               <div className="contact-card" onClick={() => setFormType('general')}>
                 <h3>General Contact</h3>
-                <p>Have questions about Therma? We're here to support you and listen to your thoughts. Share your experience or ask anything that's on your mind.</p>
+                <p>Have questions about Therma? We're here to support you. Share your experience or ask anything on your mind.</p>
                 <button className="btn">Contact Us</button>
               </div>
               
               <div className="contact-card" onClick={() => setFormType('collaboration')}>
                 <h3>Collaborations & Business</h3>
-                <p>Interested in partnerships or collaborations? We'd love to explore meaningful connections and see how we can support each other's growth.</p>
+                <p>Interested in partnerships or collaborations? Let's explore how we can work together and support each other's growth.</p>
                 <button className="btn">Start Partnership</button>
               </div>
             </div>
