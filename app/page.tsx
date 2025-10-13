@@ -293,7 +293,7 @@ export default function HomePage() {
         <section id="why" className="container center">
           <div className="stack">
             <h2 className="why-section-title">Why Therma?</h2>
-            <p className="why-section-subtitle">Your private journal—now with a gentle, research-informed guide.</p>
+            <p className="why-section-subtitle">Your private journal—with a gentle, research‑informed guide.</p>
             
             <div className="why-grid">
               <div className="why-tile">
@@ -301,7 +301,7 @@ export default function HomePage() {
                   <span role="img" aria-label="Pattern maps">🗺️</span>
                 </div>
                 <h3>Pattern Maps</h3>
-                <p>Your entries, habits, sleep, and mood are organized into weekly views that surface recurring contexts—days, times, people, or routines—linked with steadier or shakier moods.</p>
+                <p>Your entries, habits, sleep, and mood are organized into weekly views that surface repeating contexts—days, times, people, or routines—linked with steadier or shakier moods.</p>
               </div>
               
               <div className="why-tile">
@@ -309,7 +309,7 @@ export default function HomePage() {
                   <span role="img" aria-label="Bright spots">✨</span>
                 </div>
                 <h3>Bright Spots (what's already working)</h3>
-                <p>See the routines that stabilize you (e.g., walk + 6‑bpm breathing before meetings). Save them as "Keep" habits to reinforce wins.</p>
+                <p>See the routines that steady you (e.g., walk + 6‑bpm breathing before meetings). Mark them as "Keep" habits to reinforce wins.</p>
               </div>
               
               <div className="why-tile">
@@ -317,7 +317,7 @@ export default function HomePage() {
                   <span role="img" aria-label="Friction finder">🔍</span>
                 </div>
                 <h3>Friction Finder (what to adjust)</h3>
-                <p>Therma flags conditions that nudge you off course (e.g., late caffeine + short sleep). Turn them into <i>if‑then</i> plans to make change stick.</p>
+                <p>Therma flags conditions that nudge you off course (e.g., late caffeine + short sleep). Turn them into if‑then plans so change sticks.</p>
               </div>
               
               <div className="why-tile">
@@ -325,7 +325,7 @@ export default function HomePage() {
                   <span role="img" aria-label="Gentle prompts">💭</span>
                 </div>
                 <h3>Gentle, research‑informed prompts</h3>
-                <p>Low‑effort daily prompts reduce cognitive load and help you reflect consistently.</p>
+                <p>Low‑effort prompts reduce decision fatigue and help you reflect consistently.</p>
               </div>
               
               <div className="why-tile">
@@ -333,7 +333,7 @@ export default function HomePage() {
                   <span role="img" aria-label="Breath tools">🫁</span>
                 </div>
                 <h3>Breath tools for regulation</h3>
-                <p>Quick, paced‑breathing guides to downshift stress and improve HRV over time.</p>
+                <p>Quick, paced‑breathing guides to downshift stress and support HRV over time.</p>
               </div>
               
               <div className="why-tile">
