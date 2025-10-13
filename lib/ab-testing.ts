@@ -16,7 +16,7 @@ export interface ABTest {
 export const HEADLINE_VARIANTS: HeadlineVariant[] = [
   {
     id: 'original',
-    text: 'See your patterns. Keep what works. Steady your days.',
+    text: 'Discover Your Patterns. Optimize Your Routine.',
     weight: 1
   },
   {

@@ -45,7 +45,7 @@ export default function ABTestText({
 
   // Default fallback text
   const fallbackText = testType === 'headline' 
-    ? 'See your patterns. Keep what works. Steady your days.'
+    ? 'Discover Your Patterns. Optimize Your Routine.'
     : 'Therma is a private, AI‑guided journaling app that turns your check‑ins, habits, and notes into pattern maps—highlighting bright spots to keep and frictions to tweak—so small changes add up to steadier weeks.';
 
   if (isLoading) {
