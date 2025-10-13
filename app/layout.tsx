@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import ThermaChatbot from '../components/ThermaChatbot';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
@@ -31,7 +32,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <ThermaChatbot />
+      </body>
     </html>
   );
 }
