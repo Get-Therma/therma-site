@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { ABTestHeadline, ABTestSubheadline } from '../components/ABTestText';
+import { trackABTestEvent, recordABTestResult, HEADLINE_AB_TEST, SUBHEADLINE_AB_TEST } from '../lib/ab-testing';
 
 export default function HomePage() {
   const [email, setEmail] = useState('');
@@ -10,6 +12,8 @@ export default function HomePage() {
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [time, setTime] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [currentHeadlineVariant, setCurrentHeadlineVariant] = useState('');
+  const [currentSubheadlineVariant, setCurrentSubheadlineVariant] = useState('');
   const router = useRouter();
 
   // Mobile detection
@@ -90,6 +94,17 @@ export default function HomePage() {
       const result = await response.json();
       console.log('Waitlist submission successful:', result);
       localStorage.setItem('therma_submitted_email', email);
+      
+      // Track A/B test conversions
+      if (currentHeadlineVariant) {
+        trackABTestEvent(HEADLINE_AB_TEST.id, currentHeadlineVariant, 'conversion', { email });
+        recordABTestResult(HEADLINE_AB_TEST.id, currentHeadlineVariant, 'conversions');
+      }
+      if (currentSubheadlineVariant) {
+        trackABTestEvent(SUBHEADLINE_AB_TEST.id, currentSubheadlineVariant, 'conversion', { email });
+        recordABTestResult(SUBHEADLINE_AB_TEST.id, currentSubheadlineVariant, 'conversions');
+      }
+      
       setStatus('success');
       router.push('/thank-you');
     } catch (err) {
@@ -249,9 +264,15 @@ export default function HomePage() {
       <main>
         <section id="hero" className="container center">
           <div className="stack">
-            <h1>See your patterns. Keep what works. Steady your days.</h1>
+            <ABTestHeadline 
+              className="hero-title"
+              onVariantChange={setCurrentHeadlineVariant}
+            />
             <div className="sp-8"></div>
-            <h2 className="muted">Therma is a private, AI‑guided journaling app that turns your check‑ins, habits, and notes into pattern maps—highlighting bright spots to keep and frictions to tweak—so small changes add up to steadier weeks.</h2>
+            <ABTestSubheadline 
+              className="muted"
+              onVariantChange={setCurrentSubheadlineVariant}
+            />
             <div className="sp-16"></div>
             
             <form className="stack" style={{ gap: '12px' }} onSubmit={handleSubmit}>
