@@ -3,7 +3,7 @@ import { defineConfig } from 'drizzle-kit';
 export default defineConfig({
   schema: './lib/schema.ts',
   out: './drizzle',
-  driver: 'pg',
+  dialect: 'postgresql',
   dbCredentials: {
     host: 'db.ooaqigzgvrmyomfbdygz.supabase.co',
     port: 5432,

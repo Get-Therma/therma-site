@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ABTestHeadline, ABTestSubheadline } from '../components/ABTestText';
-import { trackABTestEvent, recordABTestResult, HEADLINE_AB_TEST, SUBHEADLINE_AB_TEST } from '../lib/ab-testing';
 
 export default function HomePage() {
   const [email, setEmail] = useState('');
@@ -12,8 +11,6 @@ export default function HomePage() {
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [time, setTime] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [currentHeadlineVariant, setCurrentHeadlineVariant] = useState('');
-  const [currentSubheadlineVariant, setCurrentSubheadlineVariant] = useState('');
   const router = useRouter();
 
   // Mobile detection
@@ -94,16 +91,6 @@ export default function HomePage() {
       const result = await response.json();
       console.log('Waitlist submission successful:', result);
       localStorage.setItem('therma_submitted_email', email);
-      
-      // Track A/B test conversions
-      if (currentHeadlineVariant) {
-        trackABTestEvent(HEADLINE_AB_TEST.id, currentHeadlineVariant, 'conversion', { email });
-        recordABTestResult(HEADLINE_AB_TEST.id, currentHeadlineVariant, 'conversions');
-      }
-      if (currentSubheadlineVariant) {
-        trackABTestEvent(SUBHEADLINE_AB_TEST.id, currentSubheadlineVariant, 'conversion', { email });
-        recordABTestResult(SUBHEADLINE_AB_TEST.id, currentSubheadlineVariant, 'conversions');
-      }
       
       setStatus('success');
       router.push('/thank-you');
@@ -266,16 +253,14 @@ export default function HomePage() {
           <div className="stack">
             <ABTestHeadline 
               className="hero-title"
-              onVariantChange={setCurrentHeadlineVariant}
             />
             <div className="sp-8"></div>
             <ABTestSubheadline 
               className="muted"
-              onVariantChange={setCurrentSubheadlineVariant}
             />
             <div className="sp-16"></div>
             
-            <form className="stack" style={{ gap: '12px' }} onSubmit={handleSubmit}>
+            <form className="stack" onSubmit={handleSubmit}>
               <div className="pillInput">
                 <input 
                   type="email" 
@@ -420,7 +405,7 @@ export default function HomePage() {
             <h2 className="why-section-title">Join 1,000+ Already Checking In Daily</h2>
             <p className="why-section-subtitle">Ready to start your transformation? Join the waitlist now to be among the first to experience Therma. Don't miss your chance to turn daily habits into a lifelong advantage. Energize your days, clarify your direction, and build your confidence week by week.</p>
             
-            <div className="stack" style={{ gap: '16px', marginTop: '32px' }}>
+            <div className="stack" style={{ marginTop: 'var(--section-spacing-lg)' }}>
               <p className="why-section-subtitle">Be the first to know when we launch – sign up for early access today!</p>
             </div>
           </div>

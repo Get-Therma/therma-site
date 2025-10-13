@@ -55,7 +55,7 @@ export const SUBHEADLINE_VARIANTS: HeadlineVariant[] = [
   },
   {
     id: 'action-focused',
-    text: 'Spot the bright spots, fix the frictions, and feel steadier week by week.',
+    text: 'Therma finds the hidden patterns in your daily life and turns them into clear, actionable insights. Fine-tune your habits for peak energy, clarity, and confidence—making every week better than the last.',
     weight: 1
   },
   {
