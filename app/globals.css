@@ -902,8 +902,27 @@ header {
   -webkit-backface-visibility: hidden;
 }
 
-/* Prevent visual glitches */
-/* Removed conflicting main declaration - using the one above with proper padding */
+/* Therma Chatbot - Force positioning */
+.therma-chatbot-container {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 9999 !important;
+}
+
+.therma-chatbot-window {
+  position: fixed !important;
+  bottom: 112px !important;
+  right: 24px !important;
+  z-index: 9998 !important;
+}
+
+/* Ensure chatbot is always on top */
+.therma-chatbot-container,
+.therma-chatbot-window {
+  transform: translateZ(0);
+  will-change: transform;
+}
 
 section {
   position: relative;

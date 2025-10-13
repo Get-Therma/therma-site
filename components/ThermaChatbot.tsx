@@ -118,7 +118,15 @@ export default function ThermaChatbot({
   return (
     <>
       {/* Premium Floating Chat Badge */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <div 
+        className="therma-chatbot-container fixed bottom-6 right-6 z-50"
+        style={{
+          position: 'fixed',
+          bottom: '24px',
+          right: '24px',
+          zIndex: 9999
+        }}
+      >
         {/* Main Chat Button */}
         <button
           onClick={toggleChat}
@@ -165,7 +173,15 @@ export default function ThermaChatbot({
 
       {/* Premium Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-28 right-6 z-40 w-96 h-[500px] rounded-3xl shadow-2xl border border-gray-200/50 bg-white/95 backdrop-blur-xl transition-all duration-500 flex flex-col overflow-hidden">
+        <div 
+          className="therma-chatbot-window fixed bottom-28 right-6 z-40 w-96 h-[500px] rounded-3xl shadow-2xl border border-gray-200/50 bg-white/95 backdrop-blur-xl transition-all duration-500 flex flex-col overflow-hidden"
+          style={{
+            position: 'fixed',
+            bottom: '112px',
+            right: '24px',
+            zIndex: 9998
+          }}
+        >
           {/* Premium Header */}
           <div className="p-6 rounded-t-3xl bg-gradient-to-r from-gray-50 to-white border-b border-gray-200/50">
             <div className="flex items-center justify-between">
