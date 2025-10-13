@@ -351,7 +351,7 @@ export default function HomePage() {
         <section id="how-it-works" className="container center">
           <div className="stack">
             <h2 className="why-section-title">How it works</h2>
-            <p className="why-section-subtitle">Simple steps to a more mindful you</p>
+            <p className="why-section-subtitle">Three simple steps to steadier days.</p>
             
             <div className="why-grid">
               <div className="why-tile">
@@ -359,7 +359,7 @@ export default function HomePage() {
                   <span role="img" aria-label="Step one">1️⃣</span>
                 </div>
                 <h3>Check in</h3>
-                <p>60–120s of guided breathing + a simple mood prompt.</p>
+                <p>60–120 seconds of paced breathing plus a simple mood check.</p>
               </div>
               
               <div className="why-tile">
@@ -367,7 +367,7 @@ export default function HomePage() {
                   <span role="img" aria-label="Step two">2️⃣</span>
                 </div>
                 <h3>Journal</h3>
-                <p>Answer one or two gentle questions; add any habit tags.</p>
+                <p>Answer one or two gentle prompts; add any habit tags.</p>
               </div>
               
               <div className="why-tile">
@@ -375,7 +375,7 @@ export default function HomePage() {
                   <span role="img" aria-label="Step three">3️⃣</span>
                 </div>
                 <h3>See patterns</h3>
-                <p>Weekly Pattern Map highlights <b>bright spots</b> and <b>frictions</b> with easy next steps.</p>
+                <p>Your Weekly Pattern Map highlights bright spots and frictions with simple next steps.</p>
               </div>
             </div>
           </div>
@@ -385,7 +385,7 @@ export default function HomePage() {
       <footer>
         <div className="footerWrap">
           <div className="footerBrand">Therma</div>
-          <p className="caption">Therma helps you make space for yourself</p>
+          <p className="caption">Therma helps you make space for yourself.</p>
           <div className="sp-16"></div>
             <p className="footerLinks caption">
               <a href="/contact">Contact Us</a> · 
