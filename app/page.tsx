@@ -296,7 +296,7 @@ export default function HomePage() {
                   type="submit" 
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Submitting…' : 'Get early access'}
+                  {isSubmitting ? 'Submitting…' : 'Discover Your Patterns. Optimize Your Routine.'}
                 </button>
               </div>
               <div 

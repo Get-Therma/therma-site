@@ -4,7 +4,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ABTestHeadline, ABTestSubheadline } from '../components/ABTestText';
+import ABTestText, { ABTestHeadline, ABTestSubheadline } from '../components/ABTestText';
 
 export default function HomePageWithFullABTesting() {
   const [email, setEmail] = useState('');

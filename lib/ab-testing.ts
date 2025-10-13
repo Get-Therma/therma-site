@@ -137,8 +137,8 @@ export function trackABTestEvent(testId: string, variantId: string, event: strin
   });
 
   // Example: Send to Google Analytics 4
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'ab_test', {
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', 'ab_test', {
       test_id: testId,
       variant_id: variantId,
       event_name: event,
