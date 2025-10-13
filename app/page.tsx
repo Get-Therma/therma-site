@@ -313,59 +313,34 @@ export default function HomePage() {
         {/* Breathing Divider */}
         <div className="breathing-divider" aria-hidden="true"></div>
         
-        {/* Why Therma Section */}
-        <section id="why" className="container center">
+        {/* Benefits Section */}
+        <section id="benefits" className="container center">
           <div className="stack">
-            <h2 className="why-section-title">Why Therma?</h2>
-            <p className="why-section-subtitle">Your private journal—with a gentle, research‑informed guide.</p>
+            <h2 className="why-section-title">Feel Energized, Find Clarity, Gain Confidence</h2>
             
             <div className="why-grid">
               <div className="why-tile">
                 <div className="why-icon">
-                  <span role="img" aria-label="Pattern maps">🗺️</span>
+                  <span role="img" aria-label="Steady energy">⚡</span>
                 </div>
-                <h3>Pattern Maps</h3>
-                <p>Your entries, habits, sleep, and mood are organized into weekly views that surface repeating contexts—days, times, people, or routines—linked with steadier or shakier moods.</p>
+                <h3>Steady Energy</h3>
+                <p>Identify the habits that fuel you. Therma helps you pinpoint what activities give you lasting energy (and which ones sap it), so you can wake up stronger and sustain that drive all day.</p>
               </div>
               
               <div className="why-tile">
                 <div className="why-icon">
-                  <span role="img" aria-label="Bright spots">✨</span>
+                  <span role="img" aria-label="Mental clarity">🎯</span>
                 </div>
-                <h3>Bright Spots (what's already working)</h3>
-                <p>See the routines that steady you (e.g., walk + 6‑bpm breathing before meetings). Mark them as "Keep" habits to reinforce wins.</p>
+                <h3>Mental Clarity</h3>
+                <p>Cut through the noise and focus on what matters. By highlighting patterns in your daily routine, Therma lets you spend less time guessing and more time making progress on your goals with a clear mind.</p>
               </div>
               
               <div className="why-tile">
                 <div className="why-icon">
-                  <span role="img" aria-label="Friction finder">🔍</span>
+                  <span role="img" aria-label="Unshakable confidence">💪</span>
                 </div>
-                <h3>Friction Finder (what to adjust)</h3>
-                <p>Therma flags conditions that nudge you off course (e.g., late caffeine + short sleep). Turn them into if‑then plans so change sticks.</p>
-              </div>
-              
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Gentle prompts">💭</span>
-                </div>
-                <h3>Gentle, research‑informed prompts</h3>
-                <p>Low‑effort prompts reduce decision fatigue and help you reflect consistently.</p>
-              </div>
-              
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Breath tools">🫁</span>
-                </div>
-                <h3>Breath tools for regulation</h3>
-                <p>Quick, paced‑breathing guides to downshift stress and support HRV over time.</p>
-              </div>
-              
-              <div className="why-tile">
-                <div className="why-icon">
-                  <span role="img" aria-label="Private by design">🔒</span>
-                </div>
-                <h3>Private by design</h3>
-                <p>Your entries stay yours. We use strong safeguards and HIPAA‑eligible services; details in our Privacy Policy.</p>
+                <h3>Unshakable Confidence</h3>
+                <p>Watch your small wins build into big results. As you see consistent improvement week after week, you'll gain the confidence that you're in control of your habits and capable of achieving your biggest goals.</p>
               </div>
             </div>
           </div>
@@ -374,33 +349,79 @@ export default function HomePage() {
         {/* How It Works Section */}
         <section id="how-it-works" className="container center">
           <div className="stack">
-            <h2 className="why-section-title">How it works</h2>
-            <p className="why-section-subtitle">Three simple steps to steadier days.</p>
+            <h2 className="why-section-title">How It Works</h2>
+            <p className="why-section-subtitle">Therma guides you through a simple, effective cycle to keep you growing every day:</p>
             
             <div className="why-grid">
               <div className="why-tile">
                 <div className="why-icon">
-                  <span role="img" aria-label="Step one">1️⃣</span>
+                  <span role="img" aria-label="Check in">📝</span>
                 </div>
-                <h3>Check in</h3>
-                <p>60–120 seconds of paced breathing plus a simple mood check.</p>
+                <h3>Check In</h3>
+                <p>Log your key habits, moods, or moments in seconds. No lengthy journaling—just a quick daily check-in to capture your day's signals.</p>
               </div>
               
               <div className="why-tile">
                 <div className="why-icon">
-                  <span role="img" aria-label="Step two">2️⃣</span>
+                  <span role="img" aria-label="Reflect">🔍</span>
                 </div>
-                <h3>Journal</h3>
-                <p>Answer one or two gentle prompts; add any habit tags.</p>
+                <h3>Reflect</h3>
+                <p>See your progress and discover trends. Therma visualizes patterns in your behavior over time, so you can understand what boosts or drains you. Spot which habits make you feel on top of the world, and which hold you back.</p>
               </div>
               
               <div className="why-tile">
                 <div className="why-icon">
-                  <span role="img" aria-label="Step three">3️⃣</span>
+                  <span role="img" aria-label="Feel supported">🤝</span>
                 </div>
-                <h3>See patterns</h3>
-                <p>Your Weekly Pattern Map highlights bright spots and frictions with simple next steps.</p>
+                <h3>Feel Supported</h3>
+                <p>Get gentle nudges and personalized tips when you need them. Whether it's a mid-week slump or a big win, Therma is like a coach in your pocket—encouraging you, keeping you accountable, and helping you stay on track.</p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Mission Section */}
+        <section id="mission" className="container center">
+          <div className="stack">
+            <h2 className="why-section-title">See Your Patterns, Shape Your Future</h2>
+            <p className="why-section-subtitle">We built Therma because personal growth shouldn't be a shot in the dark. Your life is rich with data — daily moods, habits, and decisions that shape your outcomes. When you can see those patterns clearly, you gain the power to change them for the better.</p>
+            
+            <div className="why-grid">
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Clear insights">🎯</span>
+                </div>
+                <h3>Clear, Empowering Insights</h3>
+                <p>Therma's mission is to help you see and shape your own behavior through clear, empowering insights. It's your routine, illuminated. Your choices, optimized.</p>
+              </div>
+              
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="Consistent momentum">🚀</span>
+                </div>
+                <h3>Consistent Momentum</h3>
+                <p>The result? More consistent momentum and a happier, more productive you, every single week.</p>
+              </div>
+              
+              <div className="why-tile">
+                <div className="why-icon">
+                  <span role="img" aria-label="No magic">✨</span>
+                </div>
+                <h3>No Magic, No Gimmicks</h3>
+                <p>No magic, no gimmicks—just your own everyday signals finally working for you.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Social Proof Section */}
+        <section id="social-proof" className="container center">
+          <div className="stack">
+            <h2 className="why-section-title">Join 1,000+ Already Checking In Daily</h2>
+            <p className="why-section-subtitle">Ready to start your transformation? Join the waitlist now to be among the first to experience Therma. Don't miss your chance to turn daily habits into a lifelong advantage. Energize your days, clarify your direction, and build your confidence week by week.</p>
+            
+            <div className="stack" style={{ gap: '16px', marginTop: '32px' }}>
+              <p className="why-section-subtitle">Be the first to know when we launch – sign up for early access today!</p>
             </div>
           </div>
         </section>
