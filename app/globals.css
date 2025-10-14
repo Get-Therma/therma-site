@@ -63,6 +63,9 @@ html, body {
 /* Remove body background to let heroBg show through */
 body {
   background: transparent;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -298,7 +301,6 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: var(--section-spacing-lg) 0;
   width: 100%;
   max-width: 100%;
 }
@@ -313,7 +315,6 @@ main {
   justify-content: center;
   text-align: center;
   position: relative;
-  min-height: calc(100vh - var(--section-spacing-lg));
 }
 
 @media (min-width: 768px) {
