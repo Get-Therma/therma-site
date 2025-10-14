@@ -3,6 +3,7 @@ import { Resend } from 'resend';
 import { ThankYouEmailTemplate } from '../../../lib/email-templates';
 import { getDb } from '../../../lib/db';
 import { waitlist } from '../../../lib/schema';
+import { eq } from 'drizzle-orm';
 
 export async function POST(req: Request) {
   try {
@@ -29,7 +30,7 @@ export async function POST(req: Request) {
           body: JSON.stringify({
             email,
             publication_id: process.env.BEEHIIV_PUBLICATION_ID,
-            reactivate_existing: true,
+            reactivate_existing: true, // This handles duplicates in Beehiv
             double_opt_in: true,
             source: source ?? 'Website',
             utm_source,
@@ -48,6 +49,11 @@ export async function POST(req: Request) {
         } else {
           const errorText = await res.text();
           console.log('Beehiiv error response:', errorText);
+          // Check if it's a duplicate error (common Beehiv response)
+          if (res.status === 400 && errorText.includes('already exists')) {
+            console.log('Email already exists in Beehiv (duplicate)');
+            beehiivSuccess = true; // Consider this a success
+          }
         }
       } catch (beehiivError) {
         console.error('Beehiiv API error:', beehiivError);
@@ -79,12 +85,20 @@ export async function POST(req: Request) {
       console.log('No Resend API key found, cannot send email');
     }
 
-    // If both Beehiv and email failed, try to store in database as fallback
+    // Always store in database for complete record (with duplicate handling)
     let dbSuccess = false;
-    if (!beehiivSuccess && !emailSuccess) {
-      try {
-        console.log('Storing email in database as fallback...');
-        const db = await getDb();
+    try {
+      console.log('Storing email in database...');
+      const db = await getDb();
+      
+      // Check if email already exists
+      const existingEmail = await db.select().from(waitlist).where(eq(waitlist.email, email)).limit(1);
+      
+      if (existingEmail.length > 0) {
+        console.log('Email already exists in database (duplicate)');
+        dbSuccess = true; // Consider this a success since email is already captured
+      } else {
+        // Insert new email
         await db.insert(waitlist).values({
           email,
           attribution: JSON.stringify({
@@ -92,14 +106,16 @@ export async function POST(req: Request) {
             utm_source,
             utm_medium,
             utm_campaign,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            beehiivSuccess,
+            emailSuccess
           })
         });
         console.log('Email stored in database successfully');
         dbSuccess = true;
-      } catch (dbError) {
-        console.error('Failed to store email in database:', dbError);
       }
+    } catch (dbError) {
+      console.error('Failed to store email in database:', dbError);
     }
 
     // If all services failed, return an error
