@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useConsent } from '../lib/useConsent';
-import ConsentModal from './ConsentModal';
 import { faqSearch, getLaunchStatus, FAQItem } from '../lib/faq-api';
 
 interface Message {
@@ -25,7 +23,7 @@ interface ThermaAssistantProps {
 
 export default function ThermaAssistant({
   apiEndpoint = '/api/assistant',
-  welcomeMessage = "Hi! I'm Therma Assistant. I can answer questions about our product, launch timeline, features, integrations, and company vision. What would you like to know?",
+  welcomeMessage = "Hi! I'm Therma. I can answer questions about our product, launch timeline, features, integrations, and company vision. What would you like to know?",
   placeholder = "Ask about Therma's product, features, or launch..."
 }: ThermaAssistantProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +43,6 @@ export default function ThermaAssistant({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   
-  const { consentState, showConsentModal, setShowConsentModal, createConsent } = useConsent(sessionId);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -101,7 +98,7 @@ export default function ThermaAssistant({
   };
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim() || isLoading || !consentState.hasConsented) return;
+    if (!inputValue.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -132,7 +129,6 @@ export default function ThermaAssistant({
         body: JSON.stringify({
           message: messageText,
           sessionId,
-          consentType: consentState.consentType,
           conversationHistory: messages.slice(-10),
           currentFlow
         }),
@@ -217,13 +213,6 @@ export default function ThermaAssistant({
 
   return (
     <>
-      {/* Consent Modal */}
-      <ConsentModal
-        isOpen={showConsentModal}
-        onClose={() => setShowConsentModal(false)}
-        onConsent={createConsent}
-      />
-
       {/* Premium Floating Chat Badge */}
       <div 
         className="therma-chatbot-container"
@@ -242,8 +231,8 @@ export default function ThermaAssistant({
             width: '64px',
             height: '64px',
             borderRadius: '16px',
-            background: 'linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%)',
-            border: '1px solid rgba(229, 231, 235, 0.5)',
+            background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+            border: '1px solid rgba(51, 65, 85, 0.3)',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
             display: 'flex',
             alignItems: 'center',
@@ -265,7 +254,7 @@ export default function ThermaAssistant({
         >
           {/* Icon */}
           <div style={{ 
-            color: '#374151',
+            color: '#ffffff',
             transition: 'color 0.3s ease',
             fontSize: '28px',
             fontWeight: 'bold'
@@ -282,7 +271,7 @@ export default function ThermaAssistant({
             right: '-8px',
             width: '24px',
             height: '24px',
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
             borderRadius: '50%',
             boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
             border: '2px solid white',
@@ -307,12 +296,12 @@ export default function ThermaAssistant({
             right: '80px',
             top: '50%',
             transform: 'translateY(-50%)',
-            background: 'rgba(255, 255, 255, 0.95)',
+            background: 'rgba(30, 41, 59, 0.95)',
             backdropFilter: 'blur(12px)',
             borderRadius: '12px',
             padding: '8px 16px',
             boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-            border: '1px solid rgba(229, 231, 235, 0.5)',
+            border: '1px solid rgba(51, 65, 85, 0.3)',
             opacity: 0,
             transition: 'opacity 0.3s ease',
             whiteSpace: 'nowrap',
@@ -325,8 +314,8 @@ export default function ThermaAssistant({
             e.currentTarget.style.opacity = '0';
           }}
           >
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937' }}>Therma Assistant</div>
-            <div style={{ fontSize: '12px', color: '#6b7280' }}>AI — Private</div>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: '#ffffff' }}>Therma</div>
+            <div style={{ fontSize: '12px', color: '#cbd5e1' }}>AI — Private</div>
           </div>
         )}
       </div>
@@ -356,14 +345,14 @@ export default function ThermaAssistant({
             animation: 'slideUp 0.3s ease-out'
           }}
           role="log"
-          aria-label="Therma Assistant Chat"
+          aria-label="Therma Chat"
         >
           {/* Premium Header */}
           <div style={{
             padding: '24px',
             borderRadius: '24px 24px 0 0',
-            background: 'linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)',
-            borderBottom: '1px solid rgba(229, 231, 235, 0.3)',
+            background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+            borderBottom: '1px solid rgba(51, 65, 85, 0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between'
@@ -373,7 +362,7 @@ export default function ThermaAssistant({
                 width: '48px',
                 height: '48px',
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #f97316 0%, #dc2626 50%, #ec4899 100%)',
+                background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -382,12 +371,12 @@ export default function ThermaAssistant({
                 <span style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>T</span>
               </div>
               <div>
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#111827', margin: 0 }}>Therma Assistant</h3>
-                <p style={{ fontSize: '14px', color: '#6b7280', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff', margin: 0 }}>Therma</h3>
+                <p style={{ fontSize: '14px', color: '#cbd5e1', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <div style={{
                     width: '8px',
                     height: '8px',
-                    backgroundColor: '#10b981',
+                    backgroundColor: '#06b6d4',
                     borderRadius: '50%',
                     animation: 'pulse 2s infinite'
                   }}></div>
@@ -401,20 +390,20 @@ export default function ThermaAssistant({
                 width: '32px',
                 height: '32px',
                 borderRadius: '12px',
-                background: '#f3f4f6',
+                background: 'rgba(51, 65, 85, 0.3)',
                 border: 'none',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
                 transition: 'background-color 0.2s ease',
-                color: '#6b7280'
+                color: '#cbd5e1'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#e5e7eb';
+                e.currentTarget.style.backgroundColor = 'rgba(51, 65, 85, 0.5)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#f3f4f6';
+                e.currentTarget.style.backgroundColor = 'rgba(51, 65, 85, 0.3)';
               }}
               aria-label="Minimize chat"
             >
@@ -423,12 +412,11 @@ export default function ThermaAssistant({
           </div>
 
           {/* Quick Actions */}
-          {consentState.hasConsented && (
-            <div style={{
-              padding: '16px',
-              borderBottom: '1px solid rgba(229, 231, 235, 0.3)',
-              background: 'rgba(249, 250, 251, 0.5)'
-            }}>
+          <div style={{
+            padding: '16px',
+            borderBottom: '1px solid rgba(229, 231, 235, 0.3)',
+            background: 'rgba(249, 250, 251, 0.5)'
+          }}>
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
@@ -465,7 +453,6 @@ export default function ThermaAssistant({
                 ))}
               </div>
             </div>
-          )}
 
           {/* Messages */}
           <div style={{
@@ -564,8 +551,7 @@ export default function ThermaAssistant({
             borderTop: '1px solid rgba(229, 231, 235, 0.3)',
             background: 'linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)'
           }}>
-            {consentState.hasConsented ? (
-              <div style={{ display: 'flex', gap: '12px' }}>
+            <div style={{ display: 'flex', gap: '12px' }}>
                 <input
                   ref={inputRef}
                   type="text"
@@ -633,11 +619,6 @@ export default function ThermaAssistant({
                   </svg>
                 </button>
               </div>
-            ) : (
-              <div style={{ textAlign: 'center', padding: '16px 0' }}>
-                <p style={{ fontSize: '14px', color: '#6b7280', margin: 0 }}>Please complete privacy consent to continue</p>
-              </div>
-            )}
           </div>
         </div>
       )}
