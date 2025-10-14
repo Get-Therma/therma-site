@@ -19,6 +19,7 @@ export async function POST(req: Request) {
 
     // Try to subscribe to Beehiiv (optional - don't fail if it doesn't work)
     let beehiivSuccess = false;
+    let beehiivDuplicate = false;
     if (process.env.BEEHIIV_API_KEY && process.env.BEEHIIV_PUBLICATION_ID) {
       // Retry mechanism for Beehiv
       for (let attempt = 1; attempt <= 2; attempt++) {
@@ -60,6 +61,7 @@ export async function POST(req: Request) {
             if (res.status === 400 && errorText.includes('already exists')) {
               console.log('Email already exists in Beehiv (duplicate)');
               beehiivSuccess = true; // Consider this a success
+              beehiivDuplicate = true; // Mark as duplicate
             } else {
               // Log detailed error for debugging
               console.error('Beehiiv subscription failed:', {
@@ -119,6 +121,7 @@ export async function POST(req: Request) {
 
     // Always store in database for complete record (with duplicate handling)
     let dbSuccess = false;
+    let isDuplicate = false;
     try {
       console.log('Storing email in database...');
       const db = await getDb();
@@ -128,6 +131,7 @@ export async function POST(req: Request) {
       
       if (existingEmail.length > 0) {
         console.log('Email already exists in database (duplicate)');
+        isDuplicate = true;
         dbSuccess = true; // Consider this a success since email is already captured
       } else {
         // Insert new email
@@ -148,6 +152,20 @@ export async function POST(req: Request) {
       }
     } catch (dbError) {
       console.error('Failed to store email in database:', dbError);
+    }
+
+    // If this is a duplicate email, return appropriate response
+    if (isDuplicate || beehiivDuplicate) {
+      return NextResponse.json({ 
+        error: 'Email already exists',
+        message: 'This email address is already subscribed to our waitlist.',
+        duplicate: true,
+        beehiivDuplicate,
+        databaseDuplicate: isDuplicate,
+        beehiivSuccess,
+        emailSuccess,
+        dbSuccess
+      }, { status: 409 }); // 409 Conflict status for duplicates
     }
 
     // If all services failed, return an error

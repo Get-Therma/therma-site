@@ -24,7 +24,15 @@ export default function SubscribeForm() {
         })
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || 'Something went wrong');
+      if (!res.ok) {
+        // Handle duplicate email error specifically
+        if (res.status === 409 && data.duplicate) {
+          setStatus('error');
+          setMessage(data.message || 'This email is already subscribed to our waitlist.');
+          return;
+        }
+        throw new Error(data?.error || 'Something went wrong');
+      }
       setStatus('ok');
       setEmail('');
       setMessage('Check your inbox to confirm your subscription.');
