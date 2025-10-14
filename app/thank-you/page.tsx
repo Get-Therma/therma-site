@@ -31,24 +31,24 @@ export default function ThankYouPage() {
         <section className="container center">
           <div className="stack">
             <div className="confirmation-icon">✅</div>
-            <h1 style={{ fontSize: 'var(--h1)' }}>You're In.</h1>
+            <h1 style={{ fontSize: '64px', lineHeight: '1.1' }}>You're In.</h1>
             <div className="sp-8"></div>
-            <h2 className="muted" style={{ fontSize: 'var(--h2)' }}>
+            <h2 className="muted" style={{ fontSize: '40px', lineHeight: '1.2' }}>
               Thanks for joining the Therma waitlist.
               <br/>
               We'll be in touch soon with your invite to experience a smarter way to control your climate.
             </h2>
             <div className="sp-16"></div>
-            <h3 className="muted" style={{ fontSize: 'var(--h3)' }}>
+            <h3 className="muted" style={{ fontSize: '28px', lineHeight: '1.3' }}>
               In the meantime, follow us for sneak peeks and launch updates:
             </h3>
             <div className="sp-8"></div>
-            <div className="social-links">
-              <a href="https://www.instagram.com/gettherma/" className="social-link" target="_blank" rel="noopener noreferrer">
+            <div className="social-links" style={{ fontSize: '20px' }}>
+              <a href="https://www.instagram.com/gettherma/" className="social-link" target="_blank" rel="noopener noreferrer" style={{ fontSize: '20px' }}>
                 <span className="social-icon">📷</span>
                 Follow on Instagram
               </a>
-              <a href="https://x.com/gettherma" className="social-link" target="_blank" rel="noopener noreferrer">
+              <a href="https://x.com/gettherma" className="social-link" target="_blank" rel="noopener noreferrer" style={{ fontSize: '20px' }}>
                 <span className="social-icon">🐦</span>
                 Join us on X
               </a>
