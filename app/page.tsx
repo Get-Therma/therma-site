@@ -84,7 +84,7 @@ export default function HomePage() {
       <main>
         <section id="hero" className="container center">
           <div className="stack">
-            <h1>Discover Your Patterns.<br/>Optimize Your Routine.</h1>
+            <h1>Discover Your Patterns. Optimize Your Routine.</h1>
             <div className="sp-8"></div>
             <h2 className="muted">Therma finds the hidden patterns in your daily life<br/>and turns them into clear, actionable insights.<br/>Fine-tune your habits for peak energy, clarity, and confidence—<br/>making every week better than the last.</h2>
             <div className="sp-16"></div>
