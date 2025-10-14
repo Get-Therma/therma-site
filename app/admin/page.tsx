@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import BulkSyncAdmin from '../../components/BulkSyncAdmin';
 
 interface DashboardData {
   waitlistCount: number;
@@ -19,6 +20,7 @@ export default function AdminDashboard() {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'sync'>('dashboard');
 
   useEffect(() => {
     // Fetch initial data
@@ -68,6 +70,34 @@ export default function AdminDashboard() {
             </p>
           </div>
         </div>
+
+        {/* Tab Navigation */}
+        <div className="flex gap-4 mb-8">
+          <button
+            onClick={() => setActiveTab('dashboard')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+              activeTab === 'dashboard'
+                ? 'bg-white text-black'
+                : 'bg-white/10 text-white hover:bg-white/20'
+            }`}
+          >
+            Dashboard
+          </button>
+          <button
+            onClick={() => setActiveTab('sync')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+              activeTab === 'sync'
+                ? 'bg-white text-black'
+                : 'bg-white/10 text-white hover:bg-white/20'
+            }`}
+          >
+            Bulk Sync
+          </button>
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === 'dashboard' ? (
+          <>
         
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -133,6 +163,10 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
+          </>
+        ) : (
+          <BulkSyncAdmin />
+        )}
       </div>
     </div>
   );
