@@ -10,7 +10,7 @@ interface Message {
   text: string;
   isUser: boolean;
   timestamp: Date;
-  type?: 'journal' | 'mood' | 'insight' | 'escalation' | 'faq' | 'launch';
+  type?: 'faq' | 'launch' | 'product' | 'support';
   attachments?: Array<{ url: string; type: string; name: string }>;
   faqData?: FAQItem;
 }
@@ -21,17 +21,12 @@ interface ThermaAssistantProps {
   placeholder?: string;
 }
 
-// Safety keywords for escalation detection
-const SAFETY_KEYWORDS = [
-  'suicide', 'kill myself', 'end it all', 'not worth living', 'want to die',
-  'hurt myself', 'self harm', 'cut myself', 'overdose', 'jump off',
-  'can\'t go on', 'give up', 'hopeless', 'worthless', 'burden'
-];
+// Product-focused assistant - no safety escalation needed
 
 export default function ThermaAssistant({
   apiEndpoint = '/api/assistant',
-  welcomeMessage = "Hi! I'm Therma Assistant, your wellness companion. How can I help you today?",
-  placeholder = "Share a line about how you feel..."
+  welcomeMessage = "Hi! I'm Therma Assistant. I can answer questions about our product, launch timeline, features, integrations, and company vision. What would you like to know?",
+  placeholder = "Ask about Therma's product, features, or launch..."
 }: ThermaAssistantProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -44,7 +39,7 @@ export default function ThermaAssistant({
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [currentFlow, setCurrentFlow] = useState<'idle' | 'journaling' | 'mood' | 'insights' | 'faq'>('idle');
+  const [currentFlow, setCurrentFlow] = useState<'idle' | 'faq' | 'product'>('idle');
   const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -66,39 +61,7 @@ export default function ThermaAssistant({
     }
   }, [isOpen]);
 
-  // Safety escalation detection
-  const detectSafetyRisk = (text: string): boolean => {
-    const lowerText = text.toLowerCase();
-    return SAFETY_KEYWORDS.some(keyword => lowerText.includes(keyword));
-  };
-
-  const handleEscalation = async (userMessage: string) => {
-    const escalationMessage: Message = {
-      id: `escalation_${Date.now()}`,
-      text: "I'm really sorry you're feeling that way. If you are in immediate danger, please call your local emergency number now. If you're in the US, you can call or text 988 to reach the Suicide & Crisis Lifeline. Would you like me to connect you with a human now?",
-      isUser: false,
-      timestamp: new Date(),
-      type: 'escalation'
-    };
-
-    setMessages(prev => [...prev, escalationMessage]);
-
-    // Log escalation for audit
-    try {
-      await fetch('/api/escalation', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId,
-          reason: 'safety_concern',
-          urgency: 'high',
-          userMessage
-        })
-      });
-    } catch (error) {
-      console.error('Failed to log escalation:', error);
-    }
-  };
+  // Product-focused assistant - no safety escalation needed
 
   const handleFAQQuery = async (message: string): Promise<Message | null> => {
     try {
@@ -152,13 +115,6 @@ export default function ThermaAssistant({
     setInputValue('');
     setIsLoading(true);
 
-    // Check for safety concerns first
-    if (detectSafetyRisk(messageText)) {
-      await handleEscalation(messageText);
-      setIsLoading(false);
-      return;
-    }
-
     // Check for FAQ questions first
     const faqResponse = await handleFAQQuery(messageText);
     if (faqResponse) {
@@ -199,12 +155,10 @@ export default function ThermaAssistant({
       setMessages(prev => [...prev, botMessage]);
       
       // Update flow state based on response
-      if (data.messageType === 'journal') {
-        setCurrentFlow('journaling');
-      } else if (data.messageType === 'mood') {
-        setCurrentFlow('mood');
-      } else if (data.messageType === 'insight') {
-        setCurrentFlow('insights');
+      if (data.messageType === 'product') {
+        setCurrentFlow('product');
+      } else if (data.messageType === 'faq') {
+        setCurrentFlow('faq');
       }
 
     } catch (error) {
@@ -223,15 +177,15 @@ export default function ThermaAssistant({
 
   const handleQuickAction = (action: string) => {
     const quickActions: { [key: string]: string } = {
-      journal: "I'd like to start journaling",
-      mood: "I want to do a mood check-in",
-      insights: "Can you give me some insights?",
-      export: "I want to export my data",
-      human: "I'd like to talk to a human",
       launch: "When is Therma launching?",
       features: "What features does Therma offer?",
       pricing: "What is Therma's pricing?",
-      integrations: "What integrations does Therma support?"
+      integrations: "What integrations does Therma support?",
+      vision: "What is Therma's vision?",
+      mission: "What is Therma's mission?",
+      team: "Who is behind Therma?",
+      support: "How do I contact Therma support?",
+      privacy: "How does Therma handle privacy?"
     };
 
     setInputValue(quickActions[action] || action);
@@ -250,15 +204,15 @@ export default function ThermaAssistant({
   };
 
   const quickActions = [
-    { id: 'journal', label: 'Start Journal', icon: '📝' },
-    { id: 'mood', label: 'Mood Check', icon: '😊' },
-    { id: 'insights', label: 'Get Insights', icon: '💡' },
     { id: 'launch', label: 'Launch Info', icon: '🚀' },
     { id: 'features', label: 'Features', icon: '⚡' },
     { id: 'pricing', label: 'Pricing', icon: '💰' },
     { id: 'integrations', label: 'Integrations', icon: '🔗' },
-    { id: 'export', label: 'Export Data', icon: '📤' },
-    { id: 'human', label: 'Talk to Human', icon: '👤' }
+    { id: 'vision', label: 'Vision', icon: '🎯' },
+    { id: 'mission', label: 'Mission', icon: '🌟' },
+    { id: 'team', label: 'Team', icon: '👥' },
+    { id: 'support', label: 'Support', icon: '💬' },
+    { id: 'privacy', label: 'Privacy', icon: '🔒' }
   ];
 
   return (
@@ -394,8 +348,6 @@ export default function ThermaAssistant({
                   className={`max-w-[80%] p-4 rounded-2xl shadow-sm border ${
                     message.isUser
                       ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white border-orange-300/50'
-                      : message.type === 'escalation'
-                      ? 'bg-red-50 border-red-200 text-red-900'
                       : 'bg-white text-gray-900 border-gray-200/50'
                   }`}
                 >
@@ -403,8 +355,6 @@ export default function ThermaAssistant({
                   <p className={`text-xs mt-2 ${
                     message.isUser 
                       ? 'text-orange-100' 
-                      : message.type === 'escalation'
-                      ? 'text-red-600'
                       : 'text-gray-400'
                   }`}>
                     {message.timestamp.toLocaleTimeString([], { 

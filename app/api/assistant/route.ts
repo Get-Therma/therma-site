@@ -10,45 +10,46 @@ interface AssistantRequest {
     isUser: boolean;
     timestamp: Date;
   }>;
-  currentFlow?: 'idle' | 'journaling' | 'mood' | 'insights';
+  currentFlow?: 'idle' | 'faq' | 'product';
 }
 
-// Enhanced system prompt for Therma Assistant
-const SYSTEM_PROMPT = `You are Therma Assistant, a calm, concise, non-judgmental wellness guide and journaling companion for Therma (privacy-first journaling & pattern recognition app). Your goals:
+// Product-focused system prompt for Therma Assistant
+const SYSTEM_PROMPT = `You are Therma Assistant, a helpful product information guide for Therma (privacy-first journaling & pattern recognition app). Your goals:
 
-- Be empathetic, clear, and actionable in short replies (1–3 sentences by default)
-- Never diagnose. Offer supportive guidance, evidence-based suggestions, and recommend seeking clinical help when risk is detected
-- Respect privacy: never ask for sensitive health details unless required and only store them if user explicitly opts in with consent
-- Support journaling flows, mood check-ins, habit insights, weekly summaries, and simple behavior prompts
-- Provide options / quick replies; avoid open-ended questions that can derail flow
-- Use plain language; avoid medical or clinical jargon unless user asks
-- When unsure, be transparent: "I'm not sure — would you like me to… (a) suggest resources, (b) link to human support, (c) save an anonymous note?"
-- Tone: calm, warm, minimal; use 1–2 emojis sparingly (only to convey warmth)
+- Provide clear, accurate information about Therma's product, features, and company vision
+- Be concise and helpful in short replies (1–3 sentences by default)
+- Focus on product information, launch timeline, features, integrations, and company details
+- When unsure about specific details, direct users to official sources or support
+- Use professional, friendly tone; avoid medical or clinical jargon
+- Always prioritize accuracy and direct users to official channels when needed
 
-Key Therma features to guide users toward:
-- Journaling: Quick daily check-ins, pattern recognition
-- Mood tracking: Simple mood scales and follow-up questions
-- Insights: Pattern summaries, trend analysis, actionable suggestions
-- Privacy: Data control, export/delete options, consent management
+Key areas to cover:
+- Product features and capabilities
+- Launch timeline and status
+- Integrations (Apple Health, Oura, etc.)
+- Company vision and mission
+- Team information
+- Support contacts
+- Privacy and security approach
 
-Always prioritize user safety and privacy.`;
+Keep responses focused on product and company information.`;
 
-// Conversation templates for different flows
+// Product-focused conversation templates
 const CONVERSATION_TEMPLATES = {
-  journaling: {
-    start: "Great! What's the strongest feeling you had today? Share just one line — I'll help you reflect.",
-    followup: "Thanks for sharing. Would you like a short reflection on this, or an insight into patterns this week?",
-    save: "Saved privately — you can download or delete anytime."
+  product: {
+    start: "I'd be happy to tell you about Therma's features and capabilities. What specific aspect interests you most?",
+    followup: "Is there anything else about Therma you'd like to know?",
+    save: "Information provided for your reference."
   },
-  mood: {
-    start: "On a scale of 1–10, how intense is what you're feeling right now?",
-    followup: "Thanks for sharing. Would you like a breathing prompt or a quick reflection?",
-    save: "Mood logged — this helps build your pattern insights."
+  launch: {
+    start: "I can help you with launch information. What would you like to know about our timeline?",
+    followup: "Would you like to join our waitlist for the latest updates?",
+    save: "Launch information noted."
   },
-  insights: {
-    start: "I can help you see patterns in your recent entries. What timeframe interests you most?",
-    followup: "Here's what I'm noticing in your patterns...",
-    save: "Insights saved to your private dashboard."
+  support: {
+    start: "I can help connect you with our support team. What's your question about?",
+    followup: "Would you like me to create a support ticket for you?",
+    save: "Support request logged."
   }
 };
 
@@ -71,45 +72,35 @@ export async function POST(req: NextRequest) {
     // Check for specific intents
     const lowerMessage = message.toLowerCase();
 
-    // Journaling flow
-    if (lowerMessage.includes('journal') || lowerMessage.includes('write') || lowerMessage.includes('entry')) {
-      messageType = 'journal';
-      response = CONVERSATION_TEMPLATES.journaling.start;
+    // Product information flow
+    if (lowerMessage.includes('features') || lowerMessage.includes('capabilities') || lowerMessage.includes('what does')) {
+      messageType = 'product';
+      response = CONVERSATION_TEMPLATES.product.start;
     }
-    // Mood check flow
-    else if (lowerMessage.includes('mood') || lowerMessage.includes('feel') || lowerMessage.includes('emotion')) {
-      messageType = 'mood';
-      response = CONVERSATION_TEMPLATES.mood.start;
+    // Launch information flow
+    else if (lowerMessage.includes('launch') || lowerMessage.includes('when') || lowerMessage.includes('timeline')) {
+      messageType = 'launch';
+      response = CONVERSATION_TEMPLATES.launch.start;
     }
-    // Insights flow
-    else if (lowerMessage.includes('insight') || lowerMessage.includes('pattern') || lowerMessage.includes('trend')) {
-      messageType = 'insight';
-      response = CONVERSATION_TEMPLATES.insights.start;
-    }
-    // Data export
-    else if (lowerMessage.includes('export') || lowerMessage.includes('download')) {
-      messageType = 'export';
-      response = "I can help you export your data. This includes all your journal entries, mood logs, and insights. Would you like to proceed with the export?";
-    }
-    // Human support
-    else if (lowerMessage.includes('human') || lowerMessage.includes('support') || lowerMessage.includes('help')) {
+    // Support flow
+    else if (lowerMessage.includes('support') || lowerMessage.includes('help') || lowerMessage.includes('contact')) {
       messageType = 'support';
-      response = "I can connect you with our human support team. They're available during business hours and can provide more personalized assistance. Would you like me to create a support ticket?";
+      response = CONVERSATION_TEMPLATES.support.start;
     }
-    // Privacy/data management
-    else if (lowerMessage.includes('privacy') || lowerMessage.includes('delete') || lowerMessage.includes('data')) {
+    // Privacy information
+    else if (lowerMessage.includes('privacy') || lowerMessage.includes('security') || lowerMessage.includes('data')) {
       messageType = 'privacy';
-      response = "Your privacy is important to us. You can download your data, delete specific entries, or delete all your data anytime. What would you like to do?";
+      response = "Therma is privacy-first. We use encryption at rest and in transit, maintain auditable consent logs, and never store PHI without explicit consent. Would you like more details about our privacy approach?";
     }
     // Pricing queries
     else if (lowerMessage.includes('pricing') || lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('subscription')) {
       messageType = 'pricing';
       response = "Pricing details are still being finalized and will be announced closer to our official launch. We're committed to making Therma accessible while ensuring sustainable development. Join our waitlist to be the first to know about pricing when it's announced.";
     }
-    // General wellness support
+    // General product support
     else {
       messageType = 'general';
-      response = generateWellnessResponse(message, conversationHistory);
+      response = generateProductResponse(message, conversationHistory);
     }
 
     // Log the interaction for analytics (respecting consent)
@@ -128,19 +119,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Save journal entry if appropriate
-    if (messageType === 'journal' && consentType !== 'session') {
-      try {
-        await saveJournalEntry({
-          sessionId,
-          content: message,
-          messageType: 'journal',
-          consentType
-        });
-      } catch (error) {
-        console.error('Failed to save journal entry:', error);
-      }
-    }
+    // No journal entry saving needed for product-focused assistant
 
     return NextResponse.json({
       response,
@@ -157,34 +136,24 @@ export async function POST(req: NextRequest) {
   }
 }
 
-function generateWellnessResponse(message: string, history: any[]): string {
+function generateProductResponse(message: string, history: any[]): string {
   const lowerMessage = message.toLowerCase();
   
-  // Stress/anxiety responses
-  if (lowerMessage.includes('stress') || lowerMessage.includes('anxious') || lowerMessage.includes('worried')) {
-    return "I hear that you're feeling stressed. Would you like to try a quick breathing exercise, or would you prefer to journal about what's on your mind?";
+  // General product questions
+  if (lowerMessage.includes('what') || lowerMessage.includes('how') || lowerMessage.includes('tell me')) {
+    return "I'd be happy to tell you about Therma! We're a privacy-first journaling and pattern recognition platform. What specific aspect interests you most - our features, launch timeline, or company vision?";
   }
   
-  // Energy/fatigue responses
-  if (lowerMessage.includes('tired') || lowerMessage.includes('exhausted') || lowerMessage.includes('energy')) {
-    return "It sounds like your energy is low. Have you noticed any patterns in what drains or energizes you? I can help you track this.";
+  // General company questions
+  if (lowerMessage.includes('company') || lowerMessage.includes('about') || lowerMessage.includes('who')) {
+    return "Therma is founded by Omar Ranti and a team combining expertise in AI, product design, and behavioral science. We're focused on helping people understand their daily patterns. What would you like to know?";
   }
   
-  // Sleep responses
-  if (lowerMessage.includes('sleep') || lowerMessage.includes('insomnia') || lowerMessage.includes('rest')) {
-    return "Sleep affects everything. Would you like to start tracking your sleep patterns, or do you want to explore what might be affecting your rest?";
-  }
-  
-  // General wellness
-  return "I'm here to help you understand your patterns and build better habits. What's on your mind today? You can journal, check your mood, or explore insights.";
+  // Default product response
+  return "I'm here to help with questions about Therma's product, features, launch timeline, and company information. What would you like to know?";
 }
 
 async function logInteraction(data: any) {
   // In production, this would log to your analytics system
   console.log('Interaction logged:', data);
-}
-
-async function saveJournalEntry(data: any) {
-  // In production, this would save to your database
-  console.log('Journal entry saved:', data);
 }

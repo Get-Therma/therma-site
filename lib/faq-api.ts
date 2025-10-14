@@ -1,31 +1,37 @@
-export type FAQItem = {
-  id: string;
-  question: string;
-  answer: string;
-  tags?: string[];
-  isVerified: boolean;
-  verifiedAt?: string | null;
-  sourceUrl?: string | null;
-};
+import { contentfulAPI, FAQItem, LaunchStatus } from './contentful';
 
-const API_BASE = process.env.NEXT_PUBLIC_FAQ_API_BASE || 'http://localhost:4000';
+// Re-export types for external use
+export type { FAQItem, LaunchStatus };
 
+// Fallback to Contentful, with mock data as backup
 export async function faqSearch(query: string): Promise<{ results: FAQItem[] }> {
   try {
-    const res = await fetch(`${API_BASE}/api/faq/search?q=${encodeURIComponent(query)}`);
-    if (!res.ok) throw new Error('FAQ search failed');
-    return res.json();
+    // Try Contentful first
+    const contentfulResults = await contentfulAPI.searchFAQItems(query);
+    if (contentfulResults.length > 0) {
+      return { results: contentfulResults };
+    }
+
+    // Fallback to local search if Contentful is empty
+    const allFAQ = await contentfulAPI.getFAQItems();
+    const localResults = allFAQ.filter(item => 
+      item.question.toLowerCase().includes(query.toLowerCase()) ||
+      item.answer.toLowerCase().includes(query.toLowerCase()) ||
+      item.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
+    );
+
+    return { results: localResults };
   } catch (error) {
     console.error('FAQ search error:', error);
+    // Return empty results on error
     return { results: [] };
   }
 }
 
-export async function faqList(tag?: string) {
+export async function faqList(category?: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/faq/list${tag ? `?tag=${encodeURIComponent(tag)}` : ''}`);
-    if (!res.ok) throw new Error('FAQ list failed');
-    return res.json();
+    const items = await contentfulAPI.getFAQItems(category);
+    return { items };
   } catch (error) {
     console.error('FAQ list error:', error);
     return { items: [] };
@@ -34,28 +40,47 @@ export async function faqList(tag?: string) {
 
 export async function getLaunchStatus() {
   try {
-    const res = await fetch(`${API_BASE}/api/launch/status`);
-    if (!res.ok) throw new Error('Launch status failed');
-    return res.json();
+    const status = await contentfulAPI.getLaunchStatus();
+    if (status) {
+      return {
+        status: status.status,
+        dates: {
+          announced: status.announcedDate,
+          expected: status.expectedDate,
+          live: status.liveDate,
+        },
+        notes: status.notes || 'Launch information is not currently available.',
+        lastUpdated: status.lastUpdated,
+      };
+    }
+
+    // Fallback response
+    return {
+      status: 'planned',
+      dates: { announced: null, expected: null, live: null },
+      notes: 'Launch information is not currently available.',
+    };
   } catch (error) {
     console.error('Launch status error:', error);
-    return { 
-      status: 'unknown', 
-      dates: { announced: null, expected: null, live: null }, 
-      notes: 'Unable to fetch launch status' 
+    return {
+      status: 'unknown',
+      dates: { announced: null, expected: null, live: null },
+      notes: 'Unable to fetch launch status',
     };
   }
 }
 
 export async function joinWaitlist(name?: string, email?: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/waitlist/join`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email })
-    });
-    if (!res.ok) throw new Error('Waitlist join failed');
-    return res.json();
+    // This would typically integrate with your actual waitlist system
+    // For now, we'll just log it
+    console.log('Waitlist join request:', { name, email, timestamp: new Date().toISOString() });
+    
+    return { 
+      status: 'ok', 
+      waitlistId: `w_${Date.now()}`,
+      message: 'Thank you for joining our waitlist!'
+    };
   } catch (error) {
     console.error('Waitlist join error:', error);
     return { status: 'error', message: 'Failed to join waitlist' };
