@@ -306,7 +306,7 @@ main {
 }
 
 #hero {
-  padding: var(--section-spacing-lg) 0 var(--section-spacing-md);
+  padding: var(--section-spacing-lg) 0 calc(var(--section-spacing-md) / 2);
   width: 100%;
   max-width: 100%;
   display: flex;
@@ -319,13 +319,13 @@ main {
 
 @media (min-width: 768px) {
   #hero {
-    padding-bottom: var(--section-spacing-md);
+    padding-bottom: calc(var(--section-spacing-md) / 2);
   }
 }
 
 @media (min-width: 1024px) {
   #hero {
-    padding-bottom: var(--section-spacing-lg);
+    padding-bottom: calc(var(--section-spacing-lg) / 2);
   }
 }
 

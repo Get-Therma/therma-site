@@ -20,44 +20,76 @@ export async function POST(req: Request) {
     // Try to subscribe to Beehiiv (optional - don't fail if it doesn't work)
     let beehiivSuccess = false;
     if (process.env.BEEHIIV_API_KEY && process.env.BEEHIIV_PUBLICATION_ID) {
-      try {
-        const res = await fetch('https://api.beehiiv.com/v2/subscriptions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-ApiKey': process.env.BEEHIIV_API_KEY
-          },
-          body: JSON.stringify({
-            email,
-            publication_id: process.env.BEEHIIV_PUBLICATION_ID,
-            reactivate_existing: true, // This handles duplicates in Beehiv
-            double_opt_in: true,
-            source: source ?? 'Website',
-            utm_source,
-            utm_medium,
-            utm_campaign
-          }),
-          cache: 'no-store'
-        });
+      // Retry mechanism for Beehiv
+      for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+          console.log(`Beehiiv attempt ${attempt}/2 for email: ${email}`);
+          const res = await fetch('https://api.beehiiv.com/v2/subscriptions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-ApiKey': process.env.BEEHIIV_API_KEY
+            },
+            body: JSON.stringify({
+              email,
+              publication_id: process.env.BEEHIIV_PUBLICATION_ID,
+              reactivate_existing: true, // This handles duplicates in Beehiv
+              double_opt_in: true,
+              source: source ?? 'Website',
+              utm_source,
+              utm_medium,
+              utm_campaign
+            }),
+            cache: 'no-store'
+          });
 
-        console.log('Beehiiv response status:', res.status);
-        
-        if (res.ok) {
-          const data = await res.json();
-          console.log('Beehiiv success:', data);
-          beehiivSuccess = true;
-        } else {
-          const errorText = await res.text();
-          console.log('Beehiiv error response:', errorText);
-          // Check if it's a duplicate error (common Beehiv response)
-          if (res.status === 400 && errorText.includes('already exists')) {
-            console.log('Email already exists in Beehiv (duplicate)');
-            beehiivSuccess = true; // Consider this a success
+          console.log('Beehiiv response status:', res.status);
+          console.log('Beehiiv response headers:', Object.fromEntries(res.headers.entries()));
+          
+          if (res.ok) {
+            const data = await res.json();
+            console.log('Beehiiv success:', data);
+            beehiivSuccess = true;
+          } else {
+            const errorText = await res.text();
+            console.log('Beehiiv error response:', errorText);
+            console.log('Beehiiv error status:', res.status);
+            console.log('Beehiiv error headers:', Object.fromEntries(res.headers.entries()));
+            
+            // Check if it's a duplicate error (common Beehiv response)
+            if (res.status === 400 && errorText.includes('already exists')) {
+              console.log('Email already exists in Beehiv (duplicate)');
+              beehiivSuccess = true; // Consider this a success
+            } else {
+              // Log detailed error for debugging
+              console.error('Beehiiv subscription failed:', {
+                status: res.status,
+                statusText: res.statusText,
+                errorText,
+                email,
+                publicationId: process.env.BEEHIIV_PUBLICATION_ID
+              });
+            }
+          }
+          
+          // If successful or duplicate, break out of retry loop
+          if (beehiivSuccess) {
+            break;
+          }
+          
+          // If this is the first attempt and failed, wait before retry
+          if (attempt === 1) {
+            console.log('Waiting 1 second before retry...');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+        } catch (beehiivError) {
+          console.error(`Beehiiv API error (attempt ${attempt}):`, beehiivError);
+          // If this is the first attempt, wait before retry
+          if (attempt === 1) {
+            console.log('Waiting 1 second before retry...');
+            await new Promise(resolve => setTimeout(resolve, 1000));
           }
         }
-      } catch (beehiivError) {
-        console.error('Beehiiv API error:', beehiivError);
-        // Continue without failing the entire request
       }
     } else {
       console.log('Beehiiv not configured, skipping');
