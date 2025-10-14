@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { ThankYouEmailTemplate } from '../../../lib/email-templates';
+import { getDb } from '../../../lib/db';
+import { waitlist } from '../../../lib/schema';
 
 export async function POST(req: Request) {
   try {
@@ -12,6 +14,7 @@ export async function POST(req: Request) {
     console.log('Processing subscription for:', email);
     console.log('Beehiiv API Key exists:', !!process.env.BEEHIIV_API_KEY);
     console.log('Publication ID exists:', !!process.env.BEEHIIV_PUBLICATION_ID);
+    console.log('Resend API Key exists:', !!process.env.RESEND_API_KEY);
 
     // Try to subscribe to Beehiiv (optional - don't fail if it doesn't work)
     let beehiivSuccess = false;
@@ -55,6 +58,7 @@ export async function POST(req: Request) {
     }
 
     // Send thank you email (this is the main functionality)
+    let emailSuccess = false;
     if (process.env.RESEND_API_KEY) {
       try {
         console.log('Sending thank you email...');
@@ -66,24 +70,56 @@ export async function POST(req: Request) {
           react: ThankYouEmailTemplate({ email }),
         });
         console.log('Email sent successfully:', emailResult.data?.id);
+        emailSuccess = true;
       } catch (emailError) {
         console.error('Failed to send thank you email:', emailError);
-        return NextResponse.json({ 
-          error: 'Failed to send welcome email',
-          details: emailError instanceof Error ? emailError.message : 'Unknown error'
-        }, { status: 500 });
+        // Don't fail the entire request, but log the error
       }
     } else {
       console.log('No Resend API key found, cannot send email');
+    }
+
+    // If both Beehiv and email failed, try to store in database as fallback
+    let dbSuccess = false;
+    if (!beehiivSuccess && !emailSuccess) {
+      try {
+        console.log('Storing email in database as fallback...');
+        const db = await getDb();
+        await db.insert(waitlist).values({
+          email,
+          attribution: JSON.stringify({
+            source: source ?? 'Website',
+            utm_source,
+            utm_medium,
+            utm_campaign,
+            timestamp: new Date().toISOString()
+          })
+        });
+        console.log('Email stored in database successfully');
+        dbSuccess = true;
+      } catch (dbError) {
+        console.error('Failed to store email in database:', dbError);
+      }
+    }
+
+    // If all services failed, return an error
+    if (!beehiivSuccess && !emailSuccess && !dbSuccess) {
       return NextResponse.json({ 
-        error: 'Email service not configured' 
+        error: 'All services failed',
+        beehiivSuccess,
+        emailSuccess,
+        dbSuccess
       }, { status: 500 });
     }
 
     return NextResponse.json({ 
       ok: true, 
       beehiivSuccess,
-      message: 'Welcome email sent successfully!'
+      emailSuccess,
+      dbSuccess,
+      message: emailSuccess ? 'Welcome email sent successfully!' : 
+               dbSuccess ? 'Subscription saved (email service unavailable)' :
+               'Subscription processed'
     });
   } catch (error) {
     console.error('Subscribe API error:', error);

@@ -35,6 +35,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <ThermaAssistant />
+        
+        {/* Beehiv Analytics Script */}
+        {process.env.BEEHIIV_PUBLICATION_ID && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  var script = document.createElement('script');
+                  script.src = 'https://cdn.beehiiv.com/scripts/analytics.js';
+                  script.async = true;
+                  script.onload = function() {
+                    if (window.beehiivAnalytics) {
+                      window.beehiivAnalytics.init('${process.env.BEEHIIV_PUBLICATION_ID}');
+                    }
+                  };
+                  document.head.appendChild(script);
+                })();
+              `
+            }}
+          />
+        )}
       </body>
     </html>
   );
