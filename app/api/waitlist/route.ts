@@ -1,76 +1,87 @@
-import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
-import { ThankYouEmailTemplate } from '../../../lib/email-templates';
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '../../../lib/db';
+import { waitlist } from '../../../lib/schema';
 
-export async function POST(req: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const { email, source, utm_source, utm_medium, utm_campaign } = await req.json();
+    const { email, utm_source, utm_medium, utm_campaign } = await request.json();
+
+    // Validate email
     if (!email || typeof email !== 'string') {
-      return NextResponse.json({ error: 'Email required' }, { status: 400 });
+      return NextResponse.json({ message: 'Email is required' }, { status: 400 });
     }
 
-    console.log('Processing waitlist submission for:', email);
-    console.log('Beehiiv API Key exists:', !!process.env.BEEHIIV_API_KEY);
-    console.log('Publication ID exists:', !!process.env.BEEHIIV_PUBLICATION_ID);
+    // Create attribution object
+    const attribution = {
+      utm_campaign: utm_campaign || null,
+      utm_medium: utm_medium || null,
+      utm_source: utm_source || null,
+    };
 
-    // Subscribe to Beehiiv
-    const res = await fetch('https://api.beehiiv.com/v2/subscriptions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-ApiKey': process.env.BEEHIIV_API_KEY ?? ''
-      },
-      body: JSON.stringify({
-        email,
-        publication_id: process.env.BEEHIIV_PUBLICATION_ID,
-        reactivate_existing: true,
-        double_opt_in: true,
-        source: source ?? 'Website',
-        utm_source,
-        utm_medium,
-        utm_campaign
-      }),
-      cache: 'no-store'
-    });
+    // Try to insert into database (optional - will work without DB)
+    let result: any = null;
+    try {
+      result = await db.insert(waitlist).values({
+        email: email.toLowerCase().trim(),
+        attribution: JSON.stringify(attribution),
+        referer: utm_source || null,
+      }).returning();
+      console.log('Waitlist submission saved to database:', result[0]);
+    } catch (dbError) {
+      console.log('Database not available, continuing without DB storage:', dbError);
+      // Continue without database - Beehiiv integration will still work
+    }
 
-    const data = await res.json();
-    console.log('Beehiiv response status:', res.status);
-    console.log('Beehiiv response data:', data);
+    // Submit to Beehiiv API (server-side to avoid CORS)
+    const beehiivApiKey = process.env.BEEHIIV_API_KEY;
     
-    if (!res.ok) {
-      return NextResponse.json({ 
-        error: data?.message || 'Subscription failed',
-        details: data,
-        status: res.status 
-      }, { status: res.status });
-    }
-
-    // Send thank you email (only if Resend API key is available)
-    if (process.env.RESEND_API_KEY) {
+    if (beehiivApiKey && beehiivApiKey !== 'YOUR_BEEHIIV_API_KEY') {
       try {
-        console.log('Sending thank you email...');
-        const resend = new Resend(process.env.RESEND_API_KEY);
-        const emailResult = await resend.emails.send({
-          from: 'Therma <hello@gettherma.ai>',
-          to: [email],
-          subject: 'Welcome to Therma! 🎉',
-          react: ThankYouEmailTemplate({ email }),
+        const beehiivResponse = await fetch('https://api.beehiiv.com/v2/publications/pub_0365e6c3-9f7c-4e2c-b315-bb3cd68b205e/subscriptions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${beehiivApiKey}`
+          },
+          body: JSON.stringify({
+            email: email,
+            utm_source: utm_source || '',
+            utm_medium: utm_medium || 'website',
+            utm_campaign: utm_campaign || 'waitlist',
+            reactivate_existing: false,
+            send_welcome_email: true
+          })
         });
-        console.log('Email sent successfully:', emailResult.data?.id);
-      } catch (emailError) {
-        console.error('Failed to send thank you email:', emailError);
-        // Don't fail the entire request if email fails
+
+        if (!beehiivResponse.ok) {
+          const errorText = await beehiivResponse.text();
+          console.error('Beehiiv API error:', beehiivResponse.status, errorText);
+        } else {
+          const beehiivResult = await beehiivResponse.json();
+          console.log('Beehiiv subscription created:', beehiivResult);
+        }
+      } catch (beehiivError) {
+        console.error('Beehiiv API error:', beehiivError);
+        // Don't fail the entire request if Beehiiv fails
       }
     } else {
-      console.log('No Resend API key found, skipping email');
+      console.log('Beehiiv API key not configured. Email logged locally:', email);
     }
 
-    return NextResponse.json({ ok: true });
-  } catch (error) {
-    console.error('Waitlist API error:', error);
+    // Optional: Add email notifications here if needed later
+
     return NextResponse.json({ 
-      error: 'Invalid request',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 400 });
+      message: 'Successfully joined waitlist!',
+      id: result?.[0]?.id || 'no-db-id'
+    });
+
+  } catch (error) {
+    console.error('Waitlist submission error:', error);
+    
+    if (error instanceof Error && error.message.includes('duplicate key')) {
+      return NextResponse.json({ message: 'Email already exists in waitlist' }, { status: 409 });
+    }
+    
+    return NextResponse.json({ message: 'Failed to join waitlist' }, { status: 500 });
   }
 }
