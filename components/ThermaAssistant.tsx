@@ -231,7 +231,8 @@ export default function ThermaAssistant({
           position: 'fixed',
           bottom: '24px',
           right: '24px',
-          zIndex: 9999
+          zIndex: 10000,
+          isolation: 'isolate'
         }}
       >
         {/* Main Chat Button */}
@@ -330,59 +331,153 @@ export default function ThermaAssistant({
         )}
       </div>
 
+      {/* Background Overlay */}
+      {isOpen && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+            backdropFilter: 'blur(2px)',
+            zIndex: 9999,
+            pointerEvents: 'auto'
+          }}
+          onClick={toggleChat}
+        />
+      )}
+
       {/* Premium Chat Window */}
       {isOpen && (
         <div 
-          className="therma-chatbot-window w-96 h-[500px] rounded-3xl shadow-2xl border border-gray-200/50 bg-white/95 backdrop-blur-xl transition-all duration-500 flex flex-col overflow-hidden"
+          className="therma-chatbot-window"
           style={{
             position: 'fixed',
-            bottom: '112px',
+            bottom: '24px',
             right: '24px',
-            zIndex: 9998
+            width: '420px',
+            height: '600px',
+            borderRadius: '24px',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+            background: 'rgba(255, 255, 255, 0.98)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(229, 231, 235, 0.3)',
+            zIndex: 10001,
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            transform: 'scale(1)',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            animation: 'slideUp 0.3s ease-out'
           }}
           role="log"
           aria-label="Therma Assistant Chat"
         >
           {/* Premium Header */}
-          <div className="p-6 rounded-t-3xl bg-gradient-to-r from-gray-50 to-white border-b border-gray-200/50">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 via-red-500 to-pink-500 flex items-center justify-center shadow-lg">
-                  <span className="text-white font-bold text-lg">T</span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">Therma Assistant</h3>
-                  <p className="text-sm text-gray-500 flex items-center">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full mr-2 animate-pulse"></div>
-                    AI — Private
-                  </p>
-                </div>
+          <div style={{
+            padding: '24px',
+            borderRadius: '24px 24px 0 0',
+            background: 'linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)',
+            borderBottom: '1px solid rgba(229, 231, 235, 0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '16px',
+                background: 'linear-gradient(135deg, #f97316 0%, #dc2626 50%, #ec4899 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+              }}>
+                <span style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>T</span>
               </div>
-              <button
-                onClick={toggleChat}
-                className="w-8 h-8 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors duration-200"
-                aria-label="Close chat"
-              >
-                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+              <div>
+                <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#111827', margin: 0 }}>Therma Assistant</h3>
+                <p style={{ fontSize: '14px', color: '#6b7280', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{
+                    width: '8px',
+                    height: '8px',
+                    backgroundColor: '#10b981',
+                    borderRadius: '50%',
+                    animation: 'pulse 2s infinite'
+                  }}></div>
+                  AI — Private
+                </p>
+              </div>
             </div>
+            <button
+              onClick={toggleChat}
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '12px',
+                background: '#f3f4f6',
+                border: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s ease',
+                color: '#6b7280'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#e5e7eb';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#f3f4f6';
+              }}
+              aria-label="Minimize chat"
+            >
+              <span style={{ fontSize: '16px', fontWeight: 'bold' }}>−</span>
+            </button>
           </div>
 
           {/* Quick Actions */}
           {consentState.hasConsented && (
-            <div className="p-4 border-b border-gray-200/50 bg-gray-50/50">
-              <div className="grid grid-cols-3 gap-2">
+            <div style={{
+              padding: '16px',
+              borderBottom: '1px solid rgba(229, 231, 235, 0.3)',
+              background: 'rgba(249, 250, 251, 0.5)'
+            }}>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '8px'
+              }}>
                 {quickActions.map((action) => (
                   <button
                     key={action.id}
                     onClick={() => handleQuickAction(action.id)}
-                    className="flex flex-col items-center p-2 rounded-xl hover:bg-white transition-colors duration-200 group"
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      padding: '8px',
+                      borderRadius: '12px',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.2s ease, transform 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'white';
+                      e.currentTarget.style.transform = 'scale(1.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }}
                     aria-label={action.label}
                   >
-                    <span className="text-lg mb-1 group-hover:scale-110 transition-transform">{action.icon}</span>
-                    <span className="text-xs text-gray-600 font-medium text-center">{action.label}</span>
+                    <span style={{ fontSize: '18px', marginBottom: '4px', transition: 'transform 0.2s ease' }}>{action.icon}</span>
+                    <span style={{ fontSize: '12px', fontWeight: '500', color: '#4b5563', textAlign: 'center' }}>{action.label}</span>
                   </button>
                 ))}
               </div>
@@ -390,25 +485,45 @@ export default function ThermaAssistant({
           )}
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-white to-gray-50/50" aria-live="polite">
+          <div style={{
+            flex: 1,
+            overflowY: 'auto',
+            padding: '24px',
+            background: 'linear-gradient(180deg, #ffffff 0%, rgba(249, 250, 251, 0.5) 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px'
+          }} aria-live="polite">
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                style={{
+                  display: 'flex',
+                  justifyContent: message.isUser ? 'flex-end' : 'flex-start'
+                }}
               >
                 <div
-                  className={`max-w-[80%] p-4 rounded-2xl shadow-sm border ${
-                    message.isUser
-                      ? 'bg-gradient-to-br from-orange-400 to-red-500 text-white border-orange-300/50'
-                      : 'bg-white text-gray-900 border-gray-200/50'
-                  }`}
+                  style={{
+                    maxWidth: '80%',
+                    padding: '16px',
+                    borderRadius: '16px',
+                    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+                    border: message.isUser 
+                      ? '1px solid rgba(251, 146, 60, 0.3)' 
+                      : '1px solid rgba(229, 231, 235, 0.3)',
+                    background: message.isUser
+                      ? 'linear-gradient(135deg, #f97316 0%, #dc2626 100%)'
+                      : '#ffffff',
+                    color: message.isUser ? '#ffffff' : '#111827'
+                  }}
                 >
-                  <p className="text-sm leading-relaxed font-medium">{message.text}</p>
-                  <p className={`text-xs mt-2 ${
-                    message.isUser 
-                      ? 'text-orange-100' 
-                      : 'text-gray-400'
-                  }`}>
+                  <p style={{ fontSize: '14px', lineHeight: '1.5', fontWeight: '500', margin: 0 }}>{message.text}</p>
+                  <p style={{ 
+                    fontSize: '12px', 
+                    marginTop: '8px', 
+                    margin: '8px 0 0 0',
+                    color: message.isUser ? 'rgba(255, 255, 255, 0.8)' : '#9ca3af'
+                  }}>
                     {message.timestamp.toLocaleTimeString([], { 
                       hour: '2-digit', 
                       minute: '2-digit' 
@@ -419,12 +534,39 @@ export default function ThermaAssistant({
             ))}
             
             {isLoading && (
-              <div className="flex justify-start">
-                <div className="p-4 rounded-2xl bg-white border border-gray-200/50 shadow-sm">
-                  <div className="flex space-x-2">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <div style={{
+                  padding: '16px',
+                  borderRadius: '16px',
+                  background: '#ffffff',
+                  border: '1px solid rgba(229, 231, 235, 0.3)',
+                  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+                }}>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{
+                      width: '8px',
+                      height: '8px',
+                      backgroundColor: '#9ca3af',
+                      borderRadius: '50%',
+                      animation: 'bounce 1.4s infinite ease-in-out',
+                      animationDelay: '0ms'
+                    }}></div>
+                    <div style={{
+                      width: '8px',
+                      height: '8px',
+                      backgroundColor: '#9ca3af',
+                      borderRadius: '50%',
+                      animation: 'bounce 1.4s infinite ease-in-out',
+                      animationDelay: '150ms'
+                    }}></div>
+                    <div style={{
+                      width: '8px',
+                      height: '8px',
+                      backgroundColor: '#9ca3af',
+                      borderRadius: '50%',
+                      animation: 'bounce 1.4s infinite ease-in-out',
+                      animationDelay: '300ms'
+                    }}></div>
                   </div>
                 </div>
               </div>
@@ -434,9 +576,13 @@ export default function ThermaAssistant({
           </div>
 
           {/* Premium Input */}
-          <div className="p-6 border-t border-gray-200/50 bg-gradient-to-r from-gray-50 to-white">
+          <div style={{
+            padding: '24px',
+            borderTop: '1px solid rgba(229, 231, 235, 0.3)',
+            background: 'linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)'
+          }}>
             {consentState.hasConsented ? (
-              <div className="flex space-x-3">
+              <div style={{ display: 'flex', gap: '12px' }}>
                 <input
                   ref={inputRef}
                   type="text"
@@ -445,23 +591,68 @@ export default function ThermaAssistant({
                   onKeyPress={handleKeyPress}
                   placeholder={placeholder}
                   disabled={isLoading}
-                  className="flex-1 p-4 rounded-2xl border border-gray-200/50 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400/50 focus:border-orange-400/50 transition-all duration-200 bg-white/80 backdrop-blur-sm placeholder-gray-500"
+                  style={{
+                    flex: 1,
+                    padding: '16px',
+                    borderRadius: '16px',
+                    border: '1px solid rgba(229, 231, 235, 0.3)',
+                    fontSize: '14px',
+                    outline: 'none',
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    backdropFilter: 'blur(4px)',
+                    color: '#111827',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(251, 146, 60, 0.5)';
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(251, 146, 60, 0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(229, 231, 235, 0.3)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
                   aria-label="Type your message"
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim() || isLoading}
-                  className="px-6 py-4 rounded-2xl font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 text-white disabled:bg-gray-300 disabled:cursor-not-allowed shadow-lg hover:shadow-xl disabled:shadow-none flex items-center justify-center"
+                  style={{
+                    padding: '16px 24px',
+                    borderRadius: '16px',
+                    background: !inputValue.trim() || isLoading 
+                      ? '#e5e7eb' 
+                      : 'linear-gradient(135deg, #f97316 0%, #dc2626 100%)',
+                    border: 'none',
+                    cursor: !inputValue.trim() || isLoading ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.2s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    color: !inputValue.trim() || isLoading ? '#9ca3af' : '#ffffff',
+                    boxShadow: !inputValue.trim() || isLoading ? 'none' : '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (inputValue.trim() && !isLoading) {
+                      e.currentTarget.style.transform = 'scale(1.05)';
+                      e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = !inputValue.trim() || isLoading ? 'none' : '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+                  }}
                   aria-label="Send message"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                   </svg>
                 </button>
               </div>
             ) : (
-              <div className="text-center py-4">
-                <p className="text-sm text-gray-500">Please complete privacy consent to continue</p>
+              <div style={{ textAlign: 'center', padding: '16px 0' }}>
+                <p style={{ fontSize: '14px', color: '#6b7280', margin: 0 }}>Please complete privacy consent to continue</p>
               </div>
             )}
           </div>
