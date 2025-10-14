@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ABTestHeadline from '../components/ABTestHeadline';
 import ABTestSubheadline from '../components/ABTestSubheadline';
+import ScrollIndicator from '../components/ScrollIndicator';
 
 export default function HomePage() {
   const [email, setEmail] = useState('');
@@ -294,6 +295,7 @@ export default function HomePage() {
               </div>
             </form>
           </div>
+          <ScrollIndicator />
         </section>
         
         {/* Breathing Divider */}
