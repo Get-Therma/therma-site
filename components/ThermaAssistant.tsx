@@ -331,23 +331,6 @@ export default function ThermaAssistant({
         )}
       </div>
 
-      {/* Background Overlay */}
-      {isOpen && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.1)',
-            backdropFilter: 'blur(2px)',
-            zIndex: 9999,
-            pointerEvents: 'auto'
-          }}
-          onClick={toggleChat}
-        />
-      )}
 
       {/* Premium Chat Window */}
       {isOpen && (
@@ -361,8 +344,8 @@ export default function ThermaAssistant({
             height: '600px',
             borderRadius: '24px',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)',
-            background: 'rgba(255, 255, 255, 0.98)',
-            backdropFilter: 'blur(20px)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(4px)',
             border: '1px solid rgba(229, 231, 235, 0.3)',
             zIndex: 10001,
             display: 'flex',
@@ -598,8 +581,8 @@ export default function ThermaAssistant({
                     border: '1px solid rgba(229, 231, 235, 0.3)',
                     fontSize: '14px',
                     outline: 'none',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    backdropFilter: 'blur(4px)',
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    backdropFilter: 'blur(1px)',
                     color: '#111827',
                     transition: 'all 0.2s ease'
                   }}
