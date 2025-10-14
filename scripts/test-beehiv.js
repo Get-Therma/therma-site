@@ -7,6 +7,7 @@
  * Run this after setting up your environment variables
  */
 
+require('dotenv').config({ path: '.env.local' });
 const fetch = require('node-fetch');
 
 async function testBeehivIntegration() {
@@ -36,20 +37,102 @@ async function testBeehivIntegration() {
   try {
     console.log(`📧 Testing subscription with email: ${testEmail}`);
     
-    const response = await fetch('https://api.beehiiv.com/v2/subscriptions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-ApiKey': apiKey
-      },
-      body: JSON.stringify({
-        email: testEmail,
-        publication_id: publicationId,
-        reactivate_existing: true,
-        double_opt_in: true,
-        source: 'Integration Test'
-      })
-    });
+    // Try different API endpoints
+    const endpoints = [
+      `https://api.beehiiv.com/v2/publications/${publicationId}/subscriptions`,
+      'https://api.beehiiv.com/v2/subscriptions',
+      'https://api.beehiiv.com/v1/subscriptions',
+      'https://api.beehiiv.com/subscriptions'
+    ];
+    
+    // Try different authentication methods
+    const authMethods = [
+      { header: 'X-ApiKey', value: apiKey },
+      { header: 'Authorization', value: `Bearer ${apiKey}` },
+      { header: 'Authorization', value: `ApiKey ${apiKey}` },
+      { header: 'X-API-Key', value: apiKey }
+    ];
+    
+    let response;
+    let workingEndpoint = null;
+    let workingAuth = null;
+    
+    for (const auth of authMethods) {
+      console.log(`🔍 Trying auth method: ${auth.header}`);
+      
+      for (const endpoint of endpoints) {
+        console.log(`🔍 Trying endpoint: ${endpoint}`);
+        
+        response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            [auth.header]: auth.value
+          },
+          body: JSON.stringify({
+            email: testEmail,
+            reactivate_existing: true,
+            double_opt_in: true,
+            source: 'Integration Test'
+          })
+        });
+        
+        console.log(`📊 Response Status for ${endpoint} with ${auth.header}:`, response.status);
+        
+        if (response.status !== 404 && response.status !== 401) {
+          workingEndpoint = endpoint;
+          workingAuth = auth;
+          break;
+        }
+      }
+      
+      if (workingEndpoint) break;
+    }
+    
+    if (!workingEndpoint) {
+      console.log('❌ All endpoints returned 404/401. Trying GET request to test API key...');
+      
+      // Try different GET endpoints with different auth methods
+      const getEndpoints = [
+        'https://api.beehiiv.com/v2/publications',
+        'https://api.beehiiv.com/v1/publications',
+        'https://api.beehiiv.com/publications'
+      ];
+      
+      for (const auth of authMethods) {
+        for (const endpoint of getEndpoints) {
+          console.log(`🔍 Trying GET ${endpoint} with ${auth.header}`);
+          
+          response = await fetch(endpoint, {
+            method: 'GET',
+            headers: {
+              [auth.header]: auth.value
+            }
+          });
+          
+          console.log(`📊 GET Response Status for ${endpoint} with ${auth.header}:`, response.status);
+          
+          if (response.ok) {
+            const data = await response.json();
+            console.log('✅ API Key is valid! Publications:', JSON.stringify(data, null, 2));
+            console.log(`✅ Working auth method: ${auth.header}`);
+            console.log('\n🔍 The subscription endpoint might be different. Check Beehiv documentation.');
+            return;
+          } else if (response.status !== 404 && response.status !== 401) {
+            const errorText = await response.text();
+            console.log(`📊 GET Error Response:`, errorText);
+          }
+        }
+      }
+      
+      console.error('❌ All API key tests failed. Please verify:');
+      console.error('   1. The API key is correct and active');
+      console.error('   2. The API key has the right permissions');
+      console.error('   3. Your Beehiv account is active');
+      console.error('   4. Check Beehiv dashboard for the correct API key');
+      
+      return;
+    }
 
     console.log('📊 Response Status:', response.status);
     console.log('📊 Response Headers:', Object.fromEntries(response.headers.entries()));

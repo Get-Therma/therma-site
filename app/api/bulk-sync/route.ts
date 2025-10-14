@@ -41,15 +41,14 @@ export async function POST(req: Request) {
 
             console.log(`Syncing ${emailRecord.email} to Beehiv...`);
             
-            const res = await fetch('https://api.beehiiv.com/v2/subscriptions', {
+            const res = await fetch(`https://api.beehiiv.com/v2/publications/${process.env.BEEHIIV_PUBLICATION_ID}/subscriptions`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
-                'X-ApiKey': process.env.BEEHIIV_API_KEY
+                'Authorization': `Bearer ${process.env.BEEHIIV_API_KEY}`
               },
               body: JSON.stringify({
                 email: emailRecord.email,
-                publication_id: process.env.BEEHIIV_PUBLICATION_ID,
                 reactivate_existing: true,
                 double_opt_in: false, // Skip double opt-in for existing subscribers
                 source: 'Database Sync'
@@ -100,7 +99,7 @@ export async function POST(req: Request) {
       try {
         const res = await fetch(`https://api.beehiiv.com/v2/publications/${process.env.BEEHIIV_PUBLICATION_ID}`, {
           headers: {
-            'X-ApiKey': process.env.BEEHIIV_API_KEY
+            'Authorization': `Bearer ${process.env.BEEHIIV_API_KEY}`
           }
         });
 

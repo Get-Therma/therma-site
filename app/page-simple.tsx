@@ -1,6 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import ABTestHeadline from '../components/ABTestHeadline';
+import ABTestSubheadline from '../components/ABTestSubheadline';
+import ScrollIndicator from '../components/ScrollIndicator';
 
 export default function HomePage() {
   const [email, setEmail] = useState('');
@@ -40,8 +43,8 @@ export default function HomePage() {
     <main>
       <div id="hero" className="container">
         <div className="stack">
-          <h1>Discover Your Patterns. Optimize Your Routine.</h1>
-          <p>Therma finds the hidden patterns in your daily life and turns them into clear, actionable insights.<br />Fine-tune your habits for peak energy, clarity, and confidence—making every week better than the last.</p>
+          <ABTestHeadline />
+          <ABTestSubheadline />
           
           <form onSubmit={handleSubmit} style={{ gap: '12px' }}>
             <div className="pillInput">
@@ -58,6 +61,8 @@ export default function HomePage() {
               </button>
             </div>
           </form>
+          
+          <ScrollIndicator />
           
           {status === 'success' && (
             <p style={{ color: 'green', marginTop: '16px' }}>

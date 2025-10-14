@@ -13,6 +13,11 @@ export async function POST(req: Request) {
   }
 
   try {
+    console.log('Resend sync API called');
+    console.log('BEEHIIV_API_KEY exists:', !!process.env.BEEHIIV_API_KEY);
+    console.log('BEEHIIV_PUBLICATION_ID exists:', !!process.env.BEEHIIV_PUBLICATION_ID);
+    console.log('BEEHIIV_PUBLICATION_ID value:', process.env.BEEHIIV_PUBLICATION_ID);
+    
     const { action, email } = await req.json();
     const db = await getDb();
 
@@ -55,15 +60,14 @@ export async function POST(req: Request) {
         for (let attempt = 1; attempt <= 2; attempt++) {
           try {
             console.log(`Attempting Beehiiv sync for ${emailToSync} (attempt ${attempt})...`);
-            const res = await fetch('https://api.beehiiv.com/v2/subscriptions', {
+            const res = await fetch(`https://api.beehiiv.com/v2/publications/${process.env.BEEHIIV_PUBLICATION_ID}/subscriptions`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
-                'X-ApiKey': process.env.BEEHIIV_API_KEY,
+                'Authorization': `Bearer ${process.env.BEEHIIV_API_KEY}`,
               },
               body: JSON.stringify({
                 email: emailToSync,
-                publication_id: process.env.BEEHIIV_PUBLICATION_ID,
                 reactivate_existing: true,
                 double_opt_in: true,
                 source: 'Resend Sync',
@@ -150,15 +154,14 @@ export async function POST(req: Request) {
 
       try {
         console.log(`Manually syncing ${email} to Beehiiv...`);
-        const res = await fetch('https://api.beehiiv.com/v2/subscriptions', {
+        const res = await fetch(`https://api.beehiiv.com/v2/publications/${process.env.BEEHIIV_PUBLICATION_ID}/subscriptions`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-ApiKey': process.env.BEEHIIV_API_KEY,
+            'Authorization': `Bearer ${process.env.BEEHIIV_API_KEY}`,
           },
           body: JSON.stringify({
             email,
-            publication_id: process.env.BEEHIIV_PUBLICATION_ID,
             reactivate_existing: true,
             double_opt_in: true,
             source: 'Manual Resend Sync',

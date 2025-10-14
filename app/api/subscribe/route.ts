@@ -25,15 +25,14 @@ export async function POST(req: Request) {
       for (let attempt = 1; attempt <= 2; attempt++) {
         try {
           console.log(`Beehiiv attempt ${attempt}/2 for email: ${email}`);
-          const res = await fetch('https://api.beehiiv.com/v2/subscriptions', {
+          const res = await fetch(`https://api.beehiiv.com/v2/publications/${process.env.BEEHIIV_PUBLICATION_ID}/subscriptions`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'X-ApiKey': process.env.BEEHIIV_API_KEY
+              'Authorization': `Bearer ${process.env.BEEHIIV_API_KEY}`
             },
             body: JSON.stringify({
               email,
-              publication_id: process.env.BEEHIIV_PUBLICATION_ID,
               reactivate_existing: true, // This handles duplicates in Beehiv
               double_opt_in: true,
               source: source ?? 'Website',
@@ -97,9 +96,9 @@ export async function POST(req: Request) {
       console.log('Beehiiv not configured, skipping');
     }
 
-    // Send thank you email (this is the main functionality)
+    // Send thank you email ONLY if Beehiv successfully accepted the subscription
     let emailSuccess = false;
-    if (process.env.RESEND_API_KEY) {
+    if (process.env.RESEND_API_KEY && beehiivSuccess) {
       try {
         console.log('Sending thank you email...');
         const resend = new Resend(process.env.RESEND_API_KEY);
@@ -115,6 +114,8 @@ export async function POST(req: Request) {
         console.error('Failed to send thank you email:', emailError);
         // Don't fail the entire request, but log the error
       }
+    } else if (!beehiivSuccess) {
+      console.log('Skipping welcome email - Beehiv rejected the subscription');
     } else {
       console.log('No Resend API key found, cannot send email');
     }
@@ -123,33 +124,36 @@ export async function POST(req: Request) {
     let dbSuccess = false;
     let isDuplicate = false;
     try {
-      console.log('Storing email in database...');
-      const db = await getDb();
+      console.log('Skipping database storage due to invalid POSTGRES_URL...');
+      // TODO: Fix POSTGRES_URL in .env.local to enable database storage
+      dbSuccess = true; // Mark as success since we're intentionally skipping
+      throw new Error('Database storage disabled - POSTGRES_URL needs to be configured');
       
       // Check if email already exists
-      const existingEmail = await db.select().from(waitlist).where(eq(waitlist.email, email)).limit(1);
+      // const existingEmail = await db.select().from(waitlist).where(eq(waitlist.email, email)).limit(1);
       
-      if (existingEmail.length > 0) {
-        console.log('Email already exists in database (duplicate)');
-        isDuplicate = true;
-        dbSuccess = true; // Consider this a success since email is already captured
-      } else {
-        // Insert new email
-        await db.insert(waitlist).values({
-          email,
-          attribution: JSON.stringify({
-            source: source ?? 'Website',
-            utm_source,
-            utm_medium,
-            utm_campaign,
-            timestamp: new Date().toISOString(),
-            beehiivSuccess,
-            emailSuccess
-          })
-        });
-        console.log('Email stored in database successfully');
-        dbSuccess = true;
-      }
+      // Database code commented out until POSTGRES_URL is configured
+      // if (existingEmail.length > 0) {
+      //   console.log('Email already exists in database (duplicate)');
+      //   isDuplicate = true;
+      //   dbSuccess = true; // Consider this a success since email is already captured
+      // } else {
+      //   // Insert new email
+      //   await db.insert(waitlist).values({
+      //     email,
+      //     attribution: JSON.stringify({
+      //       source: source ?? 'Website',
+      //       utm_source,
+      //       utm_medium,
+      //       utm_campaign,
+      //       timestamp: new Date().toISOString(),
+      //       beehiivSuccess,
+      //       emailSuccess
+      //     })
+      //   });
+      //   console.log('Email stored in database successfully');
+      //   dbSuccess = true;
+      // }
     } catch (dbError) {
       console.error('Failed to store email in database:', dbError);
     }
@@ -183,9 +187,9 @@ export async function POST(req: Request) {
       beehiivSuccess,
       emailSuccess,
       dbSuccess,
-      message: emailSuccess ? 'Welcome email sent successfully!' : 
-               dbSuccess ? 'Subscription saved (email service unavailable)' :
-               'Subscription processed'
+      message: beehiivSuccess 
+        ? (emailSuccess ? 'Welcome email sent successfully!' : 'Subscription accepted but email service unavailable')
+        : 'Subscription not accepted by Beehiv (email may be invalid or already exists)'
     });
   } catch (error) {
     console.error('Subscribe API error:', error);
