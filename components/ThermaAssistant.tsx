@@ -27,6 +27,7 @@ export default function ThermaAssistant({
   placeholder = "Ask about Therma's product, features, or launch..."
 }: ThermaAssistantProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -329,8 +330,8 @@ export default function ThermaAssistant({
             position: 'fixed',
             bottom: '24px',
             right: '24px',
-            width: '420px',
-            height: '600px',
+            width: isExpanded ? '800px' : '520px',
+            height: isExpanded ? '700px' : '650px',
             borderRadius: '24px',
             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)',
             background: 'rgba(255, 255, 255, 0.95)',
@@ -385,7 +386,7 @@ export default function ThermaAssistant({
               </div>
             </div>
             <button
-              onClick={toggleChat}
+              onClick={() => setIsExpanded(!isExpanded)}
               style={{
                 width: '32px',
                 height: '32px',
@@ -405,9 +406,11 @@ export default function ThermaAssistant({
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'rgba(51, 65, 85, 0.3)';
               }}
-              aria-label="Minimize chat"
+              aria-label={isExpanded ? "Minimize chat" : "Expand chat"}
             >
-              <span style={{ fontSize: '16px', fontWeight: 'bold' }}>−</span>
+              <span style={{ fontSize: '16px', fontWeight: 'bold' }}>
+                {isExpanded ? '−' : '⛶'}
+              </span>
             </button>
           </div>
 
@@ -419,7 +422,7 @@ export default function ThermaAssistant({
           }}>
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
+                gridTemplateColumns: isExpanded ? 'repeat(4, 1fr)' : 'repeat(3, 1fr)',
                 gap: '8px'
               }}>
                 {quickActions.map((action) => (
@@ -487,7 +490,7 @@ export default function ThermaAssistant({
                     color: message.isUser ? '#ffffff' : '#111827'
                   }}
                 >
-                  <p style={{ fontSize: '14px', lineHeight: '1.5', fontWeight: '500', margin: 0 }}>{message.text}</p>
+                  <p style={{ fontSize: isExpanded ? '16px' : '14px', lineHeight: '1.5', fontWeight: '500', margin: 0 }}>{message.text}</p>
                   <p style={{ 
                     fontSize: '12px', 
                     marginTop: '8px', 
@@ -565,7 +568,7 @@ export default function ThermaAssistant({
                     padding: '16px',
                     borderRadius: '16px',
                     border: '1px solid rgba(229, 231, 235, 0.3)',
-                    fontSize: '14px',
+                    fontSize: isExpanded ? '16px' : '14px',
                     outline: 'none',
                     background: 'rgba(255, 255, 255, 0.9)',
                     backdropFilter: 'blur(1px)',
