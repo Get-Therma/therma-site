@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ABTestHeadline, ABTestSubheadline } from '../components/ABTestText';
+import ABTestHeadline from '../components/ABTestHeadline';
+import ABTestSubheadline from '../components/ABTestSubheadline';
 
 export default function HomePage() {
   const [email, setEmail] = useState('');
