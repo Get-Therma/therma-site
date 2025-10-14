@@ -74,6 +74,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  text-align: center;
 }
 
 h1 { 
@@ -96,6 +97,7 @@ h3 { font-size: var(--h3); }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
@@ -122,6 +124,7 @@ h3 { font-size: var(--h3); }
   align-items: center;
   justify-content: center;
   max-width: 100%;
+  text-align: center;
 }
 
 .center {
