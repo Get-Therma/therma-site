@@ -234,70 +234,91 @@ export default function ThermaAssistant({
           isolation: 'isolate'
         }}
       >
+        {/* Glow Effect */}
+        <div style={{
+          position: 'absolute',
+          top: '-20px',
+          left: '-20px',
+          right: '-20px',
+          bottom: '-20px',
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.1) 50%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(20px)',
+          animation: 'pulse 2s infinite'
+        }} />
+        
         {/* Main Chat Button */}
         <button
           onClick={toggleChat}
           style={{
-            width: '64px',
-            height: '64px',
-            borderRadius: '16px',
-            background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-            border: '1px solid rgba(51, 65, 85, 0.3)',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            width: '72px',
+            height: '72px',
+            borderRadius: '20px',
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(20px)',
+            border: '2px solid rgba(255, 255, 255, 0.2)',
+            boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            transition: 'all 0.3s ease',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             position: 'relative',
             overflow: 'hidden'
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-            e.currentTarget.style.boxShadow = '0 35px 60px -12px rgba(0, 0, 0, 0.35)';
+            e.currentTarget.style.transform = 'scale(1.1) translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 12px 40px rgba(59, 130, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+            e.currentTarget.style.transform = 'scale(1) translateY(0)';
+            e.currentTarget.style.boxShadow = '0 8px 32px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
           }}
-          aria-label="Open Therma AI Assistant"
+          aria-label="Open Therma Assistant"
         >
-          {/* Icon */}
-          <div style={{ 
+          {/* Logo */}
+          <img 
+            src="/therma-logo.png" 
+            alt="Therma Logo" 
+            style={{
+              width: '40px',
+              height: '40px',
+              objectFit: 'contain',
+              filter: 'brightness(1.2)'
+            }}
+            onError={(e) => {
+              // Fallback to text if logo fails to load
+              e.currentTarget.style.display = 'none';
+              const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+              if (nextElement) {
+                nextElement.style.display = 'block';
+              }
+            }}
+          />
+          <span style={{
+            display: 'none',
+            fontSize: '24px',
+            fontWeight: 'bold',
             color: '#ffffff',
-            transition: 'color 0.3s ease',
-            fontSize: '28px',
-            fontWeight: 'bold'
-          }}>
-            {isOpen ? '✕' : '💬'}
-          </div>
+            textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+          }}>T</span>
         </button>
         
-        {/* Premium Status Indicator */}
-        {!isOpen && (
-          <div style={{
-            position: 'absolute',
-            top: '-8px',
-            right: '-8px',
-            width: '24px',
-            height: '24px',
-            background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
-            borderRadius: '50%',
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-            border: '2px solid white',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            <div style={{
-              width: '8px',
-              height: '8px',
-              backgroundColor: 'white',
-              borderRadius: '50%',
-              animation: 'pulse 2s infinite'
-            }}></div>
-          </div>
-        )}
+        {/* Status Indicator */}
+        <div style={{
+          position: 'absolute',
+          top: '8px',
+          right: '8px',
+          width: '16px',
+          height: '16px',
+          borderRadius: '50%',
+          background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+          border: '2px solid rgba(255, 255, 255, 0.9)',
+          boxShadow: '0 2px 8px rgba(16, 185, 129, 0.4)',
+          animation: 'pulse 2s infinite'
+        }} />
         
         {/* Floating Label */}
         {!isOpen && (
@@ -331,21 +352,21 @@ export default function ThermaAssistant({
       </div>
 
 
-      {/* Premium Chat Window */}
+      {/* Translucent Glowing Chat Window */}
       {isOpen && (
         <div 
           className="therma-chatbot-window"
           style={{
             position: 'fixed',
-            bottom: '24px',
-            right: '24px',
+            bottom: '32px',
+            right: '32px',
             width: isExpanded ? '800px' : '520px',
             height: isExpanded ? '700px' : '650px',
             borderRadius: '24px',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(4px)',
-            border: '1px solid rgba(229, 231, 235, 0.3)',
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(20px)',
+            border: '2px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 25px 50px -12px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
             zIndex: 10001,
             display: 'flex',
             flexDirection: 'column',
@@ -357,63 +378,121 @@ export default function ThermaAssistant({
           role="log"
           aria-label="Therma Chat"
         >
-          {/* Premium Header */}
+          {/* Glow Effect Around Window */}
+          <div style={{
+            position: 'absolute',
+            top: '-10px',
+            left: '-10px',
+            right: '-10px',
+            bottom: '-10px',
+            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 51, 234, 0.1) 50%, rgba(59, 130, 246, 0.2) 100%)',
+            borderRadius: '32px',
+            filter: 'blur(15px)',
+            zIndex: -1,
+            animation: 'pulse 3s infinite'
+          }} />
+          
+          {/* Translucent Header */}
           <div style={{
             padding: '24px',
             borderRadius: '24px 24px 0 0',
-            background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-            borderBottom: '1px solid rgba(51, 65, 85, 0.3)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: 'blur(20px)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <div style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '16px',
-                background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)',
+                width: '40px',
+                height: '40px',
+                borderRadius: '12px',
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                border: '1px solid rgba(255, 255, 255, 0.2)'
               }}>
-                <span style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>T</span>
+                <img 
+                  src="/therma-logo.png" 
+                  alt="Therma Logo" 
+                  style={{
+                    width: '24px',
+                    height: '24px',
+                    objectFit: 'contain',
+                    filter: 'brightness(1.2)'
+                  }}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (nextElement) {
+                      nextElement.style.display = 'block';
+                    }
+                  }}
+                />
+                <span style={{
+                  display: 'none',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  color: '#ffffff'
+                }}>T</span>
               </div>
               <div>
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff', margin: 0 }}>Therma</h3>
-                <p style={{ fontSize: '14px', color: '#cbd5e1', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <h3 style={{ 
+                  fontSize: '18px', 
+                  fontWeight: '700', 
+                  color: '#ffffff', 
+                  margin: 0,
+                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                }}>
+                  Therma AI
+                </h3>
+                <p style={{ 
+                  fontSize: '14px', 
+                  color: 'rgba(255, 255, 255, 0.8)', 
+                  margin: 0,
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
                   <div style={{
                     width: '8px',
                     height: '8px',
-                    backgroundColor: '#06b6d4',
+                    backgroundColor: '#10b981',
                     borderRadius: '50%',
                     animation: 'pulse 2s infinite'
                   }}></div>
-                  AI — Private
+                  Online
                 </p>
               </div>
             </div>
+            
             <button
               onClick={() => setIsExpanded(!isExpanded)}
               style={{
                 width: '32px',
                 height: '32px',
                 borderRadius: '12px',
-                background: 'rgba(51, 65, 85, 0.3)',
-                border: 'none',
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
-                transition: 'background-color 0.2s ease',
-                color: '#cbd5e1'
+                transition: 'all 0.2s ease',
+                color: 'rgba(255, 255, 255, 0.8)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(51, 65, 85, 0.5)';
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+                e.currentTarget.style.color = '#ffffff';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(51, 65, 85, 0.3)';
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
               }}
               aria-label={isExpanded ? "Minimize chat" : "Expand chat"}
             >
@@ -427,8 +506,9 @@ export default function ThermaAssistant({
           {!showWelcome && (
             <div style={{
               padding: '16px',
-              borderBottom: '1px solid rgba(229, 231, 235, 0.3)',
-              background: 'rgba(249, 250, 251, 0.5)'
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(10px)'
             }}>
                 <div style={{
                   display: 'grid',
@@ -443,25 +523,31 @@ export default function ThermaAssistant({
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        padding: '8px',
+                        padding: '12px',
                         borderRadius: '12px',
-                        background: 'transparent',
-                        border: 'none',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
                         cursor: 'pointer',
-                        transition: 'background-color 0.2s ease, transform 0.2s ease'
+                        transition: 'all 0.2s ease',
+                        color: 'rgba(255, 255, 255, 0.8)'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'white';
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                        e.currentTarget.style.color = '#ffffff';
                         e.currentTarget.style.transform = 'scale(1.05)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
                         e.currentTarget.style.transform = 'scale(1)';
                       }}
                       aria-label={action.label}
                     >
                       <span style={{ fontSize: '18px', marginBottom: '4px', transition: 'transform 0.2s ease' }}>{action.icon}</span>
-                      <span style={{ fontSize: '12px', fontWeight: '500', color: '#4b5563', textAlign: 'center' }}>{action.label}</span>
+                      <span style={{ fontSize: '12px', fontWeight: '500', textAlign: 'center' }}>{action.label}</span>
                     </button>
                   ))}
                 </div>
@@ -473,7 +559,8 @@ export default function ThermaAssistant({
             flex: 1,
             overflowY: 'auto',
             padding: '24px',
-            background: 'linear-gradient(180deg, #ffffff 0%, rgba(249, 250, 251, 0.5) 100%)',
+            background: 'rgba(255, 255, 255, 0.02)',
+            backdropFilter: 'blur(10px)',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px'
@@ -699,12 +786,13 @@ export default function ThermaAssistant({
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Premium Input */}
+          {/* Translucent Input */}
           {!showWelcome && (
             <div style={{
               padding: '24px',
-              borderTop: '1px solid rgba(229, 231, 235, 0.3)',
-              background: 'linear-gradient(135deg, #f9fafb 0%, #ffffff 100%)'
+              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)'
             }}>
               <div style={{ display: 'flex', gap: '12px' }}>
                   <input
@@ -719,20 +807,20 @@ export default function ThermaAssistant({
                       flex: 1,
                       padding: '16px',
                       borderRadius: '16px',
-                      border: '1px solid rgba(229, 231, 235, 0.3)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
                       fontSize: isExpanded ? '16px' : '14px',
                       outline: 'none',
-                      background: 'rgba(255, 255, 255, 0.9)',
-                      backdropFilter: 'blur(1px)',
-                      color: '#111827',
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                      color: '#ffffff',
                       transition: 'all 0.2s ease'
                     }}
                     onFocus={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(251, 146, 60, 0.5)';
-                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(251, 146, 60, 0.1)';
+                      e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.5)';
+                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
                     }}
                     onBlur={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(229, 231, 235, 0.3)';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
                       e.currentTarget.style.boxShadow = 'none';
                     }}
                     aria-label="Type your message"
@@ -744,9 +832,10 @@ export default function ThermaAssistant({
                       padding: '16px 24px',
                       borderRadius: '16px',
                       background: !inputValue.trim() || isLoading 
-                        ? '#e5e7eb' 
-                        : 'linear-gradient(135deg, #f97316 0%, #dc2626 100%)',
-                      border: 'none',
+                        ? 'rgba(255, 255, 255, 0.1)' 
+                        : 'linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(147, 51, 234, 0.8) 100%)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
                       cursor: !inputValue.trim() || isLoading ? 'not-allowed' : 'pointer',
                       transition: 'all 0.2s ease',
                       display: 'flex',
@@ -754,18 +843,18 @@ export default function ThermaAssistant({
                       justifyContent: 'center',
                       fontSize: '14px',
                       fontWeight: '600',
-                      color: !inputValue.trim() || isLoading ? '#9ca3af' : '#ffffff',
-                      boxShadow: !inputValue.trim() || isLoading ? 'none' : '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                      color: !inputValue.trim() || isLoading ? 'rgba(255, 255, 255, 0.5)' : '#ffffff',
+                      boxShadow: !inputValue.trim() || isLoading ? 'none' : '0 10px 15px -3px rgba(59, 130, 246, 0.3)'
                     }}
                     onMouseEnter={(e) => {
                       if (inputValue.trim() && !isLoading) {
                         e.currentTarget.style.transform = 'scale(1.05)';
-                        e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1)';
+                        e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(59, 130, 246, 0.4)';
                       }
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.boxShadow = !inputValue.trim() || isLoading ? 'none' : '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+                      e.currentTarget.style.boxShadow = !inputValue.trim() || isLoading ? 'none' : '0 10px 15px -3px rgba(59, 130, 246, 0.3)';
                     }}
                     aria-label="Send message"
                   >
