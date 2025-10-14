@@ -10,7 +10,8 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "test:beehiv": "node scripts/test-beehiv.js"
+    "test:beehiv": "node scripts/test-beehiv.js",
+    "test:resend": "node scripts/test-resend.js"
   },
   "keywords": [
     "therma",
