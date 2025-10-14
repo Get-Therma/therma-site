@@ -18,3 +18,6 @@ const client = postgres({
 });
 
 export const db = drizzle(client, { schema });
+
+// Also export as getDb function for compatibility with newer API routes
+export const getDb = async () => db;
