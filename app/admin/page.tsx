@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import BulkSyncAdmin from '../../components/BulkSyncAdmin';
+import ResendSyncAdmin from '../../components/ResendSyncAdmin';
 
 interface DashboardData {
   waitlistCount: number;
@@ -20,7 +21,7 @@ export default function AdminDashboard() {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'sync'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'sync' | 'resend-sync'>('dashboard');
 
   useEffect(() => {
     // Fetch initial data
@@ -93,6 +94,16 @@ export default function AdminDashboard() {
           >
             Bulk Sync
           </button>
+          <button
+            onClick={() => setActiveTab('resend-sync')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+              activeTab === 'resend-sync'
+                ? 'bg-white text-black'
+                : 'bg-white/10 text-white hover:bg-white/20'
+            }`}
+          >
+            Resend Sync
+          </button>
         </div>
 
         {/* Tab Content */}
@@ -164,8 +175,10 @@ export default function AdminDashboard() {
           </div>
         </div>
           </>
-        ) : (
+        ) : activeTab === 'sync' ? (
           <BulkSyncAdmin />
+        ) : (
+          <ResendSyncAdmin />
         )}
       </div>
     </div>

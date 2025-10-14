@@ -12,7 +12,8 @@
     "db:studio": "drizzle-kit studio",
     "test:beehiv": "node scripts/test-beehiv.js",
     "test:resend": "node scripts/test-resend.js",
-    "test:duplicates": "node scripts/test-duplicates.js"
+    "test:duplicates": "node scripts/test-duplicates.js",
+    "test:resend-sync": "node scripts/test-resend-sync.js"
   },
   "keywords": [
     "therma",
