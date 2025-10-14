@@ -31,17 +31,17 @@ export default function ThankYouPage() {
         <section className="container center">
           <div className="stack">
             <div className="confirmation-icon">✅</div>
-            <h1>You're In.</h1>
+            <h1 style={{ fontSize: 'var(--h1)' }}>You're In.</h1>
             <div className="sp-8"></div>
-            <p className="muted thank-you-text">
+            <h2 className="muted" style={{ fontSize: 'var(--h2)' }}>
               Thanks for joining the Therma waitlist.
               <br/>
               We'll be in touch soon with your invite to experience a smarter way to control your climate.
-            </p>
+            </h2>
             <div className="sp-16"></div>
-            <p className="muted thank-you-text">
+            <h3 className="muted" style={{ fontSize: 'var(--h3)' }}>
               In the meantime, follow us for sneak peeks and launch updates:
-            </p>
+            </h3>
             <div className="sp-8"></div>
             <div className="social-links">
               <a href="https://www.instagram.com/gettherma/" className="social-link" target="_blank" rel="noopener noreferrer">
