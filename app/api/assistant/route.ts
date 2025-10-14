@@ -101,6 +101,11 @@ export async function POST(req: NextRequest) {
       messageType = 'privacy';
       response = "Your privacy is important to us. You can download your data, delete specific entries, or delete all your data anytime. What would you like to do?";
     }
+    // Pricing queries
+    else if (lowerMessage.includes('pricing') || lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('subscription')) {
+      messageType = 'pricing';
+      response = "Pricing details are still being finalized and will be announced closer to our official launch. We're committed to making Therma accessible while ensuring sustainable development. Join our waitlist to be the first to know about pricing when it's announced.";
+    }
     // General wellness support
     else {
       messageType = 'general';

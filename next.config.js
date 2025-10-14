@@ -6,6 +6,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Exclude mock-server from build
+  webpack: (config) => {
+    config.watchOptions = {
+      ...config.watchOptions,
+      ignored: ['**/mock-server/**']
+    };
+    return config;
+  },
 }
 
 module.exports = nextConfig;

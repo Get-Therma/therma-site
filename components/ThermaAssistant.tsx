@@ -3,14 +3,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { useConsent } from '../lib/useConsent';
 import ConsentModal from './ConsentModal';
+import { faqSearch, getLaunchStatus, FAQItem } from '../lib/faq-api';
 
 interface Message {
   id: string;
   text: string;
   isUser: boolean;
   timestamp: Date;
-  type?: 'journal' | 'mood' | 'insight' | 'escalation';
+  type?: 'journal' | 'mood' | 'insight' | 'escalation' | 'faq' | 'launch';
   attachments?: Array<{ url: string; type: string; name: string }>;
+  faqData?: FAQItem;
 }
 
 interface ThermaAssistantProps {
@@ -42,7 +44,7 @@ export default function ThermaAssistant({
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [currentFlow, setCurrentFlow] = useState<'idle' | 'journaling' | 'mood' | 'insights'>('idle');
+  const [currentFlow, setCurrentFlow] = useState<'idle' | 'journaling' | 'mood' | 'insights' | 'faq'>('idle');
   const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -98,6 +100,43 @@ export default function ThermaAssistant({
     }
   };
 
+  const handleFAQQuery = async (message: string): Promise<Message | null> => {
+    try {
+      const faqResults = await faqSearch(message);
+      
+      if (faqResults.results.length > 0) {
+        const firstResult = faqResults.results[0];
+        const prefix = firstResult.isVerified ? '' : 'Unverified / may have changed — ';
+        
+        return {
+          id: `faq_${Date.now()}`,
+          text: prefix + firstResult.answer,
+          isUser: false,
+          timestamp: new Date(),
+          type: 'faq',
+          faqData: firstResult
+        };
+      }
+      
+      // Check for launch status queries
+      if (message.toLowerCase().includes('launch') || message.toLowerCase().includes('when')) {
+        const launchStatus = await getLaunchStatus();
+        return {
+          id: `launch_${Date.now()}`,
+          text: launchStatus.notes || 'Launch information is not currently available.',
+          isUser: false,
+          timestamp: new Date(),
+          type: 'launch'
+        };
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('FAQ query error:', error);
+      return null;
+    }
+  };
+
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading || !consentState.hasConsented) return;
 
@@ -116,6 +155,14 @@ export default function ThermaAssistant({
     // Check for safety concerns first
     if (detectSafetyRisk(messageText)) {
       await handleEscalation(messageText);
+      setIsLoading(false);
+      return;
+    }
+
+    // Check for FAQ questions first
+    const faqResponse = await handleFAQQuery(messageText);
+    if (faqResponse) {
+      setMessages(prev => [...prev, faqResponse]);
       setIsLoading(false);
       return;
     }
@@ -180,7 +227,11 @@ export default function ThermaAssistant({
       mood: "I want to do a mood check-in",
       insights: "Can you give me some insights?",
       export: "I want to export my data",
-      human: "I'd like to talk to a human"
+      human: "I'd like to talk to a human",
+      launch: "When is Therma launching?",
+      features: "What features does Therma offer?",
+      pricing: "What is Therma's pricing?",
+      integrations: "What integrations does Therma support?"
     };
 
     setInputValue(quickActions[action] || action);
@@ -202,6 +253,10 @@ export default function ThermaAssistant({
     { id: 'journal', label: 'Start Journal', icon: '📝' },
     { id: 'mood', label: 'Mood Check', icon: '😊' },
     { id: 'insights', label: 'Get Insights', icon: '💡' },
+    { id: 'launch', label: 'Launch Info', icon: '🚀' },
+    { id: 'features', label: 'Features', icon: '⚡' },
+    { id: 'pricing', label: 'Pricing', icon: '💰' },
+    { id: 'integrations', label: 'Integrations', icon: '🔗' },
     { id: 'export', label: 'Export Data', icon: '📤' },
     { id: 'human', label: 'Talk to Human', icon: '👤' }
   ];
@@ -312,7 +367,7 @@ export default function ThermaAssistant({
           {/* Quick Actions */}
           {consentState.hasConsented && (
             <div className="p-4 border-b border-gray-200/50 bg-gray-50/50">
-              <div className="grid grid-cols-5 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {quickActions.map((action) => (
                   <button
                     key={action.id}
@@ -321,7 +376,7 @@ export default function ThermaAssistant({
                     aria-label={action.label}
                   >
                     <span className="text-lg mb-1 group-hover:scale-110 transition-transform">{action.icon}</span>
-                    <span className="text-xs text-gray-600 font-medium">{action.label}</span>
+                    <span className="text-xs text-gray-600 font-medium text-center">{action.label}</span>
                   </button>
                 ))}
               </div>
