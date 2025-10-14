@@ -84,9 +84,9 @@ export default function HomePage() {
       <main>
         <section id="hero" className="container center">
           <div className="stack">
-            <h1>Your space to slow<br/>down, check in, and<br/>feel supported.</h1>
+            <h1>Discover Your Patterns.<br/>Optimize Your Routine.</h1>
             <div className="sp-8"></div>
-            <h2 className="muted">Daily reflections, gentle prompts, and an AI companion that<br/>listens — so you can actually hear yourself.</h2>
+            <h2 className="muted">Therma finds the hidden patterns in your daily life<br/>and turns them into clear, actionable insights.<br/>Fine-tune your habits for peak energy, clarity, and confidence—<br/>making every week better than the last.</h2>
             <div className="sp-16"></div>
             
             <form className="stack" style={{ gap: '12px' }} onSubmit={handleSubmit}>
@@ -128,7 +128,7 @@ export default function HomePage() {
         <section id="why" className="container center">
           <div className="stack">
             <h2 className="why-section-title">Why Therma?</h2>
-            <p className="why-section-subtitle">Your space to slow down, check in, and feel supported</p>
+            <p className="why-section-subtitle">Therma finds the hidden patterns in your daily life and turns them into clear, actionable insights</p>
             
             <div className="why-grid">
               <div className="why-tile">
