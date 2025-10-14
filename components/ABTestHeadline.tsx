@@ -7,7 +7,8 @@ interface ABTestHeadlineProps {
 export default function ABTestHeadline({ className }: ABTestHeadlineProps) {
   return (
     <h1 className={className}>
-      Spot the bright spots, fix the frictions, and feel steadier week by week.
+      Discover Your Patterns.<br />
+      Optimize Your Routine.
     </h1>
   );
 }
