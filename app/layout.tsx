@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-// import ThermaAssistant from '../components/ThermaAssistant';
+import ThermaAssistant from '../components/ThermaAssistant';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         {children}
-        {/* <ThermaAssistant /> */}
+        <ThermaAssistant />
         
         {/* Beehiv Analytics Script */}
         {process.env.BEEHIIV_PUBLICATION_ID && (
