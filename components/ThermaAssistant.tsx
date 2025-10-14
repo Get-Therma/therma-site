@@ -254,9 +254,9 @@ export default function ThermaAssistant({
             width: '72px',
             height: '72px',
             borderRadius: '20px',
-            background: 'linear-gradient(135deg, #ff0000 0%, #ff6600 50%, #ff0000 100%)',
-            border: '3px solid #ffffff',
-            boxShadow: '0 8px 32px rgba(255, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+            background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%)',
+            border: '2px solid rgba(0, 0, 0, 0.8)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -611,32 +611,43 @@ export default function ThermaAssistant({
 
                 {/* Welcome Title */}
                 <h2 style={{
-                  fontSize: isExpanded ? '32px' : '28px',
+                  fontSize: isExpanded ? '36px' : '32px',
                   fontWeight: '700',
                   color: '#ffffff',
-                  marginBottom: '20px',
+                  marginBottom: '24px',
                   lineHeight: '1.2',
-                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)'
+                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)',
+                  textAlign: 'center'
                 }}>
                   Welcome to Therma AI
                 </h2>
 
                 {/* Welcome Description */}
                 <div style={{
-                  fontSize: isExpanded ? '18px' : '16px',
-                  color: 'rgba(255, 255, 255, 0.9)',
-                  lineHeight: '1.6',
-                  marginBottom: '40px',
-                  maxWidth: '450px',
-                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)'
+                  fontSize: isExpanded ? '20px' : '18px',
+                  color: 'rgba(255, 255, 255, 0.95)',
+                  lineHeight: '1.7',
+                  marginBottom: '48px',
+                  maxWidth: '500px',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)',
+                  textAlign: 'center'
                 }}>
-                  <p style={{ marginBottom: '20px' }}>
+                  <p style={{ 
+                    marginBottom: '24px',
+                    fontWeight: '500'
+                  }}>
                     I'm your personal Therma assistant, here to help you discover everything about our intelligent climate control platform.
                   </p>
-                  <p style={{ marginBottom: '20px' }}>
+                  <p style={{ 
+                    marginBottom: '24px',
+                    fontWeight: '500'
+                  }}>
                     I can answer questions about our product features, launch timeline, integrations, company vision, and more.
                   </p>
-                  <p>
+                  <p style={{
+                    fontWeight: '600',
+                    color: '#00ff88'
+                  }}>
                     Ready to explore what Therma can do for you?
                   </p>
                 </div>
@@ -645,18 +656,19 @@ export default function ThermaAssistant({
                 <button
                   onClick={handleWelcomeContinue}
                   style={{
-                    padding: '20px 40px',
-                    borderRadius: '16px',
+                    padding: '24px 48px',
+                    borderRadius: '20px',
                     background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
                     color: '#000000',
                     border: 'none',
-                    fontSize: isExpanded ? '18px' : '16px',
+                    fontSize: isExpanded ? '20px' : '18px',
                     fontWeight: '700',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
                     boxShadow: '0 8px 25px rgba(0, 255, 136, 0.4)',
-                    minWidth: '200px',
-                    textShadow: 'none'
+                    minWidth: '240px',
+                    textShadow: 'none',
+                    letterSpacing: '0.5px'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-3px)';
