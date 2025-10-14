@@ -226,7 +226,7 @@ export default function ThermaAssistant({
 
       {/* Premium Floating Chat Badge */}
       <div 
-        className="therma-chatbot-container fixed bottom-6 right-6 z-50"
+        className="therma-chatbot-container"
         style={{
           position: 'fixed',
           bottom: '24px',
@@ -237,43 +237,95 @@ export default function ThermaAssistant({
         {/* Main Chat Button */}
         <button
           onClick={toggleChat}
-          className="group relative w-16 h-16 rounded-2xl bg-gradient-to-br from-white to-gray-100 shadow-2xl border border-gray-200/50 backdrop-blur-xl transition-all duration-500 hover:scale-105 hover:shadow-3xl hover:border-orange-300/50 flex items-center justify-center overflow-hidden"
+          style={{
+            width: '64px',
+            height: '64px',
+            borderRadius: '16px',
+            background: 'linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%)',
+            border: '1px solid rgba(229, 231, 235, 0.5)',
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            position: 'relative',
+            overflow: 'hidden'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.boxShadow = '0 35px 60px -12px rgba(0, 0, 0, 0.35)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+          }}
           aria-label="Open Therma AI Assistant"
         >
-          {/* Animated Background Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-red-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
-          
-          {/* Icon Container */}
-          <div className="relative z-10 flex items-center justify-center">
-            {isOpen ? (
-              <svg className="w-7 h-7 text-gray-700 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-7 h-7 text-gray-700 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-            )}
+          {/* Icon */}
+          <div style={{ 
+            color: '#374151',
+            transition: 'color 0.3s ease',
+            fontSize: '28px',
+            fontWeight: 'bold'
+          }}>
+            {isOpen ? '✕' : '💬'}
           </div>
-          
-          {/* Subtle Glow Effect */}
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-400/20 to-red-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         </button>
         
         {/* Premium Status Indicator */}
         {!isOpen && (
-          <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full shadow-lg border-2 border-white flex items-center justify-center">
-            <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+          <div style={{
+            position: 'absolute',
+            top: '-8px',
+            right: '-8px',
+            width: '24px',
+            height: '24px',
+            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            borderRadius: '50%',
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+            border: '2px solid white',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <div style={{
+              width: '8px',
+              height: '8px',
+              backgroundColor: 'white',
+              borderRadius: '50%',
+              animation: 'pulse 2s infinite'
+            }}></div>
           </div>
         )}
         
         {/* Floating Label */}
         {!isOpen && (
-          <div className="absolute right-20 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-xl rounded-xl px-4 py-2 shadow-xl border border-gray-200/50 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">
-            <div className="text-sm font-semibold text-gray-800">Therma Assistant</div>
-            <div className="text-xs text-gray-500">AI — Private</div>
-            {/* Arrow */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full w-0 h-0 border-l-8 border-l-white/95 border-t-4 border-t-transparent border-b-4 border-b-transparent"></div>
+          <div style={{
+            position: 'absolute',
+            right: '80px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(12px)',
+            borderRadius: '12px',
+            padding: '8px 16px',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+            border: '1px solid rgba(229, 231, 235, 0.5)',
+            opacity: 0,
+            transition: 'opacity 0.3s ease',
+            whiteSpace: 'nowrap',
+            pointerEvents: 'none'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '1';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '0';
+          }}
+          >
+            <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937' }}>Therma Assistant</div>
+            <div style={{ fontSize: '12px', color: '#6b7280' }}>AI — Private</div>
           </div>
         )}
       </div>
@@ -281,7 +333,7 @@ export default function ThermaAssistant({
       {/* Premium Chat Window */}
       {isOpen && (
         <div 
-          className="therma-chatbot-window fixed bottom-28 right-6 z-40 w-96 h-[500px] rounded-3xl shadow-2xl border border-gray-200/50 bg-white/95 backdrop-blur-xl transition-all duration-500 flex flex-col overflow-hidden"
+          className="therma-chatbot-window w-96 h-[500px] rounded-3xl shadow-2xl border border-gray-200/50 bg-white/95 backdrop-blur-xl transition-all duration-500 flex flex-col overflow-hidden"
           style={{
             position: 'fixed',
             bottom: '112px',
