@@ -576,39 +576,64 @@ export default function ThermaAssistant({
                   width: '80px',
                   height: '80px',
                   borderRadius: '20px',
-                  background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+                  background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginBottom: '24px',
-                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)'
+                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.8)',
+                  border: '2px solid rgba(0, 0, 0, 0.8)'
                 }}>
-                  <span style={{ fontSize: '32px' }}>🤖</span>
+                  <img 
+                    src="/therma-logo.png" 
+                    alt="Therma Logo" 
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      objectFit: 'contain',
+                      filter: 'brightness(1.2)'
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                      if (nextElement) {
+                        nextElement.style.display = 'block';
+                      }
+                    }}
+                  />
+                  <span style={{
+                    display: 'none',
+                    fontSize: '32px',
+                    fontWeight: 'bold',
+                    color: '#ffffff'
+                  }}>T</span>
                 </div>
 
                 {/* Welcome Title */}
                 <h2 style={{
-                  fontSize: isExpanded ? '28px' : '24px',
+                  fontSize: isExpanded ? '32px' : '28px',
                   fontWeight: '700',
-                  color: '#1f2937',
-                  marginBottom: '16px',
-                  lineHeight: '1.2'
+                  color: '#ffffff',
+                  marginBottom: '20px',
+                  lineHeight: '1.2',
+                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)'
                 }}>
                   Welcome to Therma AI
                 </h2>
 
                 {/* Welcome Description */}
                 <div style={{
-                  fontSize: isExpanded ? '16px' : '14px',
-                  color: '#6b7280',
+                  fontSize: isExpanded ? '18px' : '16px',
+                  color: 'rgba(255, 255, 255, 0.9)',
                   lineHeight: '1.6',
-                  marginBottom: '32px',
-                  maxWidth: '400px'
+                  marginBottom: '40px',
+                  maxWidth: '450px',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)'
                 }}>
-                  <p style={{ marginBottom: '16px' }}>
+                  <p style={{ marginBottom: '20px' }}>
                     I'm your personal Therma assistant, here to help you discover everything about our intelligent climate control platform.
                   </p>
-                  <p style={{ marginBottom: '16px' }}>
+                  <p style={{ marginBottom: '20px' }}>
                     I can answer questions about our product features, launch timeline, integrations, company vision, and more.
                   </p>
                   <p>
@@ -620,25 +645,26 @@ export default function ThermaAssistant({
                 <button
                   onClick={handleWelcomeContinue}
                   style={{
-                    padding: '16px 32px',
-                    borderRadius: '12px',
-                    background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-                    color: '#ffffff',
+                    padding: '20px 40px',
+                    borderRadius: '16px',
+                    background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
+                    color: '#000000',
                     border: 'none',
-                    fontSize: isExpanded ? '16px' : '14px',
-                    fontWeight: '600',
+                    fontSize: isExpanded ? '18px' : '16px',
+                    fontWeight: '700',
                     cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
-                    minWidth: '160px'
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 8px 25px rgba(0, 255, 136, 0.4)',
+                    minWidth: '200px',
+                    textShadow: 'none'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 255, 136, 0.6)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 255, 136, 0.4)';
                   }}
                 >
                   Let's Get Started →
@@ -646,50 +672,58 @@ export default function ThermaAssistant({
 
                 {/* Features Preview */}
                 <div style={{
-                  marginTop: '32px',
+                  marginTop: '40px',
                   display: 'grid',
                   gridTemplateColumns: isExpanded ? 'repeat(2, 1fr)' : '1fr',
-                  gap: '12px',
+                  gap: '16px',
                   width: '100%',
-                  maxWidth: '400px'
+                  maxWidth: '450px'
                 }}>
                   <div style={{
-                    padding: '12px',
-                    borderRadius: '8px',
-                    background: 'rgba(30, 41, 59, 0.05)',
-                    border: '1px solid rgba(30, 41, 59, 0.1)',
-                    fontSize: '12px',
-                    color: '#6b7280'
+                    padding: '16px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+                    border: '1px solid rgba(0, 0, 0, 0.8)',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    textAlign: 'center',
+                    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                   }}>
                     🚀 Launch Timeline
                   </div>
                   <div style={{
-                    padding: '12px',
-                    borderRadius: '8px',
-                    background: 'rgba(30, 41, 59, 0.05)',
-                    border: '1px solid rgba(30, 41, 59, 0.1)',
-                    fontSize: '12px',
-                    color: '#6b7280'
+                    padding: '16px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+                    border: '1px solid rgba(0, 0, 0, 0.8)',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    textAlign: 'center',
+                    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                   }}>
                     ⚡ Product Features
                   </div>
                   <div style={{
-                    padding: '12px',
-                    borderRadius: '8px',
-                    background: 'rgba(30, 41, 59, 0.05)',
-                    border: '1px solid rgba(30, 41, 59, 0.1)',
-                    fontSize: '12px',
-                    color: '#6b7280'
+                    padding: '16px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+                    border: '1px solid rgba(0, 0, 0, 0.8)',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    textAlign: 'center',
+                    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                   }}>
                     🔗 Integrations
                   </div>
                   <div style={{
-                    padding: '12px',
-                    borderRadius: '8px',
-                    background: 'rgba(30, 41, 59, 0.05)',
-                    border: '1px solid rgba(30, 41, 59, 0.1)',
-                    fontSize: '12px',
-                    color: '#6b7280'
+                    padding: '16px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+                    border: '1px solid rgba(0, 0, 0, 0.8)',
+                    fontSize: '14px',
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    textAlign: 'center',
+                    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                   }}>
                     🎯 Company Vision
                   </div>
@@ -708,25 +742,34 @@ export default function ThermaAssistant({
                   >
                     <div
                       style={{
-                        maxWidth: '80%',
-                        padding: '16px',
-                        borderRadius: '16px',
-                        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+                        maxWidth: '85%',
+                        padding: '20px',
+                        borderRadius: '20px',
                         border: message.isUser 
-                          ? '1px solid rgba(251, 146, 60, 0.3)' 
-                          : '1px solid rgba(229, 231, 235, 0.3)',
+                          ? '1px solid rgba(0, 255, 136, 0.3)' 
+                          : '1px solid rgba(0, 0, 0, 0.8)',
                         background: message.isUser
-                          ? 'linear-gradient(135deg, #f97316 0%, #dc2626 100%)'
-                          : '#ffffff',
-                        color: message.isUser ? '#ffffff' : '#111827'
+                          ? 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)'
+                          : 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+                        color: message.isUser ? '#000000' : '#ffffff',
+                        boxShadow: message.isUser 
+                          ? '0 4px 15px rgba(0, 255, 136, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)' 
+                          : '0 4px 15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                       }}
                     >
-                      <p style={{ fontSize: isExpanded ? '16px' : '14px', lineHeight: '1.5', fontWeight: '500', margin: 0 }}>{message.text}</p>
+                      <p style={{ 
+                        fontSize: isExpanded ? '18px' : '16px', 
+                        lineHeight: '1.6', 
+                        fontWeight: '500', 
+                        margin: 0,
+                        textShadow: message.isUser ? 'none' : '0 1px 2px rgba(0, 0, 0, 0.8)'
+                      }}>{message.text}</p>
                       <p style={{ 
                         fontSize: '12px', 
-                        marginTop: '8px', 
-                        margin: '8px 0 0 0',
-                        color: message.isUser ? 'rgba(255, 255, 255, 0.8)' : '#9ca3af'
+                        marginTop: '12px', 
+                        margin: '12px 0 0 0',
+                        color: message.isUser ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.6)',
+                        fontWeight: '400'
                       }}>
                         {message.timestamp.toLocaleTimeString([], { 
                           hour: '2-digit', 
@@ -740,17 +783,17 @@ export default function ThermaAssistant({
                 {isLoading && (
                   <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                     <div style={{
-                      padding: '16px',
-                      borderRadius: '16px',
-                      background: '#ffffff',
-                      border: '1px solid rgba(229, 231, 235, 0.3)',
-                      boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+                      padding: '20px',
+                      borderRadius: '20px',
+                      background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+                      border: '1px solid rgba(0, 0, 0, 0.8)',
+                      boxShadow: '0 4px 15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                     }}>
-                      <div style={{ display: 'flex', gap: '8px' }}>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <div style={{
                           width: '8px',
                           height: '8px',
-                          backgroundColor: '#9ca3af',
+                          backgroundColor: '#00ff88',
                           borderRadius: '50%',
                           animation: 'bounce 1.4s infinite ease-in-out',
                           animationDelay: '0ms'
@@ -758,7 +801,7 @@ export default function ThermaAssistant({
                         <div style={{
                           width: '8px',
                           height: '8px',
-                          backgroundColor: '#9ca3af',
+                          backgroundColor: '#00ff88',
                           borderRadius: '50%',
                           animation: 'bounce 1.4s infinite ease-in-out',
                           animationDelay: '150ms'
@@ -766,11 +809,17 @@ export default function ThermaAssistant({
                         <div style={{
                           width: '8px',
                           height: '8px',
-                          backgroundColor: '#9ca3af',
+                          backgroundColor: '#00ff88',
                           borderRadius: '50%',
                           animation: 'bounce 1.4s infinite ease-in-out',
                           animationDelay: '300ms'
                         }}></div>
+                        <span style={{
+                          marginLeft: '12px',
+                          fontSize: '14px',
+                          color: 'rgba(255, 255, 255, 0.8)',
+                          fontWeight: '500'
+                        }}>Thinking...</span>
                       </div>
                     </div>
                   </div>
@@ -799,15 +848,17 @@ export default function ThermaAssistant({
                     disabled={isLoading}
                     style={{
                       flex: 1,
-                      padding: '16px',
-                      borderRadius: '16px',
+                      padding: '20px',
+                      borderRadius: '20px',
                       border: '1px solid rgba(0, 0, 0, 0.8)',
-                      fontSize: isExpanded ? '16px' : '14px',
+                      fontSize: isExpanded ? '18px' : '16px',
                       outline: 'none',
                       background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
                       color: '#ffffff',
                       transition: 'all 0.2s ease',
-                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                      fontWeight: '400',
+                      lineHeight: '1.5'
                     }}
                     onFocus={(e) => {
                       e.currentTarget.style.borderColor = 'rgba(0, 255, 136, 0.5)';
@@ -823,8 +874,8 @@ export default function ThermaAssistant({
                     onClick={handleSendMessage}
                     disabled={!inputValue.trim() || isLoading}
                     style={{
-                      padding: '16px 24px',
-                      borderRadius: '16px',
+                      padding: '20px 28px',
+                      borderRadius: '20px',
                       background: !inputValue.trim() || isLoading 
                         ? 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)' 
                         : 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
@@ -834,10 +885,11 @@ export default function ThermaAssistant({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '14px',
+                      fontSize: '16px',
                       fontWeight: '600',
                       color: !inputValue.trim() || isLoading ? 'rgba(255, 255, 255, 0.5)' : '#000000',
-                      boxShadow: !inputValue.trim() || isLoading ? 'inset 0 1px 0 rgba(255, 255, 255, 0.1)' : '0 10px 15px -3px rgba(0, 255, 136, 0.3)'
+                      boxShadow: !inputValue.trim() || isLoading ? 'inset 0 1px 0 rgba(255, 255, 255, 0.1)' : '0 10px 15px -3px rgba(0, 255, 136, 0.3)',
+                      minWidth: '60px'
                     }}
                     onMouseEnter={(e) => {
                       if (inputValue.trim() && !isLoading) {
@@ -851,7 +903,7 @@ export default function ThermaAssistant({
                     }}
                     aria-label="Send message"
                   >
-                    <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg style={{ width: '24px', height: '24px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                     </svg>
                   </button>
