@@ -313,6 +313,7 @@ main {
   justify-content: center;
   text-align: center;
   position: relative;
+  min-height: calc(100vh - var(--section-spacing-lg));
 }
 
 @media (min-width: 768px) {
