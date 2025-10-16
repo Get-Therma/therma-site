@@ -17,25 +17,33 @@ export default function HomePage() {
     setStatus('');
 
     try {
-      const response = await fetch('/api/waitlist', {
+      const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: email,
+          source: 'Website',
           utm_source: new URL(window.location.href).searchParams.get('utm_source') || document.referrer,
           utm_medium: new URL(window.location.href).searchParams.get('utm_medium') || 'website',
           utm_campaign: new URL(window.location.href).searchParams.get('utm_campaign') || 'waitlist'
         })
       });
 
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
-
       const result = await response.json();
-      console.log('Waitlist submission successful:', result);
+      console.log('Subscription response:', result);
+
+      if (!response.ok) {
+        if (response.status === 409 && result.duplicate) {
+          // Handle duplicate email gracefully
+          console.log('Email already exists:', result.message);
+          localStorage.setItem('therma_submitted_email', email);
+          router.push('/thank-you');
+          return;
+        }
+        throw new Error(result.error || `Server error: ${response.status}`);
+      }
       
       // Store email for thank you page
       localStorage.setItem('therma_submitted_email', email);
