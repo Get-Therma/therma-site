@@ -23,6 +23,11 @@
   --h5: 18px;
   --h6: 16px;
   
+  /* Modern viewport units (iOS 26 Safari supports dvh/svh/lvh) */
+  --viewport-height: 100dvh;
+  --viewport-height-small: 100svh;
+  --viewport-height-large: 100lvh;
+  
   /* Symmetrical spacing system */
   --section-spacing-sm: 80px;
   --section-spacing-md: 120px;
@@ -44,6 +49,26 @@
   box-sizing: border-box;
 }
 
+/* Modern viewport units (iOS 26 Safari supports dvh/svh/lvh) */
+html, body { 
+  min-height: 100dvh; 
+}
+@supports not (height: 100dvh) {
+  html, body { 
+    min-height: 100vh; 
+  }
+}
+
+/* Safe area helpers for notch/home indicator */
+.safe-top    { padding-top: env(safe-area-inset-top, 0px); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.safe-left   { padding-left: env(safe-area-inset-left, 0px); }
+.safe-right  { padding-right: env(safe-area-inset-right, 0px); }
+
+/* Full-height section helpers — choose per section (see step 4) */
+.section--immersive { min-height: 100dvh; } /* can grow as bars collapse */
+.section--exact     { min-height: 100svh; } /* never jumps */
+
 html, body {
   padding: 0;
   margin: 0;
@@ -58,6 +83,31 @@ html, body {
   overflow-x: hidden;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+}
+
+/* Fix input font size to prevent zoom on iOS */
+input, textarea, select, button { 
+  font-size: 16px; 
+}
+
+/* Sticky header and CTA with safe area support */
+.header.sticky { 
+  position: sticky; 
+  top: 0; 
+}
+.header.sticky.safe-top { 
+  padding-top: env(safe-area-inset-top, 0); 
+}
+
+.cta.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0));
+}
+
+/* Add to globals.css; adjusts when keyboard is visible */
+.has-bottom-ui {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--vk-height, 0px));
 }
 
 /* Remove body background to let heroBg show through */
@@ -1339,6 +1389,23 @@ section {
     padding: 14px 16px;
     font-size: 16px;
   }
+}
+
+/* Mobile-specific viewport handling */
+@media (max-width: 768px) {
+  /* Heros or "above the fold" sections that should remain stable */
+  .hero, .section-hero { min-height: 100svh; }
+
+  /* Full-bleed immersive sections (OK to grow as bars hide) */
+  .section-immersive, .modal-fullscreen { min-height: 100dvh; }
+}
+
+/* Color scheme and text adjustments */
+:root { 
+  color-scheme: light dark;    /* native UI matches theme */
+}
+html { 
+  -webkit-text-size-adjust: 100%; /* prevent unexpected scaling */
 }
 
 /* Mobile Styles - iPhone Optimized - Symmetrical */
