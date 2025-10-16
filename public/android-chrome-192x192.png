@@ -1,10 +1,17 @@
 <svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background circle -->
-  <circle cx="96" cy="96" r="96" fill="#6366F1"/>
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f6f0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e8dcc0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
   
-  <!-- Therma "T" letter -->
-  <path d="M60 60h72v18h-24v96h-18V78h-30V60z" fill="white"/>
+  <!-- Background -->
+  <rect width="192" height="192" rx="96" fill="url(#bg)"/>
   
-  <!-- Subtle accent -->
-  <circle cx="132" cy="60" r="9" fill="rgba(255,255,255,0.3)"/>
+  <!-- "Th" letters in dark green serif -->
+  <text x="96" y="130" font-family="serif" font-size="108" font-weight="normal" text-anchor="middle" fill="#2d5016">
+    Th
+  </text>
 </svg>
