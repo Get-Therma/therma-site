@@ -22,7 +22,7 @@ export const metadata: Metadata = {
       { url: '/therma-logo-192x192.png', sizes: '192x192', type: 'image/png' }
     ],
     other: [
-      { rel: 'mask-icon', url: '/therma-logo.svg', color: '#2d5016' }
+      { rel: 'mask-icon', url: '/therma-logo.svg', color: '#d4a5f5' }
     ]
   },
   manifest: '/site.webmanifest',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     creator: '@therma'
   },
   robots: { index: true, follow: true },
-  themeColor: '#2d5016'
+  themeColor: '#d4a5f5'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
