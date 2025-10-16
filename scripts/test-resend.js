@@ -7,6 +7,9 @@
  * Run this after setting up your RESEND_API_KEY
  */
 
+// Load environment variables from .env.local
+require('dotenv').config({ path: '.env.local' });
+
 const { Resend } = require('resend');
 
 async function testResendIntegration() {
