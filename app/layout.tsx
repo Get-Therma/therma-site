@@ -11,22 +11,40 @@ export const metadata: Metadata = {
   description:
     'Therma turns your daily habits into actionable insights to optimize your routine for more energy, clarity & confidence. Join our waitlist for early access.',
   alternates: { canonical: '/' },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/therma-logo-16.svg', sizes: '16x16', type: 'image/svg+xml' },
+      { url: '/therma-logo-24.svg', sizes: '24x24', type: 'image/svg+xml' },
+      { url: '/therma-logo-32.svg', sizes: '32x32', type: 'image/svg+xml' }
+    ],
+    apple: [
+      { url: '/therma-logo-192x192.png', sizes: '192x192', type: 'image/png' }
+    ],
+    other: [
+      { rel: 'mask-icon', url: '/therma-logo.svg', color: '#6366F1' }
+    ]
+  },
+  manifest: '/site.webmanifest',
   openGraph: {
     type: 'website',
     url: 'https://www.therma.one/',
     title: 'Therma – Habit Tracker for Energy, Clarity & Confidence',
     description:
       'Therma turns your daily habits into actionable insights to optimize your routine for more energy, clarity & confidence. Join our waitlist for early access.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Therma pattern maps' }]
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Therma pattern maps' }],
+    siteName: 'Therma'
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Therma – Habit Tracker for Energy, Clarity & Confidence',
     description:
       'Therma turns your daily habits into actionable insights to optimize your routine for more energy, clarity & confidence.',
-    images: ['/og-image.png']
+    images: ['/og-image.png'],
+    creator: '@therma'
   },
-  robots: { index: true, follow: true }
+  robots: { index: true, follow: true },
+  themeColor: '#6366F1'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

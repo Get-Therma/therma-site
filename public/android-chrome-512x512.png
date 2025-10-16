@@ -1,0 +1,10 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#6366F1"/>
+  
+  <!-- Therma "T" letter -->
+  <path d="M160 160h192v48h-64v256h-48V208h-80V160z" fill="white"/>
+  
+  <!-- Subtle accent -->
+  <circle cx="352" cy="160" r="24" fill="rgba(255,255,255,0.3)"/>
+</svg>

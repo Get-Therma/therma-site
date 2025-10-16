@@ -23,6 +23,8 @@
     "check:subscribers": "node scripts/check-beehiv-subscribers.js",
     "test:real-email": "node scripts/test-real-email.js",
     "check:specific": "node scripts/check-specific-email.js",
+    "diagnose:failed": "node scripts/diagnose-failed-submission.js",
+    "check:cierra": "node scripts/check-cierra-email.js",
     "discover:beehiv": "node scripts/discover-beehiv-subscriptions.js"
   },
   "keywords": [
