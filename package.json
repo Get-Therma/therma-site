@@ -15,6 +15,7 @@
     "test:duplicates": "node scripts/test-duplicates.js",
     "test:resend-sync": "node scripts/test-resend-sync.js",
     "debug:beehiv": "node scripts/debug-beehiv.js",
+    "test:complete-flow": "node scripts/test-complete-flow.js",
     "discover:beehiv": "node scripts/discover-beehiv-subscriptions.js"
   },
   "keywords": [
