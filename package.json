@@ -18,6 +18,7 @@
     "test:complete-flow": "node scripts/test-complete-flow.js",
     "test:all-domains": "node scripts/test-all-domains.js",
     "verify:domains": "node scripts/verify-resend-domains.js",
+    "diagnose:domains": "node scripts/diagnose-domain-performance.js",
     "discover:beehiv": "node scripts/discover-beehiv-subscriptions.js"
   },
   "keywords": [

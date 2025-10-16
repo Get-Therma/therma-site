@@ -5,6 +5,7 @@ import { getDb } from '../../../lib/db';
 import { waitlist } from '../../../lib/schema';
 import { eq } from 'drizzle-orm';
 import { getDomainFromRequest, DOMAIN_CONFIGS } from '../../../lib/domain-config';
+import { sendOptimizedEmail } from '../../../lib/email-performance';
 
 export async function POST(req: Request) {
   try {
@@ -104,40 +105,32 @@ export async function POST(req: Request) {
 
     // Send thank you email ONLY if Beehiv successfully accepted the subscription
     let emailSuccess = false;
+    let emailResult: any = null;
+    
     if (process.env.RESEND_API_KEY && beehiivSuccess) {
       try {
-        console.log('Sending thank you email from:', domainConfig.fromEmail);
+        console.log('Sending optimized welcome email...');
         const resend = new Resend(process.env.RESEND_API_KEY);
-        const emailResult = await resend.emails.send({
-          from: `${domainConfig.fromName} <${domainConfig.fromEmail}>`,
-          to: [email],
-          subject: 'Welcome to Therma! 🎉',
-          react: ThankYouEmailTemplate({ email }),
-        });
-        console.log('Email sent successfully:', emailResult.data?.id);
-        emailSuccess = true;
-      } catch (emailError) {
-        console.error('Failed to send thank you email:', emailError);
-        // Try fallback domain if current domain fails
-        if (domainConfig.priority > 1) {
-          try {
-            const fallbackConfig = DOMAIN_CONFIGS.find(c => c.priority === 1);
-            if (fallbackConfig) {
-              console.log('Trying fallback domain:', fallbackConfig.fromEmail);
-              const resend = new Resend(process.env.RESEND_API_KEY);
-              const emailResult = await resend.emails.send({
-                from: `${fallbackConfig.fromName} <${fallbackConfig.fromEmail}>`,
-                to: [email],
-                subject: 'Welcome to Therma! 🎉',
-                react: ThankYouEmailTemplate({ email }),
-              });
-              console.log('Fallback email sent successfully:', emailResult.data?.id);
-              emailSuccess = true;
-            }
-          } catch (fallbackError) {
-            console.error('Fallback email also failed:', fallbackError);
-          }
+        
+        // Use performance-optimized email sending with React component
+        const emailTemplate = ThankYouEmailTemplate({ email });
+        emailResult = await sendOptimizedEmail(
+          resend,
+          email,
+          'Welcome to Therma! 🎉',
+          emailTemplate,
+          domainConfig.domain // Prefer the domain the user visited
+        );
+        
+        if (emailResult.success) {
+          console.log(`Email sent successfully from ${emailResult.domain} in ${emailResult.duration}ms`);
+          console.log(`Email ID: ${emailResult.emailId}`);
+          emailSuccess = true;
+        } else {
+          console.error('Failed to send email:', emailResult.error);
         }
+      } catch (emailError) {
+        console.error('Email sending error:', emailError);
       }
     } else if (!beehiivSuccess) {
       console.log('Skipping welcome email - Beehiv rejected the subscription');
@@ -212,8 +205,9 @@ export async function POST(req: Request) {
       beehiivSuccess,
       emailSuccess,
       dbSuccess,
-      domain: domainConfig.domain,
-      fromEmail: domainConfig.fromEmail,
+      domain: emailResult?.domain || domainConfig.domain,
+      fromEmail: emailResult?.fromEmail || domainConfig.fromEmail,
+      emailDuration: emailResult?.duration || 0,
       message: beehiivSuccess 
         ? (emailSuccess ? 'Welcome email sent successfully!' : 'Subscription accepted but email service unavailable')
         : 'Subscription not accepted by Beehiv (email may be invalid or already exists)'

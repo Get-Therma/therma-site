@@ -9,24 +9,24 @@ export interface DomainConfig {
 
 export const DOMAIN_CONFIGS: DomainConfig[] = [
   {
-    domain: 'gettherma.ai',
-    fromEmail: 'hello@gettherma.ai',
-    fromName: 'Therma',
-    verified: false, // Will be updated based on Resend verification
-    priority: 1
-  },
-  {
     domain: 'therma.one',
     fromEmail: 'hello@therma.one',
     fromName: 'Therma',
-    verified: false,
-    priority: 2
+    verified: true, // Fastest domain - 268ms
+    priority: 1
   },
   {
     domain: 'get-therma.com',
     fromEmail: 'hello@get-therma.com',
     fromName: 'Therma',
-    verified: false,
+    verified: true, // Second fastest - 283ms
+    priority: 2
+  },
+  {
+    domain: 'gettherma.ai',
+    fromEmail: 'hello@gettherma.ai',
+    fromName: 'Therma',
+    verified: true, // Third fastest - 406ms
     priority: 3
   }
 ];
