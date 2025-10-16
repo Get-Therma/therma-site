@@ -1369,8 +1369,34 @@ section {
   z-index: 1;
 }
 
+/* Consistent spacing between content sections */
+.container.center {
+  padding: var(--section-spacing-lg) 0;
+}
+
+.container.center:first-of-type {
+  padding-top: var(--section-spacing-xl);
+}
+
+.container.center:last-of-type {
+  padding-bottom: var(--section-spacing-xl);
+}
+
 /* Mobile FAQ Styles */
 @media (max-width: 768px) {
+  /* Ensure consistent section spacing on mobile */
+  .container.center {
+    padding: var(--section-spacing-lg) 0;
+  }
+  
+  .container.center:first-of-type {
+    padding-top: var(--section-spacing-xl);
+  }
+  
+  .container.center:last-of-type {
+    padding-bottom: var(--section-spacing-xl);
+  }
+  
   .faq-section {
     padding: 60px 0;
   }
