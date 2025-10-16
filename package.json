@@ -16,6 +16,8 @@
     "test:resend-sync": "node scripts/test-resend-sync.js",
     "debug:beehiv": "node scripts/debug-beehiv.js",
     "test:complete-flow": "node scripts/test-complete-flow.js",
+    "test:all-domains": "node scripts/test-all-domains.js",
+    "verify:domains": "node scripts/verify-resend-domains.js",
     "discover:beehiv": "node scripts/discover-beehiv-subscriptions.js"
   },
   "keywords": [

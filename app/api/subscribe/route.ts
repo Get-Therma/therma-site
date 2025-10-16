@@ -4,6 +4,7 @@ import { ThankYouEmailTemplate } from '../../../lib/email-templates';
 import { getDb } from '../../../lib/db';
 import { waitlist } from '../../../lib/schema';
 import { eq } from 'drizzle-orm';
+import { getDomainFromRequest, DOMAIN_CONFIGS } from '../../../lib/domain-config';
 
 export async function POST(req: Request) {
   try {
@@ -12,7 +13,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Email required' }, { status: 400 });
     }
 
+    // Get domain configuration based on request
+    const domainConfig = getDomainFromRequest(req);
+    
     console.log('Processing subscription for:', email);
+    console.log('Domain config:', domainConfig.domain);
+    console.log('From email:', domainConfig.fromEmail);
     console.log('Beehiiv API Key exists:', !!process.env.BEEHIIV_API_KEY);
     console.log('Publication ID exists:', !!process.env.BEEHIIV_PUBLICATION_ID);
     console.log('Resend API Key exists:', !!process.env.RESEND_API_KEY);
@@ -100,10 +106,10 @@ export async function POST(req: Request) {
     let emailSuccess = false;
     if (process.env.RESEND_API_KEY && beehiivSuccess) {
       try {
-        console.log('Sending thank you email...');
+        console.log('Sending thank you email from:', domainConfig.fromEmail);
         const resend = new Resend(process.env.RESEND_API_KEY);
         const emailResult = await resend.emails.send({
-          from: 'Therma <hello@gettherma.ai>',
+          from: `${domainConfig.fromName} <${domainConfig.fromEmail}>`,
           to: [email],
           subject: 'Welcome to Therma! 🎉',
           react: ThankYouEmailTemplate({ email }),
@@ -112,7 +118,26 @@ export async function POST(req: Request) {
         emailSuccess = true;
       } catch (emailError) {
         console.error('Failed to send thank you email:', emailError);
-        // Don't fail the entire request, but log the error
+        // Try fallback domain if current domain fails
+        if (domainConfig.priority > 1) {
+          try {
+            const fallbackConfig = DOMAIN_CONFIGS.find(c => c.priority === 1);
+            if (fallbackConfig) {
+              console.log('Trying fallback domain:', fallbackConfig.fromEmail);
+              const resend = new Resend(process.env.RESEND_API_KEY);
+              const emailResult = await resend.emails.send({
+                from: `${fallbackConfig.fromName} <${fallbackConfig.fromEmail}>`,
+                to: [email],
+                subject: 'Welcome to Therma! 🎉',
+                react: ThankYouEmailTemplate({ email }),
+              });
+              console.log('Fallback email sent successfully:', emailResult.data?.id);
+              emailSuccess = true;
+            }
+          } catch (fallbackError) {
+            console.error('Fallback email also failed:', fallbackError);
+          }
+        }
       }
     } else if (!beehiivSuccess) {
       console.log('Skipping welcome email - Beehiv rejected the subscription');
@@ -187,6 +212,8 @@ export async function POST(req: Request) {
       beehiivSuccess,
       emailSuccess,
       dbSuccess,
+      domain: domainConfig.domain,
+      fromEmail: domainConfig.fromEmail,
       message: beehiivSuccess 
         ? (emailSuccess ? 'Welcome email sent successfully!' : 'Subscription accepted but email service unavailable')
         : 'Subscription not accepted by Beehiv (email may be invalid or already exists)'
