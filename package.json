@@ -19,6 +19,10 @@
     "test:all-domains": "node scripts/test-all-domains.js",
     "verify:domains": "node scripts/verify-resend-domains.js",
     "diagnose:domains": "node scripts/diagnose-domain-performance.js",
+    "debug:subscribe": "node scripts/debug-subscribe-api.js",
+    "check:subscribers": "node scripts/check-beehiv-subscribers.js",
+    "test:real-email": "node scripts/test-real-email.js",
+    "check:specific": "node scripts/check-specific-email.js",
     "discover:beehiv": "node scripts/discover-beehiv-subscriptions.js"
   },
   "keywords": [

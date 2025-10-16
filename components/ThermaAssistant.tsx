@@ -19,7 +19,28 @@ interface ThermaAssistantProps {
   placeholder?: string;
 }
 
-// Product-focused assistant - no safety escalation needed
+// Chat scroll utility
+function setupChatAutoscroll(container: HTMLElement) {
+  let atBottom = true;
+  const onScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = container;
+    atBottom = scrollTop + clientHeight >= scrollHeight - 8;
+  };
+  container.addEventListener('scroll', onScroll, { passive: true });
+
+  return function onNewMessage(el: HTMLElement) {
+    container.appendChild(el);
+    if (atBottom) container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+  };
+}
+
+// Quick reply chips for guided discovery
+const QUICK_REPLY_CHIPS = [
+  { text: "What can Therma do?", query: "What can Therma do?" },
+  { text: "How are patterns found?", query: "How does Therma find patterns in my habits?" },
+  { text: "Is my data private?", query: "How does Therma protect my privacy and data?" },
+  { text: "Pricing / beta access", query: "What is Therma's pricing and how can I get beta access?" }
+];
 
 export default function ThermaAssistant({
   apiEndpoint = '/api/assistant',
@@ -37,7 +58,26 @@ export default function ThermaAssistant({
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [announcements, setAnnouncements] = useState<string[]>([]);
+
+  // Auto-scroll setup
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      const addMessage = setupChatAutoscroll(messagesContainerRef.current);
+      // Store the addMessage function for later use
+      (messagesContainerRef.current as any).addMessage = addMessage;
+    }
+  }, []);
+
+  // Accessibility: Announce new messages
+  const announceMessage = (message: string) => {
+    setAnnouncements(prev => [...prev, message]);
+    // Clear announcement after a delay
+    setTimeout(() => {
+      setAnnouncements(prev => prev.slice(1));
+    }, 3000);
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -50,152 +90,115 @@ export default function ThermaAssistant({
         id: '1',
         text: welcomeMessage,
         isUser: false,
-        timestamp: new Date()
+        timestamp: new Date(),
+        type: 'product'
       }
     ]);
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 100);
+    announceMessage('Welcome message displayed');
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isOpen]);
-
-  // Product-focused assistant - no safety escalation needed
-
-  const handleFAQQuery = async (message: string): Promise<Message | null> => {
-    try {
-      const faqResults = await faqSearch(message);
-      
-      if (faqResults.results.length > 0) {
-        const firstResult = faqResults.results[0];
-        const prefix = firstResult.isVerified ? '' : 'Unverified / may have changed — ';
-        
-        return {
-          id: `faq_${Date.now()}`,
-          text: prefix + firstResult.answer,
-          isUser: false,
-          timestamp: new Date(),
-          type: 'faq',
-          faqData: firstResult
-        };
-      }
-      
-      // Check for launch status queries
-      if (message.toLowerCase().includes('launch') || message.toLowerCase().includes('when')) {
-        const launchStatus = await getLaunchStatus();
-        return {
-          id: `launch_${Date.now()}`,
-          text: launchStatus.notes || 'Launch information is not currently available.',
-          isUser: false,
-          timestamp: new Date(),
-          type: 'launch'
-        };
-      }
-      
-      return null;
-    } catch (error) {
-      console.error('FAQ query error:', error);
-      return null;
-    }
+  const handleChipClick = (chip: typeof QUICK_REPLY_CHIPS[0]) => {
+    setInputValue(chip.query);
+    handleSendMessage(chip.query);
   };
 
-  const handleSendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
+  const handleSendMessage = async (messageText?: string) => {
+    const text = messageText || inputValue.trim();
+    if (!text) return;
 
     const userMessage: Message = {
-      id: Date.now().toString(),
-      text: inputValue.trim(),
+      id: `user_${Date.now()}`,
+      text,
       isUser: true,
       timestamp: new Date()
     };
 
     setMessages(prev => [...prev, userMessage]);
-    const messageText = inputValue.trim();
     setInputValue('');
     setIsLoading(true);
-
-    // Check for FAQ questions first
-    const faqResponse = await handleFAQQuery(messageText);
-    if (faqResponse) {
-      setMessages(prev => [...prev, faqResponse]);
-      setIsLoading(false);
-      return;
-    }
+    announceMessage(`You said: ${text}`);
 
     try {
-      const response = await fetch(apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: messageText,
-          sessionId,
-          conversationHistory: messages.slice(-10),
-          currentFlow
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to get response');
+      // Try FAQ search first
+      const faqResults = await faqSearch(text);
+      
+      if (faqResults.results.length > 0) {
+        const faqMessage: Message = {
+          id: `bot_${Date.now()}`,
+          text: faqResults.results[0].answer,
+          isUser: false,
+          timestamp: new Date(),
+          type: 'faq',
+          faqData: faqResults.results[0]
+        };
+        setMessages(prev => [...prev, faqMessage]);
+        announceMessage('FAQ answer provided');
+        return;
       }
 
-      const data = await response.json();
-      
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: data.response,
+      // Try launch status
+      if (text.toLowerCase().includes('launch') || text.toLowerCase().includes('beta')) {
+        const launchStatus = await getLaunchStatus();
+        const statusText = `Therma is currently in ${launchStatus.status} status. ${launchStatus.notes || 'We\'re working hard to bring you the best habit tracking experience.'}`;
+        const launchMessage: Message = {
+          id: `bot_${Date.now()}`,
+          text: statusText,
+          isUser: false,
+          timestamp: new Date(),
+          type: 'launch'
+        };
+        setMessages(prev => [...prev, launchMessage]);
+        announceMessage('Launch status provided');
+        return;
+      }
+
+      // Default product response
+      const productMessage: Message = {
+        id: `bot_${Date.now()}`,
+        text: getProductResponse(text),
         isUser: false,
         timestamp: new Date(),
-        type: data.messageType
+        type: 'product'
       };
-
-      setMessages(prev => [...prev, botMessage]);
-      
-      // Update flow state based on response
-      if (data.messageType === 'product') {
-        setCurrentFlow('product');
-      } else if (data.messageType === 'faq') {
-        setCurrentFlow('faq');
-      }
+      setMessages(prev => [...prev, productMessage]);
+      announceMessage('Product information provided');
 
     } catch (error) {
-      console.error('Assistant error:', error);
+      console.error('Error processing message:', error);
       const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: "I'm having trouble connecting right now. Please try again later, or if you need immediate help, please reach out to a trusted person or professional.",
+        id: `bot_${Date.now()}`,
+        text: "I'm having trouble processing your request right now. Please try again or contact support.",
         isUser: false,
-        timestamp: new Date()
+        timestamp: new Date(),
+        type: 'support'
       };
       setMessages(prev => [...prev, errorMessage]);
+      announceMessage('Error occurred, please try again');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleQuickAction = (action: string) => {
-    const quickActions: { [key: string]: string } = {
-      launch: "When is Therma launching?",
-      features: "What features does Therma offer?",
-      pricing: "What is Therma's pricing?",
-      integrations: "What integrations does Therma support?",
-      vision: "What is Therma's vision?",
-      mission: "What is Therma's mission?",
-      team: "Who is behind Therma?",
-      support: "How do I contact Therma support?",
-      privacy: "How does Therma handle privacy?"
-    };
-
-    setInputValue(quickActions[action] || action);
-    handleSendMessage();
+  const getProductResponse = (query: string): string => {
+    const lowerQuery = query.toLowerCase();
+    
+    if (lowerQuery.includes('what can') || lowerQuery.includes('features')) {
+      return "Therma is a habit tracking app that helps you discover patterns in your daily routines to optimize for more energy, clarity, and confidence. Key features include:\n\n• Pattern recognition and insights\n• Energy level tracking\n• Routine optimization suggestions\n• Privacy-focused data handling\n• Beautiful, intuitive interface";
+    }
+    
+    if (lowerQuery.includes('pattern') || lowerQuery.includes('how')) {
+      return "Therma finds patterns by analyzing your daily habits, energy levels, and activities over time. It uses machine learning to identify correlations between your behaviors and how you feel, then provides actionable insights to help you optimize your routines for better outcomes.";
+    }
+    
+    if (lowerQuery.includes('privacy') || lowerQuery.includes('data')) {
+      return "Your privacy is our top priority. Therma uses end-to-end encryption for all personal data, never shares your information with third parties, and gives you complete control over your data. You can export or delete your data at any time.";
+    }
+    
+    if (lowerQuery.includes('pricing') || lowerQuery.includes('beta')) {
+      return "Therma is currently in beta with limited early access. We're offering free beta access to early users who join our waitlist. Pricing for the full version will be announced closer to launch, but beta users will receive special pricing.";
+    }
+    
+    return "I'd be happy to help you learn more about Therma! You can ask me about our features, how pattern recognition works, privacy and data protection, pricing and beta access, or anything else about our product.";
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -207,721 +210,174 @@ export default function ThermaAssistant({
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
+    if (!isOpen) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
   };
 
-  const quickActions = [
-    { id: 'launch', label: 'Launch Info', icon: '🚀' },
-    { id: 'features', label: 'Features', icon: '⚡' },
-    { id: 'pricing', label: 'Pricing', icon: '💰' },
-    { id: 'integrations', label: 'Integrations', icon: '🔗' },
-    { id: 'vision', label: 'Vision', icon: '🎯' },
-    { id: 'mission', label: 'Mission', icon: '🌟' },
-    { id: 'team', label: 'Team', icon: '👥' },
-    { id: 'support', label: 'Support', icon: '💬' },
-    { id: 'privacy', label: 'Privacy', icon: '🔒' }
-  ];
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
 
   return (
     <>
-      {/* Premium Floating Chat Badge */}
+      {/* Live region for accessibility announcements */}
       <div 
-        className="therma-chatbot-container"
-        style={{
-          position: 'fixed',
-          bottom: '24px',
-          right: '24px',
-          zIndex: 10000,
-          isolation: 'isolate'
-        }}
+        role="log" 
+        aria-live="polite" 
+        aria-label="Chat announcements"
+        className="sr-only"
       >
-        {/* Glow Effect */}
-        <div style={{
-          position: 'absolute',
-          top: '-20px',
-          left: '-20px',
-          right: '-20px',
-          bottom: '-20px',
-          background: 'radial-gradient(circle, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 70%)',
-          borderRadius: '50%',
-          filter: 'blur(20px)',
-          animation: 'pulse 2s infinite'
-        }} />
-        
-        {/* Main Chat Button */}
-        <button
-          onClick={toggleChat}
-          style={{
-            width: '72px',
-            height: '72px',
-            borderRadius: '20px',
-            background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%)',
-            border: '2px solid rgba(0, 0, 0, 0.8)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            position: 'relative',
-            overflow: 'hidden'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.1) translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-            e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.9)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1) translateY(0)';
-            e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
-            e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.8)';
-          }}
-          aria-label="Open Therma Assistant"
-        >
-          {/* Logo */}
-          <img 
-            src="/therma-logo.png" 
-            alt="Therma Logo" 
-            style={{
-              width: '40px',
-              height: '40px',
-              objectFit: 'contain',
-              filter: 'brightness(1.2)'
-            }}
-            onError={(e) => {
-              // Fallback to text if logo fails to load
-              e.currentTarget.style.display = 'none';
-              const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
-              if (nextElement) {
-                nextElement.style.display = 'block';
-              }
-            }}
-          />
-          <span style={{
-            display: 'none',
-            fontSize: '24px',
-            fontWeight: 'bold',
-            color: '#ffffff',
-            textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-          }}>T</span>
-        </button>
-        
-        {/* Status Indicator */}
-        <div style={{
-          position: 'absolute',
-          top: '8px',
-          right: '8px',
-          width: '16px',
-          height: '16px',
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
-          border: '2px solid rgba(0, 0, 0, 0.9)',
-          boxShadow: '0 2px 8px rgba(0, 255, 136, 0.6)',
-          animation: 'pulse 2s infinite'
-        }} />
-        
-        {/* Floating Label */}
-        {!isOpen && (
-          <div style={{
-            position: 'absolute',
-            right: '80px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-            borderRadius: '12px',
-            padding: '8px 16px',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.8)',
-            border: '1px solid rgba(0, 0, 0, 0.6)',
-            opacity: 0,
-            transition: 'opacity 0.3s ease',
-            whiteSpace: 'nowrap',
-            pointerEvents: 'none'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = '1';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = '0';
-          }}
-          >
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#ffffff' }}>Therma</div>
-            <div style={{ fontSize: '12px', color: '#00ff88' }}>AI — Private</div>
-          </div>
-        )}
+        {announcements.map((announcement, index) => (
+          <div key={index}>{announcement}</div>
+        ))}
       </div>
 
+      {/* Chat Launcher Button */}
+      <button 
+        className="chat-launcher" 
+        aria-label="Open Therma chat"
+        onClick={toggleChat}
+        aria-expanded={isOpen}
+      >
+        <span className="chat-launcher__avatar" aria-hidden="true">
+          <img
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM2MzY2RjEiLz4KPGNpcmNsZSBjeD0iMjAiIGN5PSIxNiIgcj0iNiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTggMzJjMC02LjYyNyA1LjM3My0xMiAxMi0xMnMxMiA1LjM3MyAxMiAxMiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+"
+            alt=""
+            decoding="async"
+            loading="eager"
+          />
+        </span>
+      </button>
 
-      {/* Dark Mysterious Chat Window */}
+      {/* Chat Window */}
       {isOpen && (
         <div 
-          className="therma-chatbot-window"
-          style={{
-            position: 'fixed',
-            bottom: '32px',
-            right: '32px',
-            width: isExpanded ? '800px' : '520px',
-            height: isExpanded ? '700px' : '650px',
-            borderRadius: '24px',
-            background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%)',
-            border: '2px solid rgba(0, 0, 0, 0.8)',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-            zIndex: 10001,
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            transform: 'scale(1)',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            animation: 'slideUp 0.3s ease-out'
-          }}
-          role="log"
-          aria-label="Therma Chat"
+          className="chatbot"
+          role="dialog"
+          aria-label="Therma Assistant Chat"
+          aria-modal="true"
         >
-          {/* Dark Glow Effect Around Window */}
-          <div style={{
-            position: 'absolute',
-            top: '-10px',
-            left: '-10px',
-            right: '-10px',
-            bottom: '-10px',
-            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.9) 100%)',
-            borderRadius: '32px',
-            filter: 'blur(15px)',
-            zIndex: -1,
-            animation: 'pulse 3s infinite'
-          }} />
-          
-          {/* Dark Header */}
-          <div style={{
-            padding: '24px',
-            borderRadius: '24px 24px 0 0',
-            background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-            borderBottom: '1px solid rgba(0, 0, 0, 0.8)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid rgba(0, 0, 0, 0.8)',
-                boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-              }}>
-                <img 
-                  src="/therma-logo.png" 
-                  alt="Therma Logo" 
-                  style={{
-                    width: '24px',
-                    height: '24px',
-                    objectFit: 'contain',
-                    filter: 'brightness(1.2)'
-                  }}
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
-                    if (nextElement) {
-                      nextElement.style.display = 'block';
-                    }
-                  }}
-                />
-                <span style={{
-                  display: 'none',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  color: '#ffffff'
-                }}>T</span>
-              </div>
-              <div>
-                <h3 style={{ 
-                  fontSize: '18px', 
-                  fontWeight: '700', 
-                  color: '#ffffff', 
-                  margin: 0,
-                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)'
-                }}>
-                  Therma AI
-                </h3>
-                <p style={{ 
-                  fontSize: '14px', 
-                  color: '#00ff88', 
-                  margin: 0,
-                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}>
-                  <div style={{
-                    width: '8px',
-                    height: '8px',
-                    backgroundColor: '#00ff88',
-                    borderRadius: '50%',
-                    animation: 'pulse 2s infinite',
-                    boxShadow: '0 0 8px rgba(0, 255, 136, 0.6)'
-                  }}></div>
-                  Private & Secure
-                </p>
-              </div>
+          {/* Chat Header */}
+          <div className="chatbot__header">
+            <div className="chatbot__avatar">
+              <img
+                src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM2MzY2RjEiLz4KPGNpcmNsZSBjeD0iMjAiIGN5PSIxNiIgcj0iNiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTggMzJjMC02LjYyNyA1LjM3My0xMiAxMi0xMnMxMiA1LjM3MyAxMiAxMiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+"
+                alt="Therma Assistant"
+                decoding="async"
+              />
             </div>
-            
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
-                border: '1px solid rgba(0, 0, 0, 0.8)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                color: 'rgba(255, 255, 255, 0.8)',
-                boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)';
-                e.currentTarget.style.color = '#ffffff';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)';
-                e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
-              }}
-              aria-label={isExpanded ? "Minimize chat" : "Expand chat"}
+            <div className="chatbot__info">
+              <h3>Therma Assistant</h3>
+              <p className="chatbot__meta">Online</p>
+            </div>
+            <button 
+              className="chat__icon-btn"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close chat"
             >
-              <span style={{ fontSize: '16px', fontWeight: 'bold' }}>
-                {isExpanded ? '−' : '⛶'}
-              </span>
+              ✕
             </button>
           </div>
 
-          {/* Quick Actions */}
-          {!showWelcome && (
-            <div style={{
-              padding: '16px',
-              borderBottom: '1px solid rgba(0, 0, 0, 0.8)',
-              background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)'
-            }}>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: isExpanded ? 'repeat(4, 1fr)' : 'repeat(3, 1fr)',
-                  gap: '8px'
-                }}>
-                  {quickActions.map((action) => (
-                    <button
-                      key={action.id}
-                      onClick={() => handleQuickAction(action.id)}
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        padding: '12px',
-                        borderRadius: '12px',
-                        background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                        border: '1px solid rgba(0, 0, 0, 0.8)',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                        color: 'rgba(255, 255, 255, 0.8)',
-                        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'linear-gradient(135deg, #2d2d2d 0%, #3a3a3a 100%)';
-                        e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.9)';
-                        e.currentTarget.style.color = '#ffffff';
-                        e.currentTarget.style.transform = 'scale(1.05)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)';
-                        e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.8)';
-                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
-                        e.currentTarget.style.transform = 'scale(1)';
-                      }}
-                      aria-label={action.label}
-                    >
-                      <span style={{ fontSize: '18px', marginBottom: '4px', transition: 'transform 0.2s ease' }}>{action.icon}</span>
-                      <span style={{ fontSize: '12px', fontWeight: '500', textAlign: 'center' }}>{action.label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-          {/* Messages */}
-          <div style={{
-            flex: 1,
-            overflowY: 'auto',
-            padding: '24px',
-            background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px'
-          }} aria-live="polite">
-            {showWelcome ? (
-              // Welcome Page
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100%',
-                textAlign: 'center',
-                padding: '40px 20px'
-              }}>
-                {/* Welcome Icon */}
-                <div style={{
-                  width: '80px',
-                  height: '80px',
-                  borderRadius: '20px',
-                  background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '24px',
-                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.8)',
-                  border: '2px solid rgba(0, 0, 0, 0.8)'
-                }}>
-                  <img 
-                    src="/therma-logo.png" 
-                    alt="Therma Logo" 
-                    style={{
-                      width: '48px',
-                      height: '48px',
-                      objectFit: 'contain',
-                      filter: 'brightness(1.2)'
-                    }}
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
-                      if (nextElement) {
-                        nextElement.style.display = 'block';
-                      }
-                    }}
-                  />
-                  <span style={{
-                    display: 'none',
-                    fontSize: '32px',
-                    fontWeight: 'bold',
-                    color: '#ffffff'
-                  }}>T</span>
-                </div>
-
-                {/* Welcome Title */}
-                <h2 style={{
-                  fontSize: isExpanded ? '36px' : '32px',
-                  fontWeight: '700',
-                  color: '#ffffff',
-                  marginBottom: '24px',
-                  lineHeight: '1.2',
-                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)',
-                  textAlign: 'center'
-                }}>
-                  Welcome to Therma AI
-                </h2>
-
-                {/* Welcome Description */}
-                <div style={{
-                  fontSize: isExpanded ? '20px' : '18px',
-                  color: 'rgba(255, 255, 255, 0.95)',
-                  lineHeight: '1.7',
-                  marginBottom: '48px',
-                  maxWidth: '500px',
-                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)',
-                  textAlign: 'center'
-                }}>
-                  <p style={{ 
-                    marginBottom: '24px',
-                    fontWeight: '500'
-                  }}>
-                    I'm your personal Therma assistant, here to help you discover everything about our intelligent climate control platform.
-                  </p>
-                  <p style={{ 
-                    marginBottom: '24px',
-                    fontWeight: '500'
-                  }}>
-                    I can answer questions about our product features, launch timeline, integrations, company vision, and more.
-                  </p>
-                  <p style={{
-                    fontWeight: '600',
-                    color: '#00ff88'
-                  }}>
-                    Ready to explore what Therma can do for you?
-                  </p>
-                </div>
-
-                {/* Continue Button */}
-                <button
+          {/* Welcome Screen */}
+          {showWelcome && (
+            <div className="chatbot__welcome">
+              <div className="chatbot__welcome-content">
+                <h2>Welcome to Therma!</h2>
+                <p>I'm here to help you learn about our habit tracking platform and answer any questions you have.</p>
+                <button 
+                  className="chatbot__continue-btn"
                   onClick={handleWelcomeContinue}
-                  style={{
-                    padding: '24px 48px',
-                    borderRadius: '20px',
-                    background: 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
-                    color: '#000000',
-                    border: 'none',
-                    fontSize: isExpanded ? '20px' : '18px',
-                    fontWeight: '700',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    boxShadow: '0 8px 25px rgba(0, 255, 136, 0.4)',
-                    minWidth: '240px',
-                    textShadow: 'none',
-                    letterSpacing: '0.5px'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-3px)';
-                    e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 255, 136, 0.6)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 255, 136, 0.4)';
-                  }}
                 >
-                  Let's Get Started →
+                  Continue
                 </button>
-
-                {/* Features Preview */}
-                <div style={{
-                  marginTop: '40px',
-                  display: 'grid',
-                  gridTemplateColumns: isExpanded ? 'repeat(2, 1fr)' : '1fr',
-                  gap: '16px',
-                  width: '100%',
-                  maxWidth: '450px'
-                }}>
-                  <div style={{
-                    padding: '16px',
-                    borderRadius: '12px',
-                    background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                    border: '1px solid rgba(0, 0, 0, 0.8)',
-                    fontSize: '14px',
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    textAlign: 'center',
-                    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                  }}>
-                    🚀 Launch Timeline
-                  </div>
-                  <div style={{
-                    padding: '16px',
-                    borderRadius: '12px',
-                    background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                    border: '1px solid rgba(0, 0, 0, 0.8)',
-                    fontSize: '14px',
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    textAlign: 'center',
-                    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                  }}>
-                    ⚡ Product Features
-                  </div>
-                  <div style={{
-                    padding: '16px',
-                    borderRadius: '12px',
-                    background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                    border: '1px solid rgba(0, 0, 0, 0.8)',
-                    fontSize: '14px',
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    textAlign: 'center',
-                    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                  }}>
-                    🔗 Integrations
-                  </div>
-                  <div style={{
-                    padding: '16px',
-                    borderRadius: '12px',
-                    background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                    border: '1px solid rgba(0, 0, 0, 0.8)',
-                    fontSize: '14px',
-                    color: 'rgba(255, 255, 255, 0.8)',
-                    textAlign: 'center',
-                    boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                  }}>
-                    🎯 Company Vision
-                  </div>
-                </div>
               </div>
-            ) : (
-              // Regular Chat Messages
-              <>
+            </div>
+          )}
+
+          {/* Messages Container */}
+          {!showWelcome && (
+            <>
+              <div 
+                ref={messagesContainerRef}
+                className="chatbot__messages"
+                role="log"
+                aria-label="Chat messages"
+              >
                 {messages.map((message) => (
                   <div
                     key={message.id}
-                    style={{
-                      display: 'flex',
-                      justifyContent: message.isUser ? 'flex-end' : 'flex-start'
-                    }}
+                    className={`chatbot__bubble chatbot__bubble--${message.isUser ? 'user' : 'bot'}`}
+                    role="listitem"
                   >
-                    <div
-                      style={{
-                        maxWidth: '85%',
-                        padding: '20px',
-                        borderRadius: '20px',
-                        border: message.isUser 
-                          ? '1px solid rgba(0, 255, 136, 0.3)' 
-                          : '1px solid rgba(0, 0, 0, 0.8)',
-                        background: message.isUser
-                          ? 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)'
-                          : 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                        color: message.isUser ? '#000000' : '#ffffff',
-                        boxShadow: message.isUser 
-                          ? '0 4px 15px rgba(0, 255, 136, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)' 
-                          : '0 4px 15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                      }}
-                    >
-                      <p style={{ 
-                        fontSize: isExpanded ? '18px' : '16px', 
-                        lineHeight: '1.6', 
-                        fontWeight: '500', 
-                        margin: 0,
-                        textShadow: message.isUser ? 'none' : '0 1px 2px rgba(0, 0, 0, 0.8)'
-                      }}>{message.text}</p>
-                      <p style={{ 
-                        fontSize: '12px', 
-                        marginTop: '12px', 
-                        margin: '12px 0 0 0',
-                        color: message.isUser ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.6)',
-                        fontWeight: '400'
-                      }}>
-                        {message.timestamp.toLocaleTimeString([], { 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
-                        })}
-                      </p>
+                    <div className="chatbot__message-content">
+                      {message.text.split('\n').map((line, index) => (
+                        <p key={index}>{line}</p>
+                      ))}
+                    </div>
+                    <div className="chatbot__meta">
+                      {formatTime(message.timestamp)}
                     </div>
                   </div>
                 ))}
                 
                 {isLoading && (
-                  <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                    <div style={{
-                      padding: '20px',
-                      borderRadius: '20px',
-                      background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-                      border: '1px solid rgba(0, 0, 0, 0.8)',
-                      boxShadow: '0 4px 15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
-                    }}>
-                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <div style={{
-                          width: '8px',
-                          height: '8px',
-                          backgroundColor: '#00ff88',
-                          borderRadius: '50%',
-                          animation: 'bounce 1.4s infinite ease-in-out',
-                          animationDelay: '0ms'
-                        }}></div>
-                        <div style={{
-                          width: '8px',
-                          height: '8px',
-                          backgroundColor: '#00ff88',
-                          borderRadius: '50%',
-                          animation: 'bounce 1.4s infinite ease-in-out',
-                          animationDelay: '150ms'
-                        }}></div>
-                        <div style={{
-                          width: '8px',
-                          height: '8px',
-                          backgroundColor: '#00ff88',
-                          borderRadius: '50%',
-                          animation: 'bounce 1.4s infinite ease-in-out',
-                          animationDelay: '300ms'
-                        }}></div>
-                        <span style={{
-                          marginLeft: '12px',
-                          fontSize: '14px',
-                          color: 'rgba(255, 255, 255, 0.8)',
-                          fontWeight: '500'
-                        }}>Thinking...</span>
-                      </div>
+                  <div className="chatbot__bubble chatbot__bubble--bot">
+                    <div className="chatbot__typing">
+                      <span></span>
+                      <span></span>
+                      <span></span>
                     </div>
                   </div>
                 )}
-              </>
-            )}
-            
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Dark Input */}
-          {!showWelcome && (
-            <div style={{
-              padding: '24px',
-              borderTop: '1px solid rgba(0, 0, 0, 0.8)',
-              background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)'
-            }}>
-              <div style={{ display: 'flex', gap: '12px' }}>
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder={placeholder}
-                    disabled={isLoading}
-                    style={{
-                      flex: 1,
-                      padding: '20px',
-                      borderRadius: '20px',
-                      border: '1px solid rgba(0, 0, 0, 0.8)',
-                      fontSize: isExpanded ? '18px' : '16px',
-                      outline: 'none',
-                      background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
-                      color: '#ffffff',
-                      transition: 'all 0.2s ease',
-                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                      fontWeight: '400',
-                      lineHeight: '1.5'
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(0, 255, 136, 0.5)';
-                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(0, 255, 136, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.8)';
-                      e.currentTarget.style.boxShadow = 'inset 0 1px 0 rgba(255, 255, 255, 0.1)';
-                    }}
-                    aria-label="Type your message"
-                  />
-                  <button
-                    onClick={handleSendMessage}
-                    disabled={!inputValue.trim() || isLoading}
-                    style={{
-                      padding: '20px 28px',
-                      borderRadius: '20px',
-                      background: !inputValue.trim() || isLoading 
-                        ? 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)' 
-                        : 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)',
-                      border: '1px solid rgba(0, 0, 0, 0.8)',
-                      cursor: !inputValue.trim() || isLoading ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.2s ease',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '16px',
-                      fontWeight: '600',
-                      color: !inputValue.trim() || isLoading ? 'rgba(255, 255, 255, 0.5)' : '#000000',
-                      boxShadow: !inputValue.trim() || isLoading ? 'inset 0 1px 0 rgba(255, 255, 255, 0.1)' : '0 10px 15px -3px rgba(0, 255, 136, 0.3)',
-                      minWidth: '60px'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (inputValue.trim() && !isLoading) {
-                        e.currentTarget.style.transform = 'scale(1.05)';
-                        e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 255, 136, 0.4)';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.boxShadow = !inputValue.trim() || isLoading ? 'inset 0 1px 0 rgba(255, 255, 255, 0.1)' : '0 10px 15px -3px rgba(0, 255, 136, 0.3)';
-                    }}
-                    aria-label="Send message"
-                  >
-                    <svg style={{ width: '24px', height: '24px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                    </svg>
-                  </button>
-                </div>
+                
+                <div ref={messagesEndRef} />
               </div>
-            )}
+
+              {/* Quick Reply Chips */}
+              {messages.length <= 1 && (
+                <div className="chatbot__chips" role="list">
+                  {QUICK_REPLY_CHIPS.map((chip, index) => (
+                    <button 
+                      key={index}
+                      className="chatbot__chip" 
+                      role="listitem"
+                      onClick={() => handleChipClick(chip)}
+                    >
+                      {chip.text}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Input Bar */}
+          {!showWelcome && (
+            <div className="chatbot__input">
+              <input
+                ref={inputRef}
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder={placeholder}
+                disabled={isLoading}
+                aria-label="Type your message"
+              />
+              <button 
+                className="chat__send-btn"
+                onClick={() => handleSendMessage()}
+                disabled={!inputValue.trim() || isLoading}
+                aria-label="Send message"
+              >
+                ➤
+              </button>
+            </div>
+          )}
         </div>
       )}
     </>
