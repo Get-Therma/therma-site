@@ -49,6 +49,18 @@ export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
             borderRadius: '16px',
             border: '1px solid rgba(255, 255, 255, 0.1)'
           }}>
+            {/* Logo Image */}
+            <img 
+              src="https://therma.one/therma-logo.svg" 
+              alt="Therma Logo" 
+              width="80" 
+              height="80"
+              style={{
+                display: 'block',
+                margin: '0 auto 20px',
+                filter: 'brightness(1.1)'
+              }}
+            />
             <div style={{
               fontSize: '48px',
               fontWeight: '400',
@@ -172,7 +184,7 @@ export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
               </p>
             </div>
 
-            {/* Warm invitation */}
+            {/* Warm invitation with profile picture */}
             <div style={{ 
               textAlign: 'center',
               margin: '30px 0',
@@ -181,6 +193,20 @@ export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
               borderRadius: '12px',
               border: '1px solid rgba(143, 188, 143, 0.2)'
             }}>
+              {/* Profile Picture */}
+              <img 
+                src="https://therma.one/bot-avatar@1x.png" 
+                alt="Therma Team" 
+                width="60" 
+                height="60"
+                style={{
+                  display: 'block',
+                  margin: '0 auto 20px',
+                  borderRadius: '50%',
+                  border: '3px solid rgba(143, 188, 143, 0.3)',
+                  boxShadow: '0 4px 12px rgba(143, 188, 143, 0.2)'
+                }}
+              />
               <p style={{ 
                 fontSize: '16px',
                 color: 'rgba(255, 255, 255, 0.9)',
@@ -240,7 +266,7 @@ export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
               marginTop: '30px',
               textAlign: 'center'
             }}>
-              Questions? Just reply to this email—we'd love to hear from you!
+              Questions? Just reply to this email—we read every message and would love to hear from you!
             </p>
 
             <p style={{ 

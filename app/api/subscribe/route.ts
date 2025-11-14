@@ -138,42 +138,38 @@ export async function POST(req: Request) {
       console.log('No Resend API key found, cannot send email');
     }
 
-    // Database storage is intentionally disabled (using Beehiiv as primary storage)
-    let dbSuccess = true; // Mark as success since we're using Beehiiv for storage
+    // Store in Supabase database
+    let dbSuccess = false;
     let isDuplicate = false;
     
-    // Database code is disabled - Beehiiv serves as the primary subscriber database
-    // If you want to enable local database storage, configure POSTGRES_URL in .env.local
-    // and uncomment the database code below:
-    
-    // try {
-    //   const db = await getDb();
-    //   const existingEmail = await db.select().from(waitlist).where(eq(waitlist.email, email)).limit(1);
-    //   
-    //   if (existingEmail.length > 0) {
-    //     console.log('Email already exists in database (duplicate)');
-    //     isDuplicate = true;
-    //     dbSuccess = true;
-    //   } else {
-    //     await db.insert(waitlist).values({
-    //       email,
-    //       attribution: JSON.stringify({
-    //         source: source ?? 'Website',
-    //         utm_source,
-    //         utm_medium,
-    //         utm_campaign,
-    //         timestamp: new Date().toISOString(),
-    //         beehiivSuccess,
-    //         emailSuccess
-    //       })
-    //     });
-    //     console.log('Email stored in database successfully');
-    //     dbSuccess = true;
-    //   }
-    // } catch (dbError) {
-    //   console.error('Failed to store email in database:', dbError);
-    //   dbSuccess = false;
-    // }
+    try {
+      const db = await getDb();
+      const existingEmail = await db.select().from(waitlist).where(eq(waitlist.email, email)).limit(1);
+      
+      if (existingEmail.length > 0) {
+        console.log('Email already exists in database (duplicate)');
+        isDuplicate = true;
+        dbSuccess = true;
+      } else {
+        await db.insert(waitlist).values({
+          email,
+          attribution: JSON.stringify({
+            source: source ?? 'Website',
+            utm_source,
+            utm_medium,
+            utm_campaign,
+            timestamp: new Date().toISOString(),
+            beehiivSuccess,
+            emailSuccess
+          })
+        });
+        console.log('Email stored in Supabase database successfully');
+        dbSuccess = true;
+      }
+    } catch (dbError) {
+      console.error('Failed to store email in database:', dbError);
+      dbSuccess = false;
+    }
 
     // If this is a duplicate email, return appropriate response
     if (isDuplicate || beehiivDuplicate) {
