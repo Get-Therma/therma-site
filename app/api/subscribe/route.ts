@@ -138,43 +138,42 @@ export async function POST(req: Request) {
       console.log('No Resend API key found, cannot send email');
     }
 
-    // Always store in database for complete record (with duplicate handling)
-    let dbSuccess = false;
+    // Database storage is intentionally disabled (using Beehiiv as primary storage)
+    let dbSuccess = true; // Mark as success since we're using Beehiiv for storage
     let isDuplicate = false;
-    try {
-      console.log('Skipping database storage due to invalid POSTGRES_URL...');
-      // TODO: Fix POSTGRES_URL in .env.local to enable database storage
-      dbSuccess = true; // Mark as success since we're intentionally skipping
-      throw new Error('Database storage disabled - POSTGRES_URL needs to be configured');
-      
-      // Check if email already exists
-      // const existingEmail = await db.select().from(waitlist).where(eq(waitlist.email, email)).limit(1);
-      
-      // Database code commented out until POSTGRES_URL is configured
-      // if (existingEmail.length > 0) {
-      //   console.log('Email already exists in database (duplicate)');
-      //   isDuplicate = true;
-      //   dbSuccess = true; // Consider this a success since email is already captured
-      // } else {
-      //   // Insert new email
-      //   await db.insert(waitlist).values({
-      //     email,
-      //     attribution: JSON.stringify({
-      //       source: source ?? 'Website',
-      //       utm_source,
-      //       utm_medium,
-      //       utm_campaign,
-      //       timestamp: new Date().toISOString(),
-      //       beehiivSuccess,
-      //       emailSuccess
-      //     })
-      //   });
-      //   console.log('Email stored in database successfully');
-      //   dbSuccess = true;
-      // }
-    } catch (dbError) {
-      console.error('Failed to store email in database:', dbError);
-    }
+    
+    // Database code is disabled - Beehiiv serves as the primary subscriber database
+    // If you want to enable local database storage, configure POSTGRES_URL in .env.local
+    // and uncomment the database code below:
+    
+    // try {
+    //   const db = await getDb();
+    //   const existingEmail = await db.select().from(waitlist).where(eq(waitlist.email, email)).limit(1);
+    //   
+    //   if (existingEmail.length > 0) {
+    //     console.log('Email already exists in database (duplicate)');
+    //     isDuplicate = true;
+    //     dbSuccess = true;
+    //   } else {
+    //     await db.insert(waitlist).values({
+    //       email,
+    //       attribution: JSON.stringify({
+    //         source: source ?? 'Website',
+    //         utm_source,
+    //         utm_medium,
+    //         utm_campaign,
+    //         timestamp: new Date().toISOString(),
+    //         beehiivSuccess,
+    //         emailSuccess
+    //       })
+    //     });
+    //     console.log('Email stored in database successfully');
+    //     dbSuccess = true;
+    //   }
+    // } catch (dbError) {
+    //   console.error('Failed to store email in database:', dbError);
+    //   dbSuccess = false;
+    // }
 
     // If this is a duplicate email, return appropriate response
     if (isDuplicate || beehiivDuplicate) {

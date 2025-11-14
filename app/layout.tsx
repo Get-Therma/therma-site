@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import ThermaAssistant from '../components/ThermaAssistant';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <ThermaAssistant />
+        <Analytics />
         
         {/* Beehiv Analytics Script */}
         {process.env.BEEHIIV_PUBLICATION_ID && (
