@@ -1,0 +1,166 @@
+.hero {
+  margin-top: 3.5rem;
+  margin-bottom: 4rem;
+}
+
+.heroInner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.heroBrandRow {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.heroTitle {
+  font-size: clamp(2.4rem, 3vw, 3.2rem);
+  letter-spacing: 0.03em;
+  color: #fefcf7;
+}
+
+.heroTagline {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  opacity: 0.75;
+  color: #fefcf7;
+}
+
+.heroShell {
+  display: flex;
+  gap: 1.75rem;
+  align-items: stretch;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+  border-radius: 2.25rem;
+  background: radial-gradient(circle at 0% 0%, #2a1c14, #050608 55%, #07151a 100%);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.65);
+}
+
+.heroVolumeColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.1rem;
+  flex: 0 0 140px;
+}
+
+.volumePill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(4, 4, 4, 0.45);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.5);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 600;
+  color: #121210;
+  background: #f3c46b;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.heroVolumeColumn .volumePill:nth-child(1) {
+  background: #f26a5a;
+}
+
+.heroVolumeColumn .volumePill:nth-child(2) {
+  background: #3c69f1;
+}
+
+.heroVolumeColumn .volumePill:nth-child(3) {
+  background: #f3c46b;
+}
+
+.volumePill:hover {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
+  filter: brightness(1.03);
+}
+
+.volumePillLabel {
+  white-space: nowrap;
+}
+
+.heroCover {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.heroCoverInner {
+  background: #f7f3ec;
+  border-radius: 1.75rem;
+  padding: 2.25rem 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  min-height: 100%;
+}
+
+.heroCoverHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.heroCoverLogo {
+  font-size: 2.4rem;
+  line-height: 1;
+  color: #1a3b25;
+}
+
+.heroCoverSub {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  opacity: 0.7;
+}
+
+.heroCoverImageWrapper {
+  position: relative;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  height: 260px;
+}
+
+.heroCoverImage {
+  object-fit: cover;
+}
+
+.heroCoverImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 0%, #f7c56e, #201726 55%, #111826 100%);
+}
+
+.heroCoverCaption {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.72);
+}
+
+@media (max-width: 960px) {
+  .heroShell {
+    flex-direction: column;
+    padding: 1.75rem 1.5rem;
+  }
+
+  .heroVolumeColumn {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .volumePill {
+    min-width: 120px;
+  }
+
+  .heroCoverInner {
+    padding: 1.75rem 1.5rem 1.5rem;
+  }
+}
+
