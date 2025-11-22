@@ -331,9 +331,9 @@ header {
   z-index: 10;
 }
 
-/* Center brand on landing page */
+/* Center brand on landing page with Instagram on right */
 header.header-centered {
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .header-nav {
