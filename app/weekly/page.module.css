@@ -59,20 +59,21 @@
   text-decoration: none;
   font-weight: 600;
   color: #121210;
-  background: #f3c46b;
+  background: #ECC94B;
   transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
 }
 
 .heroVolumeColumn .volumePill:nth-child(1) {
-  background: #f26a5a;
+  background: #E53E3E;
 }
 
 .heroVolumeColumn .volumePill:nth-child(2) {
-  background: #3c69f1;
+  background: #4299E1;
 }
 
 .heroVolumeColumn .volumePill:nth-child(3) {
-  background: #f3c46b;
+  background: #ECC94B;
 }
 
 .volumePill:hover {
@@ -91,7 +92,7 @@
 }
 
 .heroCoverInner {
-  background: #f7f3ec;
+  background: #F5F1E3;
   border-radius: 1.75rem;
   padding: 2.25rem 2rem 1.75rem;
   display: flex;
@@ -109,7 +110,7 @@
 .heroCoverLogo {
   font-size: 2.4rem;
   line-height: 1;
-  color: #1a3b25;
+  color: #1A3A2A;
 }
 
 .heroCoverSub {
