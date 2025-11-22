@@ -70,13 +70,20 @@ const WeeklyPage = ({ searchParams }: WeeklyPageProps) => {
 
               <div className={styles.heroCoverImageWrapper}>
                 {featured?.coverImageUrl ? (
-                  <Image
-                    src={featured.coverImageUrl}
-                    alt={featured.title}
-                    fill
-                    className={styles.heroCoverImage}
-                    sizes="(min-width: 1024px) 640px, 100vw"
-                  />
+                  <>
+                    <Image
+                      src={featured.coverImageUrl}
+                      alt={featured.title}
+                      fill
+                      className={styles.heroCoverImage}
+                      sizes="(min-width: 1024px) 640px, 100vw"
+                    />
+                    <div className={styles.heroCoverOverlay}>
+                      <div className={styles.heroCoverOverlayText}>
+                        {featured.title}
+                      </div>
+                    </div>
+                  </>
                 ) : (
                   <div className={styles.heroCoverImagePlaceholder} />
                 )}
