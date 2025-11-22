@@ -1,0 +1,216 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 2.5rem 1rem;
+  background-color: #05070a;
+  color: #111111;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding-inline: 1.5rem;
+  }
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.05), transparent 55%),
+    radial-gradient(circle at bottom, rgba(0, 0, 0, 0.9), transparent 60%);
+  z-index: 0;
+}
+
+.layout {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 72rem;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 3rem;
+  }
+}
+
+.volumeColumn {
+  display: none;
+  width: 14rem;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .volumeColumn {
+    display: flex;
+  }
+}
+
+.cardWrapper {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 45rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background-color: #ffffff;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.65);
+}
+
+.masthead {
+  padding: 2rem 2.5rem 1rem;
+}
+
+.mastheadTitle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.mastheadTherma {
+  font-family: 'PPPangaia', system-ui, sans-serif;
+  font-size: clamp(2.5rem, 6vw, 3rem);
+  font-weight: 600;
+  line-height: 1;
+  color: #174527;
+}
+
+.mastheadWeekly {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(2.5rem, 6vw, 3rem);
+  font-weight: 600;
+  line-height: 1;
+  color: #174527;
+}
+
+.mastheadSubhead {
+  margin-top: 0.75rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.copy {
+  padding: 1.5rem 2.5rem 2rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.7rem;
+  line-height: 1.7;
+  color: #111827;
+}
+
+.copy p {
+  margin: 0;
+}
+
+.copy p + p {
+  margin-top: 0.5rem;
+}
+
+.mobileGrid {
+  margin-top: 2rem;
+  display: grid;
+  width: 100%;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .mobileGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobileGrid {
+    display: none;
+  }
+}
+
+.volumeButton {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 2.75rem;
+  border: 1px solid #111111;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 12px 0 rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #f2f2f2;
+}
+
+.volumeButton:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 0 rgba(0, 0, 0, 0.45);
+}
+
+.volumeButton:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 3px;
+}
+
+.volumeButtonLeft {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.volumeButtonRight {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.volumeLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #111111;
+}
+
+.volumeTitle {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: rgba(17, 17, 17, 0.8);
+}
+
+.volumeRed {
+  background-color: #da4832;
+}
+
+.volumeBlue {
+  background-color: #3268ff;
+}
+
+.volumeYellow {
+  background-color: #f2b976;
+}
+

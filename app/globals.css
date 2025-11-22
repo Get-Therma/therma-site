@@ -326,8 +326,30 @@ header {
   height: 72px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 24px;
   z-index: 10;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-link {
+  color: #ffffff;
+  font-family: PPPangaia, serif;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.header-link:hover {
+  opacity: 1;
 }
 
 .brand {
@@ -339,6 +361,41 @@ header {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.instagram-link {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  z-index: 11;
+  position: relative;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.instagram-link svg {
+  width: 24px !important;
+  height: 24px !important;
+  display: block !important;
+  fill: #FFFFFF !important;
+}
+
+.instagram-link:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.instagram-link:active {
+  transform: scale(0.95);
 }
 
 .header-spacer {
@@ -2134,6 +2191,18 @@ html {
     font-size: 24px;
   }
   
+  .instagram-link {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+  }
+  
+  .instagram-link svg {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  
   main {
     padding: var(--section-spacing-lg) 0;
     min-height: 100vh;
@@ -2428,6 +2497,18 @@ html {
   
   .brand {
     font-size: 22px;
+  }
+  
+  .instagram-link {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+  }
+  
+  .instagram-link svg {
+    width: 28px !important;
+    height: 28px !important;
   }
   
   main {

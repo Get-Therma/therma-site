@@ -1,0 +1,304 @@
+.weeklyMain {
+  background: #05070a;
+  color: #111111;
+  min-height: 100vh;
+  padding-top: 140px;
+  padding-bottom: 120px;
+}
+
+.identity {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 56px;
+  padding: 0 24px;
+}
+
+.identityTitle {
+  font-family: 'PPPangaia', serif;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  color: #fdf9f4;
+  letter-spacing: -0.02em;
+}
+
+.identityCopy {
+  margin-top: 12px;
+  font-family: 'PPPangaia', serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.6;
+}
+
+.heroSlot {
+  width: min(1100px, 92vw);
+  margin: 0 auto 64px;
+}
+
+.contentStack {
+  width: min(1120px, 94vw);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+}
+
+.sectionHeader {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-family: 'PPPangaia', serif;
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.sectionSubtitle {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.featuredCard {
+  background: #fdfaf5;
+  border-radius: 32px;
+  padding: 48px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 900px) {
+  .featuredCard {
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: stretch;
+  }
+}
+
+.issueImage {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #06080c;
+}
+
+@media (min-width: 900px) {
+  .issueImage {
+    height: 100%;
+    min-height: 320px;
+  }
+}
+
+.issueCard {
+  background: rgba(253, 250, 245, 0.9);
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.issueCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+}
+
+.issueKicker {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6b7a6b;
+}
+
+.issueTitle {
+  font-size: 1.8rem;
+  font-family: 'PPPangaia', serif;
+  color: #0a1b15;
+  margin: 0;
+}
+
+.issueSubtitle {
+  font-size: 1rem;
+  color: rgba(10, 27, 21, 0.75);
+  line-height: 1.5;
+}
+
+.metaBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: rgba(10, 27, 21, 0.8);
+}
+
+.metaBarDark {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.tagChip {
+  background: rgba(50, 104, 255, 0.12);
+  color: #183dff;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.metaBarDark .tagChip {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.archiveGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.tagFilter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.tagLink {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  padding: 8px 18px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tagLink:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.tagLinkActive {
+  background: rgba(255, 255, 255, 0.9);
+  color: #0a1b15;
+}
+
+.issueHero {
+  background: #fdfaf5;
+  border-radius: 32px;
+  padding: clamp(32px, 5vw, 56px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.heroTitle {
+  font-size: clamp(2.8rem, 5vw, 4rem);
+  font-family: 'PPPangaia', serif;
+  color: #0a1b15;
+  margin: 0;
+  line-height: 1.05;
+}
+
+.heroSubtitle {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(10, 27, 21, 0.7);
+}
+
+.heroKicker {
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.85rem;
+  color: #6b7a6b;
+}
+
+.issueBody {
+  display: grid;
+  gap: 48px;
+}
+
+.bodySection {
+  background: rgba(253, 250, 245, 0.92);
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.sectionLabel {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #6b7a6b;
+  margin-bottom: 16px;
+}
+
+.bodyHeading {
+  font-family: 'PPPangaia', serif;
+  font-size: 1.8rem;
+  color: #0a1b15;
+  margin-bottom: 12px;
+}
+
+.bodyCopy {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(10, 27, 21, 0.85);
+}
+
+.ctaBlock {
+  background: linear-gradient(120deg, rgba(218, 72, 50, 0.9), rgba(242, 185, 118, 0.85));
+  border-radius: 28px;
+  padding: 32px;
+  color: #111111;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+}
+
+.ctaTitle {
+  font-family: 'PPPangaia', serif;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.ctaButton {
+  border: none;
+  border-radius: 999px;
+  background: #111111;
+  color: #fdfaf5;
+  padding: 14px 28px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  width: fit-content;
+  transition: transform 0.2s ease;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+}
+
+.siblings {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.siblingLink {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.siblingLink:hover {
+  text-decoration: underline;
+}
+
