@@ -331,6 +331,11 @@ header {
   z-index: 10;
 }
 
+/* Center brand on landing page */
+header.header-centered {
+  justify-content: center;
+}
+
 .header-nav {
   display: flex;
   align-items: center;
@@ -361,6 +366,15 @@ header {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.heroLogo {
+  font-family: PPPangaia, serif;
+  font-size: clamp(3rem, 10vw, 5rem);
+  letter-spacing: 0.2em;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .instagram-link {

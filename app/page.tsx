@@ -83,8 +83,8 @@ export default function HomePage() {
         }}
       ></div>
 
-      <header>
-        {/* Logo moved to center of hero section */}
+      <header className="header-centered">
+        <div className="brand">Therma</div>
       </header>
 
       <div className="header-spacer"></div>
@@ -92,8 +92,6 @@ export default function HomePage() {
       <main>
         <section id="hero" className="container center">
           <div className="stack">
-            <div className="heroLogo">Therma</div>
-            <div className="sp-16"></div>
             <h1>Discover Your Patterns.<br/>Optimize Your Routine.</h1>
             <div className="sp-8"></div>
             <h2 className="muted">Therma finds the hidden patterns in your daily life<br/>and turns them into clear, actionable insights.<br/>Fine-tune your habits for peak energy, clarity, and confidence—<br/>making every week better than the last.</h2>
