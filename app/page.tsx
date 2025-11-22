@@ -96,6 +96,9 @@ export default function HomePage() {
             <div className="sp-8"></div>
             <h2 className="muted">Therma finds the hidden patterns in your daily life<br/>and turns them into clear, actionable insights.<br/>Fine-tune your habits for peak energy, clarity, and confidence—<br/>making every week better than the last.</h2>
             <div className="sp-16"></div>
+            <div>
+              <a href="/weekly" className="btn-secondary">Explore Therma Weekly ⟶</a>
+            </div>
             
             <form className="stack" style={{ gap: '12px' }} onSubmit={handleSubmit}>
               <div className="pillInput">
