@@ -444,25 +444,6 @@ export async function POST(req: Request) {
         dbSuccess
       }, { status: 409 }); // 409 Conflict status for duplicates
     }
-    
-    // CRITICAL: Check for duplicates one more time before returning success
-    // This catches cases where duplicate was detected but flag wasn't set properly
-    if (isDuplicate || beehiivDuplicate) {
-      console.log('🚫 DUPLICATE DETECTED in final check - Returning 409 Conflict');
-      console.log('   Database duplicate:', isDuplicate);
-      console.log('   Beehiv duplicate:', beehiivDuplicate);
-      
-      return NextResponse.json({ 
-        error: 'Email already exists',
-        message: 'This email address is already subscribed to our waitlist.',
-        duplicate: true,
-        beehiivDuplicate,
-        databaseDuplicate: isDuplicate,
-        beehiivSuccess,
-        emailSuccess,
-        dbSuccess
-      }, { status: 409 }); // 409 Conflict status for duplicates
-    }
 
     console.log('✅ No duplicates found - subscription successful');
 

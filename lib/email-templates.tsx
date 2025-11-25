@@ -247,7 +247,12 @@ export const ThankYouEmailTemplate = ({
 }: ThankYouEmailProps) => {
   // Merge user config with defaults
   const emailConfig: EmailConfig = { ...defaultConfig, ...config };
-  const { primaryColor, backgroundColor, textColor, secondaryTextColor } = emailConfig;
+  // Ensure all colors are strings (never undefined) for TypeScript
+  // Use non-null assertion since defaultConfig always has these values
+  const primaryColor = (emailConfig.primaryColor ?? defaultConfig.primaryColor ?? '#8fbc8f') as string;
+  const backgroundColor = (emailConfig.backgroundColor ?? defaultConfig.backgroundColor ?? '#000000') as string;
+  const textColor = (emailConfig.textColor ?? defaultConfig.textColor ?? '#ffffff') as string;
+  const secondaryTextColor = (emailConfig.secondaryTextColor ?? defaultConfig.secondaryTextColor ?? 'rgba(255, 255, 255, 0.9)') as string;
   
   // Personalize greeting if firstName is provided
   const greeting = personalization.firstName 

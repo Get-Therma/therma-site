@@ -35,6 +35,8 @@ export default function HomePage() {
 
       console.log('📡 Response status:', response.status);
       
+      // Clone response to avoid consuming the body
+      const responseClone = response.clone();
       let result;
       try {
         result = await response.json();
@@ -42,7 +44,8 @@ export default function HomePage() {
         console.log('🔍 Is duplicate?', result.duplicate);
       } catch (parseError) {
         console.error('❌ Failed to parse response:', parseError);
-        const text = await response.text();
+        // Use cloned response to read text since original body is consumed
+        const text = await responseClone.text();
         console.error('Raw response:', text);
         setIsSubmitting(false);
         setStatus('error');
