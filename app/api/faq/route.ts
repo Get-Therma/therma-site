@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { contentfulAPI } from '../../../lib/contentful';
 
+// Mark route as dynamic since it uses request.url
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);

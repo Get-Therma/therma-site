@@ -16,6 +16,8 @@ export async function POST(req: Request) {
 
     // Normalize email (lowercase and trim) for consistent duplicate detection
     const normalizedEmail = email.toLowerCase().trim();
+    console.log('📧 Original email:', email);
+    console.log('📧 Normalized email:', normalizedEmail);
 
     // Get domain configuration based on request
     const domainConfig = getDomainFromRequest(req);
@@ -33,21 +35,23 @@ export async function POST(req: Request) {
     
     try {
       const db = await getDb();
-      console.log('Checking database for duplicate email:', normalizedEmail);
+      console.log('🔍 Checking database for duplicate email:', normalizedEmail);
       
       // Use a more explicit query to ensure it works
-      // Also try case-insensitive search as a fallback
+      // Check for exact match (case-sensitive since we normalize)
       const existingEmail = await db
         .select()
         .from(waitlist)
         .where(eq(waitlist.email, normalizedEmail))
         .limit(1);
       
-      console.log('Database query result:', existingEmail.length, 'existing records found');
+      console.log('📊 Database query result:', existingEmail.length, 'existing records found');
       
       if (existingEmail.length > 0) {
-        console.log('✅ Email already exists in database (duplicate):', normalizedEmail);
-        console.log('Existing record:', JSON.stringify(existingEmail[0], null, 2));
+        console.log('🚫 DUPLICATE FOUND in database!');
+        console.log('   Email:', normalizedEmail);
+        console.log('   Existing record ID:', existingEmail[0].id);
+        console.log('   Existing record:', JSON.stringify(existingEmail[0], null, 2));
         isDuplicate = true;
       } else {
         console.log('✅ Email not found in database (new email):', normalizedEmail);
@@ -68,7 +72,8 @@ export async function POST(req: Request) {
 
     // If duplicate found in database, skip Beehiv and return early
     if (isDuplicate) {
-      console.log('Duplicate detected in database, skipping Beehiv and email sending');
+      console.log('🚫 DUPLICATE DETECTED in database - Returning 409 Conflict');
+      console.log('   Skipping Beehiv and email sending');
       return NextResponse.json({ 
         error: 'Email already exists',
         message: 'This email address is already subscribed to our waitlist.',
@@ -111,14 +116,65 @@ export async function POST(req: Request) {
           
           if (res.ok) {
             const data = await res.json();
-            console.log('Beehiiv success:', data);
-            beehiivSuccess = true;
+            console.log('Beehiiv success response:', JSON.stringify(data, null, 2));
             
             // Check if this was a reactivation (existing subscriber)
-            // Beehiv returns status: "active" for new, "reactivated" for existing
-            if (data?.data?.status === 'reactivated' || data?.status === 'reactivated') {
-              console.log('Beehiv indicates this was a reactivation (duplicate)');
+            // Beehiv returns status: "active" for new, "reactivated" for existing, "invalid" for duplicates
+            // Also check for any indication this is a duplicate
+            const status = data?.data?.status || data?.status;
+            const subscriptionId = data?.data?.id || data?.id;
+            const created = data?.data?.created || data?.created;
+            const responseStr = JSON.stringify(data).toLowerCase();
+            
+            // Check for duplicate indicators in the response
+            // Beehiiv may return status "invalid" for duplicates, or "reactivated" for existing
+            // Also check if created timestamp is old (suggests existing subscription)
+            const now = Math.floor(Date.now() / 1000);
+            const isOldSubscription = created && (now - created) > 60; // Created more than 60 seconds ago
+            
+            const indicatesDuplicate = 
+              status === 'reactivated' ||
+              status === 'invalid' || // Invalid status indicates duplicate
+              isOldSubscription || // Old created timestamp suggests existing subscription
+              responseStr.includes('already exists') ||
+              responseStr.includes('already subscribed') ||
+              responseStr.includes('duplicate') ||
+              responseStr.includes('existing');
+            
+            // CRITICAL: Check database again AFTER Beehiiv call but BEFORE insert
+            // This catches race conditions where email was added between our initial check and now
+            if (!indicatesDuplicate) {
+              try {
+                const db = await getDb();
+                const existingSub = await db
+                  .select()
+                  .from(waitlist)
+                  .where(eq(waitlist.email, normalizedEmail))
+                  .limit(1);
+                
+                if (existingSub.length > 0) {
+                  console.log('🚫 DUPLICATE DETECTED: Email exists in database (race condition check)');
+                  console.log('Existing record:', JSON.stringify(existingSub[0], null, 2));
+                  beehiivDuplicate = true;
+                  beehiivSuccess = true; // Consider handled
+                  isDuplicate = true; // Also mark as database duplicate
+                }
+              } catch (dbCheckError) {
+                console.warn('Database check after Beehiiv failed:', dbCheckError);
+                // Continue - we'll catch it on insert
+              }
+            }
+            
+            if (indicatesDuplicate) {
+              console.log('🚫 DUPLICATE DETECTED in Beehiiv (success response indicates duplicate)');
+              console.log('Status:', status);
+              console.log('Subscription ID:', subscriptionId);
+              console.log('Created timestamp:', created, isOldSubscription ? '(OLD - indicates existing)' : '(NEW)');
+              console.log('Full response:', JSON.stringify(data, null, 2));
               beehiivDuplicate = true;
+              beehiivSuccess = true; // Consider this handled
+            } else {
+              beehiivSuccess = true;
             }
           } else {
             const errorText = await res.text();
@@ -126,21 +182,25 @@ export async function POST(req: Request) {
             console.log('Beehiiv error status:', res.status);
             
             // Check if it's a duplicate error (common Beehiv response)
-            // With reactivate_existing: false, Beehiiv will return 400 for duplicates
+            // With reactivate_existing: false, Beehiiv may return 400, 409, or 422 for duplicates
             const lowerErrorText = errorText.toLowerCase();
             const isDuplicateError = 
-              res.status === 400 && (
+              (res.status === 400 || res.status === 409 || res.status === 422) && (
                 lowerErrorText.includes('already exists') || 
                 lowerErrorText.includes('already subscribed') || 
                 lowerErrorText.includes('duplicate') ||
                 lowerErrorText.includes('subscription already') ||
                 lowerErrorText.includes('email already') ||
-                lowerErrorText.includes('already in')
+                lowerErrorText.includes('already in') ||
+                lowerErrorText.includes('already registered') ||
+                lowerErrorText.includes('is already') ||
+                lowerErrorText.includes('has already')
               );
             
             if (isDuplicateError) {
-              console.log('🚫 DUPLICATE DETECTED in Beehiiv');
-              console.log('Email already exists in Beehiiv (duplicate)');
+              console.log('🚫 DUPLICATE DETECTED in Beehiiv (error response)');
+              console.log('Status:', res.status);
+              console.log('Error text:', errorText);
               beehiivSuccess = true; // Consider this handled
               beehiivDuplicate = true; // Mark as duplicate
             } else {
@@ -180,7 +240,8 @@ export async function POST(req: Request) {
 
     // If Beehiv detected duplicate, return early
     if (beehiivDuplicate) {
-      console.log('Duplicate detected in Beehiv, skipping email sending and database insert');
+      console.log('🚫 DUPLICATE DETECTED in Beehiv - Returning 409 Conflict');
+      console.log('   Skipping email sending and database insert');
       return NextResponse.json({ 
         error: 'Email already exists',
         message: 'This email address is already subscribed to our waitlist.',
@@ -231,86 +292,142 @@ export async function POST(req: Request) {
     // Store in Supabase database (only if not already a duplicate)
     let dbSuccess = false;
     
-    try {
-      const db = await getDb();
-      
-      // Try to insert - if it fails due to unique constraint, catch it
+    // Skip database insert if we've already detected a duplicate
+    if (isDuplicate || beehiivDuplicate) {
+      console.log('⏭️ Skipping database insert - duplicate already detected');
+      dbSuccess = true; // Consider handled
+    } else {
       try {
-        console.log('Attempting to insert email into database:', normalizedEmail);
-        await db.insert(waitlist).values({
-          email: normalizedEmail,
-          attribution: JSON.stringify({
-            source: source ?? 'Website',
-            utm_source,
-            utm_medium,
-            utm_campaign,
-            timestamp: new Date().toISOString(),
-            beehiivSuccess,
-            emailSuccess
-          })
-        });
-        console.log('✅ Email stored in Supabase database successfully');
-        dbSuccess = true;
-      } catch (insertError: any) {
-        // Log full error for debugging
-        console.log('Insert error caught - Full error object:', JSON.stringify(insertError, Object.getOwnPropertyNames(insertError), 2));
-        console.log('Insert error details:', {
-          code: insertError?.code,
-          message: insertError?.message,
-          constraint: insertError?.constraint,
-          detail: insertError?.detail,
-          errno: insertError?.errno,
-          sqlState: insertError?.sqlState,
-          name: insertError?.name
-        });
+        const db = await getDb();
         
-        // Check if it's a unique constraint violation (duplicate)
-        // PostgreSQL error code 23505 = unique_violation
-        // Also check for various error message patterns
-        const errorMessage = String(insertError?.message || '').toLowerCase();
-        const errorCode = String(insertError?.code || '');
-        const errorDetail = String(insertError?.detail || '').toLowerCase();
+        // Try to insert - if it fails due to unique constraint, catch it
+        try {
+          console.log('Attempting to insert email into database:', normalizedEmail);
+          await db.insert(waitlist).values({
+            email: normalizedEmail,
+            attribution: JSON.stringify({
+              source: source ?? 'Website',
+              utm_source,
+              utm_medium,
+              utm_campaign,
+              timestamp: new Date().toISOString(),
+              beehiivSuccess,
+              emailSuccess
+            })
+          });
+          console.log('✅ Email stored in Supabase database successfully');
+          dbSuccess = true;
+        } catch (insertError: any) {
+          // Log full error for debugging
+          console.log('Insert error caught - Full error object:', JSON.stringify(insertError, Object.getOwnPropertyNames(insertError), 2));
+          console.log('Insert error details:', {
+            code: insertError?.code,
+            message: insertError?.message,
+            constraint: insertError?.constraint,
+            detail: insertError?.detail,
+            errno: insertError?.errno,
+            sqlState: insertError?.sqlState,
+            name: insertError?.name
+          });
+          
+          // Check if it's a unique constraint violation (duplicate)
+          // PostgreSQL error code 23505 = unique_violation
+          // Also check for various error message patterns
+          const errorMessage = String(insertError?.message || '').toLowerCase();
+          const errorCode = String(insertError?.code || '');
+          const errorDetail = String(insertError?.detail || '').toLowerCase();
+          
+          const isUniqueViolation = 
+            errorCode === '23505' || // PostgreSQL unique_violation
+            errorCode === '23503' || // Foreign key violation (shouldn't happen but check anyway)
+            errorMessage.includes('unique') || 
+            errorMessage.includes('duplicate') ||
+            errorMessage.includes('already exists') ||
+            errorMessage.includes('violates unique constraint') ||
+            errorDetail.includes('unique') ||
+            errorDetail.includes('duplicate') ||
+            insertError?.constraint?.includes('email') ||
+            insertError?.constraint?.includes('waitlist');
+            
+          if (isUniqueViolation) {
+            console.log('🚫 DUPLICATE DETECTED via INSERT constraint violation');
+            console.log('✅ Email already exists in database (unique constraint violation):', normalizedEmail);
+            console.log('   Error code:', errorCode);
+            console.log('   Error message:', insertError?.message);
+            console.log('   Error detail:', insertError?.detail);
+            return NextResponse.json({
+              error: 'Email already exists',
+              message: 'This email address is already subscribed to our waitlist.',
+              duplicate: true,
+              beehiivDuplicate,
+              databaseDuplicate: true,
+              beehiivSuccess,
+              emailSuccess,
+              dbSuccess: false
+            }, { status: 409 });
+          } else {
+            console.error('❌ Database insert failed with non-duplicate error');
+            console.error('Error type:', typeof insertError);
+            console.error('Error keys:', Object.keys(insertError || {}));
+            throw insertError; // Re-throw if it's a different error
+          }
+        }
+      } catch (dbError: any) {
+        console.error('❌ FAILED to store email in database');
+        console.error('Database error type:', typeof dbError);
+        console.error('Database error:', dbError);
+        console.error('Error message:', dbError?.message);
+        console.error('Error code:', dbError?.code);
+        console.error('Error detail:', dbError?.detail);
+        console.error('Error constraint:', dbError?.constraint);
+        console.error('Full error keys:', Object.keys(dbError || {}));
+        console.error('Full error object:', JSON.stringify(dbError, Object.getOwnPropertyNames(dbError), 2));
+        
+        // Check if this is a unique constraint violation that wasn't caught
+        const errorMessage = String(dbError?.message || '').toLowerCase();
+        const errorCode = String(dbError?.code || '');
+        const errorDetail = String(dbError?.detail || '');
+        const errorString = JSON.stringify(dbError).toLowerCase();
         
         const isUniqueViolation = 
           errorCode === '23505' || // PostgreSQL unique_violation
-          errorCode === '23503' || // Foreign key violation (shouldn't happen but check anyway)
+          errorCode === '23503' || // Foreign key violation
           errorMessage.includes('unique') || 
           errorMessage.includes('duplicate') ||
           errorMessage.includes('already exists') ||
           errorMessage.includes('violates unique constraint') ||
           errorDetail.includes('unique') ||
           errorDetail.includes('duplicate') ||
-          insertError?.constraint?.includes('email') ||
-          insertError?.constraint?.includes('waitlist');
-          
+          errorString.includes('unique') ||
+          errorString.includes('duplicate') ||
+          dbError?.constraint?.includes('email') ||
+          dbError?.constraint?.includes('waitlist');
+        
         if (isUniqueViolation) {
-          console.log('🚫 DUPLICATE DETECTED via INSERT constraint violation');
-          console.log('✅ Email already exists in database (unique constraint violation):', normalizedEmail);
+          console.log('🚫 DUPLICATE DETECTED in outer catch block (unique constraint violation)');
           console.log('   Error code:', errorCode);
-          console.log('   Error message:', insertError?.message);
-          isDuplicate = true;
-          dbSuccess = true; // Consider this handled
+          console.log('   Error message:', dbError?.message);
+          console.log('   Error detail:', dbError?.detail);
+          return NextResponse.json({
+            error: 'Email already exists',
+            message: 'This email address is already subscribed to our waitlist.',
+            duplicate: true,
+            beehiivDuplicate,
+            databaseDuplicate: true,
+            beehiivSuccess,
+            emailSuccess,
+            dbSuccess: false
+          }, { status: 409 });
         } else {
-          console.error('❌ Database insert failed with non-duplicate error');
-          console.error('Error type:', typeof insertError);
-          console.error('Error keys:', Object.keys(insertError || {}));
-          throw insertError; // Re-throw if it's a different error
+          console.error('Error stack:', dbError?.stack);
+          dbSuccess = false;
+          console.warn('⚠️ Database error is NOT a duplicate - continuing without database storage');
         }
       }
-    } catch (dbError: any) {
-      console.error('❌ FAILED to store email in database');
-      console.error('Database error:', dbError);
-      console.error('Error message:', dbError?.message);
-      console.error('Error code:', dbError?.code);
-      console.error('Error stack:', dbError?.stack);
-      console.error('Full error object:', JSON.stringify(dbError, Object.getOwnPropertyNames(dbError), 2));
-      dbSuccess = false;
-      
-      // Don't fail the entire request if database fails, but log it clearly
-      console.warn('⚠️ Continuing without database storage - email may not be saved!');
     }
 
     // Final duplicate check - if duplicate found anywhere, return 409
+    // This MUST happen before returning success
     if (isDuplicate || beehiivDuplicate) {
       console.log('🚫 DUPLICATE DETECTED - Returning 409 Conflict');
       console.log('   Database duplicate:', isDuplicate);
@@ -328,7 +445,31 @@ export async function POST(req: Request) {
       }, { status: 409 }); // 409 Conflict status for duplicates
     }
     
+    // CRITICAL: Check for duplicates one more time before returning success
+    // This catches cases where duplicate was detected but flag wasn't set properly
+    if (isDuplicate || beehiivDuplicate) {
+      console.log('🚫 DUPLICATE DETECTED in final check - Returning 409 Conflict');
+      console.log('   Database duplicate:', isDuplicate);
+      console.log('   Beehiv duplicate:', beehiivDuplicate);
+      
+      return NextResponse.json({ 
+        error: 'Email already exists',
+        message: 'This email address is already subscribed to our waitlist.',
+        duplicate: true,
+        beehiivDuplicate,
+        databaseDuplicate: isDuplicate,
+        beehiivSuccess,
+        emailSuccess,
+        dbSuccess
+      }, { status: 409 }); // 409 Conflict status for duplicates
+    }
+
     console.log('✅ No duplicates found - subscription successful');
+
+    // If database insert failed and it wasn't a duplicate, that's a problem
+    if (!dbSuccess && !isDuplicate) {
+      console.warn('⚠️ Database insert failed but not a duplicate - this is unexpected');
+    }
 
     // If all services failed, return an error
     if (!beehiivSuccess && !emailSuccess && !dbSuccess) {

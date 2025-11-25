@@ -1,20 +1,305 @@
 import React from 'react';
 
-export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
+/**
+ * Welcome Email Template for Resend
+ * 
+ * A highly customizable, responsive welcome email template with:
+ * - Dark theme with gradient backgrounds
+ * - Mobile-responsive design
+ * - Easy customization via config object
+ * - Personalization support (first name, custom messages)
+ * - Modular component structure
+ * 
+ * @example
+ * // Basic usage
+ * ThankYouEmailTemplate({ email: 'user@example.com' })
+ * 
+ * // With personalization
+ * ThankYouEmailTemplate({ 
+ *   email: 'user@example.com',
+ *   personalization: { firstName: 'Sarah' }
+ * })
+ * 
+ * // With custom config
+ * ThankYouEmailTemplate({
+ *   email: 'user@example.com',
+ *   config: { primaryColor: '#6B8E23', brandName: 'Therma' }
+ * })
+ * 
+ * See email-templates.example.tsx for more examples
+ */
+
+// Email design configuration - easily customizable
+export interface EmailConfig {
+  // Branding
+  logoUrl?: string;
+  logoWidth?: number;
+  logoHeight?: number;
+  brandName?: string;
+  tagline?: string;
+  
+  // Colors
+  primaryColor?: string; // Main brand color (e.g., #8fbc8f)
+  backgroundColor?: string;
+  textColor?: string;
+  secondaryTextColor?: string;
+  
+  // Content
+  greeting?: string;
+  welcomeMessage?: string;
+  quote?: {
+    text: string;
+    author: string;
+  };
+  benefits?: string[];
+  productDescription?: string;
+  teamMessage?: string;
+  socialLinks?: {
+    twitter?: string;
+    linkedin?: string;
+    website?: string;
+  };
+  
+  // Images
+  avatarUrl?: string;
+  
+  // Footer
+  unsubscribeText?: string;
+}
+
+// Default configuration
+const defaultConfig: EmailConfig = {
+  logoUrl: 'https://therma.one/therma-logo.svg',
+  logoWidth: 80,
+  logoHeight: 80,
+  brandName: 'Therma',
+  tagline: 'See your patterns. Keep what works. Steady your days.',
+  primaryColor: '#8fbc8f',
+  backgroundColor: '#000000',
+  textColor: '#FFFFFF',
+  secondaryTextColor: 'rgba(255, 255, 255, 0.9)',
+  greeting: 'Hi there,',
+  welcomeMessage: "Thank you for joining the Therma waitlist! We're genuinely excited to have you on this journey toward steadier, more mindful days.",
+  quote: {
+    text: "The mind is everything. What you think you become.",
+    author: "Buddha, on the power of mindful awareness"
+  },
+  benefits: [
+    'Early access to Therma when we launch',
+    'Exclusive updates on our progress and new features',
+    'Special perks for our first 1,000 mindful pioneers',
+    'Science-backed insights delivered to your inbox'
+  ],
+  productDescription: "Therma is a private, AI-guided journaling app that turns your check-ins, habits, and notes into pattern maps—highlighting bright spots to keep and frictions to tweak—so small changes add up to steadier weeks.",
+  teamMessage: "We're building something special together—a tool that honors your privacy while helping you discover the patterns that make your days more meaningful.",
+  socialLinks: {
+    twitter: 'https://twitter.com/gettherma',
+    linkedin: 'https://linkedin.com/company/gettherma',
+    website: 'https://therma.one'
+  },
+  avatarUrl: 'https://therma.one/bot-avatar@1x.png',
+  unsubscribeText: "You're receiving this because you signed up for the Therma waitlist. If you didn't sign up, you can safely ignore this email."
+};
+
+/**
+ * Converts any color format to rgba() with specified opacity
+ * Handles hex (#8fbc8f), rgb(), rgba(), and hsl() formats
+ */
+function colorWithOpacity(color: string, opacity: number): string {
+  // If already rgba/rgb format, try to extract and use it
+  if (color.startsWith('rgba(')) {
+    const match = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+      return `rgba(${match[1]}, ${match[2]}, ${match[3]}, ${opacity})`;
+    }
+  }
+  
+  if (color.startsWith('rgb(')) {
+    const match = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+      return `rgba(${match[1]}, ${match[2]}, ${match[3]}, ${opacity})`;
+    }
+  }
+  
+  // Handle hex colors (#8fbc8f, #8fbc8f33, #abc, #abc3)
+  if (color.startsWith('#')) {
+    let hex = color.slice(1);
+    
+    // Remove any existing opacity hex digits (8 or 4 character hex)
+    if (hex.length === 8 || hex.length === 4) {
+      hex = hex.slice(0, hex.length === 8 ? 6 : 3);
+    }
+    
+    // Handle 3-character hex (expand to 6)
+    if (hex.length === 3) {
+      hex = hex.split('').map(char => char + char).join('');
+    }
+    
+    // Convert hex to RGB
+    if (hex.length === 6) {
+      const r = parseInt(hex.slice(0, 2), 16);
+      const g = parseInt(hex.slice(2, 4), 16);
+      const b = parseInt(hex.slice(4, 6), 16);
+      
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    }
+  }
+  
+  // Handle hsl() colors - convert to rgb first
+  if (color.startsWith('hsl(')) {
+    const match = color.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%/);
+    if (match) {
+      const h = parseInt(match[1]) / 360;
+      const s = parseInt(match[2]) / 100;
+      const l = parseInt(match[3]) / 100;
+      
+      // Convert HSL to RGB
+      const c = (1 - Math.abs(2 * l - 1)) * s;
+      const x = c * (1 - Math.abs((h * 6) % 2 - 1));
+      const m = l - c / 2;
+      
+      let r = 0, g = 0, b = 0;
+      
+      if (h < 1/6) { r = c; g = x; b = 0; }
+      else if (h < 2/6) { r = x; g = c; b = 0; }
+      else if (h < 3/6) { r = 0; g = c; b = x; }
+      else if (h < 4/6) { r = 0; g = x; b = c; }
+      else if (h < 5/6) { r = x; g = 0; b = c; }
+      else { r = c; g = 0; b = x; }
+      
+      r = Math.round((r + m) * 255);
+      g = Math.round((g + m) * 255);
+      b = Math.round((b + m) * 255);
+      
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    }
+  }
+  
+  // Fallback: return the color as-is (might be a named color like 'red')
+  // For opacity, we'll try to wrap it, but this is best-effort
+  return color;
+}
+
+// Reusable style objects
+const styles = {
+  container: {
+    maxWidth: '600px',
+    margin: '0 auto',
+    padding: '40px 20px',
+    position: 'relative' as const,
+    zIndex: 1
+  },
+  card: {
+    background: 'rgba(255, 255, 255, 0.03)',
+    backdropFilter: 'blur(15px)',
+    borderRadius: '12px',
+    padding: '30px',
+    border: '1px solid rgba(255, 255, 255, 0.08)',
+    marginBottom: '30px'
+  },
+  headerCard: {
+    textAlign: 'center' as const,
+    marginBottom: '40px',
+    padding: '30px 20px',
+    background: 'rgba(255, 255, 255, 0.05)',
+    backdropFilter: 'blur(20px)',
+    borderRadius: '16px',
+    border: '1px solid rgba(255, 255, 255, 0.1)'
+  },
+  quoteCard: {
+    background: 'rgba(143, 188, 143, 0.1)',
+    padding: '25px',
+    borderRadius: '12px',
+    margin: '25px 0',
+    borderLeft: '4px solid #8fbc8f',
+    textAlign: 'center' as const
+  },
+  benefitsCard: {
+    background: 'rgba(255, 255, 255, 0.05)',
+    padding: '25px',
+    borderRadius: '12px',
+    margin: '25px 0',
+    border: '1px solid rgba(255, 255, 255, 0.1)'
+  },
+  teamCard: {
+    textAlign: 'center' as const,
+    margin: '30px 0',
+    padding: '25px',
+    background: 'rgba(143, 188, 143, 0.08)',
+    borderRadius: '12px',
+    border: '1px solid rgba(143, 188, 143, 0.2)'
+  }
+};
+
+export interface ThankYouEmailProps {
+  email: string;
+  config?: Partial<EmailConfig>;
+  personalization?: {
+    firstName?: string;
+    customMessage?: string;
+  };
+}
+
+export const ThankYouEmailTemplate = ({ 
+  email, 
+  config = {},
+  personalization = {}
+}: ThankYouEmailProps) => {
+  // Merge user config with defaults
+  const emailConfig: EmailConfig = { ...defaultConfig, ...config };
+  const { primaryColor, backgroundColor, textColor, secondaryTextColor } = emailConfig;
+  
+  // Personalize greeting if firstName is provided
+  const greeting = personalization.firstName 
+    ? `Hi ${personalization.firstName},` 
+    : emailConfig.greeting || 'Hi there,';
+
   return (
     <html>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Welcome to Therma</title>
+        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Welcome to {emailConfig.brandName}</title>
+        <style>{`
+          @media only screen and (max-width: 600px) {
+            .email-container {
+              padding: 20px 15px !important;
+            }
+            .email-card {
+              padding: 20px !important;
+            }
+            .email-header {
+              padding: 20px 15px !important;
+            }
+            .brand-logo {
+              width: 60px !important;
+              height: 60px !important;
+            }
+            .brand-name {
+              font-size: 36px !important;
+            }
+            .tagline {
+              font-size: 16px !important;
+            }
+            h1 {
+              font-size: 24px !important;
+            }
+            h3 {
+              font-size: 18px !important;
+            }
+          }
+        `}</style>
       </head>
       <body style={{ 
         fontFamily: 'PPPangaia, system-ui, -apple-system, sans-serif', 
         lineHeight: '1.6', 
-        color: '#FFFFFF',
-        backgroundColor: '#000000',
+        color: textColor,
+        backgroundColor: backgroundColor,
         margin: 0,
         padding: 0,
-        minHeight: '100vh'
+        minHeight: '100vh',
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale'
       }}>
         {/* Background with animated gradients similar to website */}
         <div style={{
@@ -24,107 +309,89 @@ export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
           width: '100%',
           height: '100%',
           background: `
-            radial-gradient(circle at 20% 80%, rgba(143, 188, 143, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 20% 80%, ${colorWithOpacity(primaryColor, 0.2)} 0%, transparent 50%),
             radial-gradient(circle at 80% 20%, rgba(245, 245, 220, 0.2) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(143, 188, 143, 0.15) 0%, transparent 50%),
-            linear-gradient(135deg, #000000 0%, #1a1a1a 100%)
+            radial-gradient(circle at 40% 40%, ${colorWithOpacity(primaryColor, 0.15)} 0%, transparent 50%),
+            linear-gradient(135deg, ${backgroundColor} 0%, #1a1a1a 100%)
           `,
           zIndex: -1
         }}></div>
 
-        <div style={{ 
-          maxWidth: '600px',
-          margin: '0 auto',
-          padding: '40px 20px',
-          position: 'relative',
-          zIndex: 1
-        }}>
+        <div className="email-container" style={styles.container}>
           {/* Header with logo and branding */}
-          <div style={{ 
-            textAlign: 'center',
-            marginBottom: '40px',
-            padding: '30px 20px',
-            background: 'rgba(255, 255, 255, 0.05)',
-            backdropFilter: 'blur(20px)',
-            borderRadius: '16px',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
-          }}>
-            {/* Logo Image */}
-            <img 
-              src="https://therma.one/therma-logo.svg" 
-              alt="Therma Logo" 
-              width="80" 
-              height="80"
+          <div className="email-header" style={styles.headerCard}>
+            {emailConfig.logoUrl && (
+              <img 
+                src={emailConfig.logoUrl}
+                alt={`${emailConfig.brandName} Logo`}
+                width={emailConfig.logoWidth}
+                height={emailConfig.logoHeight}
+                className="brand-logo"
               style={{
                 display: 'block',
                 margin: '0 auto 20px',
-                filter: 'brightness(1.1)'
+                borderRadius: '12px',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
               }}
             />
-            <div style={{
+            )}
+            <div className="brand-name" style={{
               fontSize: '48px',
               fontWeight: '400',
-              color: '#8fbc8f',
+              color: primaryColor,
               marginBottom: '10px',
               fontFamily: 'PPPangaia, serif',
               letterSpacing: '2px'
             }}>
-              Therma
+              {emailConfig.brandName}
             </div>
-            <p style={{ 
+            {emailConfig.tagline && (
+              <p className="tagline" style={{ 
               fontSize: '18px', 
               margin: '0',
               color: 'rgba(255, 255, 255, 0.8)',
               fontStyle: 'italic'
             }}>
-              See your patterns. Keep what works. Steady your days.
+                {emailConfig.tagline}
             </p>
+            )}
           </div>
 
           {/* Main content */}
-          <div style={{ 
-            background: 'rgba(255, 255, 255, 0.03)',
-            backdropFilter: 'blur(15px)',
-            borderRadius: '12px',
-            padding: '30px',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            marginBottom: '30px'
-          }}>
+          <div className="email-card" style={styles.card}>
             <h1 style={{ 
-              color: '#8fbc8f', 
+              color: primaryColor, 
               fontSize: '28px',
               margin: '0 0 20px 0',
               fontWeight: '400',
-              textAlign: 'center'
+              textAlign: 'center' as const
             }}>
               Welcome to the journey! 🎉
             </h1>
             
-            <p style={{ fontSize: '16px', marginBottom: '20px', color: 'rgba(255, 255, 255, 0.9)' }}>
-              Hi there,
+            <p style={{ fontSize: '16px', marginBottom: '20px', color: secondaryTextColor }}>
+              {greeting}
             </p>
             
-            <p style={{ fontSize: '16px', marginBottom: '25px', color: 'rgba(255, 255, 255, 0.9)' }}>
-              Thank you for joining the Therma waitlist! We're genuinely excited to have you on this journey toward steadier, more mindful days.
+            <p style={{ fontSize: '16px', marginBottom: '25px', color: secondaryTextColor }}>
+              {personalization.customMessage || emailConfig.welcomeMessage}
             </p>
 
-            {/* Science-based quote */}
+            {/* Inspirational quote */}
+            {emailConfig.quote && (
             <div style={{ 
-              background: 'rgba(143, 188, 143, 0.1)',
-              padding: '25px',
-              borderRadius: '12px',
-              margin: '25px 0',
-              borderLeft: '4px solid #8fbc8f',
-              textAlign: 'center'
+                ...styles.quoteCard,
+                background: colorWithOpacity(primaryColor, 0.1),
+                borderLeft: `4px solid ${primaryColor}`
             }}>
               <p style={{ 
                 fontSize: '18px',
                 fontStyle: 'italic',
-                color: '#8fbc8f',
+                  color: primaryColor,
                 margin: '0 0 10px 0',
                 lineHeight: '1.5'
               }}>
-                "The mind is everything. What you think you become."
+                  "{emailConfig.quote.text}"
               </p>
               <p style={{ 
                 fontSize: '14px',
@@ -132,21 +399,17 @@ export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
                 margin: '0',
                 fontStyle: 'normal'
               }}>
-                — Buddha, on the power of mindful awareness
+                  — {emailConfig.quote.author}
               </p>
             </div>
+            )}
 
             {/* What's next section */}
-            <div style={{ 
-              background: 'rgba(255, 255, 255, 0.05)',
-              padding: '25px',
-              borderRadius: '12px',
-              margin: '25px 0',
-              border: '1px solid rgba(255, 255, 255, 0.1)'
-            }}>
+            {emailConfig.benefits && emailConfig.benefits.length > 0 && (
+              <div style={styles.benefitsCard}>
               <h3 style={{ 
                 margin: '0 0 15px 0', 
-                color: '#8fbc8f',
+                  color: primaryColor,
                 fontSize: '20px',
                 fontWeight: '400'
               }}>
@@ -155,79 +418,84 @@ export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
               <ul style={{ 
                 margin: '0', 
                 paddingLeft: '20px',
-                color: 'rgba(255, 255, 255, 0.9)'
-              }}>
-                <li style={{ marginBottom: '8px' }}>Early access to Therma when we launch</li>
-                <li style={{ marginBottom: '8px' }}>Exclusive updates on our progress and new features</li>
-                <li style={{ marginBottom: '8px' }}>Special perks for our first 1,000 mindful pioneers</li>
-                <li style={{ marginBottom: '8px' }}>Science-backed insights delivered to your inbox</li>
+                  color: secondaryTextColor
+                }}>
+                  {emailConfig.benefits.map((benefit, index) => (
+                    <li key={index} style={{ marginBottom: '8px', fontSize: '16px' }}>
+                      {benefit}
+                    </li>
+                  ))}
               </ul>
             </div>
+            )}
 
-            {/* Therma explanation */}
+            {/* Product explanation */}
+            {emailConfig.productDescription && (
             <div style={{ margin: '25px 0' }}>
               <h3 style={{ 
-                color: '#8fbc8f',
+                  color: primaryColor,
                 fontSize: '18px',
                 margin: '0 0 15px 0',
                 fontWeight: '400'
               }}>
-                What is Therma?
+                  What is {emailConfig.brandName}?
               </h3>
               <p style={{ 
                 fontSize: '16px',
-                color: 'rgba(255, 255, 255, 0.9)',
+                  color: secondaryTextColor,
                 lineHeight: '1.6',
                 margin: '0'
               }}>
-                Therma is a private, AI-guided journaling app that turns your check-ins, habits, and notes into pattern maps—highlighting bright spots to keep and frictions to tweak—so small changes add up to steadier weeks.
+                  {emailConfig.productDescription}
               </p>
             </div>
+            )}
 
             {/* Warm invitation with profile picture */}
+            {emailConfig.teamMessage && (
             <div style={{ 
-              textAlign: 'center',
-              margin: '30px 0',
-              padding: '25px',
-              background: 'rgba(143, 188, 143, 0.08)',
-              borderRadius: '12px',
-              border: '1px solid rgba(143, 188, 143, 0.2)'
-            }}>
-              {/* Profile Picture */}
-              <img 
-                src="https://therma.one/bot-avatar@1x.png" 
-                alt="Therma Team" 
+                ...styles.teamCard,
+                background: colorWithOpacity(primaryColor, 0.08),
+                border: `1px solid ${colorWithOpacity(primaryColor, 0.2)}`
+              }}>
+                {emailConfig.avatarUrl && (
+                  <img 
+                    src={emailConfig.avatarUrl}
+                    alt={`${emailConfig.brandName} Team`}
                 width="60" 
                 height="60"
                 style={{
                   display: 'block',
                   margin: '0 auto 20px',
                   borderRadius: '50%',
-                  border: '3px solid rgba(143, 188, 143, 0.3)',
-                  boxShadow: '0 4px 12px rgba(143, 188, 143, 0.2)'
+                      border: `3px solid ${colorWithOpacity(primaryColor, 0.3)}`,
+                      boxShadow: `0 4px 12px ${colorWithOpacity(primaryColor, 0.2)}`
                 }}
               />
+                )}
               <p style={{ 
                 fontSize: '16px',
-                color: 'rgba(255, 255, 255, 0.9)',
+                  color: secondaryTextColor,
                 margin: '0 0 15px 0',
                 lineHeight: '1.5'
               }}>
-                We're building something special together—a tool that honors your privacy while helping you discover the patterns that make your days more meaningful.
+                  {emailConfig.teamMessage}
               </p>
               <p style={{ 
                 fontSize: '16px',
-                color: '#8fbc8f',
+                  color: primaryColor,
                 margin: '0',
                 fontWeight: '400'
               }}>
                 We can't wait to share this journey with you.
               </p>
             </div>
+            )}
 
             {/* Social links */}
+            {emailConfig.socialLinks && (emailConfig.socialLinks.twitter || emailConfig.socialLinks.linkedin || emailConfig.socialLinks.website) && (
             <div style={{ 
-              textAlign: 'center', 
+                textAlign: 'center' as const, 
               margin: '30px 0',
               padding: '20px',
               background: 'rgba(255, 255, 255, 0.03)',
@@ -241,30 +509,48 @@ export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
                 <strong>Stay connected:</strong>
               </p>
               <div style={{ marginTop: '15px' }}>
-                <a href="https://twitter.com/gettherma" style={{ 
-                  color: '#8fbc8f', 
+                  {emailConfig.socialLinks.twitter && (
+                    <a href={emailConfig.socialLinks.twitter} style={{ 
+                      color: primaryColor, 
                   textDecoration: 'none',
                   margin: '0 15px',
-                  fontSize: '16px'
+                      fontSize: '16px',
+                      fontWeight: '500'
                 }}>
                   Twitter
                 </a>
-                <a href="https://linkedin.com/company/gettherma" style={{ 
-                  color: '#8fbc8f', 
+                  )}
+                  {emailConfig.socialLinks.linkedin && (
+                    <a href={emailConfig.socialLinks.linkedin} style={{ 
+                      color: primaryColor, 
                   textDecoration: 'none',
                   margin: '0 15px',
-                  fontSize: '16px'
+                      fontSize: '16px',
+                      fontWeight: '500'
                 }}>
                   LinkedIn
                 </a>
+                  )}
+                  {emailConfig.socialLinks.website && (
+                    <a href={emailConfig.socialLinks.website} style={{ 
+                      color: primaryColor, 
+                      textDecoration: 'none',
+                      margin: '0 15px',
+                      fontSize: '16px',
+                      fontWeight: '500'
+                    }}>
+                      Website
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
             <p style={{ 
               fontSize: '14px', 
               color: 'rgba(255, 255, 255, 0.7)', 
               marginTop: '30px',
-              textAlign: 'center'
+              textAlign: 'center' as const
             }}>
               Questions? Just reply to this email—we read every message and would love to hear from you!
             </p>
@@ -273,16 +559,16 @@ export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
               fontSize: '14px', 
               color: 'rgba(255, 255, 255, 0.6)', 
               marginTop: '20px',
-              textAlign: 'center'
+              textAlign: 'center' as const
             }}>
               With warmth and anticipation,<br/>
-              <strong style={{ color: '#8fbc8f' }}>The Therma Team</strong>
+              <strong style={{ color: primaryColor }}>The {emailConfig.brandName} Team</strong>
             </p>
           </div>
 
           {/* Footer */}
           <div style={{ 
-            textAlign: 'center',
+            textAlign: 'center' as const,
             padding: '20px',
             background: 'rgba(255, 255, 255, 0.02)',
             borderRadius: '8px',
@@ -294,8 +580,7 @@ export const ThankYouEmailTemplate = ({ email }: { email: string }) => {
               margin: '0',
               lineHeight: '1.4'
             }}>
-              You're receiving this because you signed up for the Therma waitlist.<br/>
-              If you didn't sign up, you can safely ignore this email.
+              {emailConfig.unsubscribeText}
             </p>
           </div>
         </div>

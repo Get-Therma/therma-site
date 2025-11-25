@@ -24,15 +24,52 @@ export default function SubscribeForm() {
         })
       });
       const data = await res.json();
+      console.log('SubscribeForm response:', data);
+      console.log('Response status:', res.status);
+      console.log('Is duplicate?', data.duplicate);
+      
       if (!res.ok) {
         // Handle duplicate email error specifically
         if (res.status === 409 && data.duplicate) {
+          console.log('✅ Duplicate detected in SubscribeForm');
+          // Show duplicate message first
           setStatus('error');
-          setMessage(data.message || 'This email is already subscribed to our waitlist.');
+          setMessage('This email is already on our waitlist. Redirecting...');
+          // Store email and duplicate flag, then redirect to thank-you page
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('therma_submitted_email', email);
+            localStorage.setItem('therma_is_duplicate', 'true');
+            setTimeout(() => {
+              window.location.href = '/already-registered';
+            }, 2000);
+          }
           return;
         }
-        throw new Error(data?.error || 'Something went wrong');
+        // Also check if the error message indicates duplicate
+        const errorMsg = data?.error || data?.message || '';
+        if (errorMsg.toLowerCase().includes('already') || 
+            errorMsg.toLowerCase().includes('duplicate') ||
+            errorMsg.toLowerCase().includes('exists')) {
+          console.log('✅ Duplicate detected via error message:', errorMsg);
+          setStatus('error');
+          setMessage('This email is already on our waitlist. Redirecting...');
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('therma_submitted_email', email);
+            localStorage.setItem('therma_is_duplicate', 'true');
+            setTimeout(() => {
+              window.location.href = '/already-registered';
+            }, 2000);
+          }
+          return;
+        }
+        throw new Error(errorMsg || 'Something went wrong');
       }
+      
+      // Clear duplicate flag for successful new subscriptions
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('therma_is_duplicate');
+      }
+      
       setStatus('ok');
       setEmail('');
       setMessage('Check your inbox to confirm your subscription.');

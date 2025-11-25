@@ -58,6 +58,10 @@
   box-sizing: border-box;
 }
 
+.hidden {
+  display: none !important;
+}
+
 /* Modern viewport units (iOS 26 Safari supports dvh/svh/lvh) */
 html, body { 
   min-height: 100dvh; 
@@ -652,6 +656,11 @@ footer {
 
 .status-message.error {
   color: #f87171;
+}
+
+.status-message.duplicate {
+  color: #fbbf24;
+  font-weight: 500;
 }
 
 @keyframes subtleBreathe {

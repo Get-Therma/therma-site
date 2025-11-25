@@ -60,3 +60,6 @@ CREATE POLICY "Service role can do everything on contacts"
 --   TO anon
 --   WITH CHECK (true);
 
+
+
+

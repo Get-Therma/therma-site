@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import '../globals.css';
 import { useRouter } from 'next/navigation';
 
-export default function ThankYouPage() {
+export default function AlreadyRegisteredPage() {
   const [email, setEmail] = useState('');
-  const [isDuplicate, setIsDuplicate] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -16,11 +15,6 @@ export default function ThankYouPage() {
     const emailParam = urlParams.get('email');
     
     setEmail(storedEmail || emailParam || '');
-    
-    // Check if this is a duplicate submission
-    const duplicateFlag = localStorage.getItem('therma_is_duplicate');
-    const duplicateParam = urlParams.get('duplicate');
-    setIsDuplicate(duplicateFlag === 'true' || duplicateParam === 'true');
   }, []);
 
   return (
@@ -36,32 +30,29 @@ export default function ThankYouPage() {
       <main>
         <section className="container center">
           <div className="stack">
-            <div className="confirmation-icon">✅</div>
+            <div className="confirmation-icon" style={{ fontSize: '64px' }}>⚠️</div>
             <h1 style={{ fontSize: '64px', lineHeight: '1.1' }}>
-              {isDuplicate ? "You're Already In!" : "You're In."}
+              Sorry, but your email has been registered.
             </h1>
             <div className="sp-8"></div>
-            {isDuplicate ? (
-              <>
-                <h2 className="muted" style={{ fontSize: '40px', lineHeight: '1.2' }}>
-                  This email address is already on our waitlist.
-                </h2>
-                <div className="sp-8"></div>
-                <p className="muted" style={{ fontSize: '24px', lineHeight: '1.4', opacity: 0.9 }}>
-                  You're already signed up! No need to register twice.
-                </p>
-                <div className="sp-8"></div>
-                <p className="muted" style={{ fontSize: '20px', lineHeight: '1.4', opacity: 0.8 }}>
-                  We'll be in touch soon with your invite to experience a smarter way to control your climate. 🎉
-                </p>
-              </>
-            ) : (
-              <h2 className="muted" style={{ fontSize: '40px', lineHeight: '1.2' }}>
-                Thanks for joining the Therma waitlist.
-                <br/>
-                We'll be in touch soon with your invite to experience a smarter way to control your climate.
-              </h2>
-            )}
+            <h2 className="muted" style={{ fontSize: '40px', lineHeight: '1.2' }}>
+              This email address is already on our waitlist.
+            </h2>
+            <div className="sp-8"></div>
+            <p className="muted" style={{ fontSize: '24px', lineHeight: '1.4', opacity: 0.9 }}>
+              {email && (
+                <>
+                  <strong>{email}</strong> is already registered.
+                  <br />
+                  <br />
+                </>
+              )}
+              No need to sign up twice—you're all set! 🎉
+            </p>
+            <div className="sp-8"></div>
+            <p className="muted" style={{ fontSize: '20px', lineHeight: '1.4', opacity: 0.8 }}>
+              We'll be in touch soon with your invite to experience a smarter way to control your climate.
+            </p>
             <div className="sp-16"></div>
             <h3 className="muted" style={{ fontSize: '28px', lineHeight: '1.3' }}>
               In the meantime, follow us for sneak peeks and launch updates:
@@ -103,3 +94,4 @@ export default function ThankYouPage() {
     </>
   );
 }
+

@@ -11,12 +11,14 @@ export default function HomePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || isSubmitting) return; // Prevent double submission
 
     setIsSubmitting(true);
     setStatus('');
 
     try {
+      console.log('📧 Submitting email:', email);
+      
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
@@ -31,29 +33,96 @@ export default function HomePage() {
         })
       });
 
-      const result = await response.json();
-      console.log('Subscription response:', result);
+      console.log('📡 Response status:', response.status);
+      
+      let result;
+      try {
+        result = await response.json();
+        console.log('📦 Response data:', result);
+        console.log('🔍 Is duplicate?', result.duplicate);
+      } catch (parseError) {
+        console.error('❌ Failed to parse response:', parseError);
+        const text = await response.text();
+        console.error('Raw response:', text);
+        setIsSubmitting(false);
+        setStatus('error');
+        return; // Stop here if we can't parse
+      }
+
+      // Handle 409 status (duplicate) - MUST return early to stop processing
+      if (response.status === 409) {
+        console.log('🚫 DUPLICATE DETECTED - Stopping submission immediately');
+        console.log('   Status: 409 Conflict');
+        console.log('   Duplicate flag:', result.duplicate);
+        console.log('   Response data:', result);
+        
+        // Set duplicate status and stop immediately
+        setStatus('duplicate');
+        setIsSubmitting(false); // Re-enable form immediately
+        localStorage.setItem('therma_submitted_email', email);
+        localStorage.setItem('therma_is_duplicate', 'true');
+        
+        // Redirect immediately to already-registered page
+        console.log('🔄 Redirecting to /already-registered page');
+        // Use window.location for immediate redirect
+        window.location.href = '/already-registered';
+        
+        return; // CRITICAL: Stop here, don't continue processing
+      }
 
       if (!response.ok) {
-        if (response.status === 409 && result.duplicate) {
-          // Handle duplicate email gracefully
-          console.log('Email already exists:', result.message);
+        // Also check if the error message indicates duplicate
+        if (result.message && (
+          result.message.toLowerCase().includes('already') || 
+          result.message.toLowerCase().includes('duplicate') ||
+          result.message.toLowerCase().includes('exists')
+        )) {
+          console.log('✅ Duplicate detected via error message:', result.message);
+          setStatus('duplicate');
           localStorage.setItem('therma_submitted_email', email);
-          router.push('/thank-you');
+          localStorage.setItem('therma_is_duplicate', 'true');
+          // Redirect immediately
+          window.location.href = '/already-registered';
           return;
         }
-        throw new Error(result.error || `Server error: ${response.status}`);
+        throw new Error(result.error || result.message || `Server error: ${response.status}`);
       }
       
-      // Store email for thank you page
-      localStorage.setItem('therma_submitted_email', email);
+      // Only process success if status is 200/201 (not 409)
+      if (response.status === 200 || response.status === 201) {
+        // Clear duplicate flag for successful new subscriptions
+        localStorage.removeItem('therma_is_duplicate');
+        
+        // Store email for thank you page
+        localStorage.setItem('therma_submitted_email', email);
+        
+        // Redirect to thank you page using Next.js router
+        router.push('/thank-you');
+      } else {
+        // Unexpected success status - log it
+        console.warn('⚠️ Unexpected success status:', response.status);
+        setStatus('error');
+        setIsSubmitting(false);
+      }
       
-      // Redirect to thank you page using Next.js router
-      router.push('/thank-you');
-      
-    } catch (err) {
+    } catch (err: any) {
       console.error('Form submission error:', err);
-      setStatus('error');
+      console.error('Error message:', err?.message);
+      // Check if error message indicates duplicate
+      const errorMsg = err?.message || '';
+      if (errorMsg.toLowerCase().includes('already') || 
+          errorMsg.toLowerCase().includes('duplicate') ||
+          errorMsg.toLowerCase().includes('exists')) {
+        console.log('✅ Duplicate detected via catch block:', errorMsg);
+        setStatus('duplicate');
+        localStorage.setItem('therma_submitted_email', email);
+        localStorage.setItem('therma_is_duplicate', 'true');
+        setTimeout(() => {
+          router.push('/already-registered');
+        }, 2000);
+      } else {
+        setStatus('error');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -139,13 +208,25 @@ export default function HomePage() {
                   {isSubmitting ? 'Submitting…' : 'Join Waitlist'}
                 </button>
               </div>
-              <div 
-                className={`status-message ${status === 'success' ? 'success' : status === 'error' ? 'error' : ''}`}
-                role="status"
-              >
-                {status === 'success' && 'Thank you! You\'ve been added to the waitlist.'}
-                {status === 'error' && 'Something went wrong. Please try again.'}
-              </div>
+              {(status === 'success' || status === 'error' || status === 'duplicate') && (
+                <div 
+                  className={`status-message ${status === 'success' ? 'success' : status === 'error' ? 'error' : status === 'duplicate' ? 'duplicate' : ''}`}
+                  role="status"
+                  style={{ 
+                    marginTop: '12px',
+                    padding: '16px',
+                    borderRadius: '8px',
+                    backgroundColor: status === 'duplicate' ? 'rgba(251, 191, 36, 0.15)' : 'transparent',
+                    border: status === 'duplicate' ? '2px solid #fbbf24' : 'none',
+                    fontSize: '16px',
+                    fontWeight: status === 'duplicate' ? '500' : 'normal'
+                  }}
+                >
+                  {status === 'success' && '✅ Thank you! You\'ve been added to the waitlist.'}
+                  {status === 'error' && '❌ Something went wrong. Please try again.'}
+                  {status === 'duplicate' && '⚠️ This email is already registered. Redirecting...'}
+                </div>
+              )}
             </form>
           </div>
         </section>
