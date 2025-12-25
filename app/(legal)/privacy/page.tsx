@@ -1,10 +1,3 @@
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Privacy Policy · Therma',
-  description: 'How Therma collects, uses, and protects your data. We don\'t sell data and use strong safeguards and HIPAA‑eligible cloud services.',
-};
-
 export default function PrivacyPage() {
   return (
     <main style={{ padding: '2rem 1.25rem', maxWidth: 800, margin: '0 auto' }}>

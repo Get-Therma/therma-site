@@ -1,20 +1,10 @@
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background gradient -->
   <defs>
-    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
-      <stop offset="0%" style="stop-color:#ffb3a7;stop-opacity:1" />
-      <stop offset="25%" style="stop-color:#ffe0a3;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#d4a5f5;stop-opacity:1" />
-      <stop offset="75%" style="stop-color:#ffb3d1;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#ffb3a7;stop-opacity:1" />
-    </radialGradient>
+    <linearGradient id="paint0_linear_logo" x1="0" y1="40" x2="40" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F5E6D3"/>
+      <stop offset="100%" stop-color="#FFF8E7"/>
+    </linearGradient>
   </defs>
-  
-  <!-- Background -->
-  <rect width="40" height="40" rx="20" fill="url(#bg)"/>
-  
-  <!-- "Th" letters in white serif -->
-  <text x="20" y="28" font-family="serif" font-size="22" font-weight="normal" text-anchor="middle" fill="white">
-    Th
-  </text>
+  <rect width="40" height="40" rx="10" fill="url(#paint0_linear_logo)"/>
+  <text x="20" y="27" font-family="Georgia, 'Times New Roman', serif" font-size="19" font-weight="normal" text-anchor="middle" fill="#2D5016" style="font-style: normal; letter-spacing: 0.3px;">Th</text>
 </svg>

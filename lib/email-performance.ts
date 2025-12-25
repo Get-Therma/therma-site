@@ -40,7 +40,8 @@ export async function sendOptimizedEmail(
         from: `${domainConfig.fromName} <${domainConfig.fromEmail}>`,
         to: [to],
         subject,
-        react: html // Use react for React components
+        react: html, // Use react for React components
+        replyTo: 'support@gettherma.ai' // Replies go to this address
       });
 
       const duration = Date.now() - startTime;

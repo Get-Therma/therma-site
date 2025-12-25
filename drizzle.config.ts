@@ -5,11 +5,7 @@ export default defineConfig({
   out: './drizzle',
   dialect: 'postgresql',
   dbCredentials: {
-    host: 'db.ooaqigzgvrmyomfbdygz.supabase.co',
-    port: 5432,
-    database: 'postgres',
-    username: 'postgres',
-    password: 'Theartistpass123!',
-    ssl: true,
+    url: 'postgresql://postgres:TeamTherma123!@db.ooaqigzgvrmyomfbdygz.supabase.co:5432/postgres',
+    ssl: { rejectUnauthorized: false },
   },
 });

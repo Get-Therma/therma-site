@@ -26,7 +26,28 @@ export default function HomePage() {
 
       const data = await response.json();
       
+      if (!response.ok) {
+        if (response.status === 409 && data.duplicate) {
+          // Handle duplicate - show message then redirect to thank you page
+          setStatus('duplicate');
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('therma_submitted_email', email);
+            localStorage.setItem('therma_is_duplicate', 'true');
+            setTimeout(() => {
+              window.location.href = '/already-registered';
+            }, 2000);
+          }
+          return;
+        }
+        setStatus('error');
+        return;
+      }
+      
       if (data.ok) {
+        // Clear duplicate flag for successful new subscriptions
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('therma_is_duplicate');
+        }
         setStatus('success');
         setEmail('');
       } else {
@@ -67,6 +88,12 @@ export default function HomePage() {
           {status === 'success' && (
             <p style={{ color: 'green', marginTop: '16px' }}>
               ✅ Successfully joined the waitlist!
+            </p>
+          )}
+          
+          {status === 'duplicate' && (
+            <p style={{ color: '#fbbf24', marginTop: '16px', fontWeight: 500 }}>
+              ⚠️ This email is already on our waitlist. Redirecting...
             </p>
           )}
           

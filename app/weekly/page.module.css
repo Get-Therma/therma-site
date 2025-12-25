@@ -1,0 +1,247 @@
+.hero {
+  margin-top: 3.5rem;
+  margin-bottom: 4rem;
+}
+
+.heroInner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.heroBrandRow {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.heroTitle {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: clamp(2.4rem, 3vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #1A3A2A;
+  text-transform: uppercase;
+}
+
+.heroTagline {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 400;
+  opacity: 0.8;
+  color: #1A3A2A;
+}
+
+.heroShell {
+  display: flex;
+  gap: 1.75rem;
+  align-items: stretch;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+  border-radius: 2.25rem;
+  background: #F5F1E3;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.65);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Grain texture overlay */
+.heroShell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+}
+
+.heroVolumeColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.1rem;
+  flex: 0 0 140px;
+  position: relative;
+  z-index: 2;
+}
+
+.volumePill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.25rem;
+  border-radius: 999px;
+  border: 2px solid rgba(26, 58, 42, 0.3);
+  box-shadow: 
+    0 8px 0 rgba(0, 0, 0, 0.25),
+    0 2px 4px rgba(0, 0, 0, 0.15);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 700;
+  color: #1A3A2A;
+  background: #ECC94B;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  position: relative;
+}
+
+.heroVolumeColumn .volumePill:nth-child(1) {
+  background: #E53E3E;
+  color: #F5F1E3;
+  border-color: rgba(26, 58, 42, 0.2);
+}
+
+.heroVolumeColumn .volumePill:nth-child(2) {
+  background: #4299E1;
+  color: #F5F1E3;
+  border-color: rgba(26, 58, 42, 0.2);
+}
+
+.heroVolumeColumn .volumePill:nth-child(3) {
+  background: #ECC94B;
+  color: #1A3A2A;
+  border-color: rgba(26, 58, 42, 0.3);
+}
+
+.volumePill:hover {
+  transform: translateY(4px);
+  box-shadow: 
+    0 4px 0 rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+  filter: brightness(1.05) saturate(1.1);
+}
+
+.volumePillLabel {
+  white-space: nowrap;
+}
+
+.heroCover {
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.heroCoverInner {
+  background: #F5F1E3;
+  border-radius: 1.75rem;
+  padding: 2.25rem 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  min-height: 100%;
+  border: 2px solid rgba(26, 58, 42, 0.1);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  position: relative;
+}
+
+/* Subtle grain on cover card */
+.heroCoverInner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: 1.75rem;
+  mix-blend-mode: multiply;
+}
+
+.heroCoverHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.heroCoverLogo {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #1A3A2A;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.heroCoverSub {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #1A3A2A;
+  opacity: 0.7;
+}
+
+.heroCoverImageWrapper {
+  position: relative;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  height: 260px;
+}
+
+.heroCoverImage {
+  object-fit: cover;
+  filter: contrast(1.05) saturate(1.1);
+}
+
+.heroCoverOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 60%);
+  z-index: 1;
+}
+
+.heroCoverOverlayText {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #F5F1E3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.heroCoverImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 0%, #f7c56e, #201726 55%, #111826 100%);
+}
+
+.heroCoverCaption {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(26, 58, 42, 0.8);
+}
+
+@media (max-width: 960px) {
+  .heroShell {
+    flex-direction: column;
+    padding: 1.75rem 1.5rem;
+  }
+
+  .heroVolumeColumn {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .volumePill {
+    min-width: 120px;
+  }
+
+  .heroCoverInner {
+    padding: 1.75rem 1.5rem 1.5rem;
+  }
+}
+

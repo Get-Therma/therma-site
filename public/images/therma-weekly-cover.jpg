@@ -1,0 +1,87 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="accent1" cx="20%" cy="20%" r="60%">
+      <stop offset="0%" style="stop-color:#FF5920;stop-opacity:0.8" />
+      <stop offset="30%" style="stop-color:#FF5920;stop-opacity:0.3" />
+      <stop offset="60%" style="stop-color:#FF5920;stop-opacity:0" />
+    </radialGradient>
+    <radialGradient id="accent2" cx="80%" cy="30%" r="50%">
+      <stop offset="0%" style="stop-color:#FCB200;stop-opacity:0.7" />
+      <stop offset="30%" style="stop-color:#FCB200;stop-opacity:0.2" />
+      <stop offset="60%" style="stop-color:#FCB200;stop-opacity:0" />
+    </radialGradient>
+    <radialGradient id="accent3" cx="30%" cy="70%" r="60%">
+      <stop offset="0%" style="stop-color:#830698;stop-opacity:0.6" />
+      <stop offset="30%" style="stop-color:#830698;stop-opacity:0.2" />
+      <stop offset="60%" style="stop-color:#830698;stop-opacity:0" />
+    </radialGradient>
+    <radialGradient id="accent4" cx="70%" cy="80%" r="50%">
+      <stop offset="0%" style="stop-color:#7CA2FD;stop-opacity:0.7" />
+      <stop offset="30%" style="stop-color:#7CA2FD;stop-opacity:0.2" />
+      <stop offset="60%" style="stop-color:#7CA2FD;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Accent gradients -->
+  <rect width="1200" height="630" fill="url(#accent1)"/>
+  <rect width="1200" height="630" fill="url(#accent2)"/>
+  <rect width="1200" height="630" fill="url(#accent3)"/>
+  <rect width="1200" height="630" fill="url(#accent4)"/>
+  
+  <!-- Main logo -->
+  <circle cx="200" cy="200" r="80" fill="#6366F1"/>
+  <path d="M160 160h80v20h-30v60h-20V180h-30v-20z" fill="white"/>
+  <circle cx="280" cy="160" r="8" fill="rgba(255,255,255,0.3)"/>
+  
+  <!-- Title -->
+  <text x="350" y="180" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white">
+    Therma
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="350" y="240" font-family="Arial, sans-serif" font-size="32" fill="rgba(255,255,255,0.8)">
+    Habit Tracker for Energy, Clarity &amp; Confidence
+  </text>
+  
+  <!-- Description -->
+  <text x="350" y="300" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.7)">
+    Discover patterns in your daily life and optimize your routine
+  </text>
+  
+  <!-- Pattern visualization -->
+  <g opacity="0.3">
+    <!-- Pattern dots -->
+    <circle cx="800" cy="150" r="4" fill="#6366F1"/>
+    <circle cx="850" cy="180" r="3" fill="#FF5920"/>
+    <circle cx="900" cy="120" r="5" fill="#FCB200"/>
+    <circle cx="950" cy="200" r="2" fill="#830698"/>
+    <circle cx="1000" cy="160" r="4" fill="#7CA2FD"/>
+    
+    <!-- Connecting lines -->
+    <line x1="800" y1="150" x2="850" y2="180" stroke="#6366F1" stroke-width="2" opacity="0.5"/>
+    <line x1="850" y1="180" x2="900" y2="120" stroke="#FF5920" stroke-width="2" opacity="0.5"/>
+    <line x1="900" y1="120" x2="950" y2="200" stroke="#FCB200" stroke-width="2" opacity="0.5"/>
+    <line x1="950" y1="200" x2="1000" y2="160" stroke="#830698" stroke-width="2" opacity="0.5"/>
+  </g>
+  
+  <!-- Bottom text -->
+  <text x="100" y="580" font-family="Arial, sans-serif" font-size="20" fill="rgba(255,255,255,0.6)">
+    Join the waitlist at therma.one
+  </text>
+</svg>
+
+
+
+
+
+
+

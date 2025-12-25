@@ -10,21 +10,21 @@ export interface DomainConfig {
 export const DOMAIN_CONFIGS: DomainConfig[] = [
   {
     domain: 'therma.one',
-    fromEmail: 'hello@therma.one',
+    fromEmail: 'support@gettherma.ai',
     fromName: 'Therma',
     verified: true, // Fastest domain - 268ms
     priority: 1
   },
   {
     domain: 'get-therma.com',
-    fromEmail: 'hello@get-therma.com',
+    fromEmail: 'support@gettherma.ai',
     fromName: 'Therma',
     verified: true, // Second fastest - 283ms
     priority: 2
   },
   {
     domain: 'gettherma.ai',
-    fromEmail: 'hello@gettherma.ai',
+    fromEmail: 'support@gettherma.ai',
     fromName: 'Therma',
     verified: true, // Third fastest - 406ms
     priority: 3
