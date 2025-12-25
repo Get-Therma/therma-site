@@ -32,7 +32,12 @@ export const metadata: Metadata = {
     title: 'Therma – Habit Tracker for Energy, Clarity & Confidence',
     description:
       'Therma turns your daily habits into actionable insights to optimize your routine for more energy, clarity & confidence. Join our waitlist for early access.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Therma pattern maps' }],
+    images: [{ 
+      url: 'https://www.therma.one/og-image.png', 
+      width: 1200, 
+      height: 630, 
+      alt: 'Therma' 
+    }],
     siteName: 'Therma'
   },
   twitter: {
@@ -40,7 +45,7 @@ export const metadata: Metadata = {
     title: 'Therma – Habit Tracker for Energy, Clarity & Confidence',
     description:
       'Therma turns your daily habits into actionable insights to optimize your routine for more energy, clarity & confidence.',
-    images: ['/og-image.png'],
+    images: ['https://www.therma.one/og-image.png'],
     creator: '@therma'
   },
   robots: { index: true, follow: true },
