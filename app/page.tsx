@@ -122,31 +122,24 @@ export default function HomePage() {
 
       <main className="coming-soon-main">
         <section className="coming-soon-content">
-          {/* Centered Logo */}
+          {/* Centered Logo - Main Focal Point */}
           <div className="coming-soon-logo">
             <Image
               src="/therma-logo.svg"
               alt="Therma Logo"
-              width={120}
-              height={120}
+              width={180}
+              height={180}
               priority
               style={{
                 width: 'auto',
                 height: 'auto',
-                maxWidth: '120px',
-                maxHeight: '120px',
+                maxWidth: '180px',
+                maxHeight: '180px',
               }}
             />
           </div>
 
           <div className="sp-48"></div>
-
-          {/* Bold Hook */}
-          <h1 className="coming-soon-hook">
-            Unlock daily clarity with AI-guided reflections. Join the waitlist for early access to Therma.
-          </h1>
-
-          <div className="sp-40"></div>
 
           {/* Email Signup Form */}
           <form className="coming-soon-form" onSubmit={handleSubmit}>
