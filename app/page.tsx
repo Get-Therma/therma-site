@@ -162,6 +162,29 @@ export default function HomePage() {
             </p>
           </div>
 
+          {/* Benefits Section - Skimmable Content */}
+          <div className="coming-soon-benefits">
+            <ul className="benefits">
+              <li>AI-guided daily reflections to detect energy patterns</li>
+              <li>Optimize habits for clarity and confidence</li>
+              <li>Just 2 minutes a day—mindful and non-judgmental</li>
+            </ul>
+            
+            <p className="coming-soon-description">
+              Therma is an AI habit tracker designed to help you understand your daily patterns. Through mindful journaling and daily reflections, our AI companion guides you to discover what impacts your energy and mood. This mental clarity app uses pattern recognition to reveal insights about your routines, helping you optimize your habits for better well-being.
+            </p>
+            
+            <p className="coming-soon-description">
+              Our approach combines energy optimization techniques with AI-powered insights. Each reflection session takes just 2 minutes, making it easy to build a consistent practice. Whether you're tracking mood patterns or seeking mental clarity, Therma provides a supportive, non-judgmental space for self-discovery.
+            </p>
+            
+            <p className="coming-soon-description">
+              Unlike traditional habit tracking apps, Therma focuses on the connection between your daily activities and your energy levels. Our AI habit tracker analyzes patterns in your mood, routines, and energy fluctuations to provide personalized insights. This energy optimization approach helps you make informed decisions about your daily habits, leading to improved mental clarity and confidence.
+            </p>
+          </div>
+
+          <div className="sp-40" style={{ margin: '2em 0' }}></div>
+
           {/* Email Signup Form */}
           <form className="coming-soon-form" onSubmit={handleSubmit} aria-label="Join Therma waitlist">
             <div className="coming-soon-input-wrapper">
@@ -203,6 +226,16 @@ export default function HomePage() {
               </p>
             )}
           </form>
+
+          {/* E-E-A-T Section */}
+          <div className="coming-soon-eat">
+            <p className="coming-soon-trust">
+              Backed by mindfulness research—HIPAA-compliant for your privacy.
+            </p>
+            <p className="coming-soon-trust-sub">
+              Therma is built on evidence-based mindfulness practices and follows strict privacy standards. Your daily reflections and personal data are protected with enterprise-grade security, ensuring your journey toward energy optimization and mental clarity remains private and secure.
+            </p>
+          </div>
         </article>
       </main>
 

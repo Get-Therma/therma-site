@@ -2955,6 +2955,109 @@ html {
   }
 }
 
+/* Benefits Section - Skimmable Content */
+.coming-soon-benefits {
+  max-width: 700px;
+  width: 100%;
+  margin: 2em auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.benefits {
+  list-style-type: disc;
+  max-width: 600px;
+  margin: 0 auto 1.5em auto;
+  padding-left: 1.5em;
+  text-align: left;
+}
+
+.benefits li {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 0.75em;
+  padding-left: 0.5em;
+}
+
+.benefits li:last-child {
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .benefits {
+    padding-left: 2em;
+  }
+  
+  .benefits li {
+    font-size: 17px;
+    line-height: 1.9;
+  }
+}
+
+.coming-soon-description {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 auto 1.25em auto;
+  text-align: left;
+  max-width: 600px;
+}
+
+.coming-soon-description:last-of-type {
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .coming-soon-description {
+    font-size: 17px;
+    line-height: 1.8;
+  }
+}
+
+/* E-E-A-T Section */
+.coming-soon-eat {
+  max-width: 700px;
+  width: 100%;
+  margin: 3em auto 2em auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.coming-soon-trust {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 auto 1em auto;
+  font-weight: 600;
+  max-width: 600px;
+}
+
+.coming-soon-trust-sub {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+@media (min-width: 768px) {
+  .coming-soon-trust {
+    font-size: 17px;
+    line-height: 1.8;
+  }
+  
+  .coming-soon-trust-sub {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+}
+
 .coming-soon-error {
   color: rgba(255, 255, 255, 0.95);
   font-size: 14px;
