@@ -146,16 +146,17 @@ export default function HomePage() {
 
       <main id="main-content" className="coming-soon-main" role="main">
         <article className="coming-soon-content" aria-labelledby="therma-logo">
-          {/* Centered Logo - Main Focal Point */}
-          <header className="coming-soon-logo">
-            <h1 id="therma-logo" className="therma-logo-text">Therma</h1>
-            <p className="sr-only">AI-Guided Reflections for Daily Clarity - Join the waitlist for the mindful habit tracker that unlocks patterns in energy and mood</p>
-          </header>
+          {/* Logo and Form Group - Centered Together */}
+          <div className="coming-soon-logo-form-group">
+            <header className="coming-soon-logo">
+              <h1 id="therma-logo" className="therma-logo-text">Therma</h1>
+              <p className="sr-only">AI-Guided Reflections for Daily Clarity - Join the waitlist for the mindful habit tracker that unlocks patterns in energy and mood</p>
+            </header>
 
-          <div className="sp-48" style={{ margin: '2em 0' }}></div>
+            <div className="sp-48"></div>
 
-          {/* Email Signup Form */}
-          <form className="coming-soon-form" onSubmit={handleSubmit} aria-label="Join Therma waitlist">
+            {/* Email Signup Form */}
+            <form className="coming-soon-form" onSubmit={handleSubmit} aria-label="Join Therma waitlist">
             <div className="coming-soon-input-wrapper">
               <label htmlFor="email" className="coming-soon-label">
                 <span className="sr-only">Enter your email address</span>
@@ -195,6 +196,7 @@ export default function HomePage() {
               </p>
             )}
           </form>
+          </div>
         </article>
       </main>
 

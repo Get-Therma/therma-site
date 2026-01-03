@@ -2663,11 +2663,21 @@ html {
   }
 }
 
+.coming-soon-logo-form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .coming-soon-logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 0 1.5em 0; /* Reduced spacing for vertical centering */
+  margin: 0;
   width: 100%;
   box-sizing: border-box;
   padding: 0 16px;
@@ -2676,7 +2686,6 @@ html {
 @media (min-width: 768px) {
   .coming-soon-logo {
     padding: 0 24px;
-    margin: 0 0 2em 0;
   }
 }
 
