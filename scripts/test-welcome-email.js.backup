@@ -1,0 +1,91 @@
+#!/usr/bin/env node
+
+/**
+ * Test Welcome Email Template
+ * 
+ * This script sends a test of the actual welcome email template
+ */
+
+// Load environment variables from .env.local
+require('dotenv').config({ path: '.env.local' });
+
+const { Resend } = require('resend');
+const React = require('react');
+
+// Import the email template (we'll use the compiled version)
+const { ThankYouEmailTemplate } = require('../lib/email-templates.tsx');
+
+async function testWelcomeEmail() {
+  console.log('📧 Testing Welcome Email Template...\n');
+
+  // Get email from command line argument or prompt
+  let testEmail = process.argv[2];
+
+  if (!testEmail) {
+    // Prompt for email address if not provided
+    const readline = require('readline').createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+
+    await new Promise((resolve) => {
+      readline.question('Enter your email address to receive the test: ', (email) => {
+        testEmail = email;
+        readline.close();
+        resolve();
+      });
+    });
+  }
+
+  // Validate email
+  if (!testEmail || !testEmail.includes('@')) {
+    console.error('❌ Invalid email address');
+    return;
+  }
+
+  // Check environment variables
+  const apiKey = process.env.RESEND_API_KEY;
+
+  if (!apiKey) {
+    console.error('❌ Missing RESEND_API_KEY environment variable');
+    console.error('\n📝 Please set up your .env.local file with:');
+    console.error('   RESEND_API_KEY="your_resend_api_key"');
+    return;
+  }
+
+  console.log('\n✅ RESEND_API_KEY found');
+  console.log(`📤 Sending welcome email to: ${testEmail}\n`);
+
+  try {
+    const resend = new Resend(apiKey);
+
+    // Create the React component
+    const emailComponent = React.createElement(ThankYouEmailTemplate, { email: testEmail });
+
+    // Use Resend's react prop for React components
+    const emailResult = await resend.emails.send({
+      from: 'Therma <hello@therma.one>',
+      to: [testEmail],
+      subject: 'Welcome to Therma! 🌿',
+      react: emailComponent
+    });
+
+    console.log('✅ Welcome email sent successfully!');
+    console.log('📊 Email ID:', emailResult.data?.id);
+    console.log('\n🎉 Check your inbox to see the new welcome email!');
+    console.log('   (Check spam folder if you don\'t see it)\n');
+
+  } catch (error) {
+    console.error('❌ Error sending email:', error.message);
+    console.error('\n🔍 Troubleshooting:');
+    console.error('   1. Verify your API key is correct');
+    console.error('   2. Check that therma.one domain is verified in Resend');
+    console.error('   3. Try using a different "from" domain if available');
+    console.error('\n📋 Full error:', error);
+  }
+}
+
+// Run the test
+testWelcomeEmail().catch(console.error);
+
+
