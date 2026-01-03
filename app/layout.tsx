@@ -7,11 +7,12 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
   title: {
-    default: 'Therma – Habit Tracker for Energy, Clarity & Confidence',
+    default: 'Therma – AI Habit Tracker & Guided Reflections',
     template: '%s · Therma'
   },
   description:
-    'Therma turns your daily habits into actionable insights to optimize your routine for more energy, clarity & confidence. Join our waitlist for early access.',
+    'Unlock daily clarity with AI-guided reflections. Therma is an AI habit tracker that helps you discover patterns and optimize your routine. Join the waitlist for early access.',
+  keywords: ['AI habit tracker', 'habit tracking', 'AI reflections', 'mindfulness app', 'daily reflections', 'AI companion', 'habit optimization', 'self-reflection tool'],
   alternates: { canonical: '/' },
   icons: {
     icon: [
@@ -31,22 +32,22 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://www.therma.one/',
-    title: 'Therma – Habit Tracker for Energy, Clarity & Confidence',
+    title: 'Therma – AI Habit Tracker & Guided Reflections',
     description:
-      'Therma turns your daily habits into actionable insights to optimize your routine for more energy, clarity & confidence. Join our waitlist for early access.',
+      'Unlock daily clarity with AI-guided reflections. Join the waitlist for early access to Therma, an AI habit tracker that helps you discover patterns and optimize your routine.',
     images: [{ 
       url: 'https://www.therma.one/og-image.png', 
       width: 1200, 
       height: 630, 
-      alt: 'Therma' 
+      alt: 'Therma - AI Habit Tracker' 
     }],
     siteName: 'Therma'
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Therma – Habit Tracker for Energy, Clarity & Confidence',
+    title: 'Therma – AI Habit Tracker & Guided Reflections',
     description:
-      'Therma turns your daily habits into actionable insights to optimize your routine for more energy, clarity & confidence.',
+      'Unlock daily clarity with AI-guided reflections. Join the waitlist for early access to Therma.',
     images: ['https://www.therma.one/og-image.png'],
     creator: '@therma'
   },
