@@ -2624,8 +2624,8 @@ html {
 
 /* Mobile-first: Base styles for small screens */
 .coming-soon-main {
-  min-height: 100vh;
-  min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  min-height: 80vh;
+  min-height: 80dvh; /* Dynamic viewport height for mobile browsers */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2637,13 +2637,14 @@ html {
 
 @media (min-width: 768px) {
   .coming-soon-main {
+    min-height: 80vh;
     padding: 80px 24px 120px;
   }
 }
 
 /* Mobile-first: Content container */
 .coming-soon-content {
-  max-width: 600px;
+  max-width: 700px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -2651,13 +2652,14 @@ html {
   text-align: center;
   box-sizing: border-box;
   padding: 0 16px;
-  margin: 2em auto; /* Generous spacing */
+  margin: 0 auto;
+  justify-content: center;
 }
 
 @media (min-width: 768px) {
   .coming-soon-content {
     padding: 0 24px;
-    margin: 2em auto;
+    max-width: 800px;
   }
 }
 
@@ -2665,7 +2667,7 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2em 0; /* Generous spacing */
+  margin: 0 0 1.5em 0; /* Reduced spacing for vertical centering */
   width: 100%;
   box-sizing: border-box;
   padding: 0 16px;
@@ -2674,7 +2676,54 @@ html {
 @media (min-width: 768px) {
   .coming-soon-logo {
     padding: 0 24px;
-    margin: 2em 0;
+    margin: 0 0 2em 0;
+  }
+}
+
+.coming-soon-hook-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 2em 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.coming-soon-hook-main {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #FFFFFF;
+  margin: 0 0 0.75em 0;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+@media (min-width: 768px) {
+  .coming-soon-hook-main {
+    font-size: 42px;
+    line-height: 1.2;
+    margin: 0 0 1em 0;
+  }
+}
+
+.coming-soon-hook-sub {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  text-align: center;
+  font-weight: 400;
+  max-width: 600px;
+}
+
+@media (min-width: 768px) {
+  .coming-soon-hook-sub {
+    font-size: 20px;
+    line-height: 1.7;
   }
 }
 
@@ -2722,14 +2771,14 @@ html {
   flex-direction: column;
   gap: 16px;
   box-sizing: border-box;
-  margin: 2em 0; /* Generous spacing */
+  margin: 2em 0 0 0; /* Spacing above form */
 }
 
 @media (max-width: 767px) {
   .coming-soon-form {
     max-width: 100%;
     gap: 20px;
-    margin: 2em 0;
+    margin: 2em 0 0 0;
   }
 }
 
@@ -2866,6 +2915,7 @@ html {
   }
 }
 
+/* Legacy class - keeping for backwards compatibility if needed */
 .coming-soon-subheadline {
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 18px;

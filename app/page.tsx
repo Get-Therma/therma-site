@@ -152,14 +152,15 @@ export default function HomePage() {
             <p className="sr-only">AI-Guided Reflections for Daily Clarity - Join the waitlist for the mindful habit tracker that unlocks patterns in energy and mood</p>
           </header>
 
-          <div className="sp-48" style={{ margin: '2em 0' }}></div>
-
-          {/* Subheadline */}
-          <p className="coming-soon-subheadline">
-            Discover patterns in your energy. <span className="ai-emphasis">AI-guided reflections</span> for lasting clarity—join the waitlist.
-          </p>
-
-          <div className="sp-40" style={{ margin: '2em 0' }}></div>
+          {/* Hook Text - Vertically Centered */}
+          <div className="coming-soon-hook-container">
+            <h2 className="coming-soon-hook-main">
+              Discover patterns in your energy.
+            </h2>
+            <p className="coming-soon-hook-sub">
+              <span className="ai-emphasis">AI-guided reflections</span> for lasting clarity—join the waitlist.
+            </p>
+          </div>
 
           {/* Email Signup Form */}
           <form className="coming-soon-form" onSubmit={handleSubmit} aria-label="Join Therma waitlist">
