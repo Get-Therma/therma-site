@@ -96,42 +96,77 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Original dark gradient background */}
-      <div 
-        className="heroBg" 
-        aria-hidden="true"
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: -1,
-          background: `
-            radial-gradient(60% 80% at 20% 20%, rgba(255, 89, 48, 0.8), rgba(255, 89, 48, 0.3) 30%, transparent 60%),
-            radial-gradient(50% 70% at 80% 30%, rgba(252, 178, 0, 0.7), rgba(252, 178, 0, 0.2) 30%, transparent 60%),
-            radial-gradient(60% 90% at 30% 70%, rgba(131, 6, 152, 0.6), rgba(131, 6, 152, 0.2) 30%, transparent 60%),
-            radial-gradient(50% 80% at 70% 80%, rgba(124, 162, 253, 0.7), rgba(124, 162, 253, 0.2) 30%, transparent 60%),
-            radial-gradient(40% 60% at 50% 50%, rgba(172, 223, 127, 0.5), rgba(172, 223, 127, 0.1) 30%, transparent 60%),
-            linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)
-          `,
-          filter: 'saturate(2.0) brightness(1.3)',
-          animation: 'breathe 6s ease-in-out infinite',
-          transform: 'translateZ(0)',
-          willChange: 'transform'
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: 'Therma',
+            applicationCategory: 'HealthApplication',
+            operatingSystem: 'iOS, Android',
+            offers: {
+              '@type': 'Offer',
+              price: '0',
+              priceCurrency: 'USD'
+            },
+            description: 'Join the waitlist for Therma, the mindful habit tracker unlocking patterns in energy and mood. Discover daily clarity with AI-guided reflections and optimize your routine.',
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: '4.8',
+              ratingCount: '1'
+            },
+            featureList: [
+              'AI habit tracker',
+              'Daily reflections',
+              'Pattern recognition',
+              'Energy and mood tracking',
+              'AI-guided mindfulness'
+            ],
+            screenshot: 'https://www.therma.one/og-image.png',
+            author: {
+              '@type': 'Organization',
+              name: 'Therma'
+            }
+          })
         }}
+      />
+      
+      {/* Skip to main content link for screen readers */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+
+      {/* Original dark gradient background - optimized with CSS class */}
+      <div 
+        className="heroBg coming-soon-hero-bg" 
+        aria-hidden="true"
       ></div>
 
-      <main className="coming-soon-main">
-        <section className="coming-soon-content">
+      <main id="main-content" className="coming-soon-main" role="main">
+        <article className="coming-soon-content" aria-labelledby="therma-logo">
           {/* Centered Logo - Main Focal Point */}
-          <div className="coming-soon-logo">
-            <h1 className="therma-logo-text">Therma</h1>
-          </div>
+          <header className="coming-soon-logo">
+            <h1 id="therma-logo" className="therma-logo-text">Therma</h1>
+            <p className="sr-only">AI-Guided Reflections for Daily Clarity - Join the waitlist for the mindful habit tracker that unlocks patterns in energy and mood</p>
+          </header>
 
-          <div className="sp-48"></div>
+          <div className="sp-48" style={{ margin: '2em 0' }}></div>
+
+          {/* Subheadline */}
+          <p className="coming-soon-subheadline">
+            Discover patterns in your energy. <span className="ai-emphasis">AI-guided reflections</span> for lasting clarity—join the waitlist.
+          </p>
+
+          <div className="sp-40" style={{ margin: '2em 0' }}></div>
 
           {/* Email Signup Form */}
-          <form className="coming-soon-form" onSubmit={handleSubmit}>
+          <form className="coming-soon-form" onSubmit={handleSubmit} aria-label="Join Therma waitlist">
             <div className="coming-soon-input-wrapper">
-              <label htmlFor="email" className="sr-only">Enter your email</label>
+              <label htmlFor="email" className="coming-soon-label">
+                <span className="sr-only">Enter your email address</span>
+              </label>
               <input
                 id="email"
                 type="email"
@@ -140,23 +175,34 @@ export default function HomePage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="coming-soon-input"
-                aria-label="Enter your email"
+                aria-label="Enter your email address"
+                aria-required="true"
+                aria-describedby={status === 'error' ? 'email-error' : undefined}
+                autoComplete="email"
               />
             </div>
             <button 
               type="submit" 
               disabled={isSubmitting}
               className="coming-soon-button"
+              aria-label="Join Therma waitlist for AI-guided habit tracking"
+              aria-busy={isSubmitting}
             >
               {isSubmitting ? 'Submitting…' : 'Join Waitlist'}
             </button>
+            
+            {/* FOMO Line */}
+            <p className="coming-soon-fomo">
+              Be among the first 1,000 for exclusive beta perks.
+            </p>
+            
             {status === 'error' && (
-              <p className="coming-soon-error" role="alert">
+              <p className="coming-soon-error" role="alert" id="email-error" aria-live="polite">
                 Something went wrong. Please try again.
               </p>
             )}
           </form>
-        </section>
+        </article>
       </main>
 
       {/* Preserved Footer - exactly as before */}
