@@ -2611,7 +2611,7 @@ html {
   font-size: clamp(28px, 5vw, 42px);
   font-weight: 400;
   line-height: 1.2;
-  color: #1A3A2A;
+  color: #FFFFFF;
   margin: 0;
   max-width: 100%;
   letter-spacing: -0.02em;
@@ -2634,23 +2634,24 @@ html {
   padding: 16px 20px;
   font-size: 16px;
   font-family: 'Space Grotesk', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  border: 2px solid rgba(26, 58, 42, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #1A3A2A;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: #FFFFFF;
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
 
 .coming-soon-input:focus {
   outline: none;
-  border-color: #1A3A2A;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(26, 58, 42, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
 .coming-soon-input::placeholder {
-  color: rgba(26, 58, 42, 0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .coming-soon-button {
@@ -2660,8 +2661,9 @@ html {
   font-family: 'Space Grotesk', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 600;
   color: #ffffff;
-  background: #1A3A2A;
-  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -2669,9 +2671,10 @@ html {
 }
 
 .coming-soon-button:hover:not(:disabled) {
-  background: #2d5016;
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(26, 58, 42, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .coming-soon-button:active:not(:disabled) {
@@ -2684,7 +2687,7 @@ html {
 }
 
 .coming-soon-error {
-  color: #d32f2f;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 14px;
   margin: 0;
   text-align: center;
