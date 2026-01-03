@@ -13,15 +13,17 @@ const ThermaAssistant = dynamic(() => import('../components/ThermaAssistant'), {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
   title: {
-    default: 'Therma: AI Habit Tracker for Energy & Clarity',
+    default: 'Therma: AI-Guided Habit Tracker for Energy, Clarity & Confidence',
     template: '%s · Therma'
   },
   description:
-    'Join the waitlist for Therma – AI-guided reflections to optimize your habits for better energy, clarity, and confidence.',
+    'Join the Therma waitlist for AI-powered daily reflections that unlock patterns in your mood and routines—boost energy and clarity in just 2 minutes a day.',
   keywords: [
     'AI habit tracker',
     'mindful journaling',
-    'daily reflections'
+    'daily reflections',
+    'energy optimization',
+    'mental clarity app'
   ],
   authors: [{ name: 'Therma' }],
   creator: 'Therma',
@@ -46,12 +48,12 @@ export const metadata: Metadata = {
   manifest: '/site.webmanifest',
   openGraph: {
     type: 'website',
-    url: 'https://www.therma.one/',
+    url: 'https://www.therma.one',
     title: 'Therma App',
     description:
-      'Unlock your patterns with Therma.',
+      'Discover your patterns with AI-guided insights.',
     images: [{ 
-      url: 'https://www.therma.one/og-image.png', 
+      url: 'https://www.therma.one/therma-logo.png', 
       width: 1200, 
       height: 630, 
       alt: 'Therma App' 

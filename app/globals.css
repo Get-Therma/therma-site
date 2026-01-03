@@ -2734,22 +2734,24 @@ html {
   font-weight: 400;
   color: #FFFFFF;
   margin: 0;
-  letter-spacing: -0.01em; /* Tight, minimal spacing for luxury feel */
+  letter-spacing: -0.03em; /* Very tight spacing for minimal luxury feel */
   text-transform: none;
-  line-height: 1.1;
+  line-height: 1;
   text-align: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
+  word-spacing: -0.1em; /* Reduce word spacing for tighter look */
 }
 
 @media (min-width: 768px) {
   .therma-logo-text {
     font-size: 48px;
     line-height: 1;
-    letter-spacing: -0.015em; /* Even tighter on larger screens */
+    letter-spacing: -0.04em; /* Even tighter on larger screens */
+    word-spacing: -0.15em;
   }
 }
 
