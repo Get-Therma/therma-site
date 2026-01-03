@@ -2608,8 +2608,18 @@ html {
   width: 100%;
 }
 
-.coming-soon-logo img {
-  filter: brightness(1.1);
+.therma-logo-text {
+  font-family: PPPangaia, serif;
+  font-size: clamp(64px, 12vw, 120px);
+  font-weight: 400;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  line-height: 1;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .coming-soon-hook {

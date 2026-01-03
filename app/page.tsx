@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 
 export default function HomePage() {
   const [email, setEmail] = useState('');
@@ -124,19 +123,7 @@ export default function HomePage() {
         <section className="coming-soon-content">
           {/* Centered Logo - Main Focal Point */}
           <div className="coming-soon-logo">
-            <Image
-              src="/therma-logo.svg"
-              alt="Therma Logo"
-              width={180}
-              height={180}
-              priority
-              style={{
-                width: 'auto',
-                height: 'auto',
-                maxWidth: '180px',
-                maxHeight: '180px',
-              }}
-            />
+            <h1 className="therma-logo-text">Therma</h1>
           </div>
 
           <div className="sp-48"></div>
