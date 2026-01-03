@@ -13,27 +13,15 @@ const ThermaAssistant = dynamic(() => import('../components/ThermaAssistant'), {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
   title: {
-    default: 'Therma: AI-Guided Reflections for Daily Clarity',
+    default: 'Therma: AI Habit Tracker for Energy & Clarity',
     template: '%s · Therma'
   },
   description:
-    'Join the waitlist for Therma, the mindful habit tracker unlocking patterns in energy and mood. Discover daily clarity with AI-guided reflections and optimize your routine.',
+    'Join the waitlist for Therma – AI-guided reflections to optimize your habits for better energy, clarity, and confidence.',
   keywords: [
     'AI habit tracker',
-    'habit tracking app',
-    'AI reflections',
-    'mindfulness app',
-    'daily reflections',
-    'AI companion',
-    'habit optimization',
-    'self-reflection tool',
-    'energy tracking',
-    'mood tracking',
-    'mindful habit tracker',
-    'AI-guided mindfulness',
-    'daily clarity',
-    'pattern recognition',
-    'wellness app'
+    'mindful journaling',
+    'daily reflections'
   ],
   authors: [{ name: 'Therma' }],
   creator: 'Therma',
@@ -59,14 +47,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://www.therma.one/',
-    title: 'Therma: AI-Guided Reflections for Daily Clarity',
+    title: 'Therma App',
     description:
-      'Join the waitlist for Therma, the mindful habit tracker unlocking patterns in energy and mood. Discover daily clarity with AI-guided reflections.',
+      'Unlock your patterns with Therma.',
     images: [{ 
       url: 'https://www.therma.one/og-image.png', 
       width: 1200, 
       height: 630, 
-      alt: 'Therma - AI Habit Tracker for Daily Clarity' 
+      alt: 'Therma App' 
     }],
     siteName: 'Therma',
     locale: 'en_US',
