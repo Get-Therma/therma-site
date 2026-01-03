@@ -3092,8 +3092,8 @@ html {
 /* Skip link for accessibility */
 .skip-link {
   position: absolute;
-  top: -40px;
-  left: 0;
+  top: -100px;
+  left: -9999px;
   background: #000000;
   color: #ffffff;
   padding: 12px 24px;
@@ -3102,10 +3102,15 @@ html {
   z-index: 100;
   border: 2px solid #ffffff;
   border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .skip-link:focus {
   top: 0;
+  left: 0;
+  opacity: 1;
+  pointer-events: auto;
   outline: 3px solid rgba(255, 255, 255, 0.8);
   outline-offset: 2px;
 }
