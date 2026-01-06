@@ -1,36 +1,19 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import dynamic from 'next/dynamic';
+import ThermaAssistant from '../components/ThermaAssistant';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-
-// Lazy load non-critical components for better initial page load
-const ThermaAssistant = dynamic(() => import('../components/ThermaAssistant'), {
-  ssr: false, // Client-side only since it's interactive
-  loading: () => null, // No loading indicator needed
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
   title: {
-    default: 'Therma: AI-Guided Habit Tracker for Energy, Clarity & Confidence',
+    default: 'Therma – AI Habit Tracker & Guided Reflections',
     template: '%s · Therma'
   },
   description:
-    'Join the Therma waitlist for AI-powered daily reflections that unlock patterns in your mood and routines—boost energy and clarity in just 2 minutes a day.',
-  keywords: [
-    'AI habit tracker',
-    'mindful journaling',
-    'daily reflections',
-    'energy optimization',
-    'mental clarity app'
-  ],
-  authors: [{ name: 'Therma' }],
-  creator: 'Therma',
-  publisher: 'Therma',
+    'Unlock daily clarity with AI-guided reflections. Therma is an AI habit tracker that helps you discover patterns and optimize your routine. Join the waitlist for early access.',
+  keywords: ['AI habit tracker', 'habit tracking', 'AI reflections', 'mindfulness app', 'daily reflections', 'AI companion', 'habit optimization', 'self-reflection tool'],
   alternates: { canonical: '/' },
-  category: 'Health & Wellness',
-  classification: 'Mobile Application',
   icons: {
     icon: [
       { url: '/favicon.svg?v=2', type: 'image/svg+xml' },
@@ -48,43 +31,27 @@ export const metadata: Metadata = {
   manifest: '/site.webmanifest',
   openGraph: {
     type: 'website',
-    url: 'https://www.therma.one',
-    title: 'Therma App',
+    url: 'https://www.therma.one/',
+    title: 'Therma – AI Habit Tracker & Guided Reflections',
     description:
-      'Discover your patterns with AI-guided insights.',
+      'Unlock daily clarity with AI-guided reflections. Join the waitlist for early access to Therma, an AI habit tracker that helps you discover patterns and optimize your routine.',
     images: [{ 
-      url: 'https://www.therma.one/therma-logo.png', 
+      url: 'https://www.therma.one/og-image.png', 
       width: 1200, 
       height: 630, 
-      alt: 'Therma App' 
+      alt: 'Therma - AI Habit Tracker' 
     }],
-    siteName: 'Therma',
-    locale: 'en_US',
+    siteName: 'Therma'
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Therma: AI-Guided Reflections for Daily Clarity',
+    title: 'Therma – AI Habit Tracker & Guided Reflections',
     description:
-      'Join the waitlist for Therma, the mindful habit tracker unlocking patterns in energy and mood.',
+      'Unlock daily clarity with AI-guided reflections. Join the waitlist for early access to Therma.',
     images: ['https://www.therma.one/og-image.png'],
-    creator: '@therma',
-    site: '@therma'
+    creator: '@therma'
   },
-  robots: { 
-    index: true, 
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    }
-  },
-  verification: {
-    // Add Google Search Console verification when available
-    // google: 'your-verification-code',
-  }
+  robots: { index: true, follow: true }
 };
 
 export const viewport: Viewport = {
@@ -105,29 +72,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        
-        {/* Performance: DNS prefetch and preconnect */}
-        <link rel="dns-prefetch" href="https://www.facebook.com" />
-        <link rel="dns-prefetch" href="https://connect.facebook.net" />
-        <link rel="dns-prefetch" href="https://cdn.beehiiv.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
-        {/* Preload premium fonts for better performance */}
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap"
-          as="style"
-        />
-        
-        {/* Preload critical fonts */}
-        <link
-          rel="preload"
-          href="/fonts/PPPangaia-Medium-BF654c530cc86d5.woff"
-          as="font"
-          type="font/woff"
-          crossOrigin="anonymous"
-        />
         
         {/* Meta Pixel Code */}
         <script
@@ -162,30 +106,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Analytics />
         <SpeedInsights />
         
-        {/* Beehiv Analytics Script - Lazy loaded for performance */}
+        {/* Beehiv Analytics Script */}
         {process.env.BEEHIIV_PUBLICATION_ID && (
           <script
-            defer
             dangerouslySetInnerHTML={{
               __html: `
                 (function() {
-                  // Defer loading until page is interactive
-                  if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', loadBeehiiv);
-                  } else {
-                    setTimeout(loadBeehiiv, 1000);
-                  }
-                  function loadBeehiiv() {
-                    var script = document.createElement('script');
-                    script.src = 'https://cdn.beehiiv.com/scripts/analytics.js';
-                    script.async = true;
-                    script.onload = function() {
-                      if (window.beehiivAnalytics) {
-                        window.beehiivAnalytics.init('${process.env.BEEHIIV_PUBLICATION_ID}');
-                      }
-                    };
-                    document.head.appendChild(script);
-                  }
+                  var script = document.createElement('script');
+                  script.src = 'https://cdn.beehiiv.com/scripts/analytics.js';
+                  script.async = true;
+                  script.onload = function() {
+                    if (window.beehiivAnalytics) {
+                      window.beehiivAnalytics.init('${process.env.BEEHIIV_PUBLICATION_ID}');
+                    }
+                  };
+                  document.head.appendChild(script);
                 })();
               `
             }}
