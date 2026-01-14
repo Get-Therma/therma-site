@@ -2,12 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { initUtmTracking, getUtmParamsForSubmission } from '../lib/utm-tracking';
 
 export default function WeeklyPage() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState('');
   const router = useRouter();
+
+  // Initialize UTM tracking for Beacons attribution
+  useEffect(() => {
+    initUtmTracking();
+  }, []);
 
   // Update page metadata
   useEffect(() => {
@@ -33,6 +39,9 @@ export default function WeeklyPage() {
     setStatus('');
 
     try {
+      // Get UTM parameters using utility function
+      const utmParams = typeof window !== 'undefined' ? getUtmParamsForSubmission() : {};
+      
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
@@ -41,27 +50,93 @@ export default function WeeklyPage() {
         body: JSON.stringify({
           email: email,
           source: 'Weekly Page',
-          utm_source: new URL(window.location.href).searchParams.get('utm_source') || 'weekly',
-          utm_medium: new URL(window.location.href).searchParams.get('utm_medium') || 'website',
-          utm_campaign: new URL(window.location.href).searchParams.get('utm_campaign') || 'weekly-signup'
+          utm_source: utmParams.utm_source || 'weekly',
+          utm_medium: utmParams.utm_medium || 'website',
+          utm_campaign: utmParams.utm_campaign || 'weekly-signup',
+          ...utmParams // Include any other UTM params
         })
       });
 
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
+      // Clone response to avoid consuming the body
+      const responseClone = response.clone();
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        // Use cloned response to read text since original body is consumed
+        const text = await responseClone.text();
+        setIsSubmitting(false);
+        setStatus('error');
+        return; // Stop here if we can't parse
       }
 
-      const result = await response.json();
-      setStatus('success');
+      // Handle 409 status (duplicate) - MUST return early to stop processing
+      if (response.status === 409) {
+        // Set duplicate status and stop immediately
+        setStatus('duplicate');
+        setIsSubmitting(false); // Re-enable form immediately
+        localStorage.setItem('therma_submitted_email', email);
+        localStorage.setItem('therma_is_duplicate', 'true');
+        
+        // Redirect immediately to already-registered page
+        // Use window.location for immediate redirect
+        window.location.href = '/already-registered';
+        
+        return; // CRITICAL: Stop here, don't continue processing
+      }
+
+      if (!response.ok) {
+        // Also check if the error message indicates duplicate
+        if (result.message && (
+          result.message.toLowerCase().includes('already') || 
+          result.message.toLowerCase().includes('duplicate') ||
+          result.message.toLowerCase().includes('exists')
+        )) {
+          setStatus('duplicate');
+          localStorage.setItem('therma_submitted_email', email);
+          localStorage.setItem('therma_is_duplicate', 'true');
+          // Redirect immediately
+          window.location.href = '/already-registered';
+          return;
+        }
+        throw new Error(result.error || result.message || `Server error: ${response.status}`);
+      }
       
-      // Redirect to thank you page after short delay
-      setTimeout(() => {
-        router.push('/thank-you');
-      }, 1500);
+      // Only process success if status is 200/201 (not 409)
+      if (response.status === 200 || response.status === 201) {
+        // Clear duplicate flag for successful new subscriptions
+        localStorage.removeItem('therma_is_duplicate');
+        
+        // Store email for thank you page
+        localStorage.setItem('therma_submitted_email', email);
+        
+        setStatus('success');
+        
+        // Redirect to thank you page after short delay
+        setTimeout(() => {
+          router.push('/thank-you');
+        }, 1500);
+      } else {
+        // Unexpected success status
+        setStatus('error');
+        setIsSubmitting(false);
+      }
       
-    } catch (err) {
-      console.error('Form submission error:', err);
-      setStatus('error');
+    } catch (err: any) {
+      // Check if error message indicates duplicate
+      const errorMsg = err?.message || '';
+      if (errorMsg.toLowerCase().includes('already') || 
+          errorMsg.toLowerCase().includes('duplicate') ||
+          errorMsg.toLowerCase().includes('exists')) {
+        setStatus('duplicate');
+        localStorage.setItem('therma_submitted_email', email);
+        localStorage.setItem('therma_is_duplicate', 'true');
+        setTimeout(() => {
+          window.location.href = '/already-registered';
+        }, 500);
+      } else {
+        setStatus('error');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -177,6 +252,11 @@ export default function WeeklyPage() {
                 {status === 'success' && (
                   <p style={{ color: '#4ade80', fontSize: '14px', marginTop: '8px' }}>
                     ✅ Success! Redirecting...
+                  </p>
+                )}
+                {status === 'duplicate' && (
+                  <p style={{ color: '#fbbf24', fontSize: '14px', marginTop: '8px' }}>
+                    ⚠️ Redirecting...
                   </p>
                 )}
                 {status === 'error' && (
