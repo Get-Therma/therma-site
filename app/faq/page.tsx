@@ -300,31 +300,6 @@ export default function FAQPage() {
             })
           }}
         />
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "We don't sell data. Therma is built on a HIPAA compliant basis."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "How is Therma different from journaling apps?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Unlike traditional journaling apps, Therma combines daily reflections with an AI companion that listens and responds thoughtfully. It's designed to help you actually hear yourself through gentle prompts and meaningful conversations."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "When will Therma launch?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "We're working hard to bring Therma to you soon! Join our waitlist to be among the first to experience it when we launch. We'll keep you updated on our progress."
-                  }
-                }
-              ]
-            })
-          }}
-        />
         
         <a href="/" className="back-link">Back to Home</a>
         
