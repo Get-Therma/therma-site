@@ -3,6 +3,20 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Beta Program Terms · Therma',
   description: 'Terms for participating in the Therma beta: confidentiality, feedback license, no warranty, and data caution.',
+  alternates: {
+    canonical: 'https://www.therma.one/beta-terms',
+  },
+  openGraph: {
+    title: 'Beta Program Terms · Therma',
+    description: 'Terms for participating in the Therma beta: confidentiality, feedback license, no warranty, and data caution.',
+    url: 'https://www.therma.one/beta-terms',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Beta Program Terms · Therma',
+    description: 'Terms for participating in the Therma beta.',
+  },
 };
 
 export default function BetaTermsPage() {

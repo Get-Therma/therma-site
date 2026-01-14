@@ -1,9 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { initUtmTracking } from '../../lib/utm-tracking';
 
 export default function HomePage() {
+  // Initialize UTM tracking for Beacons attribution
+  useEffect(() => {
+    initUtmTracking();
+  }, []);
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,7 +34,18 @@ export default function HomePage() {
           source: 'Website',
           utm_source: new URL(window.location.href).searchParams.get('utm_source') || document.referrer,
           utm_medium: new URL(window.location.href).searchParams.get('utm_medium') || 'website',
-          utm_campaign: new URL(window.location.href).searchParams.get('utm_campaign') || 'waitlist'
+          utm_campaign: new URL(window.location.href).searchParams.get('utm_campaign') || 'waitlist',
+          // Include stored UTM params for attribution
+          ...(typeof window !== 'undefined' && (() => {
+            try {
+              const stored = localStorage.getItem('therma_utm_params');
+              if (stored) {
+                const data = JSON.parse(stored);
+                return data.params || {};
+              }
+            } catch {}
+            return {};
+          })())
         })
       });
 
@@ -189,13 +205,77 @@ export default function HomePage() {
               />
             </svg>
           </a>
+          <a
+            href="https://www.pinterest.com/gettherma/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="instagram-link"
+            aria-label="Follow us on Pinterest"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.112.222.083.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"
+                fill="currentColor"
+                stroke="none"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/company/gettherma/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="instagram-link"
+            aria-label="Follow us on LinkedIn"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                fill="currentColor"
+                stroke="none"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://www.youtube.com/@gettherma"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="instagram-link"
+            aria-label="Follow us on YouTube"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                fill="currentColor"
+                stroke="none"
+              />
+            </svg>
+          </a>
         </div>
       </header>
 
       <div className="header-spacer"></div>
 
       <main>
-        <section id="hero" className="container center">
+        {/* Breadcrumb Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.therma.one/"
+                }
+              ]
+            })
+          }}
+        />
+        
+        <section id="hero" className="container center" aria-label="Hero section">
           <div className="stack">
             <h1>Discover Your Patterns.<br/>Optimize Your Routine.</h1>
             <div className="sp-12"></div>
@@ -251,7 +331,7 @@ export default function HomePage() {
         <div className="breathing-divider" aria-hidden="true"></div>
         
         {/* Why Therma Section */}
-        <section id="why" className="container center">
+        <section id="why" className="container center" aria-label="Why Therma section">
           <div className="stack">
             <h2 className="why-section-title">Why Therma?</h2>
             <p className="why-section-subtitle">Therma finds the hidden patterns in your daily life and turns them into clear, actionable insights</p>
@@ -294,7 +374,7 @@ export default function HomePage() {
         </section>
 
         {/* How It Works Section */}
-        <section id="how-it-works" className="container center">
+        <section id="how-it-works" className="container center" aria-label="How it works section">
           <div className="stack">
             <h2 className="why-section-title">How It Works</h2>
             <p className="why-section-subtitle">Simple steps to a more mindful you</p>
@@ -337,7 +417,7 @@ export default function HomePage() {
         </section>
 
         {/* Who It's For Section */}
-        <section id="who-its-for" className="container center">
+        <section id="who-its-for" className="container center" aria-label="Who it's for section">
           <div className="stack">
             <h2 className="why-section-title">Who It's For</h2>
             <p className="why-section-subtitle">Perfect for anyone seeking mindful reflection</p>
@@ -380,7 +460,7 @@ export default function HomePage() {
         </section>
 
         {/* FAQ Preview Section */}
-        <section id="faq-preview" className="container center">
+        <section id="faq-preview" className="container center" aria-label="FAQ preview section">
           <div className="stack">
             <h2 className="why-section-title">Common Questions</h2>
             <p className="why-section-subtitle">Everything you need to know about Therma</p>
@@ -436,8 +516,8 @@ export default function HomePage() {
             <p className="footerLinks caption">
               <a href="/contact">Contact Us</a> · 
               <a href="/faq">FAQ</a> · 
-              <a href="#">Privacy</a> · 
-              <a href="#">Terms of Use</a>
+              <a href="/privacy">Privacy</a> · 
+              <a href="/beta-terms">Terms of Use</a>
             </p>
           <div className="sp-16"></div>
           <p className="caption">2025. All rights reserved</p>

@@ -54,6 +54,61 @@ const nextConfig = {
     
     return config;
   },
+  // Redirects for SEO: www/non-www normalization and trailing slash
+  async redirects() {
+    const canonicalDomain = 'https://www.therma.one';
+    
+    return [
+      // Redirect non-www to www (canonical domain)
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'therma.one',
+          },
+        ],
+        destination: `${canonicalDomain}/:path*`,
+        permanent: true, // 301 redirect
+      },
+      // Remove trailing slashes (except for root)
+      {
+        source: '/:path+/',
+        destination: '/:path+',
+        permanent: true,
+      },
+      // Redirect /terms to /beta-terms (canonical Terms page)
+      {
+        source: '/terms',
+        destination: '/beta-terms',
+        permanent: true, // 301 redirect
+      },
+      // Redirect gettherma.ai to therma.one (canonical domain)
+      // Preserves path and query parameters
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'gettherma.ai',
+          },
+        ],
+        destination: 'https://www.therma.one/:path*',
+        permanent: true, // 301 redirect
+      },
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.gettherma.ai',
+          },
+        ],
+        destination: 'https://www.therma.one/:path*',
+        permanent: true, // 301 redirect
+      },
+    ];
+  },
   // Headers for caching and performance
   async headers() {
     return [

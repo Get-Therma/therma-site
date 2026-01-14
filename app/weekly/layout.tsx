@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   description:
     'Therma Weekly is coming soon—a slow magazine with science-backed rituals, real-world experiments, and thoughtful insights from the Therma community.',
   alternates: {
-    canonical: '/weekly',
+    canonical: 'https://www.therma.one/weekly',
   },
   openGraph: {
     title: 'Therma Weekly – Coming Soon',

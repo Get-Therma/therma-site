@@ -13,7 +13,9 @@ export const metadata: Metadata = {
   description:
     'Unlock daily clarity with AI-guided reflections. Therma is an AI habit tracker that helps you discover patterns and optimize your routine. Join the waitlist for early access.',
   keywords: ['AI habit tracker', 'habit tracking', 'AI reflections', 'mindfulness app', 'daily reflections', 'AI companion', 'habit optimization', 'self-reflection tool'],
-  alternates: { canonical: '/' },
+  alternates: { 
+    canonical: 'https://www.therma.one/', // UTM params automatically stripped by Next.js
+  },
   icons: {
     icon: [
       { url: '/favicon.svg?v=2', type: 'image/svg+xml' },
@@ -73,6 +75,112 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="p:domain_verify" content="2a46ef06897517c2e71581d857c2d3b6" />
+        
+        {/* Google Search Console Verification */}
+        {process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION && (
+          <meta
+            name="google-site-verification"
+            content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION}
+          />
+        )}
+        
+        {/* Bing Webmaster Tools Verification */}
+        {process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION && (
+          <meta
+            name="msvalidate.01"
+            content={process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION}
+          />
+        )}
+        
+        {/* Beacons.ai Integration */}
+        {process.env.NEXT_PUBLIC_BEACONS_ID && (
+          <script
+            async
+            src={`https://beacons.ai/embed.js?id=${process.env.NEXT_PUBLIC_BEACONS_ID}`}
+          />
+        )}
+        
+        {/* Structured Data - Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Therma",
+              "url": "https://www.therma.one",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.therma.one/therma-logo.svg",
+                "width": 512,
+                "height": 512
+              },
+              "description": "AI habit tracker and guided reflection app that helps you discover patterns and optimize your routine",
+              "sameAs": [
+                "https://x.com/gettherma",
+                "https://www.instagram.com/gettherma/",
+                "https://www.pinterest.com/gettherma/",
+                "https://www.linkedin.com/company/gettherma/",
+                "https://www.youtube.com/@gettherma"
+              ],
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "email": "support@gettherma.ai",
+                "contactType": "Customer Support",
+                "availableLanguage": "English"
+              }
+            })
+          }}
+        />
+        
+        {/* Structured Data - SoftwareApplication */}
+        {/* Note: Only includes properties that appear on-page. Add more when app details are published. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "Therma",
+              "applicationCategory": "HealthApplication",
+              "operatingSystem": ["iOS", "Android"],
+              "description": "AI habit tracker and guided reflection app that helps you discover patterns in your daily life and optimize your routine for peak energy, clarity, and confidence.",
+              "url": "https://www.therma.one",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/PreOrder"
+              }
+            })
+          }}
+        />
+        
+        {/* Structured Data - WebSite */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Therma",
+              "url": "https://www.therma.one",
+              "description": "AI habit tracker and guided reflection app that helps you discover patterns and optimize your routine",
+              "publisher": {
+                "@type": "Organization",
+                "name": "Therma"
+              },
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                  "@type": "EntryPoint",
+                  "urlTemplate": "https://www.therma.one/?s={search_term_string}"
+                },
+                "query-input": "required name=search_term_string"
+              }
+            })
+          }}
+        />
         
         {/* Meta Pixel Code */}
         <script

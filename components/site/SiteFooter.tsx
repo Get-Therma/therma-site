@@ -10,7 +10,7 @@ const SiteFooter: React.FC = () => {
         <div className="sp-16" />
         <p className="footerLinks caption">
           <Link href="/contact">Contact Us</Link> · <Link href="/faq">FAQ</Link> ·{' '}
-          <Link href="/privacy">Privacy</Link> · <Link href="/terms">Terms of Use</Link> ·{' '}
+          <Link href="/privacy">Privacy</Link> · <Link href="/beta-terms">Terms of Use</Link> ·{' '}
           <Link href="/weekly">Therma Weekly</Link>
         </p>
         <div className="sp-16" />

@@ -52,14 +52,14 @@ export default function ThankYouPage() {
                 </p>
                 <div className="sp-8"></div>
                 <p className="muted" style={{ fontSize: '20px', lineHeight: '1.4', opacity: 0.8 }}>
-                  We'll be in touch soon with your invite to experience a smarter way to control your climate. 🎉
+                  We'll be in touch soon with your invite to start discovering patterns and optimizing your routine. 🎉
                 </p>
               </>
             ) : (
               <h2 className="muted" style={{ fontSize: '40px', lineHeight: '1.2' }}>
                 Thanks for joining the Therma waitlist.
                 <br/>
-                We'll be in touch soon with your invite to experience a smarter way to control your climate.
+                We'll be in touch soon with your invite to start discovering patterns and optimizing your routine.
               </h2>
             )}
             <div className="sp-16"></div>
@@ -94,7 +94,7 @@ export default function ThankYouPage() {
               <a href="/contact">Contact Us</a> · 
               <a href="/faq">FAQ</a> · 
               <a href="/privacy">Privacy</a> · 
-              <a href="/terms">Terms of Use</a>
+              <a href="/beta-terms">Terms of Use</a>
             </p>
           <div className="sp-16"></div>
           <p className="caption">© 2025 Get Therma Inc. All rights reserved</p>

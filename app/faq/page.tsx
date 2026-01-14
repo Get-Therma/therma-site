@@ -10,6 +10,22 @@ export default function FAQPage() {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
 
+  // Update page metadata
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.title = 'FAQ - Frequently Asked Questions | Therma';
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', 'Get answers to common questions about Therma, the AI habit tracker and guided reflection app. Learn about features, privacy, pricing, and more.');
+      } else {
+        const meta = document.createElement('meta');
+        meta.name = 'description';
+        meta.content = 'Get answers to common questions about Therma, the AI habit tracker and guided reflection app. Learn about features, privacy, pricing, and more.';
+        document.head.appendChild(meta);
+      }
+    }
+  }, []);
+
   // Mobile detection and event listeners
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -266,6 +282,50 @@ export default function FAQPage() {
       </header>
 
       <main>
+        {/* FAQ Structured Data - FAQPage Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": faqs.map(faq => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": faq.answer
+                }
+              }))
+            })
+          }}
+        />
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We don't sell data. Therma is built on a HIPAA compliant basis."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How is Therma different from journaling apps?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Unlike traditional journaling apps, Therma combines daily reflections with an AI companion that listens and responds thoughtfully. It's designed to help you actually hear yourself through gentle prompts and meaningful conversations."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "When will Therma launch?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We're working hard to bring Therma to you soon! Join our waitlist to be among the first to experience it when we launch. We'll keep you updated on our progress."
+                  }
+                }
+              ]
+            })
+          }}
+        />
+        
         <a href="/" className="back-link">Back to Home</a>
         
         <section className="faq-section">
@@ -306,7 +366,7 @@ export default function FAQPage() {
             <a href="/contact">Contact Us</a> · 
             <a href="/">Home</a> · 
             <a href="/privacy">Privacy</a> · 
-            <a href="/terms">Terms of Use</a>
+            <a href="/beta-terms">Terms of Use</a>
           </p>
           <div className="sp-16"></div>
           <p className="caption">© 2025 Get Therma Inc. All rights reserved</p>

@@ -206,7 +206,7 @@ export default function ConsentModal({ isOpen, onClose, onConsent }: ConsentModa
             By continuing, you agree to our{' '}
             <a href="/privacy" className="text-orange-500 hover:underline">Privacy Policy</a>
             {' '}and{' '}
-            <a href="/terms" className="text-orange-500 hover:underline">Terms of Service</a>
+            <a href="/beta-terms" className="text-orange-500 hover:underline">Terms of Service</a>
           </p>
         </div>
       </div>

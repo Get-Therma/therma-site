@@ -38,7 +38,7 @@ export function generateMetadata({ params }: IssuePageProps): Metadata {
     title: `${issue.title} · Therma Weekly`,
     description: issue.subtitle,
     alternates: {
-      canonical: `/weekly/${issue.slug}`,
+      canonical: `https://www.therma.one/weekly/${issue.slug}`,
     },
     openGraph: {
       title: `${issue.title} · Therma Weekly`,

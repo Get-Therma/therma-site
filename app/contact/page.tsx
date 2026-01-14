@@ -1,10 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import '../globals.css';
 
 export default function ContactPage() {
+  // Update page metadata
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.title = 'Contact Us | Therma';
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', 'Get in touch with Therma. Have questions, feedback, or interested in partnerships? We\'re here to listen and help.');
+      } else {
+        const meta = document.createElement('meta');
+        meta.name = 'description';
+        meta.content = 'Get in touch with Therma. Have questions, feedback, or interested in partnerships? We\'re here to listen and help.';
+        document.head.appendChild(meta);
+      }
+    }
+  }, []);
   const [formType, setFormType] = useState<'general' | 'collaboration' | null>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -182,7 +197,7 @@ export default function ContactPage() {
               <a href="/">Home</a> · 
               <a href="/faq">FAQ</a> · 
               <a href="/privacy">Privacy</a> · 
-              <a href="/terms">Terms of Use</a>
+              <a href="/beta-terms">Terms of Use</a>
             </p>
             <div className="sp-16"></div>
             <p className="caption">2025. All rights reserved</p>

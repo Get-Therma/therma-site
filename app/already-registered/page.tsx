@@ -8,6 +8,30 @@ export default function AlreadyRegisteredPage() {
   const [email, setEmail] = useState('');
   const router = useRouter();
 
+  // Update page metadata
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.title = 'Already Registered · Therma';
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', 'This email address is already on the Therma waitlist. No need to sign up twice!');
+      } else {
+        const meta = document.createElement('meta');
+        meta.name = 'description';
+        meta.content = 'This email address is already on the Therma waitlist. No need to sign up twice!';
+        document.head.appendChild(meta);
+      }
+      // Add noindex meta tag
+      const robotsMeta = document.querySelector('meta[name="robots"]');
+      if (!robotsMeta) {
+        const robots = document.createElement('meta');
+        robots.name = 'robots';
+        robots.content = 'noindex, follow';
+        document.head.appendChild(robots);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     // Get email from localStorage or URL params
     const storedEmail = localStorage.getItem('therma_submitted_email');
@@ -51,7 +75,7 @@ export default function AlreadyRegisteredPage() {
             </p>
             <div className="sp-8"></div>
             <p className="muted" style={{ fontSize: '20px', lineHeight: '1.4', opacity: 0.8 }}>
-              We'll be in touch soon with your invite to experience a smarter way to control your climate.
+              We'll be in touch soon with your invite to start discovering patterns and optimizing your routine.
             </p>
             <div className="sp-16"></div>
             <h3 className="muted" style={{ fontSize: '28px', lineHeight: '1.3' }}>
@@ -85,7 +109,7 @@ export default function AlreadyRegisteredPage() {
               <a href="/contact">Contact Us</a> · 
               <a href="/faq">FAQ</a> · 
               <a href="/privacy">Privacy</a> · 
-              <a href="/terms">Terms of Use</a>
+              <a href="/beta-terms">Terms of Use</a>
             </p>
           <div className="sp-16"></div>
           <p className="caption">© 2025 Get Therma Inc. All rights reserved</p>
