@@ -72,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="p:domain_verify" content="2a46ef06897517c2e71581d857c2d3b6" />
         
         {/* Meta Pixel Code */}
         <script
