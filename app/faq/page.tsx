@@ -113,6 +113,20 @@ export default function FAQPage() {
     }
   ];
 
+  // Generate FAQ structured data
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
   return (
     <>
       {/* Ultra-Interactive Background Bubbles - Mobile Optimized */}
@@ -286,18 +300,7 @@ export default function FAQPage() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": faqs.map(faq => ({
-                "@type": "Question",
-                "name": faq.question,
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": faq.answer
-                }
-              }))
-            })
+            __html: JSON.stringify(faqStructuredData)
           }}
         />
         
