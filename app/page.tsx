@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { initUtmTracking } from '../../lib/utm-tracking';
+import { initUtmTracking } from '../lib/utm-tracking';
 
 export default function HomePage() {
   // Initialize UTM tracking for Beacons attribution
