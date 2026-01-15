@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { initUtmTracking, getUtmParamsForSubmission } from '../lib/utm-tracking';
+import { initUtmTracking, getUtmParamsForSubmission } from '../../lib/utm-tracking';
 
 export default function WeeklyPage() {
   const [email, setEmail] = useState('');
