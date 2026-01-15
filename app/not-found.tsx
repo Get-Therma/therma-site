@@ -10,6 +10,23 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <html lang="en">
+      <head>
+        <style>{`
+          .home-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #ff5930;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+          }
+          .home-link:hover {
+            background-color: #e04a26;
+          }
+        `}</style>
+      </head>
       <body style={{
         margin: 0,
         padding: 0,
@@ -53,25 +70,7 @@ export default function NotFound() {
           }}>
             The page you are looking for doesn't exist or has been moved.
           </p>
-          <Link
-            href="/"
-            style={{
-              display: 'inline-block',
-              padding: '12px 24px',
-              backgroundColor: '#ff5930',
-              color: '#ffffff',
-              textDecoration: 'none',
-              borderRadius: '8px',
-              fontWeight: 500,
-              transition: 'background-color 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#e04a26';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#ff5930';
-            }}
-          >
+          <Link href="/" className="home-link">
             Back to Home
           </Link>
         </div>

@@ -4,6 +4,9 @@ import { getDb } from '../../../../lib/db';
 import { waitlist, contacts } from '../../../../lib/schema';
 import { desc, sql } from 'drizzle-orm';
 
+// Mark as dynamic to prevent static generation
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const db = await getDb();
