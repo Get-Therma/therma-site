@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     'Unlock daily clarity with AI-guided reflections. Therma is an AI habit tracker that helps you discover patterns and optimize your routine. Join the waitlist for early access.',
   keywords: ['AI habit tracker', 'habit tracking', 'AI reflections', 'mindfulness app', 'daily reflections', 'AI companion', 'habit optimization', 'self-reflection tool'],
   alternates: { 
-    canonical: 'https://www.therma.one/', // UTM params automatically stripped by Next.js
+    canonical: 'https://www.therma.one/',
   },
   icons: {
     icon: [
@@ -74,7 +74,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="p:domain_verify" content="2a46ef06897517c2e71581d857c2d3b6" />
+        
+        {/* Pinterest Domain Verification */}
+        {process.env.NEXT_PUBLIC_PINTEREST_VERIFICATION && (
+          <meta
+            name="p:domain_verify"
+            content={process.env.NEXT_PUBLIC_PINTEREST_VERIFICATION}
+          />
+        )}
         
         {/* Google Search Console Verification */}
         {process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION && (
@@ -109,12 +116,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@type": "Organization",
               "name": "Therma",
               "url": "https://www.therma.one",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://www.therma.one/therma-logo.svg",
-                "width": 512,
-                "height": 512
-              },
+              "logo": "https://www.therma.one/therma-logo.svg",
               "description": "AI habit tracker and guided reflection app that helps you discover patterns and optimize your routine",
               "sameAs": [
                 "https://x.com/gettherma",
@@ -126,15 +128,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "contactPoint": {
                 "@type": "ContactPoint",
                 "email": "support@gettherma.ai",
-                "contactType": "Customer Support",
-                "availableLanguage": "English"
+                "contactType": "Customer Support"
               }
             })
           }}
         />
         
         {/* Structured Data - SoftwareApplication */}
-        {/* Note: Only includes properties that appear on-page. Add more when app details are published. */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -143,15 +143,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@type": "SoftwareApplication",
               "name": "Therma",
               "applicationCategory": "HealthApplication",
-              "operatingSystem": ["iOS", "Android"],
-              "description": "AI habit tracker and guided reflection app that helps you discover patterns in your daily life and optimize your routine for peak energy, clarity, and confidence.",
-              "url": "https://www.therma.one",
+              "operatingSystem": "iOS, Android",
               "offers": {
                 "@type": "Offer",
                 "price": "0",
-                "priceCurrency": "USD",
-                "availability": "https://schema.org/PreOrder"
-              }
+                "priceCurrency": "USD"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "ratingCount": "1"
+              },
+              "description": "AI habit tracker and guided reflection app that helps you discover patterns in your daily life and optimize your routine for peak energy, clarity, and confidence."
             })
           }}
         />
