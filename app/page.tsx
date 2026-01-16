@@ -263,7 +263,7 @@ export default function HomePage() {
         
         <section id="hero" className="container center" aria-label="Hero section">
           <div className="stack">
-            <ABTestHeadline />
+            <ABTestHeadline className="hero-headline" />
             <div className="sp-24"></div>
             <div>
               <a href="/weekly" className="btn-secondary">Explore Therma Weekly ⟶</a>

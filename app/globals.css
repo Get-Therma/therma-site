@@ -196,6 +196,12 @@ h1 {
   word-spacing: -0.1em;
   letter-spacing: -0.02em;
 }
+
+/* Hero headline: avoid overly-tight word spacing (e.g. "Understand What") */
+.hero-headline {
+  word-spacing: -0.02em;
+  letter-spacing: -0.01em;
+}
 h2 { font-size: var(--h2); }
 h3 { font-size: var(--h3); }
 
