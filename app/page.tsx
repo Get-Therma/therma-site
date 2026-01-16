@@ -281,8 +281,7 @@ export default function HomePage() {
                 />
               </div>
               <p className="social-proof">
-                <span className="social-proof-line">Get priority beta access (rolling invites)</span>
-                <span className="social-proof-line">Join now for early perks + Therma Weekly</span>
+                Get priority beta access (rolling invites) + early perks + Therma Weekly
               </p>
               <p className="trust-note">
                 No spam. Unsubscribe anytime. We don&apos;t sell your data.{' '}
