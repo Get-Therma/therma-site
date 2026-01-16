@@ -264,12 +264,14 @@ export default function HomePage() {
         <section id="hero" className="container center" aria-label="Hero section">
           <div className="stack">
             <ABTestHeadline />
-            <div className="sp-12"></div>
+            <div className="sp-24"></div>
             <div>
               <a href="/weekly" className="btn-secondary">Explore Therma Weekly ⟶</a>
             </div>
+
+            <div className="sp-16"></div>
             
-            <form className="stack" style={{ gap: '12px' }} onSubmit={handleSubmit}>
+            <form className="stack" style={{ gap: '16px' }} onSubmit={handleSubmit}>
               <div className="pillInput">
                 <input 
                   id="waitlist-email"
@@ -285,7 +287,6 @@ export default function HomePage() {
                 No spam. Unsubscribe anytime. We don&apos;t sell your data. Export/delete on request.{' '}
                 <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
               </p>
-              <div className="sp-8"></div>
               <div>
                 <button 
                   className="btn" 
