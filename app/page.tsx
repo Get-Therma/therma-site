@@ -280,11 +280,9 @@ export default function HomePage() {
                   required 
                 />
               </div>
-              <p className="social-proof">
-                Get priority beta access (rolling invites) + early perks + Therma Weekly
-              </p>
+              <p className="social-proof">Get priority beta access (rolling invites) + early perks + Therma Weekly</p>
               <p className="trust-note">
-                No spam. Unsubscribe anytime. We don&apos;t sell your data.{' '}
+                No spam. Unsubscribe anytime. We don&apos;t sell your data. Export/delete on request.{' '}
                 <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
               </p>
               <div className="sp-8"></div>
