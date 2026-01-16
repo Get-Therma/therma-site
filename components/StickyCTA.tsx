@@ -11,7 +11,7 @@ type StickyCTAProps = {
 export default function StickyCTA({
   targetInputId = 'waitlist-email',
   buttonLabel = 'Get Early Access',
-  helperText = 'Limited beta spots',
+  helperText = 'Priority beta invites',
 }: StickyCTAProps) {
   useEffect(() => {
     document.body.classList.add('has-sticky-cta');

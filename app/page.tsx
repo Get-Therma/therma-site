@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import StickyCTA from '../components/StickyCTA';
 import ABTestHeadline from '../components/ABTestHeadline';
@@ -9,27 +9,7 @@ export default function HomePage() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [waitlistCount, setWaitlistCount] = useState<number | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    let isMounted = true;
-    (async () => {
-      try {
-        const res = await fetch('/api/waitlist', { cache: 'no-store' });
-        if (!res.ok) return;
-        const data = await res.json();
-        const count = typeof data?.count === 'number' ? data.count : Number(data?.count);
-        if (!Number.isFinite(count)) return;
-        if (isMounted) setWaitlistCount(Math.max(0, Math.floor(count)));
-      } catch {
-        // Non-blocking: keep fallback social-proof text
-      }
-    })();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -301,9 +281,8 @@ export default function HomePage() {
                 />
               </div>
               <p className="social-proof">
-                {waitlistCount === null
-                  ? 'Join the first 1,000 beta invites'
-                  : `${Math.min(waitlistCount, 1000).toLocaleString()} of 1,000 spots claimed • ${Math.max(1000 - waitlistCount, 0).toLocaleString()} left`}
+                <span className="social-proof-line">Get priority beta access (rolling invites)</span>
+                <span className="social-proof-line">Join now for early perks + Therma Weekly</span>
               </p>
               <p className="trust-note">
                 No spam. Unsubscribe anytime. We don&apos;t sell your data.{' '}
@@ -316,7 +295,7 @@ export default function HomePage() {
                   type="submit" 
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Submitting…' : 'Join Waitlist'}
+                  {isSubmitting ? 'Submitting…' : 'Get Early Access'}
                 </button>
               </div>
               {(status === 'success' || status === 'error' || status === 'duplicate') && (
