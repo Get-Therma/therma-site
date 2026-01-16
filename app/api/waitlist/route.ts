@@ -1,6 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '../../../lib/db';
 import { waitlist } from '../../../lib/schema';
+import { sql } from 'drizzle-orm';
+
+export async function GET() {
+  try {
+    const result = await db
+      .select({ count: sql<number>`count(*)::int` })
+      .from(waitlist);
+
+    const count = result?.[0]?.count ?? 0;
+
+    return NextResponse.json(
+      { count },
+      {
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
+  } catch (error) {
+    console.error('Waitlist count error:', error);
+    return NextResponse.json(
+      { count: 0 },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {

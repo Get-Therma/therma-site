@@ -54,9 +54,9 @@ export default function AlreadyRegisteredPage() {
       <main>
         <section className="container center">
           <div className="stack">
-            <div className="confirmation-icon" style={{ fontSize: '64px' }}>⚠️</div>
+            <div className="confirmation-icon" style={{ fontSize: '64px' }}>✅</div>
             <h1 style={{ fontSize: '64px', lineHeight: '1.1' }}>
-              Sorry, but your email has been registered.
+              You're Already In!
             </h1>
             <div className="sp-8"></div>
             <h2 className="muted" style={{ fontSize: '40px', lineHeight: '1.2' }}>
@@ -71,7 +71,7 @@ export default function AlreadyRegisteredPage() {
                   <br />
                 </>
               )}
-              No need to sign up twice—you're all set! 🎉
+              No need to sign up twice—you're all set.
             </p>
             <div className="sp-8"></div>
             <p className="muted" style={{ fontSize: '20px', lineHeight: '1.4', opacity: 0.8 }}>
@@ -109,7 +109,7 @@ export default function AlreadyRegisteredPage() {
               <a href="/contact">Contact Us</a> · 
               <a href="/faq">FAQ</a> · 
               <a href="/privacy">Privacy</a> · 
-              <a href="/beta-terms">Terms of Use</a>
+              <a href="/terms">Terms of Use</a>
             </p>
           <div className="sp-16"></div>
           <p className="caption">© 2025 Get Therma Inc. All rights reserved</p>

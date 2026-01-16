@@ -1,18 +1,35 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { initUtmTracking } from '../lib/utm-tracking';
+import StickyCTA from '../components/StickyCTA';
+import ABTestHeadline from '../components/ABTestHeadline';
 
 export default function HomePage() {
-  // Initialize UTM tracking for Beacons attribution
-  useEffect(() => {
-    initUtmTracking();
-  }, []);
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [waitlistCount, setWaitlistCount] = useState<number | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/waitlist', { cache: 'no-store' });
+        if (!res.ok) return;
+        const data = await res.json();
+        const count = typeof data?.count === 'number' ? data.count : Number(data?.count);
+        if (!Number.isFinite(count)) return;
+        if (isMounted) setWaitlistCount(Math.max(0, Math.floor(count)));
+      } catch {
+        // Non-blocking: keep fallback social-proof text
+      }
+    })();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,18 +51,7 @@ export default function HomePage() {
           source: 'Website',
           utm_source: new URL(window.location.href).searchParams.get('utm_source') || document.referrer,
           utm_medium: new URL(window.location.href).searchParams.get('utm_medium') || 'website',
-          utm_campaign: new URL(window.location.href).searchParams.get('utm_campaign') || 'waitlist',
-          // Include stored UTM params for attribution
-          ...(typeof window !== 'undefined' && (() => {
-            try {
-              const stored = localStorage.getItem('therma_utm_params');
-              if (stored) {
-                const data = JSON.parse(stored);
-                return data.params || {};
-              }
-            } catch {}
-            return {};
-          })())
+          utm_campaign: new URL(window.location.href).searchParams.get('utm_campaign') || 'waitlist'
         })
       });
 
@@ -277,7 +283,7 @@ export default function HomePage() {
         
         <section id="hero" className="container center" aria-label="Hero section">
           <div className="stack">
-            <h1>Discover Your Patterns.<br/>Optimize Your Routine.</h1>
+            <ABTestHeadline />
             <div className="sp-12"></div>
             <div>
               <a href="/weekly" className="btn-secondary">Explore Therma Weekly ⟶</a>
@@ -286,6 +292,7 @@ export default function HomePage() {
             <form className="stack" style={{ gap: '12px' }} onSubmit={handleSubmit}>
               <div className="pillInput">
                 <input 
+                  id="waitlist-email"
                   type="email" 
                   placeholder="Enter your email" 
                   value={email}
@@ -293,7 +300,15 @@ export default function HomePage() {
                   required 
                 />
               </div>
-              <p className="social-proof">Join the first 1,000 beta invites</p>
+              <p className="social-proof">
+                {waitlistCount === null
+                  ? 'Join the first 1,000 beta invites'
+                  : `${Math.min(waitlistCount, 1000).toLocaleString()} of 1,000 spots claimed • ${Math.max(1000 - waitlistCount, 0).toLocaleString()} left`}
+              </p>
+              <p className="trust-note">
+                No spam. Unsubscribe anytime. We don&apos;t sell your data.{' '}
+                <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+              </p>
               <div className="sp-8"></div>
               <div>
                 <button 
@@ -517,12 +532,14 @@ export default function HomePage() {
               <a href="/contact">Contact Us</a> · 
               <a href="/faq">FAQ</a> · 
               <a href="/privacy">Privacy</a> · 
-              <a href="/beta-terms">Terms of Use</a>
+              <a href="/terms">Terms of Use</a>
             </p>
           <div className="sp-16"></div>
           <p className="caption">2025. All rights reserved</p>
         </div>
       </footer>
+
+      <StickyCTA targetInputId="waitlist-email" />
     </>
   );
 }

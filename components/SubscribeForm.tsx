@@ -105,7 +105,7 @@ export default function SubscribeForm() {
         </p>
       )}
       <p style={{ gridColumn: '1 / -1', fontSize: '.8rem', opacity: .8, margin: 0 }}>
-        By subscribing, you agree to our <a href="/(legal)/privacy">Privacy Policy</a> and <a href="/(legal)/beta-terms">Beta Terms</a>.
+        By subscribing, you agree to our <a href="/privacy">Privacy Policy</a> and <a href="/beta-terms">Beta Terms</a>.
       </p>
     </form>
   );
