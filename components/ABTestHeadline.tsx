@@ -19,16 +19,16 @@ export default function ABTestHeadline({ className }: ABTestHeadlineProps) {
         ),
         a: (
           <>
-            Your AI Companion
+            Build Daily Clarity
             <br />
-            for Daily Clarity
+            One Check-in at a Time
           </>
         ),
         b: (
           <>
-            Finally Understand
+            Understand What Shapes Your Days
             <br />
-            What Makes You Tick
+            Make Your Routine Easier
           </>
         ),
       }) as const,
