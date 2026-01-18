@@ -247,7 +247,7 @@ export default function ThermaAssistant({
             src="/therma-logo.svg"
             alt="Therma Logo"
             decoding="async"
-            loading="lazy"
+            loading="eager"
           />
         </span>
       </button>

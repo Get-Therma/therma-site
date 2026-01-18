@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import ThermaAssistantLoader from '../components/ThermaAssistantLoader';
+import ThermaAssistant from '../components/ThermaAssistant';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
@@ -212,8 +214,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         {children}
-        <ThermaAssistantLoader />
-        {/* Vercel Analytics/SpeedInsights intentionally omitted to avoid hard build dependency in local/dev setups */}
+        <ThermaAssistant />
+        <Analytics />
+        <SpeedInsights />
         
         {/* Beehiv Analytics Script */}
         {process.env.BEEHIIV_PUBLICATION_ID && (

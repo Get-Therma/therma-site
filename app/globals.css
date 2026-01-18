@@ -52,9 +52,6 @@
   --color-button-red: #E53E3E;
   --color-button-blue: #4299E1;
   --color-button-yellow: #ECC94B;
-
-  /* Sticky CTA sizing (used for safe bottom padding) */
-  --sticky-cta-height: 84px;
 }
 
 * {
@@ -149,10 +146,6 @@ body {
   display: none;
 }
 
-.stickyCtaBar[data-hidden="true"] {
-  display: none !important;
-}
-
 .stickyCtaInner {
   width: var(--container);
   max-width: 100%;
@@ -180,7 +173,7 @@ body {
   }
 
   body.has-sticky-cta {
-    padding-bottom: calc(var(--sticky-cta-height) + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
   }
 }
 
@@ -391,8 +384,9 @@ h3 { font-size: var(--h3); }
 }
 
 header {
-  /* In-flow header: participates in layout (no overlay) */
-  position: sticky;
+  position: fixed;
+  left: 0;
+  right: 0;
   top: 0;
   height: 72px;
   display: flex;
@@ -400,10 +394,6 @@ header {
   justify-content: space-between;
   padding: 0 24px;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Center brand on landing page with Instagram on right */
@@ -488,8 +478,7 @@ header.header-centered {
 }
 
 .header-spacer {
-  /* Header is no longer fixed; keep as a no-op for backwards compatibility */
-  height: 0;
+  height: var(--section-spacing-lg);
 }
 
 main {
@@ -503,7 +492,7 @@ main {
 }
 
 #hero {
-  padding: 56px 0 48px;
+  padding: var(--section-spacing-lg) 0 calc(var(--section-spacing-md) / 2);
   width: 100%;
   max-width: 100%;
   display: flex;
@@ -1737,27 +1726,16 @@ section {
 }
 
 /* Consistent spacing between content sections */
-.container.center:not(#hero) {
+.container.center {
   padding: var(--section-spacing-lg) 0;
 }
 
-/* Keep the hero compact; other sections get generous padding from the rule above. */
-
-/* Improve scroll-to-field behavior when sticky UI / keyboard is present */
-input, textarea, select {
-  scroll-margin-top: 96px; /* fixed header */
-  scroll-margin-bottom: calc(var(--sticky-cta-height) + env(safe-area-inset-bottom, 0px) + var(--vk-height, 0px));
+.container.center:first-of-type {
+  padding-top: var(--section-spacing-xl);
 }
 
-.heroWaitlistForm {
-  gap: 16px;
-}
-
-.heroWaitlistCtas {
-  display: grid;
-  gap: 12px;
-  width: 100%;
-  justify-items: center;
+.container.center:last-of-type {
+  padding-bottom: var(--section-spacing-xl);
 }
 
 /* Mobile FAQ Styles */
@@ -1985,10 +1963,7 @@ input, textarea, select {
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px; /* thumb-friendly tap target */
+  display: inline-block;
 }
 
 .btn-secondary:hover {
@@ -2333,7 +2308,7 @@ html {
   }
   
   main {
-    padding: 0;
+    padding: var(--section-spacing-lg) 0;
     min-height: 100vh;
     min-height: 100dvh; /* Dynamic viewport height for mobile */
     display: flex;
@@ -2346,7 +2321,7 @@ html {
 
   /* Make hero section prominent but not taking all space */
   #hero {
-    padding: 28px 0 28px;
+    padding: var(--section-spacing-lg) 0 var(--section-spacing-md);
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -2380,11 +2355,6 @@ html {
     width: 100%;
     max-width: 350px;
     margin: 0 auto;
-  }
-
-  .heroWaitlistCtas {
-    width: 100%;
-    max-width: 350px;
   }
 
   .social-proof {
@@ -2426,7 +2396,7 @@ html {
   }
   
   .header-spacer {
-    height: 60px;
+    height: 120px;
   }
   
   h1 {

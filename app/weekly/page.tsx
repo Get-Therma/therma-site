@@ -170,6 +170,8 @@ export default function WeeklyPage() {
         <div className="brand" style={{ cursor: 'pointer' }} onClick={() => router.push('/')}>Therma</div>
       </header>
 
+      <div className="header-spacer"></div>
+
       <main>
         <section className="container center" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div className="stack" style={{ textAlign: 'center', maxWidth: '700px' }}>

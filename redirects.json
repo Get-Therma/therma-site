@@ -1,7 +1,0 @@
-[
-  {
-    "source": "/old-blog/:path*",
-    "destination": "/weekly/:path*",
-    "permanent": true
-  }
-]

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import '../globals.css';
 import { useRouter } from 'next/navigation';
 
 export default function ThankYouPage() {
@@ -30,49 +31,48 @@ export default function ThankYouPage() {
         <div className="brand" style={{ cursor: 'pointer' }} onClick={() => router.push('/')}>Therma</div>
       </header>
 
+      <div className="header-spacer"></div>
+
       <main>
         <section className="container center">
           <div className="stack">
             <div className="confirmation-icon">✅</div>
-            <h1 style={{ fontSize: 'clamp(36px, 7vw, 64px)', lineHeight: '1.1' }}>
+            <h1 style={{ fontSize: '64px', lineHeight: '1.1' }}>
               {isDuplicate ? "You're Already In!" : "You're In."}
             </h1>
             <div className="sp-8"></div>
             {isDuplicate ? (
               <>
-                <h2 className="muted" style={{ fontSize: 'clamp(18px, 4.5vw, 32px)', lineHeight: '1.25' }}>
+                <h2 className="muted" style={{ fontSize: '40px', lineHeight: '1.2' }}>
                   This email address is already on our waitlist.
                 </h2>
                 <div className="sp-8"></div>
-                <p className="muted" style={{ fontSize: 'clamp(16px, 3.5vw, 20px)', lineHeight: '1.5', opacity: 0.9 }}>
+                <p className="muted" style={{ fontSize: '24px', lineHeight: '1.4', opacity: 0.9 }}>
                   You're already signed up! No need to register twice.
                 </p>
                 <div className="sp-8"></div>
-                <p className="muted" style={{ fontSize: 'clamp(14px, 3.2vw, 18px)', lineHeight: '1.5', opacity: 0.8 }}>
-                  Next: keep an eye on your inbox—we’ll email when your invite is ready.
+                <p className="muted" style={{ fontSize: '20px', lineHeight: '1.4', opacity: 0.8 }}>
+                  We'll be in touch soon with your invite to start discovering patterns and optimizing your routine.
                 </p>
               </>
             ) : (
-              <>
-                <h2 className="muted" style={{ fontSize: 'clamp(18px, 4.5vw, 32px)', lineHeight: '1.25' }}>
-                  Thanks for joining the Therma waitlist.
-                </h2>
-                <p className="muted" style={{ fontSize: 'clamp(14px, 3.2vw, 18px)', lineHeight: '1.5', opacity: 0.85, margin: 0 }}>
-                  Next: check your inbox. If you don’t see it, check spam/promotions—then whitelist us so you don’t miss your invite.
-                </p>
-              </>
+              <h2 className="muted" style={{ fontSize: '40px', lineHeight: '1.2' }}>
+                Thanks for joining the Therma waitlist.
+                <br/>
+                We'll be in touch soon with your invite to start discovering patterns and optimizing your routine.
+              </h2>
             )}
             <div className="sp-16"></div>
-            <h3 className="muted" style={{ fontSize: 'clamp(16px, 3.8vw, 22px)', lineHeight: '1.3' }}>
+            <h3 className="muted" style={{ fontSize: '28px', lineHeight: '1.3' }}>
               In the meantime, follow us for sneak peeks and launch updates:
             </h3>
             <div className="sp-8"></div>
-            <div className="social-links">
-              <a href="https://www.instagram.com/gettherma/" className="social-link" target="_blank" rel="noopener noreferrer">
+            <div className="social-links" style={{ fontSize: '20px' }}>
+              <a href="https://www.instagram.com/gettherma/" className="social-link" target="_blank" rel="noopener noreferrer" style={{ fontSize: '20px' }}>
                 <span className="social-icon">📷</span>
                 Follow on Instagram
               </a>
-              <a href="https://x.com/gettherma" className="social-link" target="_blank" rel="noopener noreferrer">
+              <a href="https://x.com/gettherma" className="social-link" target="_blank" rel="noopener noreferrer" style={{ fontSize: '20px' }}>
                 <span className="social-icon">🐦</span>
                 Join us on X
               </a>
