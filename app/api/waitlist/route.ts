@@ -22,9 +22,12 @@ export async function GET() {
   } catch (error) {
     console.error('Waitlist count error:', error);
     return NextResponse.json(
-      { count: 0 },
       {
-        status: 200,
+        error: 'waitlist_unavailable',
+        message: 'Unable to fetch waitlist count right now.',
+      },
+      {
+        status: 503,
         headers: {
           'Cache-Control': 'no-store',
         },
