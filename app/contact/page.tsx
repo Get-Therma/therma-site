@@ -88,8 +88,6 @@ export default function ContactPage() {
           <div className="brand" style={{ cursor: 'pointer' }} onClick={() => router.push('/')}>Therma</div>
         </header>
 
-        <div className="header-spacer"></div>
-
         <main>
           <section className="container center">
             <div className="stack">
@@ -214,8 +212,6 @@ export default function ContactPage() {
       <header>
         <div className="brand" style={{ cursor: 'pointer' }} onClick={() => router.push('/')}>Therma</div>
       </header>
-
-      <div className="header-spacer"></div>
 
       <main>
         <section className="container center">
