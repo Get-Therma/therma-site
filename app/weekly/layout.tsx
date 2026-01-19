@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     description:
       'Therma Weekly is coming soon—a slow magazine with science-backed rituals, real-world experiments, and thoughtful insights from the Therma community.',
     url: 'https://www.therma.one/weekly',
-    images: ['https://www.therma.one/og-image.png'],
+    images: ['https://www.therma.one/og-image.png?v=4'],
   },
 };
 

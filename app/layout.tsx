@@ -4,6 +4,9 @@ import ThermaAssistant from '../components/ThermaAssistant';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
+const OG_IMAGE_URL = 'https://www.therma.one/og-image.png?v=4';
+const ICONS_VERSION = '4';
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
   title: {
@@ -18,27 +21,27 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.svg?v=2', type: 'image/svg+xml' },
-      { url: '/therma-logo-16.svg?v=2', sizes: '16x16', type: 'image/svg+xml' },
-      { url: '/therma-logo-24.svg?v=2', sizes: '24x24', type: 'image/svg+xml' },
-      { url: '/therma-logo-32.svg?v=2', sizes: '32x32', type: 'image/svg+xml' }
+      { url: `/favicon.svg?v=${ICONS_VERSION}`, type: 'image/svg+xml' },
+      { url: `/therma-logo-16.svg?v=${ICONS_VERSION}`, sizes: '16x16', type: 'image/svg+xml' },
+      { url: `/therma-logo-24.svg?v=${ICONS_VERSION}`, sizes: '24x24', type: 'image/svg+xml' },
+      { url: `/therma-logo-32.svg?v=${ICONS_VERSION}`, sizes: '32x32', type: 'image/svg+xml' }
     ],
     apple: [
-      { url: '/therma-logo-192x192.png', sizes: '192x192', type: 'image/png' }
+      { url: `/apple-touch-icon.png?v=${ICONS_VERSION}`, sizes: '180x180', type: 'image/png' }
     ],
     other: [
-      { rel: 'mask-icon', url: '/therma-logo.svg?v=2', color: '#2D5016' }
+      { rel: 'mask-icon', url: `/therma-logo.svg?v=${ICONS_VERSION}`, color: '#2D5016' }
     ]
   },
-  manifest: '/site.webmanifest',
+  manifest: `/site.webmanifest?v=${ICONS_VERSION}`,
   openGraph: {
     type: 'website',
     url: 'https://www.therma.one/',
     title: 'Therma – AI Habit Tracker & Guided Reflections',
     description:
       'Unlock daily clarity with AI-guided reflections. Join the waitlist for early access to Therma, an AI habit tracker that helps you discover patterns and optimize your routine.',
-    images: [{ 
-      url: 'https://www.therma.one/og-image.png', 
+    images: [{
+      url: OG_IMAGE_URL,
       width: 1200, 
       height: 630, 
       alt: 'Therma - AI Habit Tracker' 
@@ -50,7 +53,7 @@ export const metadata: Metadata = {
     title: 'Therma – AI Habit Tracker & Guided Reflections',
     description:
       'Unlock daily clarity with AI-guided reflections. Join the waitlist for early access to Therma.',
-    images: ['https://www.therma.one/og-image.png'],
+    images: [OG_IMAGE_URL],
     creator: '@therma'
   },
   robots: { index: true, follow: true }
