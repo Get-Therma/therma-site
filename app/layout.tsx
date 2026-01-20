@@ -4,8 +4,8 @@ import ThermaAssistant from '../components/ThermaAssistant';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const OG_IMAGE_URL = 'https://www.therma.one/og-image.png?v=4';
-const ICONS_VERSION = '4';
+const OG_IMAGE_URL = 'https://www.therma.one/og-image.png?v=5';
+const ICONS_VERSION = '5';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
@@ -125,7 +125,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 "https://x.com/gettherma",
                 "https://www.instagram.com/gettherma/",
                 "https://www.pinterest.com/gettherma/",
-                "https://www.linkedin.com/company/gettherma/",
+                "https://www.linkedin.com/company/get-therma/",
                 "https://www.youtube.com/@gettherma"
               ],
               "contactPoint": {

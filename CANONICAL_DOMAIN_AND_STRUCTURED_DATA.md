@@ -159,7 +159,7 @@ curl -I "https://gettherma.ai/faq?utm_source=test&ref=email"
     "https://x.com/gettherma",
     "https://www.instagram.com/gettherma/",
     "https://www.pinterest.com/gettherma/",
-    "https://www.linkedin.com/company/gettherma/",
+    "https://www.linkedin.com/company/get-therma/",
     "https://www.youtube.com/@gettherma"
   ],
   "contactPoint": {

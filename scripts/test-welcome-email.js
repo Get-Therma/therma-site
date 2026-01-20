@@ -167,7 +167,7 @@ async function testWelcomeEmail() {
             <a href="https://twitter.com/gettherma" style="color: #8fbc8f; text-decoration: none; margin: 0 15px; font-size: 16px; font-weight: 500;">
               Twitter
             </a>
-            <a href="https://linkedin.com/company/gettherma" style="color: #8fbc8f; text-decoration: none; margin: 0 15px; font-size: 16px; font-weight: 500;">
+            <a href="https://linkedin.com/company/get-therma" style="color: #8fbc8f; text-decoration: none; margin: 0 15px; font-size: 16px; font-weight: 500;">
               LinkedIn
             </a>
           </div>

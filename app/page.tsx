@@ -207,7 +207,7 @@ export default function HomePage() {
             </svg>
           </a>
           <a
-            href="https://www.linkedin.com/company/gettherma/"
+            href="https://www.linkedin.com/company/get-therma/"
             target="_blank"
             rel="noopener noreferrer"
             className="instagram-link"

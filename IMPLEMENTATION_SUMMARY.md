@@ -111,7 +111,7 @@ curl -s https://www.therma.one/robots.txt
     "https://x.com/gettherma",
     "https://www.instagram.com/gettherma/",
     "https://www.pinterest.com/gettherma/",
-    "https://www.linkedin.com/company/gettherma/",
+    "https://www.linkedin.com/company/get-therma/",
     "https://www.youtube.com/@gettherma"
   ],
   "contactPoint": {

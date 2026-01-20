@@ -94,7 +94,7 @@ const defaultConfig: EmailConfig = {
   teamMessage: "We're building something special together—a tool that honors your privacy while helping you discover the patterns that make your days more meaningful.",
   socialLinks: {
     twitter: 'https://twitter.com/gettherma',
-    linkedin: 'https://linkedin.com/company/gettherma',
+    linkedin: 'https://linkedin.com/company/get-therma',
     website: 'https://therma.one'
   },
   avatarUrl: 'https://therma.one/bot-avatar@1x.png',

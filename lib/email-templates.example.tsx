@@ -83,7 +83,7 @@ export const fullCustomExample = ThankYouEmailTemplate({
     teamMessage: 'We\'re a small team passionate about helping people live more intentionally.',
     socialLinks: {
       twitter: 'https://twitter.com/gettherma',
-      linkedin: 'https://linkedin.com/company/gettherma',
+      linkedin: 'https://linkedin.com/company/get-therma',
       website: 'https://therma.one'
     },
     avatarUrl: 'https://therma.one/bot-avatar@1x.png',
