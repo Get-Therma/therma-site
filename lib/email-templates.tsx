@@ -69,7 +69,7 @@ export interface EmailConfig {
 
 // Default configuration
 const defaultConfig: EmailConfig = {
-  logoUrl: 'https://www.therma.one/therma-logo-80x80.png',
+  logoUrl: 'https://www.therma.one/therma-logo.svg',
   logoWidth: 80,
   logoHeight: 80,
   brandName: 'Therma',
