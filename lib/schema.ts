@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, serial } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, serial, jsonb } from 'drizzle-orm/pg-core';
 import { z } from 'zod';
 
 // Waitlist table
@@ -18,6 +18,19 @@ export const contacts = pgTable('contacts', {
   email: text('email').notNull(),
   subject: text('subject').notNull(),
   message: text('message').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// Email events table - tracks opens, clicks, bounces from Resend webhooks
+export const emailEvents = pgTable('email_events', {
+  id: serial('id').primaryKey(),
+  emailId: text('email_id').notNull(), // Resend email ID
+  recipientEmail: text('recipient_email'),
+  eventType: text('event_type').notNull(), // sent, delivered, opened, clicked, bounced, complained
+  linkUrl: text('link_url'), // For click events
+  userAgent: text('user_agent'),
+  ipAddress: text('ip_address'),
+  metadata: jsonb('metadata'), // Full event payload from Resend
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
