@@ -30,19 +30,6 @@ export default async function OpenGraphImage() {
           position: 'relative',
         }}
       >
-        {/* Subtle texture overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            background: 'radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.02) 100%)',
-            opacity: 0.3,
-          }}
-        />
-        
         {/* Main content */}
         <div
           style={{
@@ -50,15 +37,15 @@ export default async function OpenGraphImage() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 24,
-            zIndex: 1,
+            gap: '24px',
+            position: 'relative',
           }}
         >
           {/* Therma title */}
           <div
             style={{
               fontFamily: 'PPPangaia',
-              fontSize: 180,
+              fontSize: '180px',
               lineHeight: 1,
               color: '#000000',
               letterSpacing: '-0.02em',
@@ -71,7 +58,7 @@ export default async function OpenGraphImage() {
           <div
             style={{
               fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
-              fontSize: 36,
+              fontSize: '36px',
               lineHeight: 1.2,
               color: '#000000',
               fontWeight: 400,
@@ -81,6 +68,19 @@ export default async function OpenGraphImage() {
             A quieter way to check in.
           </div>
         </div>
+        
+        {/* Subtle texture overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            background: 'radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.02) 100%)',
+            opacity: '0.3',
+          }}
+        />
       </div>
     ),
     {

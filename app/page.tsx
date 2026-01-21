@@ -265,11 +265,6 @@ export default function HomePage() {
           <div className="stack">
             <ABTestHeadline className="hero-headline" />
             <div className="sp-24"></div>
-            <div>
-              <a href="/weekly" className="btn-secondary">Explore Therma Weekly ⟶</a>
-            </div>
-
-            <div className="sp-16"></div>
             
             <form className="stack" style={{ gap: '16px' }} onSubmit={handleSubmit}>
               <div className="pillInput">
