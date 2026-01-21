@@ -26,7 +26,7 @@ const ITEMS: Item[] = [
     title: 'Mindful Space',
     body: 'A quiet place to slow down, breathe, and actually hear yourself.',
     alt: 'A small, soft cloud.',
-    microStory: '→ Take a moment to pause and notice what you're feeling right now.'
+    microStory: "→ Take a moment to pause and notice what you're feeling right now."
   }
 ];
 

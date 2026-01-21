@@ -51,7 +51,13 @@ Run this command to check verification status:
 npm run verify:domains
 ```
 
-### 4. Test All Domains
+### 4. Verify DMARC Records
+Run this command to check if DMARC records are configured:
+```bash
+npm run verify:dmarc
+```
+
+### 5. Test All Domains
 Run this command to test email sending from all domains:
 ```bash
 npm run test:all-domains
@@ -72,6 +78,52 @@ Value: v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC...
 Name: gettherma.ai
 Value: 10 feedback-smtp.us-east-1.amazonses.com
 ```
+
+### SPF Record (Sender Policy Framework)
+```
+Name: gettherma.ai (or @)
+Value: v=spf1 include:amazonses.com ~all
+```
+
+### DMARC Record (Domain-based Message Authentication, Reporting & Conformance)
+DMARC records help protect your domain from email spoofing and improve deliverability. Add these TXT records for each domain:
+
+#### For gettherma.ai
+```
+Name: _dmarc.gettherma.ai
+Value: v=DMARC1; p=none; rua=mailto:dmarc-reports@gettherma.ai; ruf=mailto:dmarc-reports@gettherma.ai; fo=1; aspf=r; adkim=r
+```
+
+#### For therma.one
+```
+Name: _dmarc.therma.one
+Value: v=DMARC1; p=none; rua=mailto:dmarc-reports@gettherma.ai; ruf=mailto:dmarc-reports@gettherma.ai; fo=1; aspf=r; adkim=r
+```
+
+#### For get-therma.com
+```
+Name: _dmarc.get-therma.com
+Value: v=DMARC1; p=none; rua=mailto:dmarc-reports@gettherma.ai; ruf=mailto:dmarc-reports@gettherma.ai; fo=1; aspf=r; adkim=r
+```
+
+**DMARC Policy Explanation:**
+- `v=DMARC1` - DMARC version
+- `p=none` - Policy: Start in monitoring mode (doesn't affect delivery). After monitoring for 1-2 weeks, you can change to `p=quarantine` or `p=reject`
+- `rua=mailto:dmarc-reports@gettherma.ai` - Aggregate reports email (daily summaries)
+- `ruf=mailto:dmarc-reports@gettherma.ai` - Forensic reports email (immediate failure notifications)
+- `fo=1` - Failure options: Generate reports if SPF or DKIM fails
+- `aspf=r` - SPF alignment: relaxed (allows subdomains)
+- `adkim=r` - DKIM alignment: relaxed (allows subdomains)
+
+**DMARC Policy Progression:**
+1. **Start with `p=none`** (monitoring mode) - Collect reports for 1-2 weeks
+2. **Move to `p=quarantine`** - Send failing emails to spam folder
+3. **Move to `p=reject`** - Reject failing emails entirely (only after confirming everything works)
+
+**Important Notes:**
+- Make sure the `dmarc-reports@gettherma.ai` email address exists and can receive reports
+- You can use a service like [Postmark DMARC Reports](https://dmarc.postmarkapp.com/) or [dmarcian](https://dmarcian.com/) to parse and analyze DMARC reports
+- After 1-2 weeks of monitoring, review reports and adjust policy as needed
 
 ## Troubleshooting
 
@@ -95,6 +147,9 @@ Value: 10 feedback-smtp.us-east-1.amazonses.com
 ```bash
 # Check domain verification status
 npm run verify:domains
+
+# Check DMARC record configuration
+npm run verify:dmarc
 
 # Test email sending from all domains
 npm run test:all-domains

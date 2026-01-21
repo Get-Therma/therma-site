@@ -1,3 +1,14 @@
+/**
+ * Legacy logo generation script - generates logos from fonts
+ * 
+ * NOTE: For new logo updates, use the master file approach:
+ * - Master file: /public/therma-logo-master.png
+ * - Script: scripts/generate-logos-from-master.mjs
+ * - Command: npm run generate:logos
+ * 
+ * See LOGO_MASTER_FILE.md for details.
+ */
+
 import React from 'react';
 import fs from 'node:fs/promises';
 import path from 'node:path';

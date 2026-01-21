@@ -69,7 +69,7 @@ export interface EmailConfig {
 
 // Default configuration
 const defaultConfig: EmailConfig = {
-  logoUrl: 'https://gettherma.ai/therma-logo.svg',
+  logoUrl: 'https://www.therma.one/therma-logo-80x80.png',
   logoWidth: 80,
   logoHeight: 80,
   brandName: 'Therma',
@@ -97,7 +97,7 @@ const defaultConfig: EmailConfig = {
     linkedin: 'https://linkedin.com/company/get-therma',
     website: 'https://therma.one'
   },
-  avatarUrl: 'https://gettherma.ai/bot-avatar@1x.png',
+  avatarUrl: 'https://www.therma.one/bot-avatar@1x.png',
   unsubscribeText: "You're receiving this because you signed up for the Therma waitlist. If you didn't sign up, you can safely ignore this email."
 };
 

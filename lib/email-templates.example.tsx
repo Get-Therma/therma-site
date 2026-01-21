@@ -28,7 +28,7 @@ export const customBrandingExample = ThankYouEmailTemplate({
     brandName: 'Therma',
     tagline: 'Your personal pattern recognition companion',
     primaryColor: '#6B8E23', // Olive green
-    logoUrl: 'https://gettherma.ai/therma-logo.svg',
+    logoUrl: 'https://www.therma.one/therma-logo-80x80.png',
     benefits: [
       'Priority access to beta features',
       'Weekly insights on mindfulness and patterns',
@@ -66,7 +66,7 @@ export const fullCustomExample = ThankYouEmailTemplate({
     brandName: 'Therma',
     tagline: 'Patterns. Progress. Peace.',
     primaryColor: '#8fbc8f',
-    logoUrl: 'https://gettherma.ai/therma-logo.svg',
+    logoUrl: 'https://www.therma.one/therma-logo-80x80.png',
     greeting: 'Hello',
     welcomeMessage: 'Thank you for joining our community of mindful individuals.',
     quote: {
@@ -86,7 +86,7 @@ export const fullCustomExample = ThankYouEmailTemplate({
       linkedin: 'https://linkedin.com/company/get-therma',
       website: 'https://therma.one'
     },
-    avatarUrl: 'https://gettherma.ai/bot-avatar@1x.png',
+    avatarUrl: 'https://www.therma.one/bot-avatar@1x.png',
     unsubscribeText: 'You signed up for the Therma waitlist. Not interested? No worries, just ignore this email.'
   }
 });

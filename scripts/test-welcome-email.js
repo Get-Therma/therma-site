@@ -79,7 +79,7 @@ async function testWelcomeEmail() {
       <!-- Header with logo and branding -->
       <div class="email-header" style="text-align: center; margin-bottom: 40px; padding: 30px 20px; background: #FFFFFF; border-radius: 16px; border: 1px solid #E6E1D8;">
         <img 
-          src="https://gettherma.ai/therma-logo.svg" 
+          src="https://www.therma.one/therma-logo-80x80.png" 
           alt="Therma Logo" 
           width="80" 
           height="80"
@@ -144,7 +144,7 @@ async function testWelcomeEmail() {
         <!-- Warm invitation with profile picture -->
         <div style="text-align: center; margin: 30px 0; padding: 25px; background: #FEFBF3; border-radius: 12px; border: 1px solid rgba(52, 56, 24, 0.2);">
           <img 
-            src="https://gettherma.ai/bot-avatar@1x.png" 
+            src="https://www.therma.one/bot-avatar@1x.png" 
             alt="Therma Team" 
             width="60" 
             height="60"

@@ -18,6 +18,7 @@
     "test:complete-flow": "node scripts/test-complete-flow.js",
     "test:all-domains": "node scripts/test-all-domains.js",
     "verify:domains": "node scripts/verify-resend-domains.js",
+    "verify:dmarc": "node scripts/verify-dmarc.js",
     "diagnose:domains": "node scripts/diagnose-domain-performance.js",
     "debug:subscribe": "node scripts/debug-subscribe-api.js",
     "check:subscribers": "node scripts/check-beehiv-subscribers.js",
@@ -25,7 +26,8 @@
     "check:specific": "node scripts/check-specific-email.js",
     "diagnose:failed": "node scripts/diagnose-failed-submission.js",
     "check:cierra": "node scripts/check-cierra-email.js",
-    "discover:beehiv": "node scripts/discover-beehiv-subscriptions.js"
+    "discover:beehiv": "node scripts/discover-beehiv-subscriptions.js",
+    "generate:logos": "node scripts/generate-logos-from-master.mjs"
   },
   "keywords": [
     "therma",
@@ -56,6 +58,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "drizzle-kit": "^0.31.5",
+    "sharp": "^0.34.5",
     "typescript": "^5.0.0",
     "vercel": "^48.2.9"
   }
