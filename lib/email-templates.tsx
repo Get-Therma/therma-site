@@ -74,10 +74,10 @@ const defaultConfig: EmailConfig = {
   logoHeight: 80,
   brandName: 'Therma',
   tagline: 'See your patterns. Keep what works. Steady your days.',
-  primaryColor: '#8fbc8f',
-  backgroundColor: '#000000',
-  textColor: '#FFFFFF',
-  secondaryTextColor: 'rgba(255, 255, 255, 0.9)',
+  primaryColor: '#343818',
+  backgroundColor: '#F8F4ED',
+  textColor: '#050F1A',
+  secondaryTextColor: '#5C5C5C',
   greeting: 'Hi there,',
   welcomeMessage: "Thank you for joining the Therma waitlist! We're genuinely excited to have you on this journey toward steadier, more mindful days.",
   quote: {
@@ -190,44 +190,42 @@ const styles = {
     zIndex: 1
   },
   card: {
-    background: 'rgba(255, 255, 255, 0.03)',
-    backdropFilter: 'blur(15px)',
+    background: '#FFFFFF',
     borderRadius: '12px',
     padding: '30px',
-    border: '1px solid rgba(255, 255, 255, 0.08)',
+    border: '1px solid #E6E1D8',
     marginBottom: '30px'
   },
   headerCard: {
     textAlign: 'center' as const,
     marginBottom: '40px',
     padding: '30px 20px',
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(20px)',
+    background: '#FFFFFF',
     borderRadius: '16px',
-    border: '1px solid rgba(255, 255, 255, 0.1)'
+    border: '1px solid #E6E1D8'
   },
   quoteCard: {
-    background: 'rgba(143, 188, 143, 0.1)',
+    background: '#FEFBF3',
     padding: '25px',
     borderRadius: '12px',
     margin: '25px 0',
-    borderLeft: '4px solid #8fbc8f',
+    borderLeft: '4px solid #343818',
     textAlign: 'center' as const
   },
   benefitsCard: {
-    background: 'rgba(255, 255, 255, 0.05)',
+    background: '#FFFFFF',
     padding: '25px',
     borderRadius: '12px',
     margin: '25px 0',
-    border: '1px solid rgba(255, 255, 255, 0.1)'
+    border: '1px solid #E6E1D8'
   },
   teamCard: {
     textAlign: 'center' as const,
     margin: '30px 0',
     padding: '25px',
-    background: 'rgba(143, 188, 143, 0.08)',
+    background: '#FEFBF3',
     borderRadius: '12px',
-    border: '1px solid rgba(143, 188, 143, 0.2)'
+    border: '1px solid rgba(52, 56, 24, 0.2)'
   }
 };
 
@@ -281,22 +279,22 @@ export const ThankYouEmailTemplate = ({
               height: 60px !important;
             }
             .brand-name {
-              font-size: 36px !important;
+              font-size: 48px !important;
             }
             .tagline {
-              font-size: 16px !important;
+              font-size: 12px !important;
             }
             h1 {
               font-size: 24px !important;
             }
             h3 {
-              font-size: 18px !important;
+              font-size: 21px !important;
             }
           }
         `}</style>
       </head>
       <body style={{ 
-        fontFamily: 'PPPangaia, system-ui, -apple-system, sans-serif', 
+        fontFamily: 'system-ui, -apple-system, sans-serif',
         lineHeight: '1.6', 
         color: textColor,
         backgroundColor: backgroundColor,
@@ -314,10 +312,8 @@ export const ThankYouEmailTemplate = ({
           width: '100%',
           height: '100%',
           background: `
-            radial-gradient(circle at 20% 80%, ${colorWithOpacity(primaryColor, 0.2)} 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(245, 245, 220, 0.2) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, ${colorWithOpacity(primaryColor, 0.15)} 0%, transparent 50%),
-            linear-gradient(135deg, ${backgroundColor} 0%, #1a1a1a 100%)
+            radial-gradient(120% 120% at 50% 50%, ${colorWithOpacity(primaryColor, 0.12)} 0%, ${colorWithOpacity(primaryColor, 0.05)} 35%, transparent 60%),
+            linear-gradient(135deg, ${backgroundColor} 0%, ${colorWithOpacity(primaryColor, 0.08)} 40%, ${colorWithOpacity(primaryColor, 0.04)} 70%, ${backgroundColor} 100%)
           `,
           zIndex: -1
         }}></div>
@@ -341,7 +337,7 @@ export const ThankYouEmailTemplate = ({
             />
             )}
             <div className="brand-name" style={{
-              fontSize: '48px',
+              fontSize: '64px',
               fontWeight: '400',
               color: primaryColor,
               marginBottom: '10px',
@@ -352,9 +348,9 @@ export const ThankYouEmailTemplate = ({
             </div>
             {emailConfig.tagline && (
               <p className="tagline" style={{ 
-              fontSize: '18px', 
+              fontSize: '14px', 
               margin: '0',
-              color: 'rgba(255, 255, 255, 0.8)',
+              color: secondaryTextColor,
               fontStyle: 'italic'
             }}>
                 {emailConfig.tagline}
@@ -366,19 +362,20 @@ export const ThankYouEmailTemplate = ({
           <div className="email-card" style={styles.card}>
             <h1 style={{ 
               color: primaryColor, 
-              fontSize: '28px',
+              fontSize: '32px',
               margin: '0 0 20px 0',
               fontWeight: '400',
-              textAlign: 'center' as const
+              textAlign: 'center' as const,
+              fontFamily: 'PPPangaia, serif'
             }}>
               Welcome to the journey! 🎉
             </h1>
             
-            <p style={{ fontSize: '16px', marginBottom: '20px', color: secondaryTextColor }}>
+            <p style={{ fontSize: '14px', marginBottom: '20px', color: secondaryTextColor }}>
               {greeting}
             </p>
             
-            <p style={{ fontSize: '16px', marginBottom: '25px', color: secondaryTextColor }}>
+            <p style={{ fontSize: '14px', marginBottom: '25px', color: secondaryTextColor }}>
               {personalization.customMessage || emailConfig.welcomeMessage}
             </p>
 
@@ -400,7 +397,7 @@ export const ThankYouEmailTemplate = ({
               </p>
               <p style={{ 
                 fontSize: '14px',
-                color: 'rgba(255, 255, 255, 0.7)',
+                color: colorWithOpacity(textColor, 0.6),
                 margin: '0',
                 fontStyle: 'normal'
               }}>
@@ -415,7 +412,7 @@ export const ThankYouEmailTemplate = ({
               <h3 style={{ 
                 margin: '0 0 15px 0', 
                   color: primaryColor,
-                fontSize: '20px',
+                fontSize: '24px',
                 fontWeight: '400'
               }}>
                 What's next on your journey?
@@ -426,7 +423,7 @@ export const ThankYouEmailTemplate = ({
                   color: secondaryTextColor
                 }}>
                   {emailConfig.benefits.map((benefit, index) => (
-                    <li key={index} style={{ marginBottom: '8px', fontSize: '16px' }}>
+                    <li key={index} style={{ marginBottom: '8px', fontSize: '14px' }}>
                       {benefit}
                     </li>
                   ))}
@@ -439,14 +436,14 @@ export const ThankYouEmailTemplate = ({
             <div style={{ margin: '25px 0' }}>
               <h3 style={{ 
                   color: primaryColor,
-                fontSize: '18px',
+                fontSize: '24px',
                 margin: '0 0 15px 0',
                 fontWeight: '400'
               }}>
                   What is {emailConfig.brandName}?
               </h3>
               <p style={{ 
-                fontSize: '16px',
+                fontSize: '14px',
                   color: secondaryTextColor,
                 lineHeight: '1.6',
                 margin: '0'
@@ -479,7 +476,7 @@ export const ThankYouEmailTemplate = ({
               />
                 )}
               <p style={{ 
-                fontSize: '16px',
+                fontSize: '14px',
                   color: secondaryTextColor,
                 margin: '0 0 15px 0',
                 lineHeight: '1.5'
@@ -487,7 +484,7 @@ export const ThankYouEmailTemplate = ({
                   {emailConfig.teamMessage}
               </p>
               <p style={{ 
-                fontSize: '16px',
+                fontSize: '14px',
                   color: primaryColor,
                 margin: '0',
                 fontWeight: '400'
@@ -503,13 +500,13 @@ export const ThankYouEmailTemplate = ({
                 textAlign: 'center' as const, 
               margin: '30px 0',
               padding: '20px',
-              background: 'rgba(255, 255, 255, 0.03)',
+              background: '#FFFFFF',
               borderRadius: '12px'
             }}>
               <p style={{ 
                 margin: '0 0 15px 0', 
-                fontSize: '16px', 
-                color: 'rgba(255, 255, 255, 0.8)' 
+                fontSize: '14px', 
+                color: secondaryTextColor 
               }}>
                 <strong>Stay connected:</strong>
               </p>
@@ -519,7 +516,7 @@ export const ThankYouEmailTemplate = ({
                       color: primaryColor, 
                   textDecoration: 'none',
                   margin: '0 15px',
-                      fontSize: '16px',
+                      fontSize: '14px',
                       fontWeight: '500'
                 }}>
                   Twitter
@@ -530,7 +527,7 @@ export const ThankYouEmailTemplate = ({
                       color: primaryColor, 
                   textDecoration: 'none',
                   margin: '0 15px',
-                      fontSize: '16px',
+                      fontSize: '14px',
                       fontWeight: '500'
                 }}>
                   LinkedIn
@@ -541,7 +538,7 @@ export const ThankYouEmailTemplate = ({
                       color: primaryColor, 
                       textDecoration: 'none',
                       margin: '0 15px',
-                      fontSize: '16px',
+                      fontSize: '14px',
                       fontWeight: '500'
                     }}>
                       Website
@@ -553,7 +550,7 @@ export const ThankYouEmailTemplate = ({
 
             <p style={{ 
               fontSize: '14px', 
-              color: 'rgba(255, 255, 255, 0.7)', 
+              color: colorWithOpacity(textColor, 0.6), 
               marginTop: '30px',
               textAlign: 'center' as const
             }}>
@@ -562,7 +559,7 @@ export const ThankYouEmailTemplate = ({
 
             <p style={{ 
               fontSize: '14px', 
-              color: 'rgba(255, 255, 255, 0.6)', 
+              color: colorWithOpacity(textColor, 0.6), 
               marginTop: '20px',
               textAlign: 'center' as const
             }}>
@@ -575,13 +572,13 @@ export const ThankYouEmailTemplate = ({
           <div style={{ 
             textAlign: 'center' as const,
             padding: '20px',
-            background: 'rgba(255, 255, 255, 0.02)',
+            background: '#FFFFFF',
             borderRadius: '8px',
-            border: '1px solid rgba(255, 255, 255, 0.05)'
+            border: '1px solid #E6E1D8'
           }}>
             <p style={{ 
               fontSize: '12px', 
-              color: 'rgba(255, 255, 255, 0.5)', 
+              color: colorWithOpacity(textColor, 0.6), 
               margin: '0',
               lineHeight: '1.4'
             }}>

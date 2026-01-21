@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1075 1011" role="img" aria-label="Hero phone placeholder">
+  <defs>
+    <linearGradient id="p" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.04"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1075" height="1011" rx="48" fill="url(#p)" stroke="rgba(255,255,255,0.18)"/>
+  <rect x="360" y="140" width="355" height="720" rx="54" fill="rgba(0,0,0,0.40)" stroke="rgba(255,255,255,0.22)"/>
+  <rect x="415" y="190" width="245" height="620" rx="24" fill="rgba(255,255,255,0.08)"/>
+  <circle cx="538" cy="800" r="28" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.25)"/>
+  <text x="50%" y="55%" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-family="Inter, Arial" font-size="18">
+    Replace with Figma export: hero-phone
+  </text>
+</svg>
+

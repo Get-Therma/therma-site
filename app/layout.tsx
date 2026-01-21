@@ -1,20 +1,18 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import ThermaAssistant from '../components/ThermaAssistant';
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const OG_IMAGE_URL = 'https://www.therma.one/og-image.png?v=5';
+const OG_IMAGE_URL = 'https://www.therma.one/opengraph-image.png?v=2';
 const ICONS_VERSION = '5';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
   title: {
-    default: 'Therma – AI Habit Tracker & Guided Reflections',
-    template: '%s · Therma'
+    default: 'Therma – A quieter way to check in.',
+    template: '%s | Therma'
   },
   description:
-    'Unlock daily clarity with AI-guided reflections. Therma is an AI habit tracker that helps you discover patterns and optimize your routine. Join the waitlist for early access.',
+    'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
   keywords: ['AI habit tracker', 'habit tracking', 'AI reflections', 'mindfulness app', 'daily reflections', 'AI companion', 'habit optimization', 'self-reflection tool'],
   alternates: { 
     canonical: 'https://www.therma.one/',
@@ -37,22 +35,22 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://www.therma.one/',
-    title: 'Therma – AI Habit Tracker & Guided Reflections',
+    title: 'Therma – A quieter way to check in.',
     description:
-      'Unlock daily clarity with AI-guided reflections. Join the waitlist for early access to Therma, an AI habit tracker that helps you discover patterns and optimize your routine.',
+      'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
     images: [{
       url: OG_IMAGE_URL,
       width: 1200, 
       height: 630, 
-      alt: 'Therma - AI Habit Tracker' 
+      alt: 'Therma | A quieter way to check in.'
     }],
     siteName: 'Therma'
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Therma – AI Habit Tracker & Guided Reflections',
+    title: 'Therma – A quieter way to check in.',
     description:
-      'Unlock daily clarity with AI-guided reflections. Join the waitlist for early access to Therma.',
+      'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
     images: [OG_IMAGE_URL],
     creator: '@therma'
   },
@@ -218,8 +216,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <ThermaAssistant />
-        <Analytics />
-        <SpeedInsights />
         
         {/* Beehiv Analytics Script */}
         {process.env.BEEHIIV_PUBLICATION_ID && (

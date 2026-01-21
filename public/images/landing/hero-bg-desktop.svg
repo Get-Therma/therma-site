@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1024" role="img" aria-label="Hero background placeholder">
+  <defs>
+    <radialGradient id="g1" cx="20%" cy="20%" r="70%">
+      <stop offset="0" stop-color="#ff6e38" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#0a0a0a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="85%" cy="25%" r="70%">
+      <stop offset="0" stop-color="#7ca2fd" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#0a0a0a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0a0a"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+  <rect width="1440" height="1024" fill="url(#bg)"/>
+  <rect width="1440" height="1024" fill="url(#g1)"/>
+  <rect width="1440" height="1024" fill="url(#g2)"/>
+  <text x="50%" y="50%" text-anchor="middle" fill="rgba(255,255,255,0.55)" font-family="Inter, Arial" font-size="18">
+    Replace with Figma export: hero-bg-desktop
+  </text>
+</svg>
+

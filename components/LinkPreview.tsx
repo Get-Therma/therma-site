@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 interface LinkPreviewData {
   url: string;
@@ -53,6 +53,16 @@ export function LinkPreview({ url, className = '' }: LinkPreviewProps) {
   const [previewData, setPreviewData] = useState<LinkPreviewData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [displayHost, displayUrl] = useMemo(() => {
+    try {
+      const parsed = new URL(url);
+      const pathname = parsed.pathname && parsed.pathname !== '/' ? parsed.pathname : '';
+      const cleanUrl = `${parsed.hostname}${pathname}`;
+      return [parsed.hostname, cleanUrl];
+    } catch {
+      return [url, url];
+    }
+  }, [url]);
 
   useEffect(() => {
     const loadPreview = async () => {
@@ -107,6 +117,10 @@ export function LinkPreview({ url, className = '' }: LinkPreviewProps) {
     );
   }
 
+  const displayTitle = previewData.title || previewData.siteName || displayHost || 'Link';
+  const displaySite = previewData.siteName || displayHost;
+  const displayDescription = previewData.description && previewData.description !== displayTitle ? previewData.description : '';
+
   return (
     <div className={`link-preview ${className}`}>
       <a 
@@ -141,21 +155,21 @@ export function LinkPreview({ url, className = '' }: LinkPreviewProps) {
                 }}
               />
             )}
-            <span className="link-preview__site">{previewData.siteName || new URL(url).hostname}</span>
+            <span className="link-preview__site">{displaySite}</span>
           </div>
           
           <h4 className="link-preview__title">
-            {previewData.title || 'Untitled'}
+            {displayTitle}
           </h4>
           
-          {previewData.description && (
+          {displayDescription && (
             <p className="link-preview__description">
-              {previewData.description}
+              {displayDescription}
             </p>
           )}
           
           <div className="link-preview__url">
-            {url}
+            {displayUrl}
           </div>
         </div>
       </a>

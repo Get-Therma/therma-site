@@ -11,6 +11,18 @@ interface LinkMetadata {
   favicon?: string;
 }
 
+function normalizeMetaText(value?: string): string | undefined {
+  if (!value) return undefined;
+  const decoded = value
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&apos;/gi, "'")
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>');
+  return decoded.replace(/\s+/g, ' ').trim();
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const url = searchParams.get('url');
@@ -63,18 +75,18 @@ async function fetchLinkMetadata(url: string): Promise<LinkMetadata> {
     // Extract title
     const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
     if (titleMatch) {
-      metadata.title = titleMatch[1].trim();
+      metadata.title = normalizeMetaText(titleMatch[1]);
     }
 
     // Extract Open Graph tags
     const ogTitleMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["'][^>]*>/i);
     if (ogTitleMatch) {
-      metadata.title = ogTitleMatch[1].trim();
+      metadata.title = normalizeMetaText(ogTitleMatch[1]);
     }
 
     const ogDescriptionMatch = html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']+)["'][^>]*>/i);
     if (ogDescriptionMatch) {
-      metadata.description = ogDescriptionMatch[1].trim();
+      metadata.description = normalizeMetaText(ogDescriptionMatch[1]);
     }
 
     const ogImageMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["'][^>]*>/i);
@@ -84,21 +96,21 @@ async function fetchLinkMetadata(url: string): Promise<LinkMetadata> {
 
     const ogSiteNameMatch = html.match(/<meta[^>]*property=["']og:site_name["'][^>]*content=["']([^"']+)["'][^>]*>/i);
     if (ogSiteNameMatch) {
-      metadata.siteName = ogSiteNameMatch[1].trim();
+      metadata.siteName = normalizeMetaText(ogSiteNameMatch[1]);
     }
 
     // Extract Twitter Card tags as fallback
     if (!metadata.title) {
       const twitterTitleMatch = html.match(/<meta[^>]*name=["']twitter:title["'][^>]*content=["']([^"']+)["'][^>]*>/i);
       if (twitterTitleMatch) {
-        metadata.title = twitterTitleMatch[1].trim();
+        metadata.title = normalizeMetaText(twitterTitleMatch[1]);
       }
     }
 
     if (!metadata.description) {
       const twitterDescriptionMatch = html.match(/<meta[^>]*name=["']twitter:description["'][^>]*content=["']([^"']+)["'][^>]*>/i);
       if (twitterDescriptionMatch) {
-        metadata.description = twitterDescriptionMatch[1].trim();
+        metadata.description = normalizeMetaText(twitterDescriptionMatch[1]);
       }
     }
 
@@ -119,7 +131,7 @@ async function fetchLinkMetadata(url: string): Promise<LinkMetadata> {
     if (!metadata.description) {
       const metaDescriptionMatch = html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["'][^>]*>/i);
       if (metaDescriptionMatch) {
-        metadata.description = metaDescriptionMatch[1].trim();
+        metadata.description = normalizeMetaText(metaDescriptionMatch[1]);
       }
     }
 

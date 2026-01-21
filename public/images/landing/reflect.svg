@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Reflect placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff7ed"/>
+      <stop offset="1" stop-color="#fdf2f8"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" rx="28" fill="url(#bg)"/>
+  <rect x="420" y="130" width="300" height="190" rx="22" fill="rgba(124,162,253,0.16)" stroke="rgba(124,162,253,0.30)"/>
+  <rect x="450" y="165" width="240" height="18" rx="9" fill="rgba(17,24,39,0.14)"/>
+  <rect x="450" y="198" width="200" height="14" rx="7" fill="rgba(17,24,39,0.10)"/>
+  <rect x="450" y="225" width="220" height="14" rx="7" fill="rgba(17,24,39,0.10)"/>
+  <text x="60" y="90" fill="#111827" font-family="Inter, Arial" font-size="26" font-weight="600">Reflect</text>
+  <text x="60" y="125" fill="rgba(17,24,39,0.65)" font-family="Inter, Arial" font-size="16">Placeholder image</text>
+  <text x="60" y="160" fill="rgba(17,24,39,0.55)" font-family="Inter, Arial" font-size="14">Replace with Figma export: reflect</text>
+</svg>
+
