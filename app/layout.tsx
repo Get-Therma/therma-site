@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import ThermaAssistant from '../components/ThermaAssistant';
 
-const OG_IMAGE_URL = 'https://www.therma.one/opengraph-image.png?v=2';
+const OG_IMAGE_URL = 'https://www.therma.one/opengraph-image.png?v=3';
 const ICONS_VERSION = '5';
 
 export const metadata: Metadata = {
@@ -38,6 +38,7 @@ export const metadata: Metadata = {
     title: 'Therma – A quieter way to check in.',
     description:
       'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
+    locale: 'en_US',
     images: [{
       url: OG_IMAGE_URL,
       width: 1200, 
@@ -48,6 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@therma',
     title: 'Therma – A quieter way to check in.',
     description:
       'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
