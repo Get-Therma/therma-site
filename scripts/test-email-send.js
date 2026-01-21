@@ -44,7 +44,7 @@ async function testEmailSend() {
             <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
               <div style="text-align: center; margin-bottom: 40px; padding: 30px 20px; background: rgba(255, 255, 255, 0.05); border-radius: 16px;">
                 <img 
-                  src="https://therma.one/therma-logo.svg" 
+                  src="https://gettherma.ai/therma-logo.svg" 
                   alt="Therma Logo" 
                   width="80" 
                   height="80"
