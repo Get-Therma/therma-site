@@ -4,7 +4,7 @@ The thumbnail that appears when you open Therma's website in a new tab or share 
 
 ## Current Setup
 
-- **OG Image**: `/public/opengraph-image.png` (1200x630px recommended)
+- **OG Image**: `/public/og-image.png` (1200x630px recommended)
 - **Favicon**: `/public/favicon.svg` (32x32px, appears in browser tab)
 - **Configuration**: Already set in `app/layout.tsx`
 
@@ -19,8 +19,8 @@ The thumbnail that appears when you open Therma's website in a new tab or share 
 
 2. Replace the file:
    ```bash
-   # Replace /public/opengraph-image.png with your new image
-   # Make sure it's named exactly "opengraph-image.png"
+   # Replace /public/og-image.png with your new image
+   # Make sure it's named exactly "og-image.png"
    ```
 
 3. Clear cache and test:
@@ -34,7 +34,7 @@ You have an `og-image-generator.html` file that creates the OG image. To use it:
 
 1. Open `og-image-generator.html` in a browser
 2. Take a screenshot or use a tool to convert it to PNG
-3. Save as `/public/opengraph-image.png` at 1200x630px
+3. Save as `/public/og-image.png` at 1200x630px
 
 ### Option 3: Use Next.js Dynamic OG Images (Advanced)
 
@@ -68,10 +68,10 @@ The metadata is already configured in `app/layout.tsx`:
 
 ```typescript
 openGraph: {
-  images: [{ url: '/opengraph-image.png', width: 1200, height: 630 }]
+  images: [{ url: '/og-image.png', width: 1200, height: 630 }]
 },
 twitter: {
-  images: ['/opengraph-image.png']
+  images: ['/og-image.png']
 }
 ```
 

@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import ThermaAssistant from '../components/ThermaAssistant';
 
-const OG_IMAGE_URL = 'https://www.therma.one/opengraph-image.png?v=3';
+const OG_IMAGE_URL = 'https://www.therma.one/og-image.png?v=4';
 const ICONS_VERSION = '5';
 
 export const metadata: Metadata = {
