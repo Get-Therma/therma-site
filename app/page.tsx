@@ -347,7 +347,7 @@ export default function HomePage() {
                 <h3>AI Companion</h3>
                 <p>A kind companion that listens, asks thoughtful questions, and helps you notice patterns.</p>
                 <div className="why-micro-story">
-                  <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
+                  <span>→</span> Ask a question and receive a thoughtful, unbiased perspective.
                 </div>
               </div>
               
@@ -358,7 +358,7 @@ export default function HomePage() {
                 <h3>Mindful Space</h3>
                 <p>A quiet place to slow down, breathe, and actually hear yourself.</p>
                 <div className="why-micro-story">
-                  <span>→</span> Try a 2-minute check-in: inhale 4, hold 4, exhale 6.
+                  <span>→</span> Take a moment to pause and notice what you're feeling right now.
                 </div>
               </div>
             </div>

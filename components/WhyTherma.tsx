@@ -4,26 +4,29 @@ import { motion, useReducedMotion } from 'framer-motion';
 import type { MouseEvent } from 'react';
 import { useRef } from 'react';
 
-type Item = { emoji: string; title: string; body: string; alt: string };
+type Item = { emoji: string; title: string; body: string; alt: string; microStory: string };
 
 const ITEMS: Item[] = [
   {
     emoji: '🧘',
     title: 'Daily Reflections',
     body: 'Gentle prompts that help you process your day—without judgment.',
-    alt: 'A person in a calm seated pose.'
+    alt: 'A person in a calm seated pose.',
+    microStory: '→ Try a 2-minute check-in: inhale 4, hold 4, exhale 6.'
   },
   {
     emoji: '🤖',
     title: 'AI Companion',
     body: 'A kind companion that listens, asks thoughtful questions, and helps you notice patterns.',
-    alt: 'A friendly robot face.'
+    alt: 'A friendly robot face.',
+    microStory: '→ Ask a question and receive a thoughtful, unbiased perspective.'
   },
   {
     emoji: '☁️',
     title: 'Mindful Space',
     body: 'A quiet place to slow down, breathe, and actually hear yourself.',
-    alt: 'A small, soft cloud.'
+    alt: 'A small, soft cloud.',
+    microStory: '→ Take a moment to pause and notice what you're feeling right now.'
   }
 ];
 
@@ -121,8 +124,7 @@ export default function WhyTherma() {
                 {/* micro-story on hover */}
                 <div className="pt-2">
                   <div className="text-xs text-white/65 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <span className="mr-1">→</span>
-                    <span>Try a 2-minute check-in: inhale 4, hold 4, exhale 6.</span>
+                    {it.microStory}
                   </div>
                 </div>
               </div>
