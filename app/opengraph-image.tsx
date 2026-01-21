@@ -23,23 +23,60 @@ export default async function OpenGraphImage() {
           width: '100%',
           height: '100%',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#fbf7f0',
-          backgroundImage:
-            'radial-gradient(circle at 8% 10%, rgba(255, 120, 40, 0.55) 0%, rgba(255, 120, 40, 0) 60%), radial-gradient(circle at 92% 8%, rgba(120, 210, 230, 0.45) 0%, rgba(120, 210, 230, 0) 60%), radial-gradient(circle at 92% 92%, rgba(180, 225, 130, 0.6) 0%, rgba(180, 225, 130, 0) 65%), radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%)',
+          background: 'linear-gradient(to right, #FFE5D9 0%, #F5E6D3 30%, #E8F5E9 70%, #B2DFDB 100%)',
+          position: 'relative',
         }}
       >
+        {/* Subtle texture overlay */}
         <div
           style={{
-            fontFamily: 'PPPangaia',
-            fontSize: 520,
-            lineHeight: 1,
-            color: '#2D5016',
-            transform: 'translateY(10px)',
+            position: 'absolute',
+            inset: 0,
+            background: 'radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.02) 100%)',
+            opacity: 0.3,
+          }}
+        />
+        
+        {/* Main content */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 24,
+            zIndex: 1,
           }}
         >
-          T
+          {/* Therma title */}
+          <div
+            style={{
+              fontFamily: 'PPPangaia',
+              fontSize: 180,
+              lineHeight: 1,
+              color: '#000000',
+              letterSpacing: '-0.02em',
+            }}
+          >
+            Therma
+          </div>
+          
+          {/* Tagline */}
+          <div
+            style={{
+              fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
+              fontSize: 36,
+              lineHeight: 1.2,
+              color: '#000000',
+              fontWeight: 400,
+              letterSpacing: '0.01em',
+            }}
+          >
+            A quieter way to check in.
+          </div>
         </div>
       </div>
     ),
