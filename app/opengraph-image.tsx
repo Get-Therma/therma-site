@@ -30,6 +30,19 @@ export default async function OpenGraphImage() {
           position: 'relative',
         }}
       >
+        {/* Subtle texture overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            background: 'radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.02) 100%)',
+            opacity: '0.3',
+          }}
+        />
+        
         {/* Main content */}
         <div
           style={{
@@ -68,19 +81,6 @@ export default async function OpenGraphImage() {
             A quieter way to check in.
           </div>
         </div>
-        
-        {/* Subtle texture overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            background: 'radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.02) 100%)',
-            opacity: '0.3',
-          }}
-        />
       </div>
     ),
     {
