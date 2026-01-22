@@ -31,7 +31,7 @@ async function testEmailSend() {
     const result = await resend.emails.send({
       from: 'Therma <support@gettherma.ai>',
       to: [testEmail],
-      subject: 'Welcome to Therma! 🎉 (Test Email)',
+      subject: 'Welcome to Therma — your spot is saved (Test)',
       replyTo: 'support@gettherma.ai',
       html: `
         <!DOCTYPE html>

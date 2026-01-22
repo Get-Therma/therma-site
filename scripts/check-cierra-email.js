@@ -89,7 +89,7 @@ async function checkCierraEmail() {
       const resendResult = await resend.emails.send({
         from: 'Therma <hello@therma.one>',
         to: [email],
-        subject: 'Welcome to Therma! 🎉',
+        subject: 'Welcome to Therma — your spot is saved',
         html: `
           <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
             <div style="text-align: center; margin-bottom: 30px;">
@@ -126,7 +126,7 @@ async function checkCierraEmail() {
         console.log('✅ Resend email sent successfully:');
         console.log('   Email ID:', resendResult.data.id);
         console.log('   Check inbox for:', email);
-        console.log('   Subject: Welcome to Therma! 🎉');
+        console.log('   Subject: Welcome to Therma — your spot is saved');
       } else {
         console.log('❌ Resend email failed:', resendResult.error);
       }

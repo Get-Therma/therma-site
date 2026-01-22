@@ -84,7 +84,7 @@ async function testCompleteFlow() {
     const emailResult = await resend.emails.send({
       from: 'Therma <hello@gettherma.ai>',
       to: [testEmail],
-      subject: 'Welcome to Therma! 🎉',
+      subject: 'Welcome to Therma — your spot is saved',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <h1 style="color: #8fbc8f;">Welcome to Therma!</h1>

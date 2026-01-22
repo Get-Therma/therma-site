@@ -682,15 +682,36 @@ footer {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 16px;
+  max-width: 100%;
+}
+
 .footerLinks a {
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
-  margin: 0 8px;
+  white-space: nowrap;
 }
 
 .footerLinks a:hover {
   text-decoration: underline;
   color: #FFFFFF;
+}
+
+@media (max-width: 480px) {
+  .footerLinks {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .footerLinks a {
+    font-size: 14px;
+    padding: 8px 0;
+  }
 }
 
 .status-message {
@@ -1897,7 +1918,7 @@ section {
   }
 }
 
-/* Micro-story on hover */
+/* Micro-story on hover (desktop) / always visible (mobile) */
 .why-micro-story {
   margin-top: 12px;
   font-size: 14px;
@@ -1908,6 +1929,22 @@ section {
 
 .why-tile:hover .why-micro-story {
   opacity: 1;
+}
+
+/* Show micro-story by default on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .why-micro-story {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .why-micro-story {
+    opacity: 1;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 16px;
+  }
 }
 
 /* Why Therma Section Title */
@@ -2295,20 +2332,26 @@ html {
     font-size: 24px;
   }
   
+  /* Hide extra social icons on mobile - keep only first 3 (Instagram, Twitter, Pinterest) */
+  header .instagram-link:nth-child(n+4) {
+    display: none !important;
+  }
+  
   .instagram-link {
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
-    min-height: 28px !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    padding: 8px !important;
   }
   
   .instagram-link svg {
-    width: 28px !important;
-    height: 28px !important;
+    width: 24px !important;
+    height: 24px !important;
   }
   
   main {
-    padding: var(--section-spacing-lg) 0;
+    padding: var(--section-spacing-md) 0;
     min-height: 100vh;
     min-height: 100dvh; /* Dynamic viewport height for mobile */
     display: flex;
@@ -2332,37 +2375,48 @@ html {
 
   /* Enhance mobile form styling */
   .pillInput {
-    width: 90vw;
-    max-width: 350px;
-    padding: 8px;
+    width: 92vw;
+    max-width: 380px;
+    padding: 6px;
     margin: 0 auto;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    min-height: 56px;
   }
 
   .pillInput input {
-    padding: 16px 20px;
-    font-size: 16px;
+    padding: 18px 20px;
+    font-size: 17px;
     -webkit-appearance: none;
     border-radius: 0;
+    min-height: 48px;
   }
 
   .btn {
-    padding: 16px 32px;
-    font-size: 16px;
-    width: 100%;
-    max-width: 350px;
+    padding: 18px 32px;
+    font-size: 17px;
+    width: 92vw;
+    max-width: 380px;
     margin: 0 auto;
+    min-height: 56px;
+    font-weight: 600;
   }
 
   .social-proof {
-    font-size: 14px;
-    max-width: 350px;
-    padding: 0 16px;
-    line-height: 1.5;
+    font-size: 15px;
+    max-width: 380px;
+    padding: 0 20px;
+    line-height: 1.6;
     text-align: center;
+  }
+  
+  .trust-note {
+    font-size: 12px;
+    max-width: 380px;
+    padding: 0 20px;
+    line-height: 1.5;
   }
 
   /* Mobile breathing divider */
@@ -2396,7 +2450,7 @@ html {
   }
   
   .header-spacer {
-    height: 120px;
+    height: 80px;
   }
   
   h1 {
@@ -2603,16 +2657,22 @@ html {
     font-size: 22px;
   }
   
+  /* Keep same icon visibility rules on small screens */
+  header .instagram-link:nth-child(n+3) {
+    display: none !important;
+  }
+  
   .instagram-link {
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
-    min-height: 28px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    padding: 6px !important;
   }
   
   .instagram-link svg {
-    width: 28px !important;
-    height: 28px !important;
+    width: 24px !important;
+    height: 24px !important;
   }
   
   main {

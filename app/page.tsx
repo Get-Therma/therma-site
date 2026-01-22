@@ -500,12 +500,12 @@ export default function HomePage() {
           <div className="footerBrand">Therma</div>
           <p className="caption">Therma helps you make space for yourself</p>
           <div className="sp-16"></div>
-            <p className="footerLinks caption">
-              <a href="/contact">Contact Us</a> · 
-              <a href="/faq">FAQ</a> · 
-              <a href="/privacy">Privacy</a> · 
+            <div className="footerLinks">
+              <a href="/contact">Contact Us</a>
+              <a href="/faq">FAQ</a>
+              <a href="/privacy">Privacy</a>
               <a href="/terms">Terms of Use</a>
-            </p>
+            </div>
           <div className="sp-16"></div>
           <p className="caption">2025. All rights reserved</p>
         </div>

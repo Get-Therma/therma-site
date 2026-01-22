@@ -268,7 +268,7 @@ export async function POST(req: Request) {
         emailResult = await sendOptimizedEmail(
           resend,
           normalizedEmail,
-          'Welcome to Therma! 🎉',
+          'Welcome to Therma — your spot is saved',
           emailTemplate,
           domainConfig.domain // Prefer the domain the user visited
         );

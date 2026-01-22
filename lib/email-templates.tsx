@@ -17,13 +17,10 @@ export interface EmailConfig {
   secondaryTextColor?: string;
   socialLinks?: {
     instagram?: string;
-    tiktok?: string;
-    x?: string;
-    youtube?: string;
     linkedin?: string;
-    facebook?: string;
+    twitter?: string;
+    pinterest?: string;
   };
-  handle?: string;
   unsubscribeText?: string;
 }
 
@@ -35,13 +32,10 @@ const defaultConfig: EmailConfig = {
   secondaryTextColor: '#5C5C5C',
   socialLinks: {
     instagram: 'https://instagram.com/gettherma',
-    tiktok: 'https://tiktok.com/@gettherma',
-    x: 'https://x.com/gettherma',
-    youtube: 'https://youtube.com/@gettherma',
     linkedin: 'https://linkedin.com/company/get-therma',
-    facebook: 'https://facebook.com/gettherma'
+    twitter: 'https://x.com/gettherma',
+    pinterest: 'https://pinterest.com/gettherma'
   },
-  handle: '@gettherma',
   unsubscribeText: "You're receiving this because you signed up for the Therma waitlist."
 };
 
@@ -243,30 +237,6 @@ export const ThankYouEmailTemplate = ({
                   </a>
                 </div>
               )}
-              {social.tiktok && (
-                <div>
-                  <strong>TikTok:</strong>{' '}
-                  <a href={social.tiktok} style={{ color: primaryColor, textDecoration: 'none' }}>
-                    {social.tiktok.replace('https://', '')}
-                  </a>
-                </div>
-              )}
-              {social.x && (
-                <div>
-                  <strong>X:</strong>{' '}
-                  <a href={social.x} style={{ color: primaryColor, textDecoration: 'none' }}>
-                    {social.x.replace('https://', '')}
-                  </a>
-                </div>
-              )}
-              {social.youtube && (
-                <div>
-                  <strong>YouTube:</strong>{' '}
-                  <a href={social.youtube} style={{ color: primaryColor, textDecoration: 'none' }}>
-                    {social.youtube.replace('https://', '')}
-                  </a>
-                </div>
-              )}
               {social.linkedin && (
                 <div>
                   <strong>LinkedIn:</strong>{' '}
@@ -275,18 +245,20 @@ export const ThankYouEmailTemplate = ({
                   </a>
                 </div>
               )}
-              {social.facebook && (
+              {social.twitter && (
                 <div>
-                  <strong>Facebook:</strong>{' '}
-                  <a href={social.facebook} style={{ color: primaryColor, textDecoration: 'none' }}>
-                    {social.facebook.replace('https://', '')}
+                  <strong>Twitter:</strong>{' '}
+                  <a href={social.twitter} style={{ color: primaryColor, textDecoration: 'none' }}>
+                    {social.twitter.replace('https://', '')}
                   </a>
                 </div>
               )}
-              {emailConfig.handle && (
+              {social.pinterest && (
                 <div>
-                  <strong>Handle:</strong>{' '}
-                  <span style={{ color: primaryColor }}>{emailConfig.handle}</span>
+                  <strong>Pinterest:</strong>{' '}
+                  <a href={social.pinterest} style={{ color: primaryColor, textDecoration: 'none' }}>
+                    {social.pinterest.replace('https://', '')}
+                  </a>
                 </div>
               )}
             </div>
