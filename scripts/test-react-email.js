@@ -89,17 +89,6 @@ async function testEmail() {
         </p>
       </div>
 
-      <!-- Building in Public Section -->
-      <p style="font-size: 16px; margin: 0 0 16px 0; color: #1a1a1a; font-weight: 600;">
-        We're building in public now — small updates, on a schedule:
-      </p>
-      
-      <ul style="margin: 0 0 24px 0; padding-left: 20px; color: #1a1a1a; font-size: 15px; line-height: 1.8;">
-        <li><strong>DevLogs + demos:</strong> Mon / Wed / Fri</li>
-        <li><strong>Ambient loops + prompts:</strong> Tue / Sat</li>
-        <li><strong>Stories:</strong> daily</li>
-      </ul>
-
       <!-- Social Links -->
       <p style="font-size: 16px; margin: 0 0 12px 0; color: #1a1a1a; font-weight: 600;">
         Follow along:

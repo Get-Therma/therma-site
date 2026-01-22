@@ -192,28 +192,6 @@ export const ThankYouEmailTemplate = ({
               </p>
             </div>
 
-            {/* Building in Public Section */}
-            <p style={{ 
-              fontSize: '16px', 
-              margin: '0 0 16px 0',
-              color: textColor,
-              fontWeight: '600'
-            }}>
-              We're building in public now — small updates, on a schedule:
-            </p>
-            
-            <ul style={{ 
-              margin: '0 0 24px 0',
-              paddingLeft: '20px',
-              color: textColor,
-              fontSize: '15px',
-              lineHeight: '1.8'
-            }}>
-              <li><strong>DevLogs + demos:</strong> Mon / Wed / Fri</li>
-              <li><strong>Ambient loops + prompts:</strong> Tue / Sat</li>
-              <li><strong>Stories:</strong> daily</li>
-            </ul>
-
             {/* Social Links */}
             <p style={{ 
               fontSize: '16px', 
