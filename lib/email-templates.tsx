@@ -139,7 +139,7 @@ export const ThankYouEmailTemplate = ({
               fontWeight: '600',
               lineHeight: '1.3'
             }}>
-              You're In—Welcome to Therma
+              You're in, Welcome to Therma
             </h1>
             
             {/* Intro */}
