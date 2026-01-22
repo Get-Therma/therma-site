@@ -90,9 +90,9 @@ export function generateMetadata({ params }: IssuePageProps): Metadata {
       'article:tag': issue.tags.join(','),
       // LinkedIn specific
       'linkedin:owner': 'get-therma',
-      // Reading time estimate (assuming 200 words per minute)
+      // Reading time estimate (200 words per minute, ~6 chars per word = 1200 chars/min)
       'twitter:label1': 'Reading time',
-      'twitter:data1': `${Math.ceil((issue.scientificSection.body.length + issue.personalSection.body.length) / 1000)} min read`,
+      'twitter:data1': `${Math.max(1, Math.ceil((issue.scientificSection.body.length + issue.personalSection.body.length) / 1200))} min read`,
       'twitter:label2': 'Category',
       'twitter:data2': 'Wellness & Mindfulness'
     },
