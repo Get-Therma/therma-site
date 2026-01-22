@@ -37,39 +37,68 @@ export function generateMetadata({ params }: IssuePageProps): Metadata {
   const imageUrl = issue.coverImageUrl 
     ? `https://www.therma.one${issue.coverImageUrl}` 
     : 'https://www.therma.one/og-image.png?v=4';
+  
+  const articleUrl = `https://www.therma.one/weekly/${issue.slug}`;
 
   return {
     title: `${issue.title} · Therma Weekly`,
     description: issue.subtitle,
     keywords: issue.tags,
     alternates: {
-      canonical: `https://www.therma.one/weekly/${issue.slug}`,
+      canonical: articleUrl,
     },
+    // Open Graph - Facebook, LinkedIn, Discord, Slack, WhatsApp, Telegram
     openGraph: {
       type: 'article',
       title: `${issue.title} · Therma Weekly`,
       description: issue.subtitle,
-      url: `https://www.therma.one/weekly/${issue.slug}`,
+      url: articleUrl,
       siteName: 'Therma',
       publishedTime: issue.publishedAt,
-      authors: ['Therma'],
+      modifiedTime: issue.publishedAt,
+      authors: ['https://www.therma.one'],
+      section: 'Wellness',
       tags: issue.tags,
+      locale: 'en_US',
       images: [{
         url: imageUrl,
+        secureUrl: imageUrl,
         width: 1200,
         height: 630,
-        alt: issue.title
+        alt: `${issue.title} - Therma Weekly Issue #${issue.issueNumber}`,
+        type: 'image/png'
       }],
     },
+    // Twitter/X Cards
     twitter: {
       card: 'summary_large_image',
       site: '@gettherma',
       creator: '@gettherma',
       title: `${issue.title} · Therma Weekly`,
       description: issue.subtitle,
-      images: [imageUrl],
+      images: [{
+        url: imageUrl,
+        alt: `${issue.title} - Therma Weekly`
+      }],
+    },
+    // Additional social metadata
+    other: {
+      // Pinterest Rich Pin - Article
+      'article:publisher': 'https://www.facebook.com/gettherma',
+      'article:author': 'Therma',
+      'article:section': 'Wellness',
+      'article:tag': issue.tags.join(','),
+      // LinkedIn specific
+      'linkedin:owner': 'get-therma',
+      // Reading time estimate (assuming 200 words per minute)
+      'twitter:label1': 'Reading time',
+      'twitter:data1': `${Math.ceil((issue.scientificSection.body.length + issue.personalSection.body.length) / 1000)} min read`,
+      'twitter:label2': 'Category',
+      'twitter:data2': 'Wellness & Mindfulness'
     },
     robots: { index: true, follow: true },
+    creator: 'Therma',
+    publisher: 'Therma'
   };
 }
 

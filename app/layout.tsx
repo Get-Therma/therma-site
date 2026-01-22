@@ -8,7 +8,7 @@ const ICONS_VERSION = '5';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
   title: {
-    default: 'Therma | A quieter way to check in.',
+    default: 'Therma – A Quieter Place To Check In',
     template: '%s | Therma'
   },
   description:
@@ -38,10 +38,11 @@ export const metadata: Metadata = {
     ]
   },
   manifest: `/site.webmanifest?v=${ICONS_VERSION}`,
+  // Open Graph - Used by Facebook, LinkedIn, Discord, Slack, WhatsApp, Telegram
   openGraph: {
     type: 'website',
     url: 'https://www.therma.one/',
-    title: 'Therma | A quieter way to check in.',
+    title: 'Therma – A Quieter Place To Check In',
     description:
       'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
     locale: 'en_US',
@@ -49,20 +50,48 @@ export const metadata: Metadata = {
       url: OG_IMAGE_URL,
       width: 1200, 
       height: 630, 
-      alt: 'Therma | A quieter way to check in.'
+      alt: 'Therma – AI habit tracker and guided reflection app for mindful daily check-ins',
+      type: 'image/png'
     }],
-    siteName: 'Therma'
+    siteName: 'Therma',
+    countryName: 'United States'
   },
+  // Twitter/X Cards
   twitter: {
     card: 'summary_large_image',
     site: '@gettherma',
-    title: 'Therma | A quieter way to check in.',
+    title: 'Therma – A Quieter Place To Check In',
     description:
       'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
-    images: [OG_IMAGE_URL],
+    images: [{
+      url: OG_IMAGE_URL,
+      alt: 'Therma – AI habit tracker and guided reflection app'
+    }],
     creator: '@gettherma'
   },
-  robots: { index: true, follow: true }
+  // Additional metadata for various platforms
+  other: {
+    // Pinterest Rich Pins
+    'pinterest-rich-pin': 'true',
+    // LinkedIn specific
+    'linkedin:owner': 'get-therma',
+    // Author information for article sharing
+    'author': 'Therma',
+    // App links for mobile deep linking
+    'al:ios:app_name': 'Therma',
+    'al:android:app_name': 'Therma',
+    // Telegram specific
+    'telegram:channel': '@gettherma',
+    // Article metadata for content sharing
+    'article:publisher': 'https://www.facebook.com/gettherma',
+    'article:author': 'Therma'
+  },
+  robots: { index: true, follow: true },
+  // App category for better discovery
+  category: 'Health & Wellness',
+  // Creator attribution
+  creator: 'Therma',
+  publisher: 'Therma'
 };
 
 export const viewport: Viewport = {
@@ -84,13 +113,48 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         
-        {/* Pinterest Domain Verification */}
+        {/* ===== SOCIAL MEDIA PLATFORM OPTIMIZATIONS ===== */}
+        
+        {/* Discord Embed Color */}
+        <meta name="theme-color" content="#8fbc8f" />
+        
+        {/* Pinterest Rich Pins & Verification */}
+        <meta name="pinterest" content="nopin" data-pin-nopin="false" />
+        <meta name="pinterest-rich-pin" content="true" />
         {process.env.NEXT_PUBLIC_PINTEREST_VERIFICATION && (
           <meta
             name="p:domain_verify"
             content={process.env.NEXT_PUBLIC_PINTEREST_VERIFICATION}
           />
         )}
+        
+        {/* Instagram/Facebook App ID for better sharing */}
+        <meta property="fb:app_id" content="833191609467422" />
+        <meta property="fb:pages" content="gettherma" />
+        
+        {/* LinkedIn Article Tags */}
+        <meta name="linkedin:card" content="summary_large_image" />
+        
+        {/* WhatsApp & Telegram Preview Optimization */}
+        <meta property="og:image:secure_url" content="https://www.therma.one/og-image.png?v=4" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        
+        {/* Slack Unfurl Optimization */}
+        <meta name="slack-app-id" content="therma" />
+        
+        {/* Additional Twitter/X Tags */}
+        <meta name="twitter:domain" content="therma.one" />
+        <meta name="twitter:url" content="https://www.therma.one" />
+        
+        {/* Apple Smart Banner (for future iOS app) */}
+        <meta name="apple-itunes-app" content="app-id=therma, app-argument=https://www.therma.one" />
+        
+        {/* Google Play Store (for future Android app) */}
+        <meta name="google-play-app" content="app-id=com.gettherma.app" />
+        
+        {/* ===== SEARCH ENGINE VERIFICATIONS ===== */}
         
         {/* Google Search Console Verification */}
         {process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION && (
@@ -108,6 +172,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         )}
         
+        {/* Yandex Verification (for Russian market) */}
+        {process.env.NEXT_PUBLIC_YANDEX_VERIFICATION && (
+          <meta
+            name="yandex-verification"
+            content={process.env.NEXT_PUBLIC_YANDEX_VERIFICATION}
+          />
+        )}
+        
+        {/* ===== THIRD-PARTY INTEGRATIONS ===== */}
+        
         {/* Beacons.ai Integration */}
         {process.env.NEXT_PUBLIC_BEACONS_ID && (
           <script
@@ -116,7 +190,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         )}
         
-        {/* Structured Data - Organization */}
+        {/* Structured Data - Organization (Enhanced for Social Media) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -124,20 +198,39 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Therma",
+              "alternateName": ["Get Therma", "Therma App", "gettherma"],
               "url": "https://www.therma.one",
-              "logo": "https://www.therma.one/therma-logo.svg",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.therma.one/therma-logo.svg",
+                "width": 512,
+                "height": 512
+              },
+              "image": "https://www.therma.one/og-image.png",
               "description": "AI habit tracker and guided reflection app that helps you discover patterns and optimize your routine",
+              "slogan": "A quieter way to check in.",
+              "foundingDate": "2024",
               "sameAs": [
                 "https://x.com/gettherma",
+                "https://twitter.com/gettherma",
                 "https://www.instagram.com/gettherma/",
                 "https://www.pinterest.com/gettherma/",
                 "https://www.linkedin.com/company/get-therma/",
-                "https://www.youtube.com/@gettherma"
+                "https://www.youtube.com/@gettherma",
+                "https://www.facebook.com/gettherma",
+                "https://www.tiktok.com/@gettherma",
+                "https://www.threads.net/@gettherma"
               ],
-              "contactPoint": {
+              "contactPoint": [{
                 "@type": "ContactPoint",
                 "email": "support@gettherma.ai",
-                "contactType": "Customer Support"
+                "contactType": "Customer Support",
+                "availableLanguage": ["English"]
+              }],
+              "brand": {
+                "@type": "Brand",
+                "name": "Therma",
+                "slogan": "A quieter way to check in."
               }
             })
           }}
