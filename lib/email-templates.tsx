@@ -17,9 +17,8 @@ export interface EmailConfig {
   secondaryTextColor?: string;
   socialLinks?: {
     instagram?: string;
+    x?: string;
     linkedin?: string;
-    twitter?: string;
-    pinterest?: string;
   };
   unsubscribeText?: string;
 }
@@ -32,9 +31,8 @@ const defaultConfig: EmailConfig = {
   secondaryTextColor: '#5C5C5C',
   socialLinks: {
     instagram: 'https://instagram.com/gettherma',
-    linkedin: 'https://linkedin.com/company/get-therma',
-    twitter: 'https://x.com/gettherma',
-    pinterest: 'https://pinterest.com/gettherma'
+    x: 'https://x.com/gettherma',
+    linkedin: 'https://linkedin.com/company/get-therma'
   },
   unsubscribeText: "You're receiving this because you signed up for the Therma waitlist."
 };
@@ -211,7 +209,15 @@ export const ThankYouEmailTemplate = ({
                 <div>
                   <strong>Instagram:</strong>{' '}
                   <a href={social.instagram} style={{ color: primaryColor, textDecoration: 'none' }}>
-                    {social.instagram.replace('https://', '')}
+                    {social.instagram}
+                  </a>
+                </div>
+              )}
+              {social.x && (
+                <div>
+                  <strong>X:</strong>{' '}
+                  <a href={social.x} style={{ color: primaryColor, textDecoration: 'none' }}>
+                    {social.x}
                   </a>
                 </div>
               )}
@@ -219,23 +225,7 @@ export const ThankYouEmailTemplate = ({
                 <div>
                   <strong>LinkedIn:</strong>{' '}
                   <a href={social.linkedin} style={{ color: primaryColor, textDecoration: 'none' }}>
-                    {social.linkedin.replace('https://', '')}
-                  </a>
-                </div>
-              )}
-              {social.twitter && (
-                <div>
-                  <strong>Twitter:</strong>{' '}
-                  <a href={social.twitter} style={{ color: primaryColor, textDecoration: 'none' }}>
-                    {social.twitter.replace('https://', '')}
-                  </a>
-                </div>
-              )}
-              {social.pinterest && (
-                <div>
-                  <strong>Pinterest:</strong>{' '}
-                  <a href={social.pinterest} style={{ color: primaryColor, textDecoration: 'none' }}>
-                    {social.pinterest.replace('https://', '')}
+                    {social.linkedin}
                   </a>
                 </div>
               )}

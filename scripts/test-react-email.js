@@ -95,10 +95,9 @@ async function testEmail() {
       </p>
       
       <div style="margin-bottom: 32px; font-size: 15px; line-height: 2;">
-        <div><strong>Instagram:</strong> <a href="https://instagram.com/gettherma" style="color: #343818; text-decoration: none;">instagram.com/gettherma</a></div>
-        <div><strong>LinkedIn:</strong> <a href="https://linkedin.com/company/get-therma" style="color: #343818; text-decoration: none;">linkedin.com/company/get-therma</a></div>
-        <div><strong>Twitter:</strong> <a href="https://x.com/gettherma" style="color: #343818; text-decoration: none;">x.com/gettherma</a></div>
-        <div><strong>Pinterest:</strong> <a href="https://pinterest.com/gettherma" style="color: #343818; text-decoration: none;">pinterest.com/gettherma</a></div>
+        <div><strong>Instagram:</strong> <a href="https://instagram.com/gettherma" style="color: #343818; text-decoration: none;">https://instagram.com/gettherma</a></div>
+        <div><strong>X:</strong> <a href="https://x.com/gettherma" style="color: #343818; text-decoration: none;">https://x.com/gettherma</a></div>
+        <div><strong>LinkedIn:</strong> <a href="https://linkedin.com/company/get-therma" style="color: #343818; text-decoration: none;">https://linkedin.com/company/get-therma</a></div>
       </div>
 
       <!-- Email Promise -->
