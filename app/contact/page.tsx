@@ -1,25 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import '../globals.css';
 
 export default function ContactPage() {
-  // Update page metadata
-  useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.title = 'Contact Us | Therma';
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', 'Get in touch with Therma. Have questions, feedback, or interested in partnerships? We\'re here to listen and help.');
-      } else {
-        const meta = document.createElement('meta');
-        meta.name = 'description';
-        meta.content = 'Get in touch with Therma. Have questions, feedback, or interested in partnerships? We\'re here to listen and help.';
-        document.head.appendChild(meta);
-      }
-    }
-  }, []);
   const [formType, setFormType] = useState<'general' | 'collaboration' | null>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -200,7 +185,7 @@ export default function ContactPage() {
               <a href="/beta-terms">Terms of Use</a>
             </p>
             <div className="sp-16"></div>
-            <p className="caption">2025. All rights reserved</p>
+            <p className="caption">© {new Date().getFullYear()} Get Therma Inc. All rights reserved</p>
           </div>
         </footer>
       </>
@@ -218,6 +203,56 @@ export default function ContactPage() {
       <div className="header-spacer"></div>
 
       <main>
+        {/* ContactPage Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ContactPage",
+              "name": "Contact Therma",
+              "description": "Get in touch with Therma. Have questions, feedback, or interested in partnerships? We're here to listen and help.",
+              "url": "https://www.therma.one/contact",
+              "mainEntity": {
+                "@type": "Organization",
+                "name": "Therma",
+                "url": "https://www.therma.one",
+                "contactPoint": {
+                  "@type": "ContactPoint",
+                  "email": "support@gettherma.ai",
+                  "contactType": "Customer Support",
+                  "availableLanguage": "English"
+                }
+              }
+            })
+          }}
+        />
+        
+        {/* Breadcrumb Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.therma.one/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Contact",
+                  "item": "https://www.therma.one/contact"
+                }
+              ]
+            })
+          }}
+        />
+        
         <section className="container center">
           <div className="stack">
             <h1>We're here to listen.</h1>
@@ -251,10 +286,10 @@ export default function ContactPage() {
             <a href="/">Home</a> · 
             <a href="/faq">FAQ</a> · 
             <a href="/privacy">Privacy</a> · 
-            <a href="/terms">Terms of Use</a>
+            <a href="/beta-terms">Terms of Use</a>
           </p>
           <div className="sp-16"></div>
-          <p className="caption">© 2025 Get Therma Inc. All rights reserved</p>
+          <p className="caption">© {new Date().getFullYear()} Get Therma Inc. All rights reserved</p>
         </div>
       </footer>
     </>

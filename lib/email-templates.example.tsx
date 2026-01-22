@@ -5,7 +5,7 @@
  * with different configurations and personalization options.
  */
 
-import { ThankYouEmailTemplate, EmailConfig } from './email-templates';
+import { ThankYouEmailTemplate } from './email-templates';
 
 // Example 1: Basic usage (default configuration)
 export const basicExample = ThankYouEmailTemplate({
@@ -16,8 +16,7 @@ export const basicExample = ThankYouEmailTemplate({
 export const personalizedExample = ThankYouEmailTemplate({
   email: 'user@example.com',
   personalization: {
-    firstName: 'Sarah',
-    customMessage: "We're thrilled to have you join us, Sarah! Your journey to steadier days starts now."
+    firstName: 'Sarah'
   }
 });
 
@@ -26,31 +25,21 @@ export const customBrandingExample = ThankYouEmailTemplate({
   email: 'user@example.com',
   config: {
     brandName: 'Therma',
-    tagline: 'Your personal pattern recognition companion',
     primaryColor: '#6B8E23', // Olive green
-    logoUrl: 'https://www.therma.one/therma-logo-80x80.png',
-    benefits: [
-      'Priority access to beta features',
-      'Weekly insights on mindfulness and patterns',
-      'Early bird pricing when we launch',
-      'Direct line to our product team'
-    ],
-    quote: {
-      text: "Awareness is the greatest agent for change.",
-      author: "Eckhart Tolle"
-    }
+    backgroundColor: '#F8F4ED',
+    textColor: '#1a1a1a',
+    secondaryTextColor: '#5C5C5C'
   }
 });
 
-// Example 4: Minimal design
-export const minimalExample = ThankYouEmailTemplate({
+// Example 4: With social links
+export const socialLinksExample = ThankYouEmailTemplate({
   email: 'user@example.com',
   config: {
-    quote: undefined, // Remove quote section
-    productDescription: undefined, // Remove product description
-    teamMessage: undefined, // Remove team message
     socialLinks: {
-      website: 'https://therma.one'
+      instagram: 'https://instagram.com/gettherma',
+      x: 'https://x.com/gettherma',
+      linkedin: 'https://linkedin.com/company/get-therma'
     }
   }
 });
@@ -60,33 +49,19 @@ export const fullCustomExample = ThankYouEmailTemplate({
   email: 'user@example.com',
   personalization: {
     firstName: 'Alex',
-    customMessage: 'Welcome aboard! We\'ve been waiting for someone like you.'
+    customMessage: "Welcome aboard! We've been waiting for someone like you."
   },
   config: {
     brandName: 'Therma',
-    tagline: 'Patterns. Progress. Peace.',
     primaryColor: '#8fbc8f',
-    logoUrl: 'https://www.therma.one/therma-logo-80x80.png',
-    greeting: 'Hello',
-    welcomeMessage: 'Thank you for joining our community of mindful individuals.',
-    quote: {
-      text: 'The journey of a thousand miles begins with a single step.',
-      author: 'Lao Tzu'
-    },
-    benefits: [
-      'Exclusive beta access',
-      'Monthly feature updates',
-      'Community forum access',
-      '1-on-1 onboarding session'
-    ],
-    productDescription: 'Therma helps you discover patterns in your daily life through AI-powered journaling and reflection.',
-    teamMessage: 'We\'re a small team passionate about helping people live more intentionally.',
+    backgroundColor: '#F8F4ED',
+    textColor: '#1a1a1a',
+    secondaryTextColor: '#5C5C5C',
     socialLinks: {
-      twitter: 'https://twitter.com/gettherma',
-      linkedin: 'https://linkedin.com/company/get-therma',
-      website: 'https://therma.one'
+      instagram: 'https://instagram.com/gettherma',
+      x: 'https://x.com/gettherma',
+      linkedin: 'https://linkedin.com/company/get-therma'
     },
-    avatarUrl: 'https://www.therma.one/bot-avatar@1x.png',
     unsubscribeText: 'You signed up for the Therma waitlist. Not interested? No worries, just ignore this email.'
   }
 });
@@ -105,8 +80,6 @@ export const fullCustomExample = ThankYouEmailTemplate({
  *   config: {
  *     // Override any defaults here
  *     primaryColor: '#8fbc8f',
- *     benefits: customBenefits,
  *   }
  * });
  */
-

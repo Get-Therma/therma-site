@@ -109,10 +109,10 @@ export default function AlreadyRegisteredPage() {
               <a href="/contact">Contact Us</a> · 
               <a href="/faq">FAQ</a> · 
               <a href="/privacy">Privacy</a> · 
-              <a href="/terms">Terms of Use</a>
+              <a href="/beta-terms">Terms of Use</a>
             </p>
           <div className="sp-16"></div>
-          <p className="caption">© 2025 Get Therma Inc. All rights reserved</p>
+          <p className="caption">© {new Date().getFullYear()} Get Therma Inc. All rights reserved</p>
         </div>
       </footer>
     </>

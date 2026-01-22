@@ -1,27 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function FAQPage() {
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
   const router = useRouter();
 
-  // Update page metadata
-  useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.title = 'FAQ - Frequently Asked Questions | Therma';
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', 'Get answers to common questions about Therma, the AI habit tracker and guided reflection app. Learn about features, privacy, pricing, and more.');
-      } else {
-        const meta = document.createElement('meta');
-        meta.name = 'description';
-        meta.content = 'Get answers to common questions about Therma, the AI habit tracker and guided reflection app. Learn about features, privacy, pricing, and more.';
-        document.head.appendChild(meta);
-      }
-    }
-  }, []);
 
   const toggleFAQ = (index: number) => {
     setActiveFAQ(activeFAQ === index ? null : index);
@@ -68,6 +53,26 @@ export default function FAQPage() {
     }))
   };
 
+  // Breadcrumb structured data for navigation
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.therma.one/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "FAQ",
+        "item": "https://www.therma.one/faq"
+      }
+    ]
+  };
+
   return (
     <>
       {/* Static background (avoid scroll jank from per-frame React updates) */}
@@ -83,6 +88,14 @@ export default function FAQPage() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(faqStructuredData)
+          }}
+        />
+        
+        {/* Breadcrumb Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(breadcrumbData)
           }}
         />
         
@@ -129,7 +142,7 @@ export default function FAQPage() {
             <a href="/beta-terms">Terms of Use</a>
           </p>
           <div className="sp-16"></div>
-          <p className="caption">© 2025 Get Therma Inc. All rights reserved</p>
+          <p className="caption">© {new Date().getFullYear()} Get Therma Inc. All rights reserved</p>
         </div>
       </footer>
     </>

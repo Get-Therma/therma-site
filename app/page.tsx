@@ -261,6 +261,80 @@ export default function HomePage() {
           }}
         />
         
+        {/* HowTo Structured Data for "How It Works" section */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "HowTo",
+              "name": "How to Use Therma for Daily Mindful Reflection",
+              "description": "Simple steps to build a daily mindfulness and reflection habit with Therma's AI companion.",
+              "totalTime": "PT5M",
+              "step": [
+                {
+                  "@type": "HowToStep",
+                  "position": 1,
+                  "name": "Check In Daily",
+                  "text": "Take a few minutes each day to pause and reflect on how you're feeling. Start with just 2 minutes of mindful breathing.",
+                  "url": "https://www.therma.one/#how-it-works"
+                },
+                {
+                  "@type": "HowToStep",
+                  "position": 2,
+                  "name": "Share Your Thoughts",
+                  "text": "Express what's on your mind through gentle prompts designed to help you process. Answer one simple question: How are you feeling right now?",
+                  "url": "https://www.therma.one/#how-it-works"
+                },
+                {
+                  "@type": "HowToStep",
+                  "position": 3,
+                  "name": "Get Support",
+                  "text": "Receive thoughtful responses and guidance from your AI companion. Get personalized insights and gentle encouragement.",
+                  "url": "https://www.therma.one/#how-it-works"
+                }
+              ]
+            })
+          }}
+        />
+        
+        {/* FAQ Structured Data for homepage Common Questions */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Is Therma therapy?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Therma is a self-reflection tool and isn't medical advice. Think of it as a mindful journal with AI support."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Will Therma be free?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We'll offer a free tier; early waitlisters get first beta access and perks. Join the waitlist for exclusive early access benefits."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is Therma available on iOS or Android?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "iOS first, Android next. iPhone users get first access, with Android coming soon after launch."
+                  }
+                }
+              ]
+            })
+          }}
+        />
+        
         <section id="hero" className="container center" aria-label="Hero section">
           <div className="stack">
             <ABTestHeadline className="hero-headline" />
@@ -280,7 +354,7 @@ export default function HomePage() {
               <p className="social-proof">Get priority beta access (rolling invites) + early perks + Therma Weekly</p>
               <p className="trust-note">
                 No spam. Unsubscribe anytime. We don&apos;t sell your data. Export/delete on request.{' '}
-                <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy</a> · <a href="/beta-terms">Terms</a>
               </p>
               <div>
                 <button 
@@ -503,11 +577,12 @@ export default function HomePage() {
             <div className="footerLinks">
               <a href="/contact">Contact Us</a>
               <a href="/faq">FAQ</a>
+              <a href="/weekly">Therma Weekly</a>
               <a href="/privacy">Privacy</a>
-              <a href="/terms">Terms of Use</a>
+              <a href="/beta-terms">Terms of Use</a>
             </div>
           <div className="sp-16"></div>
-          <p className="caption">2025. All rights reserved</p>
+          <p className="caption">© {new Date().getFullYear()} Get Therma Inc. All rights reserved</p>
         </div>
       </footer>
 

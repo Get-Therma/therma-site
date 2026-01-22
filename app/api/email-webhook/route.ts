@@ -65,14 +65,14 @@ export async function POST(req: NextRequest) {
     const recipientEmail = payload.data.to?.[0] || null;
     
     // Extract event-specific data
-    let linkUrl = null;
-    let userAgent = null;
-    let ipAddress = null;
+    let linkUrl: string | null = null;
+    let userAgent: string | null = null;
+    let ipAddress: string | null = null;
     
     if (payload.data.click) {
       linkUrl = payload.data.click.link;
-      userAgent = payload.data.click.user_agent || null;
-      ipAddress = payload.data.click.ip_address || null;
+      userAgent = payload.data.click.user_agent ?? null;
+      ipAddress = payload.data.click.ip_address ?? null;
     }
     
     if (payload.data.open) {

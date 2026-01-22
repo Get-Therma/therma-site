@@ -14,7 +14,7 @@ const SiteFooter: React.FC = () => {
           <Link href="/weekly">Therma Weekly</Link>
         </p>
         <div className="sp-16" />
-        <p className="caption">2025. All rights reserved</p>
+        <p className="caption">© {new Date().getFullYear()} Get Therma Inc. All rights reserved</p>
       </div>
     </footer>
   );

@@ -42,6 +42,7 @@ export interface ThankYouEmailProps {
   config?: Partial<EmailConfig>;
   personalization?: {
     firstName?: string;
+    customMessage?: string;
   };
 }
 

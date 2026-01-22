@@ -13,7 +13,13 @@ export const metadata: Metadata = {
   },
   description:
     'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
-  keywords: ['AI habit tracker', 'habit tracking', 'AI reflections', 'mindfulness app', 'daily reflections', 'AI companion', 'habit optimization', 'self-reflection tool'],
+  keywords: [
+    'AI habit tracker', 'habit tracking', 'AI reflections', 'mindfulness app',
+    'daily reflections', 'AI companion', 'habit optimization', 'self-reflection tool',
+    'mental health app', 'journaling app', 'mood tracker', 'wellness app',
+    'personal growth app', 'mindful journaling', 'AI journal', 'emotional wellness',
+    'daily check-in app', 'self-care app', 'guided meditation', 'stress management app'
+  ],
   alternates: { 
     canonical: 'https://www.therma.one/',
   },
@@ -49,12 +55,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@therma',
+    site: '@gettherma',
     title: 'Therma | A quieter way to check in.',
     description:
       'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
     images: [OG_IMAGE_URL],
-    creator: '@therma'
+    creator: '@gettherma'
   },
   robots: { index: true, follow: true }
 };
@@ -150,14 +156,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "offers": {
                 "@type": "Offer",
                 "price": "0",
-                "priceCurrency": "USD"
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/PreOrder"
               },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "ratingCount": "1"
-              },
-              "description": "AI habit tracker and guided reflection app that helps you discover patterns in your daily life and optimize your routine for peak energy, clarity, and confidence."
+              "description": "AI habit tracker and guided reflection app that helps you discover patterns in your daily life and optimize your routine for peak energy, clarity, and confidence.",
+              "url": "https://www.therma.one"
             })
           }}
         />
