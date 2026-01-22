@@ -68,7 +68,7 @@ async function testEmail() {
       
       <!-- Intro -->
       <p style="font-size: 16px; margin: 0 0 32px 0; color: #1a1a1a; line-height: 1.7;">
-        Thanks for signing up. Therma is built for people who want steadier days without broadcasting their life to the world. You'll get early access, exclusive updates, and a first look at the privacy-first journaling companion that shows you what to change by honoring what already works.
+        Thanks for signing up. Therma is built for people who want steadier days without broadcasting their life to the world. You'll get early access, exclusive updates, and a first look at the privacy-first journal that helps you notice what raises your temperature, and what steadies it.
       </p>
 
       <!-- Temperature Check Section -->
