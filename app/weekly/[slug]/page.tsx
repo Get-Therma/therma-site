@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import IssueBody from '../../../components/weekly/IssueBody';
 import IssueCTA from '../../../components/weekly/IssueCTA';
 import IssueHero from '../../../components/weekly/IssueHero';
+import SocialShare from '../../../components/weekly/SocialShare';
 import WeeklyLayout from '../../../components/weekly/WeeklyLayout';
 import styles from '../../../components/weekly/weekly.module.css';
 import {
@@ -34,9 +35,16 @@ export function generateMetadata({ params }: IssuePageProps): Metadata {
     };
   }
 
-  const imageUrl = issue.coverImageUrl 
+  // Default OG image (1200x630) - Twitter, Facebook, LinkedIn, Discord, Slack
+  const defaultImageUrl = issue.coverImageUrl 
     ? `https://www.therma.one${issue.coverImageUrl}` 
-    : 'https://www.therma.one/og-image.png?v=4';
+    : `https://www.therma.one/api/og?title=${encodeURIComponent(issue.title)}&subtitle=${encodeURIComponent(issue.subtitle)}&issue=${issue.issueNumber}&platform=default`;
+  
+  // Square image (1200x1200) - Instagram, Threads
+  const squareImageUrl = `https://www.therma.one/api/og?title=${encodeURIComponent(issue.title)}&subtitle=${encodeURIComponent(issue.subtitle)}&issue=${issue.issueNumber}&platform=square`;
+  
+  // Vertical image (1000x1500) - Pinterest
+  const pinterestImageUrl = `https://www.therma.one/api/og?title=${encodeURIComponent(issue.title)}&subtitle=${encodeURIComponent(issue.subtitle)}&issue=${issue.issueNumber}&platform=pinterest`;
   
   const articleUrl = `https://www.therma.one/weekly/${issue.slug}`;
 
@@ -60,14 +68,25 @@ export function generateMetadata({ params }: IssuePageProps): Metadata {
       section: 'Wellness',
       tags: issue.tags,
       locale: 'en_US',
-      images: [{
-        url: imageUrl,
-        secureUrl: imageUrl,
-        width: 1200,
-        height: 630,
-        alt: `${issue.title} - Therma Weekly Issue #${issue.issueNumber}`,
-        type: 'image/png'
-      }],
+      images: [
+        // Default image for most platforms
+        {
+          url: defaultImageUrl,
+          secureUrl: defaultImageUrl,
+          width: 1200,
+          height: 630,
+          alt: `${issue.title} - Therma Weekly Issue #${issue.issueNumber}`,
+          type: 'image/png'
+        },
+        // Square image for Instagram/Threads
+        {
+          url: squareImageUrl,
+          width: 1200,
+          height: 1200,
+          alt: `${issue.title} - Therma Weekly`,
+          type: 'image/png'
+        }
+      ],
     },
     // Twitter/X Cards
     twitter: {
@@ -77,17 +96,19 @@ export function generateMetadata({ params }: IssuePageProps): Metadata {
       title: `${issue.title} · Therma Weekly`,
       description: issue.subtitle,
       images: [{
-        url: imageUrl,
+        url: defaultImageUrl,
         alt: `${issue.title} - Therma Weekly`
       }],
     },
     // Additional social metadata
     other: {
-      // Pinterest Rich Pin - Article
+      // Pinterest Rich Pin - Article with vertical image
       'article:publisher': 'https://www.facebook.com/gettherma',
       'article:author': 'Therma',
       'article:section': 'Wellness',
       'article:tag': issue.tags.join(','),
+      // Pinterest-specific vertical image
+      'pinterest:image': pinterestImageUrl,
       // LinkedIn specific
       'linkedin:owner': 'get-therma',
       // Reading time estimate (200 words per minute, ~6 chars per word = 1200 chars/min)
@@ -181,6 +202,16 @@ const IssuePage = ({ params }: IssuePageProps) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <IssueBody issue={issue} />
+      
+      {/* Social Share Buttons */}
+      <SocialShare
+        url={`https://www.therma.one/weekly/${issue.slug}`}
+        title={issue.title}
+        description={issue.subtitle}
+        image={issue.coverImageUrl ? `https://www.therma.one${issue.coverImageUrl}` : 'https://www.therma.one/og-image.png'}
+        hashtags={issue.tags.slice(0, 3)}
+      />
+      
       <IssueCTA issue={issue} />
       <div className={styles.siblings}>
         <div>

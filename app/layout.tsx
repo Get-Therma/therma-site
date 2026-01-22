@@ -120,12 +120,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         
         {/* Pinterest Rich Pins & Verification */}
         <meta name="pinterest-rich-pin" content="true" />
-        {process.env.NEXT_PUBLIC_PINTEREST_VERIFICATION && (
-          <meta
-            name="p:domain_verify"
-            content={process.env.NEXT_PUBLIC_PINTEREST_VERIFICATION}
-          />
-        )}
+        <meta name="p:domain_verify" content="2a46ef06897517c2e71581d857c2d3b6" />
         
         {/* Instagram/Facebook App ID for better sharing */}
         <meta property="fb:app_id" content="833191609467422" />

@@ -1,0 +1,95 @@
+.shareContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0;
+  margin: 32px 0;
+  border-top: 1px solid rgba(143, 188, 143, 0.2);
+  border-bottom: 1px solid rgba(143, 188, 143, 0.2);
+}
+
+.shareLabel {
+  font-size: 14px;
+  color: var(--text-secondary, #5C5C5C);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.shareButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.shareButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(143, 188, 143, 0.1);
+  color: var(--text-primary, #1a1a1a);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shareButton:hover {
+  background: rgba(143, 188, 143, 0.25);
+  transform: translateY(-2px);
+}
+
+.shareButton:active {
+  transform: translateY(0);
+}
+
+.shareButton.copied {
+  background: rgba(143, 188, 143, 0.4);
+  color: #2D5016;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .shareContainer {
+    border-color: rgba(143, 188, 143, 0.15);
+  }
+  
+  .shareLabel {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .shareButton {
+    background: rgba(143, 188, 143, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .shareButton:hover {
+    background: rgba(143, 188, 143, 0.3);
+  }
+  
+  .shareButton.copied {
+    background: rgba(143, 188, 143, 0.5);
+    color: #8fbc8f;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .shareButtons {
+    gap: 6px;
+  }
+  
+  .shareButton {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .shareButton svg {
+    width: 18px;
+    height: 18px;
+  }
+}
