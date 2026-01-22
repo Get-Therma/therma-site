@@ -2,6 +2,9 @@
 // API endpoint to get email performance metrics
 
 import { NextRequest, NextResponse } from 'next/server';
+
+// Force dynamic rendering - this route uses request.url for query params
+export const dynamic = 'force-dynamic';
 import { getDb } from '../../../lib/db';
 import { emailEvents } from '../../../lib/schema';
 import { sql, eq, and, gte, count, countDistinct } from 'drizzle-orm';
