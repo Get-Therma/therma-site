@@ -63,7 +63,7 @@ async function testEmail() {
 
       <!-- Main Headline -->
       <h1 style="color: #343818; font-size: 28px; margin: 0 0 24px 0; font-weight: 600; line-height: 1.3;">
-        You're in, Welcome to Therma
+        You're in. Welcome to Therma.
       </h1>
       
       <!-- Intro -->
