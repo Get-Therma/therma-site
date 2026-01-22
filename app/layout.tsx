@@ -119,7 +119,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#8fbc8f" />
         
         {/* Pinterest Rich Pins & Verification */}
-        <meta name="pinterest" content="nopin" data-pin-nopin="false" />
         <meta name="pinterest-rich-pin" content="true" />
         {process.env.NEXT_PUBLIC_PINTEREST_VERIFICATION && (
           <meta
