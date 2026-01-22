@@ -120,6 +120,17 @@ export const ThankYouEmailTemplate = ({
             padding: '40px 32px',
             border: '1px solid #E6E1D8'
           }}>
+            {/* Logo */}
+            <div style={{ textAlign: 'center' as const, marginBottom: '24px' }}>
+              <img 
+                src="https://www.therma.one/therma-logo-80x80.png" 
+                alt="Therma" 
+                width="60" 
+                height="60"
+                style={{ display: 'block', margin: '0 auto', borderRadius: '12px' }}
+              />
+            </div>
+
             {/* Greeting */}
             <p style={{ 
               fontSize: '16px', 

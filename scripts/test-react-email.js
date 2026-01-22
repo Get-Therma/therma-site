@@ -56,6 +56,17 @@ async function testEmail() {
     <!-- Main Card -->
     <div class="email-card" style="background: #FFFFFF; border-radius: 12px; padding: 40px 32px; border: 1px solid #E6E1D8;">
       
+      <!-- Logo -->
+      <div style="text-align: center; margin-bottom: 24px;">
+        <img 
+          src="https://www.therma.one/therma-logo-80x80.png" 
+          alt="Therma" 
+          width="60" 
+          height="60"
+          style="display: block; margin: 0 auto; border-radius: 12px;"
+        />
+      </div>
+
       <!-- Greeting -->
       <p style="font-size: 16px; margin: 0 0 24px 0; color: #1a1a1a;">
         Hi ${firstName},
