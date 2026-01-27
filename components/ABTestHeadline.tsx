@@ -10,9 +10,9 @@ export default function ABTestHeadline({ className }: ABTestHeadlineProps) {
   const variants = useMemo(
     () =>
       ({
-        control: <>A quieter place to check in</>,
-        a: <>A quieter place to check in</>,
-        b: <>A quieter place to check in</>,
+        control: <>A quieter place to check in.</>,
+        a: <>A quieter place to check in.</>,
+        b: <>A quieter place to check in.</>,
       }) as const,
     []
   );

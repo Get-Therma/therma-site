@@ -8,7 +8,7 @@ const ICONS_VERSION = '5';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.therma.one'),
   title: {
-    default: 'Therma – A Quieter Place To Check In',
+    default: 'Therma – A Quieter Place To Check In.',
     template: '%s | Therma'
   },
   description:
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: 'https://www.therma.one/',
-    title: 'Therma – A Quieter Place To Check In',
+    title: 'Therma – A Quieter Place To Check In.',
     description:
       'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
     locale: 'en_US',
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     site: '@gettherma',
-    title: 'Therma – A Quieter Place To Check In',
+    title: 'Therma – A Quieter Place To Check In.',
     description:
       'Clarity begins with feeling safe. A minimalist space to spot patterns, name the noise, and find your anchor. Join the waitlist.',
     images: [{
