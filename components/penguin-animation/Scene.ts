@@ -75,7 +75,7 @@ export class Scene {
       const color = buildingColors[Math.floor(Math.random() * buildingColors.length)];
       
       // Generate windows for building
-      const windows = [];
+      const windows: { x: number; y: number }[] = [];
       const windowRows = Math.floor(height / 30);
       const windowCols = Math.floor(width / 25);
       

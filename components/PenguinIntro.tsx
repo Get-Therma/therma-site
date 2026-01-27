@@ -5,7 +5,6 @@ import { Penguin } from './penguin-animation/Penguin';
 import { Scene } from './penguin-animation/Scene';
 import { AudioManager } from './penguin-animation/AudioManager';
 import { Trump } from './penguin-animation/Trump';
-import { Presidents } from './penguin-animation/Presidents';
 
 interface PenguinIntroProps {
   onComplete: () => void;
@@ -19,7 +18,6 @@ export default function PenguinIntro({ onComplete }: PenguinIntroProps) {
   const startTimeRef = useRef<number>();
   const penguinsRef = useRef<Penguin[]>([]);
   const trumpRef = useRef<Trump>();
-  const presidentsRef = useRef<Presidents>();
   const sceneRef = useRef<Scene>();
   const audioManagerRef = useRef<AudioManager>();
 
@@ -40,9 +38,6 @@ export default function PenguinIntro({ onComplete }: PenguinIntroProps) {
 
     // Initialize scene
     sceneRef.current = new Scene(canvas.width, canvas.height);
-
-    // Initialize presidents holding "Get Therma" signs!
-    presidentsRef.current = new Presidents(canvas.width, canvas.height);
 
     // Initialize Trump (dancing in the middle!)
     trumpRef.current = new Trump(canvas.width, canvas.height);
@@ -78,10 +73,6 @@ export default function PenguinIntro({ onComplete }: PenguinIntroProps) {
 
       // Draw scene (background, snow, etc)
       sceneRef.current?.draw(ctx, elapsed);
-
-      // Update and draw presidents holding "Get Therma" signs (in background)
-      presidentsRef.current?.update(elapsed);
-      presidentsRef.current?.draw(ctx);
 
       // Update and draw penguins
       penguinsRef.current.forEach(penguin => {
