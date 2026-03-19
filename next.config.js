@@ -77,10 +77,10 @@ const nextConfig = {
         destination: '/:path+',
         permanent: true,
       },
-      // Redirect /terms to /beta-terms (canonical Terms page)
+      // Redirect /terms to /terms-of-service (canonical Terms page)
       {
         source: '/terms',
-        destination: '/beta-terms',
+        destination: '/terms-of-service',
         permanent: true, // 301 redirect
       },
       // Redirect gettherma.ai to therma.one (canonical domain)
