@@ -144,8 +144,10 @@ export default function PrivacyPolicyPage() {
               <li>Detect and prevent fraud, abuse, or unauthorised access</li>
             </ul>
             <p>
-              We do not use your journal entries or mood data to train general language models or sell
-              insights to third parties.
+              <strong>
+                We do not use your journal entries or mood data to train general language models or sell
+                insights to third parties.
+              </strong>
             </p>
 
             <hr />
@@ -383,8 +385,7 @@ export default function PrivacyPolicyPage() {
             <p>
               <strong>Get Therma Inc.</strong>
               <br />
-              <a href="mailto:support@gettherma.ai">support@gettherma.ai</a> &middot;{' '}
-              <a href="https://gettherma.ai">gettherma.ai</a>
+              <a href="mailto:support@gettherma.ai">support@gettherma.ai</a>
             </p>
 
             <hr />
