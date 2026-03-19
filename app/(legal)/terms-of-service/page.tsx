@@ -415,8 +415,7 @@ export default function TermsOfServicePage() {
             <p>
               <strong>Get Therma Inc. — Therma: Emotional Wellness</strong>
               <br />
-              <a href="mailto:support@gettherma.ai">support@gettherma.ai</a> &middot;{' '}
-              <a href="https://gettherma.ai">gettherma.ai</a>
+              <a href="mailto:support@gettherma.ai">support@gettherma.ai</a>
             </p>
 
             <hr />
