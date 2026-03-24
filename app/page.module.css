@@ -10,12 +10,14 @@
   overflow-x: hidden;
 }
 
-.page :global(h1),
-.page :global(h2),
-.page :global(h3) {
+/* Override global heading styles inside .page */
+.page h1,
+.page h2,
+.page h3 {
   color: #050F1A;
   font-family: PPPangaia, ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
+  text-align: left;
 }
 
 /* ---- Shared section inner ---- */
@@ -26,45 +28,67 @@
 }
 
 /* ================================
-   HERO
+   HERO – matches Figma screenshot
    ================================ */
 .hero {
   position: relative;
-  background:
-    radial-gradient(ellipse 80% 90% at 10% 50%, rgba(200, 60, 80, 0.85), transparent 55%),
-    radial-gradient(ellipse 70% 80% at 35% 20%, rgba(230, 130, 60, 0.75), transparent 50%),
-    radial-gradient(ellipse 60% 70% at 55% 10%, rgba(240, 200, 80, 0.6), transparent 50%),
-    radial-gradient(ellipse 80% 90% at 85% 15%, rgba(100, 100, 220, 0.55), transparent 55%),
-    radial-gradient(ellipse 90% 100% at 75% 60%, rgba(80, 190, 160, 0.7), transparent 55%),
-    radial-gradient(ellipse 70% 80% at 50% 80%, rgba(120, 200, 140, 0.6), transparent 50%),
-    radial-gradient(ellipse 60% 70% at 20% 85%, rgba(180, 120, 160, 0.5), transparent 50%),
-    linear-gradient(135deg, #c85a6a 0%, #e8a855 25%, #a8c870 50%, #5ab8a0 75%, #7888cc 100%);
+  width: 100%;
+  height: 1024px;
+  background: #fff;
   color: #fff;
-  padding: 0 0 0;
   overflow: hidden;
-  min-height: 700px;
 }
 
+/* Conic gradient base */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg at 50% 50%, #7482FD 0deg, #FCB20E 0.53deg, #EBE72C 36deg, #B3D698 72deg, #ACDF7F 108deg, #87E6B5 144deg, #F9A86E 180deg, #FD593C 216deg, #F43561 252deg, #A79FD1 288deg, #7AA2FD 324deg, #7482FD 360deg);
+  z-index: 0;
+}
+
+/* Blurred white overlay + dark scrim */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(200px);
+  z-index: 1;
+}
+
+/* Dark overlay on top */
+.heroDark {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0.3;
+  z-index: 2;
+}
+
+/* ---- Nav (Figma: 1440x48) ---- */
 .nav {
   position: relative;
   z-index: 5;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 40px;
+  height: 48px;
+  padding: 0 40px;
 }
 
 .wordmark {
-  font-family: PPPangaia, serif;
-  font-size: 24px;
-  color: #fff;
-  letter-spacing: 0.3px;
-  font-weight: 400;
+  height: 20px;
+  width: auto;
 }
 
 .navLink {
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 14px;
+  font-family: Inter, sans-serif;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
   cursor: pointer;
   position: absolute;
   left: 50%;
@@ -72,115 +96,127 @@
 }
 
 .navLink:hover {
-  color: #fff;
+  opacity: 0.8;
 }
 
 .navBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  padding: 0 24px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: #fff;
+  width: 118px;
+  height: 36px;
+  border-radius: 39px;
+  background: #fff;
+  border: none;
+  color: #000;
   text-decoration: none;
-  font-weight: 500;
-  font-size: 13px;
-  backdrop-filter: blur(8px);
-  transition: background 0.15s ease, border-color 0.15s ease;
+  font-family: Inter, sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 14px;
+  transition: opacity 0.15s ease;
 }
 
 .navBtn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.6);
+  opacity: 0.9;
 }
 
+/* ---- Hero content – left copy, right phone (overlapping) ---- */
 .heroContent {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 40px 80px 0;
-  gap: 40px;
-  min-height: 600px;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
 }
 
 .heroCopy {
-  max-width: 540px;
-  padding-bottom: 80px;
-  flex-shrink: 0;
+  position: absolute;
+  left: 69px;
+  bottom: 236px;
+  width: 353px;
+  z-index: 4;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .heroHeadline {
-  font-size: clamp(28px, 3.2vw, 40px);
-  line-height: 1.15;
-  color: #fff;
+  font-family: Inter, sans-serif !important;
+  font-size: 32px;
+  line-height: 39px;
+  font-weight: 400;
+  color: #fff !important;
   margin: 0;
-  text-align: left;
+  text-align: left !important;
+  width: 353px;
 }
 
 .heroSub {
-  margin: 12px 0 0;
-  font-size: 14px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 380px;
+  margin: 0;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #fff;
+  width: 353px;
+  text-align: left;
 }
 
 .heroForm {
-  margin-top: 24px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .formRow {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
 }
 
 .emailInput {
-  width: 200px;
-  height: 42px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.08);
+  width: 180px;
+  height: 39px;
+  border-radius: 39px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
   padding: 0 20px;
-  font-size: 14px;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
   outline: none;
-  transition: border-color 0.2s ease;
 }
 
 .emailInput::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .emailInput:focus {
   border-color: rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.12);
 }
 
 .joinBtn {
-  height: 42px;
-  border-radius: 999px;
-  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 131px;
+  height: 39px;
+  border-radius: 39px;
+  border: none;
   background: #fff;
   color: #000;
-  padding: 0 28px;
+  font-family: Inter, sans-serif;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 15px;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: opacity 0.15s ease;
 }
 
 .joinBtn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  opacity: 0.9;
 }
 
 .joinBtn:disabled {
@@ -190,26 +226,33 @@
 
 .socialProof {
   margin: 0;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
+  font-family: Inter, sans-serif;
+  font-size: 9px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #fff;
 }
 
 .statusMsg {
   margin: 0;
-  font-size: 13px;
+  font-family: Inter, sans-serif;
+  font-size: 12px;
   color: rgba(255, 255, 255, 0.9);
 }
 
 .heroPhone {
-  position: relative;
-  flex: 1;
-  max-width: 520px;
-  align-self: flex-end;
+  position: absolute;
+  right: 171px;
+  bottom: -52px;
+  width: 1075px;
+  height: 1011px;
+  z-index: 3;
+  pointer-events: none;
 }
 
 .heroPhone img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   object-fit: contain;
 }
@@ -225,15 +268,14 @@
 .sectionTitle {
   font-size: clamp(28px, 3vw, 42px);
   margin: 0 0 40px;
-  text-align: center;
-  color: #151515;
+  text-align: center !important;
+  color: #050F1A !important;
 }
 
 .featureGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  margin-top: 8px;
 }
 
 .featureCard {
@@ -250,72 +292,27 @@
   font-family: PPPangaia, serif;
   font-size: 20px;
   font-weight: 400;
-  color: #151515;
+  color: #050F1A;
 }
 
 .featureDesc {
   margin: 8px 0 20px;
   font-size: 14px;
   line-height: 1.5;
-  color: rgba(20, 20, 20, 0.65);
+  color: rgba(5, 15, 26, 0.55);
 }
 
 .featureImgWrap {
   margin-top: auto;
   border-radius: 14px 14px 0 0;
   overflow: hidden;
-  background: rgba(20, 20, 20, 0.03);
+  background: rgba(5, 15, 26, 0.03);
 }
 
 .featureImgWrap img {
   width: 100%;
   height: auto;
   display: block;
-}
-
-/* ================================
-   TESTIMONIALS
-   ================================ */
-.testimonials {
-  padding: 80px 0;
-  background: #EFE5E0;
-}
-
-.testimonialGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.testimonialCard {
-  background: #fff;
-  border-radius: 24px;
-  padding: 24px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.quoteText {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba(20, 20, 20, 0.8);
-}
-
-.quoteName {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(20, 20, 20, 0.55);
 }
 
 /* ================================
@@ -347,15 +344,15 @@
 .benefitTitle {
   font-size: 16px;
   margin: 0;
-  color: #151515;
-  text-align: center;
+  color: #050F1A !important;
+  text-align: center !important;
 }
 
 .benefitDesc {
   margin: 8px 0 0;
   font-size: 13px;
   line-height: 1.5;
-  color: rgba(20, 20, 20, 0.6);
+  color: rgba(5, 15, 26, 0.55);
 }
 
 /* ================================
@@ -388,33 +385,49 @@
 .approachLabel {
   font-size: 22px;
   margin: 0 0 12px;
-  color: #151515;
-  text-align: left;
+  color: #050F1A !important;
+  text-align: left !important;
 }
 
 .approachText {
   margin: 0;
   font-size: 14px;
   line-height: 1.65;
-  color: rgba(20, 20, 20, 0.68);
+  color: rgba(5, 15, 26, 0.6);
 }
 
 /* ================================
    FINAL CTA
    ================================ */
 .finalCta {
+  position: relative;
   padding: 80px 0 0;
-  background:
-    radial-gradient(ellipse 80% 90% at 10% 50%, rgba(200, 60, 80, 0.85), transparent 55%),
-    radial-gradient(ellipse 70% 80% at 35% 20%, rgba(230, 130, 60, 0.75), transparent 50%),
-    radial-gradient(ellipse 60% 70% at 55% 10%, rgba(240, 200, 80, 0.6), transparent 50%),
-    radial-gradient(ellipse 80% 90% at 85% 15%, rgba(100, 100, 220, 0.55), transparent 55%),
-    radial-gradient(ellipse 90% 100% at 75% 60%, rgba(80, 190, 160, 0.7), transparent 55%),
-    radial-gradient(ellipse 70% 80% at 50% 80%, rgba(120, 200, 140, 0.6), transparent 50%),
-    linear-gradient(135deg, #c85a6a 0%, #e8a855 25%, #a8c870 50%, #5ab8a0 75%, #7888cc 100%);
+  background: #fff;
   color: #fff;
   text-align: center;
   overflow: hidden;
+}
+
+.finalCta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 0deg at 50% 50%, #7482FD 0deg, #FCB20E 0.53deg, #EBE72C 36deg, #B3D698 72deg, #ACDF7F 108deg, #87E6B5 144deg, #F9A86E 180deg, #FD593C 216deg, #F43561 252deg, #A79FD1 288deg, #7AA2FD 324deg, #7482FD 360deg);
+  z-index: 0;
+}
+
+.finalCta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(200px);
+  z-index: 1;
+}
+
+.finalCta > * {
+  position: relative;
+  z-index: 2;
 }
 
 .ctaKicker {
@@ -426,9 +439,9 @@
 
 .ctaTitle {
   font-size: clamp(28px, 3vw, 42px);
-  color: #fff;
+  color: #fff !important;
   margin: 0 0 16px;
-  text-align: center;
+  text-align: center !important;
 }
 
 .ctaSub {
@@ -444,9 +457,9 @@
   justify-content: center;
   height: 48px;
   padding: 0 36px;
-  border-radius: 999px;
+  border-radius: 39px;
   background: #fff;
-  color: #000;
+  color: #050F1A;
   text-decoration: none;
   font-weight: 700;
   font-size: 15px;
@@ -473,58 +486,91 @@
    FOOTER
    ================================ */
 .footer {
-  padding: 48px 0 32px;
-  background: #1a1a1a;
-  color: rgba(255, 255, 255, 0.7);
+  position: relative;
+  height: 400px;
+  background: #050F1A;
+  color: #fff;
   text-align: center;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Decorative blurred conic gradient ring */
+.footer::before {
+  content: '';
+  position: absolute;
+  width: 1772px;
+  height: 1772px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(from 0deg at 50% 50%, #7482FD 0deg, #FCB20E 0.53deg, #EBE72C 36deg, #B3D698 72deg, #ACDF7F 108deg, #87E6B5 144deg, #F9A86E 180deg, #FD593C 216deg, #F43561 252deg, #A79FD1 288deg, #7AA2FD 324deg, #7482FD 360deg);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .footerInner {
-  width: min(1120px, 92vw);
-  margin: 0 auto;
-  padding: 0 16px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
 .footerLogo {
-  height: 28px;
+  height: 20px;
   width: auto;
-  margin: 0 auto 12px;
   display: block;
 }
 
 .footerTagline {
-  font-size: 13px;
-  margin: 0 0 16px;
-  color: rgba(255, 255, 255, 0.55);
+  font-family: Inter, sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  margin: 0;
+  color: #fff;
 }
 
 .footerLinks {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  margin: 0 0 16px;
-  font-size: 13px;
+  gap: 4px;
+  font-family: Inter, sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 20px;
 }
 
 .footerLinks a {
-  color: rgba(255, 255, 255, 0.65);
+  color: #fff;
   text-decoration: none;
 }
 
 .footerLinks a:hover {
-  color: #fff;
   text-decoration: underline;
 }
 
 .footerDot {
-  color: rgba(255, 255, 255, 0.35);
+  color: #fff;
 }
 
 .footerCopy {
   margin: 0;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
+  font-family: Inter, sans-serif;
+  font-weight: 300;
+  font-size: 9px;
+  line-height: 20px;
+  color: #fff;
 }
 
 /* ================================
@@ -546,23 +592,29 @@
   }
 
   .heroContent {
-    flex-direction: column;
-    align-items: center;
-    padding: 32px 20px 0;
-    text-align: center;
     min-height: auto;
+    padding-bottom: 0;
+  }
+
+  .hero {
+    min-height: auto;
+    padding-bottom: 0;
   }
 
   .heroCopy {
+    position: relative;
+    left: auto;
+    bottom: auto;
     max-width: 100%;
-    padding-bottom: 32px;
+    padding: 32px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
   }
 
   .heroHeadline {
-    text-align: center;
+    text-align: center !important;
   }
 
   .heroSub {
@@ -579,14 +631,16 @@
   }
 
   .heroPhone {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    width: 100%;
     max-width: 340px;
+    margin: 0 auto;
   }
 
   .featureGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .testimonialGrid {
     grid-template-columns: 1fr;
   }
 
@@ -600,7 +654,7 @@
   }
 
   .approachLabel {
-    text-align: center;
+    text-align: center !important;
   }
 
   .approachText {
@@ -609,10 +663,6 @@
 }
 
 @media (max-width: 480px) {
-  .hero {
-    min-height: auto;
-  }
-
   .emailInput {
     width: 100%;
   }
@@ -631,10 +681,6 @@
   }
 
   .navLink {
-    display: none;
-  }
-
-  .manifestoIcon {
     display: none;
   }
 }

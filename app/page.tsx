@@ -5,39 +5,6 @@ import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import StickyCTA from '../components/StickyCTA';
 
-const TESTIMONIALS = [
-  {
-    quote: 'Therma helped me notice patterns I kept missing. Now I pause before I spiral.',
-    name: 'Sophie Bennett',
-    avatar: '/images/landing/avatar-sophie.png',
-  },
-  {
-    quote: "I finally built a reflection habit that sticks. Five minutes a day adds up.",
-    name: 'Maxwell Reed',
-    avatar: '/images/landing/avatar-maxwell.png',
-  },
-  {
-    quote: "The Companion feels genuinely empathetic. It\u2019s like texting a wiser version of me.",
-    name: 'Lila Harper',
-    avatar: '/images/landing/avatar-lila.png',
-  },
-  {
-    quote: "It\u2019s simple, but it makes me feel more grounded every single day.",
-    name: 'Ethan Cole',
-    avatar: '/images/landing/avatar-ethan.png',
-  },
-  {
-    quote: 'I feel lighter after every check-in, like I\u2019ve set something down.',
-    name: 'Oliver King',
-    avatar: '/images/landing/avatar-oliver.png',
-  },
-  {
-    quote: 'Instead of spiraling, now I pause, reflect, and move forward.',
-    name: 'Chloe Adams',
-    avatar: '/images/landing/avatar-chloe.png',
-  },
-];
-
 const BENEFITS = [
   {
     icon: '/images/landing/benefit-streaks.svg',
@@ -180,14 +147,13 @@ export default function HomePage() {
 
       {/* ==================== HERO ==================== */}
       <section className={styles.hero} aria-label="Hero">
-        {/* Nav */}
+        <div className={styles.heroDark} aria-hidden="true" />
         <nav className={styles.nav}>
-          <div className={styles.wordmark}>Therma</div>
+          <img src="/images/landing/therma-wordmark.svg" alt="Therma" className={styles.wordmark} />
           <span className={styles.navLink}>Manifesto</span>
           <a href="#waitlist" className={styles.navBtn}>Download App</a>
         </nav>
 
-        {/* Hero content */}
         <div className={styles.heroContent}>
           <div className={styles.heroCopy}>
             <h1 className={styles.heroHeadline}>
@@ -235,7 +201,7 @@ export default function HomePage() {
           <div className={styles.featureGrid}>
             <div className={styles.featureCard}>
               <span className={styles.featureLabel}>Check in</span>
-              <p className={styles.featureDesc}>A 10-second mood ring</p>
+              <p className={styles.featureDesc}>A 10&#x2011;second mood ring</p>
               <div className={styles.featureImgWrap}>
                 <img src="/images/landing/feature-checkin.png" alt="Check in screen" />
               </div>
@@ -256,23 +222,6 @@ export default function HomePage() {
                 <img src="/images/landing/feature-supported.png" alt="Companion chat screen" />
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ==================== TESTIMONIALS ==================== */}
-      <section className={styles.testimonials} aria-label="Testimonials">
-        <div className={styles.sectionInner}>
-          <h2 className={styles.sectionTitle}>What others say</h2>
-
-          <div className={styles.testimonialGrid}>
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className={styles.testimonialCard}>
-                <img src={t.avatar} alt={t.name} className={styles.avatar} />
-                <p className={styles.quoteText}>&ldquo;{t.quote}&rdquo;</p>
-                <p className={styles.quoteName}>{t.name}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -336,7 +285,7 @@ export default function HomePage() {
           <p className={styles.ctaKicker}>Join 1,000+ already checking in daily</p>
           <h2 className={styles.ctaTitle}>Ready for a gentler way to check in?</h2>
           <p className={styles.ctaSub}>
-            End-to-end security, full export/delete controls. We don&apos;t sell your data. Ever.
+            End&#x2011;to&#x2011;end security, full export/delete controls. We don&apos;t sell your data. Ever.
           </p>
           <a href="#waitlist" className={styles.ctaBtn}>Join Waitlist</a>
 
