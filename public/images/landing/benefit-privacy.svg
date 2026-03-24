@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" height="100%" overflow="visible" preserveAspectRatio="none" style="display: block;" viewBox="0 0 108 108" width="100%">
+<g id="Frame 2049518975">
+<g filter="url(#filter0_f_0_72)" id="Frame 24">
+<path d="M24 46.9748C24 34.2862 34.2862 24 46.9748 24H61.0252C73.7138 24 84 34.2862 84 46.9748V61.0252C84 73.7138 73.7138 84 61.0252 84H46.9748C34.2862 84 24 73.7138 24 61.0252V46.9748Z" fill="var(--fill-0, #ED6E33)"/>
+</g>
+<g id="Group 5">
+<g id="Vector">
+</g>
+<path d="M64 49H44C43.4477 49 43 49.4477 43 50V64C43 64.5523 43.4477 65 44 65H64C64.5523 65 65 64.5523 65 64V50C65 49.4477 64.5523 49 64 49Z" fill="var(--fill-0, white)" id="Vector_2"/>
+<path d="M64.25 50C64.25 49.8619 64.1381 49.75 64 49.75H44C43.8619 49.75 43.75 49.8619 43.75 50V64C43.75 64.1381 43.8619 64.25 44 64.25H64C64.1381 64.25 64.25 64.1381 64.25 64V50ZM65.75 64C65.75 64.9665 64.9665 65.75 64 65.75H44C43.0335 65.75 42.25 64.9665 42.25 64V50C42.25 49.0335 43.0335 48.25 44 48.25H64C64.9665 48.25 65.75 49.0335 65.75 50V64Z" fill="var(--fill-0, white)" id="Vector (Stroke)"/>
+<path d="M58.25 49V45C58.25 43.8728 57.8019 42.7921 57.0049 41.9951C56.2079 41.1981 55.1272 40.75 54 40.75C52.8728 40.75 51.7921 41.1981 50.9951 41.9951C50.1981 42.7921 49.75 43.8728 49.75 45V49C49.75 49.4142 49.4142 49.75 49 49.75C48.5858 49.75 48.25 49.4142 48.25 49V45C48.25 43.475 48.8562 42.0129 49.9346 40.9346C51.0129 39.8562 52.475 39.25 54 39.25C55.525 39.25 56.9871 39.8562 58.0654 40.9346C59.1438 42.0129 59.75 43.475 59.75 45V49C59.75 49.4142 59.4142 49.75 59 49.75C58.5858 49.75 58.25 49.4142 58.25 49Z" fill="var(--fill-0, white)" id="Vector (Stroke)_2"/>
+</g>
+</g>
+<defs>
+<filter color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" height="108" id="filter0_f_0_72" width="108" x="0" y="0">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape"/>
+<feGaussianBlur result="effect1_foregroundBlur_0_72" stdDeviation="12"/>
+</filter>
+</defs>
+</svg>
