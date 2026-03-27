@@ -62,14 +62,14 @@ export function generatePageMetadata(
       description,
       url: canonicalUrl,
       siteName: 'Therma',
-      images: options?.image ? [{ url: options.image }] : undefined,
+      ...(options?.image ? { images: [{ url: options.image }] } : {}),
       type: options?.ogType || 'website',
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'summary_large_image' as const,
       title,
       description,
-      images: options?.image ? [options.image] : undefined,
+      ...(options?.image ? { images: [options.image] } : {}),
     },
     robots: options?.noindex
       ? { index: false, follow: false }
