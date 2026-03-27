@@ -11,6 +11,8 @@ export const size = {
 
 export const contentType = 'image/png';
 
+export const alt = 'Therma – A quieter way to check in.';
+
 export default async function OpenGraphImage() {
   const pppangaia = await fs.readFile(
     path.join(process.cwd(), 'public/fonts/PPPangaia-Medium-BF654c530cc86d5.woff')

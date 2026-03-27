@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 
-const OG_IMAGE = 'https://www.therma.one/og-image.png?v=4';
-
 export const metadata: Metadata = {
   title: 'Therma Weekly - Science-Backed Wellness Rituals & Mindful Living',
   description:
@@ -15,6 +13,7 @@ export const metadata: Metadata = {
     'habit building', 'self-improvement', 'mindful living'
   ],
   // Open Graph - Facebook, LinkedIn, Discord, Slack, WhatsApp, Telegram
+  // Note: og:image inherited from root opengraph-image.tsx
   openGraph: {
     title: 'Therma Weekly - Science-Backed Wellness Rituals',
     description:
@@ -23,14 +22,6 @@ export const metadata: Metadata = {
     siteName: 'Therma',
     type: 'website',
     locale: 'en_US',
-    images: [{
-      url: OG_IMAGE,
-      secureUrl: OG_IMAGE,
-      width: 1200,
-      height: 630,
-      alt: 'Therma Weekly - Science-Backed Wellness Rituals & Mindful Living',
-      type: 'image/png'
-    }],
   },
   // Twitter/X Cards
   twitter: {
@@ -39,10 +30,6 @@ export const metadata: Metadata = {
     creator: '@gettherma',
     title: 'Therma Weekly - Science-Backed Wellness Rituals',
     description: 'Discover science-backed wellness rituals, real-world experiments, and thoughtful insights for mindful living.',
-    images: [{
-      url: OG_IMAGE,
-      alt: 'Therma Weekly Newsletter'
-    }],
   },
   // Additional social metadata
   other: {
